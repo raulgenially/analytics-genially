@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+    - name: genially
+      description: Back office data.
+      database: data-genially
+      tables:
+        - name: users
+          description: Genially users.
+          columns:
+            - name: _id
+              description: Primary key for users.
+              tests:
+                - unique
+                - not_null
+        - name: geniallys
+          description: Geniallys creatd by users.
+          columns:
+            - name: _id
+              description: Primary key for geniallys.
