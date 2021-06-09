@@ -2,6 +2,7 @@ version: 2
 
 models:  
     - name: stg_genially_users
+      description: Registered users.
       columns:
         - name: user_id
           description: Primary key for users.
@@ -10,7 +11,16 @@ models:
             - not_null
 
         - name: subscription_type
-          description: Type of subscription.
+          description:  "{{ doc('subscription_type') }}"
+          tests:
+            - accepted_values:
+                values: [1, 2, 3, 4, 5, 6, 7]
+
+        - name: sector
+          description: Sector.
+
+        - name: role
+          description: Role.
 
         - name: username
           description: Username.
@@ -27,17 +37,8 @@ models:
         - name: city
           description: City.
 
-        - name: sector
-          description: Sector.
-
-        - name: role
-          description: Role.
-
-        - name: logins
-          description: Logins.
-
-        - name: email_validation_token
-          description: Token.
+        - name: login
+          description: The login used with a third-party service such as Google, Facebook, etc.
 
         - name: is_validated
           description: Whether the user has validated their email.
@@ -48,8 +49,8 @@ models:
         - name: organization
           description: Organization.
 
-        - name: social_media
-          description: Social media.
+        - name: social_media_accounts
+          description: Social media accounts.
 
         - name: summary
           description: Summary.
