@@ -5,16 +5,18 @@ sources:
       description: Back office data.
       database: data-genially
       tables:
+        - name: geniallys
+          columns:
+            - name: _id
+              description: Primary key for geniallys.
+              tests:
+                - unique
+                - not_null  
+
         - name: users
-          description: Genially users.
           columns:
             - name: _id
               description: Primary key for users.
               tests:
                 - unique
-                - not_null
-        - name: geniallys
-          description: Geniallys creatd by users.
-          columns:
-            - name: _id
-              description: Primary key for geniallys.
+                - not_null      
