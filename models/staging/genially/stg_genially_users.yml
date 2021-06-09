@@ -1,0 +1,10 @@
+version: 2
+
+models:  
+    - name: stg_genially_users
+      columns:
+        - name: user_id
+          description: Primary key for users.
+          tests:
+            - unique
+            - not_null

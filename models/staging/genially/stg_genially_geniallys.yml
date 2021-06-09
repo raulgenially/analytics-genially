@@ -1,0 +1,85 @@
+version: 2
+
+models:
+    - name: stg_genially_geniallys
+      columns:
+        - name: genially_id
+          description: Primary key for geniallys.
+          tests:
+            - unique
+            - not_null
+        
+        - name: genially_type
+          description: Type of genially.
+
+        - name: subscription_type
+          description: Type of subscription.
+
+        - name: is_public
+          description: Whether the genially is public (without password).
+
+        - name: is_published
+          description: Whether the genially has been published.
+
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+
+        - name: is_reusable
+          description: Whether the genially is reusable by another user.
+
+        - name: is_inspiration
+          description: Whether the genially is shown in inspiration.
+
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+
+        - name: is_not_indexed
+          description: Whether the genially can be indexed by search engines.
+
+        - name: name
+          description: Genially name.
+
+        - name: tags
+          description: Tags associated to the genially.
+
+        - name: description
+          description: Genially description.
+
+        - name: friendlyurl
+          description: Friendly url to access the genially.
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+
+        - name: analytics_id
+          description: Foreign key referring to web analytics data.
+
+        - name: reused_from_id
+          description: Id.
+
+        - name: from_template_id
+          description: Id.
+
+        - name: team_id
+          description: Id.
+
+        - name: team_template_id
+          description: Id.
+
+        - name: from_team_template_id
+          description: Id.
+
+        - name: modified_at
+          description: Modification date.
+
+        - name: created_at
+          description: Creation date.
+
+        - name: published_at
+          description: Publication date.
+
+        - name: last_view_at
+          description: Last view date by the user.
+
+        - name: deleted_at
+          description: Deletion date.
