@@ -14,6 +14,7 @@ with geniallys as (
         tags, 
         description,
         friendlyurl,
+        -- Foreign keys
         idUser as user_id,
         idanalytics as analytics_id,
         reusedfrom as reused_from_id,        
@@ -21,6 +22,7 @@ with geniallys as (
         idteam as team_id,
         idteamtemplate as team_template_id,
         idfromteamtemplate as from_team_template_id,
+        -- Date fields are listed at the end
         lastmodified as modified_at,
         creationtime as created_at,
         datepublished as published_at,

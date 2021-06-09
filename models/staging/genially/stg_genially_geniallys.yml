@@ -70,7 +70,7 @@ models:
           description: Id.
 
         - name: modified_at
-          description: Modification date.
+          description: Modification date (UTC?).
 
         - name: created_at
           description: Creation date.

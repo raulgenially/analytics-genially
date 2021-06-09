@@ -8,3 +8,57 @@ models:
           tests:
             - unique
             - not_null
+
+        - name: subscription_type
+          description: Type of subscription.
+
+        - name: username
+          description: Username.
+
+        - name: nickname
+          description: Nickname.
+
+        - name: email
+          description: Email account.
+
+        - name: country
+          description: Country.
+
+        - name: city
+          description: City.
+
+        - name: sector
+          description: Sector.
+
+        - name: role
+          description: Role.
+
+        - name: logins
+          description: Logins.
+
+        - name: email_validation_token
+          description: Token.
+
+        - name: is_validated
+          description: Whether the user has validated their email.
+
+        - name: language
+          description: Language.
+
+        - name: organization
+          description: Organization.
+
+        - name: social_media
+          description: Social media.
+
+        - name: summary
+          description: Summary.
+
+        - name: analytics_id
+          description: Foreign key referring to web analytics data.
+
+        - name: register_at
+          description: Registration date.
+
+        - name: last_access_at
+          description: Last access date.
