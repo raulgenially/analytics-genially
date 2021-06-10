@@ -1,0 +1,74 @@
+role_id,role_name,sector_id,sector_name,category
+100,Teacher,200,Elementary School,Education
+101,Student,200,Elementary School,Education
+102, Coordinator/Management,200,Elementary School,Education
+103,Other,200,Elementary School,Education
+104,Teacher,201,Middle School,Education
+105,Student,201,Middle School,Education
+106,Coordinator/Management,201,Middle School,Education
+107,Other,201,Middle School,Education
+108,Teacher,202,High School,Education
+109,Student,202,High School,Education
+110,Coordinator/Management,202,High School,Education
+111,Other,202,High School,Education
+112,Teacher,203,Technical vocational training,Education
+113,Student,203,Technical vocational training,Education
+114,Coordinator/Management,203,Technical vocational training,Education
+115,Other,203,Technical vocational training,Education
+116,Teacher,204,University/Graduate School,Education
+117,Student,204,University/Graduate School,Education
+118,Coordinator/Management,204,University/Graduate School,Education
+119,Other,204,University/Graduate School,Education
+120,Teacher,205,Other,Education
+121,Student,205,Other,Education
+122,Coordinator/Management,205,Other,Education
+123,Other,205,Other,Education
+124,Design,206,Agency,Corporate
+125,Marketing/Communications,206,Agency,Corporate
+126,Training,206,Agency,Corporate
+127,Finance/Accounting,206,Agency,Corporate
+128,HR,206,Agency,Corporate
+129,Sales,206,Agency,Corporate
+130,Other,206,Agency,Corporate
+131,Design,207,Publisher,Corporate
+132,Marketing/Communications,207,Publisher,Corporate
+133,Training,207,Publisher,Corporate
+134,Finance/Accounting,207,Publisher,Corporate
+135,HR,207,Publisher,Corporate
+136,Sales,207,Publisher,Corporate
+137,Other,207,Publisher,Corporate
+138,Design,208,Private company,Corporate
+139,Marketing/Communications,208,Private company,Corporate
+140,Training,208,Private company,Corporate
+141,Finance/Accounting,208,Private company,Corporate
+142,HR,208,Private company,Corporate
+143,Sales,208,Private company,Corporate
+144,Other,208,Private company,Corporate
+145,Design,209,Government/Institution,Corporate
+146,Marketing/Communications,209,Government/Institution,Corporate
+147,Training,209,Government/Institution,Corporate
+148,Finance/Accounting,209,Government/Institution,Corporate
+149,HR,209,Government/Institution,Corporate
+150,Sales,209,Government/Institution,Corporate
+151,Other,209,Government/Institution,Corporate
+152,Design,210,Non-profit/NGO,Corporate
+153,Marketing/Communications,210,Non-profit/NGO,Corporate
+154,Training,210,Non-profit/NGO,Corporate
+155,Finance/Accounting,210,Non-profit/NGO,Corporate
+156,HR,210,Non-profit/NGO,Corporate
+157,Sales,210,Non-profit/NGO,Corporate
+158,Other,210,Non-profit/NGO,Corporate
+159,Design,211,Freelance,Corporate
+160,Marketing/Communications,211,Freelance,Corporate
+161,Training,211,Freelance,Corporate
+162,Finance/Accounting,211,Freelance,Corporate
+163,HR,211,Freelance,Corporate
+164,Sales,211,Freelance,Corporate
+165,Other,211,Freelance,Corporate
+166,Design,212,Other,Corporate
+167,Marketing/Communications,212,Other,Corporate
+168,Training,212,Other,Corporate
+169,Finance/Accounting,212,Other,Corporate
+170,HR,212,Other,Corporate
+171,Sales,212,Other,Corporate
+172,Other,212,Other,Corporate

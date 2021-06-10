@@ -37,8 +37,8 @@ models:
         - name: city
           description: City.
 
-        - name: login
-          description: The login used with a third-party service such as Google, Facebook, etc.
+        - name: logins
+          description: Logins in the application using third-party services such as Google, Facebook, etc.
 
         - name: is_validated
           description: Whether the user has validated their email.
