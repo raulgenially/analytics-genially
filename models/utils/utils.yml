@@ -1,6 +1,5 @@
 version: 2
 
-models:
 models:  
     - name: sector_codes
       description: Codes used to identify old and new sectors.

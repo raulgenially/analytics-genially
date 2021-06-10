@@ -37,4 +37,4 @@ models:
     staging:
         materialized: view
     utils:
-        materialized: ephemeral
+        materialized: view
