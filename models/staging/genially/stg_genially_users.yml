@@ -17,10 +17,10 @@ models:
                 values: [1, 2, 3, 4, 5, 6, 7]
 
         - name: sector
-          description: Sector.
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
 
         - name: role
-          description: Role.
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
 
         - name: username
           description: Username.
