@@ -7,7 +7,13 @@ with users as (
         username,
         nickname,	
         email,
-        case when country = 'GB' then 'UK' else country end as country,
+        case 
+            when country = 'GB' 
+                then 'UK' 
+            when country = ''
+                then null
+            else country
+        end as country,
         city,	
         logins,	
         validated as is_validated,	
@@ -20,6 +26,7 @@ with users as (
         lastaccesstime as last_access_at
 
     from {{ source('genially', 'users') }}
+    where dateregister is not null and lastaccesstime is not null -- remove very old users
 )
 
 select * from users

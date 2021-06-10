@@ -40,6 +40,7 @@ final as (
             on users.sector = sector_codes.sector_id
         left join role_codes
             on users.role = role_codes.role_id
+        where DATE(users.register_at) >= DATE(2019, 1, 1)
 )
 
 select * from final
