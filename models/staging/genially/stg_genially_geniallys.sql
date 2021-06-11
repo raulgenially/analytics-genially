@@ -7,7 +7,7 @@ with geniallys as (
         name,
         tags, 
         description,
-        friendlyurl as fiendly_url,
+        friendlyurl as friendly_url,
 
         published as is_published,
         noindex as is_private,
@@ -32,6 +32,7 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
+    where creationtime is not null -- Remove very old geniallys
 )
 
 select * from geniallys

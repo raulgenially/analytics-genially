@@ -77,15 +77,19 @@ models:
 
         - name: modified_at
           description: Modification date.
+          tests:
+            - not_null
 
         - name: created_at
           description: Creation date.
+          tests:
+            - not_null
 
         - name: published_at
           description: Publication date.
 
         - name: last_view_at
-          description: Last view date by the user.
+          description: Last time the genially was visualized.
 
         - name: deleted_at
           description: Deletion date.
