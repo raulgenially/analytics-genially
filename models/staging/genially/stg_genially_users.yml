@@ -34,7 +34,7 @@ models:
           description: Email account.
 
         - name: country
-          description: Country.
+          description: Country (ISO code).
 
         - name: city
           description: City.
@@ -54,11 +54,11 @@ models:
         - name: summary
           description: Summary.
 
-        - name: analytics_id
-          description: Foreign key referring to web analytics data.
-
         - name: is_validated
           description: Whether the user has validated their email.
+
+        - name: analytics_id
+          description: Foreign key referring to web analytics data.
 
         - name: register_at
           description: Registration date.

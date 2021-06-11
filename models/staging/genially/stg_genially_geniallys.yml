@@ -2,6 +2,7 @@ version: 2
 
 models:
     - name: stg_genially_geniallys
+      description: Geniallys created by users (it does not include templates, which are located in another table).
       columns:
         - name: genially_id
           description: Primary key for geniallys.
@@ -12,29 +13,13 @@ models:
         - name: genially_type
           description: Type of genially.
 
-        - name: subscription_type
-          description: Type of subscription.
-
-        - name: is_public
-          description: Whether the genially is public (without password).
-
-        - name: is_published
-          description: Whether the genially has been published.
-
-        - name: is_in_social_profile
-          description: Whether the genially is shown in user's social profile.
-
-        - name: is_reusable
-          description: Whether the genially is reusable by another user.
-
-        - name: is_inspiration
-          description: Whether the genially is shown in inspiration.
-
-        - name: is_deleted
-          description: Whether the genially has been deleted.
-
-        - name: is_not_indexed
-          description: Whether the genially can be indexed by search engines.
+        - name: subscription_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: [1, 2, 3, 4, 5, 6, 7]
+                quote: false
 
         - name: name
           description: Genially name.
@@ -43,10 +28,31 @@ models:
           description: Tags associated to the genially.
 
         - name: description
-          description: Genially description.
+          description: Description of the genially.
 
-        - name: friendlyurl
+        - name: friendly_url
           description: Friendly url to access the genially.
+
+        - name: is_published
+          description: Whether the genially has been published.
+
+        - name: is_private
+          description: Whether the genially can be indexed by search engines.
+
+        - name: is_password_free
+          description: Whether the genially has a an access password.
+        
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+
+        - name: is_reusable
+          description: Whether the genially is reusable as a template by another user.
+
+        - name: is_inspiration
+          description: Whether the genially is shown in inspiration.
+
+        - name: is_deleted
+          description: Whether the genially has been deleted.
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.
@@ -55,22 +61,22 @@ models:
           description: Foreign key referring to web analytics data.
 
         - name: reused_from_id
-          description: Id.
+          description: Id of the original genially that this one is based on.
 
         - name: from_template_id
-          description: Id.
+          description: Id of the template used for the creation of the genially.
 
         - name: team_id
-          description: Id.
+          description: Id of the team possessing this genially.
 
         - name: team_template_id
-          description: Id.
+          description: Id of the genially as a team template.
 
         - name: from_team_template_id
-          description: Id.
+          description: Id of the team template used for the creation of the genially.
 
         - name: modified_at
-          description: Modification date (UTC?).
+          description: Modification date.
 
         - name: created_at
           description: Creation date.

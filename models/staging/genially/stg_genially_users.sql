@@ -22,9 +22,10 @@ with users as (
         socialmedia as social_media_accounts,
         summary,
 
+        validated as is_validated,	
+
         idanalytics	as analytics_id,
         
-        validated as is_validated,	
         dateregister as register_at,	
         lastaccesstime as last_access_at
 
