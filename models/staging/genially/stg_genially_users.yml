@@ -1,0 +1,71 @@
+version: 2
+
+models:  
+    - name: stg_genially_users
+      description: Registered users.
+      columns:
+        - name: user_id
+          description: Primary key for users.
+          tests:
+            - unique
+            - not_null
+
+        - name: subscription_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: [1, 2, 3, 4, 5, 6, 7]
+                quote: false
+
+        - name: sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+
+        - name: role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+
+        - name: username
+          description: Username.
+
+        - name: nickname
+          description: Nickname.
+
+        - name: email
+          description: Email account.
+
+        - name: country
+          description: Country (ISO code).
+
+        - name: city
+          description: City.
+
+        - name: logins
+          description: Logins in the application using third-party services such as Google, Facebook, etc.
+
+        - name: language
+          description: Language.
+
+        - name: organization
+          description: Organization.
+
+        - name: social_media_accounts
+          description: Social media accounts.
+
+        - name: summary
+          description: Summary.
+
+        - name: is_validated
+          description: Whether the user has validated their email.
+
+        - name: analytics_id
+          description: Foreign key referring to web analytics data.
+
+        - name: register_at
+          description: Registration date.
+          tests:
+            - not_null
+
+        - name: last_access_at
+          description: Last access date.
+          tests:
+            - not_null

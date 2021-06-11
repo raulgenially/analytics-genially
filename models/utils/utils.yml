@@ -1,0 +1,20 @@
+version: 2
+
+models:  
+    - name: sector_codes
+      description: Codes used to identify old and new sectors.
+      columns:
+        - name: sector_id
+          description: Primary key for sectors.
+          tests:
+            - unique
+            - not_null
+
+    - name: role_codes
+      description: Codes used to identify old and new roles.
+      columns:
+        - name: role_id
+          description: Primary key for roles.
+          tests:
+            - unique
+            - not_null

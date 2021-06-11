@@ -1,0 +1,37 @@
+version: 2
+
+models:  
+    - name: dim_users
+      columns:
+        - name: user_id
+          description: Primary key for users.
+          tests:
+            - unique
+            - not_null
+
+        - name: plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
+        - name: sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: market
+          description: Country.
+          tests:
+            - not_null
+
+        - name: register_at
+          description: Registration date.
+          tests:
+            - not_null
