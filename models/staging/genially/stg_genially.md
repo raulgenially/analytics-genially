@@ -1,9 +1,9 @@
-{% docs subscription_type %}
+{% docs subscription_codes %}
 	
 Type of subscription or plan.
 One of the following values: 
 
-| subscription_type | definition |
+| subscription_code | definition |
 |-------------------|------------|
 | 1                 | Free       |
 | 2                 | Pro        |

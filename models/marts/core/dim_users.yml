@@ -10,7 +10,7 @@ models:
             - not_null
 
         - name: plan
-          description: "{{ doc('subscription_type') }}"
+          description: "{{ doc('subscription_codes') }}"
           tests:
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']

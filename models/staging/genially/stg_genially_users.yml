@@ -10,8 +10,8 @@ models:
             - unique
             - not_null
 
-        - name: subscription_type
-          description:  "{{ doc('subscription_type') }}"
+        - name: subscription_plan
+          description:  "{{ doc('subscription_codes') }}"
           tests:
             - accepted_values:
                 values: [1, 2, 3, 4, 5, 6, 7]
@@ -41,9 +41,6 @@ models:
         - name: logins
           description: Logins in the application using third-party services such as Google, Facebook, etc.
 
-        - name: is_validated
-          description: Whether the user has validated their email.
-
         - name: language
           description: Language.
 
@@ -59,6 +56,9 @@ models:
         - name: analytics_id
           description: Foreign key referring to web analytics data.
 
+        - name: is_validated
+          description: Whether the user has validated their email.
+          
         - name: register_at
           description: Registration date.
           tests:

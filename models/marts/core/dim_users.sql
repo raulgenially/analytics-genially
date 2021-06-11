@@ -15,19 +15,19 @@ final as (
     select
         users.user_id,
         case 
-            when users.subscription_type = 1
+            when users.subscription_plan = 1
                 then 'Free'
-            when users.subscription_type = 2
+            when users.subscription_plan = 2
                 then 'Pro'
-            when users.subscription_type = 3
+            when users.subscription_plan = 3
                 then 'Master'
-            when users.subscription_type = 4
+            when users.subscription_plan = 4
                 then 'Edu Pro'
-            when users.subscription_type = 5
+            when users.subscription_plan = 5
                 then 'Edu Team'
-            when users.subscription_type = 6
+            when users.subscription_plan = 6
                 then 'Team'
-            when users.subscription_type = 7
+            when users.subscription_plan = 7
                 then 'Student'
         end as plan,
         coalesce(sector_codes.sector_name, 'Missing') as sector,
