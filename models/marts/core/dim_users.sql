@@ -14,6 +14,7 @@ role_codes as (
 final as (
     select
         users.user_id,
+
         case 
             when users.subscription_plan = 1
                 then 'Free'
@@ -33,6 +34,7 @@ final as (
         coalesce(sector_codes.sector_name, 'Missing') as sector,
         coalesce(role_codes.role_name, 'Missing') as role,
         coalesce(users.country, 'Missing') as market,
+        
         users.register_at
 
         from users

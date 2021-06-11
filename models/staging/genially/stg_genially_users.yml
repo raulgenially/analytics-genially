@@ -13,6 +13,7 @@ models:
         - name: subscription_plan
           description:  "{{ doc('subscription_codes') }}"
           tests:
+            - not_null
             - accepted_values:
                 values: [1, 2, 3, 4, 5, 6, 7]
                 quote: false
@@ -58,7 +59,7 @@ models:
 
         - name: is_validated
           description: Whether the user has validated their email.
-          
+
         - name: register_at
           description: Registration date.
           tests:
