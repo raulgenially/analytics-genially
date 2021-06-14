@@ -19,4 +19,12 @@ sources:
               description: Primary key for users.
               tests:
                 - unique
-                - not_null      
+                - not_null
+
+        - name: templatev9
+          columns:
+            - name: _id
+              description: Primary key for templates.
+              tests:
+                - unique
+                - not_null         
