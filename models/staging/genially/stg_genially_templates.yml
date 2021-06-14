@@ -1,0 +1,39 @@
+version: 2
+
+models:
+    - name: stg_genially_templates
+      description: Templates that users can use for creations.
+      columns:
+        - name: template_id
+          description: Primary key for templates.
+          tests:
+            - unique
+            - not_null
+        
+        - name: template_type
+          description: Template type.
+          tests:
+            - not_null
+        
+        - name: subcategory
+          description: Template subcategory.
+          
+        - name: name
+          description: Name of the template.
+
+        - name: language
+          description: Language of the template.
+
+        - name: tags
+          description: Tags associated to the template.
+
+        - name: template_order
+          description: The template is ordered in the application according to this field.
+
+        - name: is_new
+          description: Whether the template is new.
+
+        - name: genially_id
+          description: Id of the actual genially referring to this template.
+          tests:
+            - not_null
