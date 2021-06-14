@@ -15,22 +15,7 @@ final as (
     select
         users.user_id,
 
-        case 
-            when users.subscription_plan = 1
-                then 'Free'
-            when users.subscription_plan = 2
-                then 'Pro'
-            when users.subscription_plan = 3
-                then 'Master'
-            when users.subscription_plan = 4
-                then 'Edu Pro'
-            when users.subscription_plan = 5
-                then 'Edu Team'
-            when users.subscription_plan = 6
-                then 'Team'
-            when users.subscription_plan = 7
-                then 'Student'
-        end as plan,
+        {{ map_subscription_code('users.subscription_plan') }} as plan,
         coalesce(sector_codes.sector_name, 'Missing') as sector,
         coalesce(role_codes.role_name, 'Missing') as role,
         coalesce(users.country, 'Missing') as market,
