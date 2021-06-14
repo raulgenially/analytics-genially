@@ -35,7 +35,8 @@ final as (
         coalesce(role_codes.role_name, 'Missing') as role,
         coalesce(users.country, 'Missing') as market,
         
-        users.register_at
+        users.register_at,
+        users.last_access_at
 
         from users
         left join sector_codes 
