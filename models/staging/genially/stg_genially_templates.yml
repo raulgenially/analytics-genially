@@ -28,12 +28,17 @@ models:
           description: Tags associated to the template.
 
         - name: template_order
-          description: The template is ordered in the application according to this field.
+          description: The template is shown in the application according to this field.
 
         - name: is_new
           description: Whether the template is new.
 
         - name: genially_id
           description: Id of the actual genially referring to this template.
+          tests:
+            - not_null
+
+        - name: genially_to_view_id
+          description: Id of the actual genially referring to this template when visualized.
           tests:
             - not_null

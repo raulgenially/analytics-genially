@@ -15,7 +15,8 @@ final as (
         
         templates.new as is_new,
         
-        idgenially as genially_id
+        idgenially as genially_id,
+        idgeniallytoview as genially_to_view_id
    
     from templates
 )

@@ -15,8 +15,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: [1, 2, 3, 4, 5, 6, 7]
-                quote: false
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).

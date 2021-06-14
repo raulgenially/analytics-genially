@@ -3,7 +3,7 @@ with geniallys as (
         _id as genially_id,
 
         typegenially as genially_type,
-        typesubscription as subscription_plan,        
+        {{ map_subscription_code('typesubscription') }} as subscription_plan,
         name,
         tags, 
         description,

@@ -2,7 +2,7 @@ with users as (
     select 
         _id as user_id,
 
-        typesubscription as subscription_plan,
+        {{ map_subscription_code('typesubscription') }} as subscription_plan,
         newsector as sector,	
         newrole	as role,	
         username,
