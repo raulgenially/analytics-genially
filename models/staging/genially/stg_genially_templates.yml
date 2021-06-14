@@ -17,6 +17,8 @@ models:
         
         - name: subcategory
           description: Template subcategory.
+          tests:
+            - not_null
           
         - name: name
           description: Name of the template.

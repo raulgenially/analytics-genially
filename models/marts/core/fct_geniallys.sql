@@ -2,6 +2,20 @@ with geniallys as (
     select * from {{ ref('stg_genially_geniallys') }}
 ),
 
+templates as (
+    select * from {{ ref('stg_genially_templates') }}
+),
+
+geniallys_templates as (
+        select *
+        from geniallys
+        left join templates on geniallys.from_template_id = templates.template_id
+)
+
+select * from geniallys_templates
+where template_type is null
+
+/*
 users as (
     select * from {{ ref('dim_users') }}
 ),

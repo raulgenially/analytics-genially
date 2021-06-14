@@ -15,7 +15,7 @@ final as (
     select
         users.user_id,
 
-        {{ map_subscription_code('users.subscription_plan') }} as plan,
+        users.subscription_plan as plan,
         coalesce(sector_codes.sector_name, 'Missing') as sector,
         coalesce(role_codes.role_name, 'Missing') as role,
         coalesce(users.country, 'Missing') as market,
