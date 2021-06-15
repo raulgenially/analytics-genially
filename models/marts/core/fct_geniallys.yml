@@ -1,0 +1,62 @@
+version: 2
+
+models:  
+    - name: fct_geniallys
+      columns:
+        - name: genially_id
+          description: Primary key for geniallys.
+          tests:
+            - unique
+            - not_null
+
+        - name: genially_type
+          description: Type of genially.
+
+        - name: plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
+        - name: sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: market
+          description: Country.
+          tests:
+            - not_null
+
+        - name: is_published
+          description: Whether the genially has been published.
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+
+        - name: modified_at
+          description: Modification date.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Creation date.
+          tests:
+            - not_null
+
+        - name: published_at
+          description: Publication date.
+
+        - name: last_view_at
+          description: Last time the genially was visualized.
+
+        - name: deleted_at
+          description: Deletion date.
