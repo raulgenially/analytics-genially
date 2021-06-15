@@ -1,7 +1,8 @@
 {{ config(materialized='ephemeral') }}
 
 with active_users as (
-    select * from {{ ref('dim_users') }}
+    select * 
+    from {{ ref('dim_users') }}
     where DATE_DIFF(CURRENT_DATE(), DATE(last_access_at), DAY) <= 90
 )
 

@@ -10,7 +10,6 @@ role_codes as (
     select * from {{ ref('role_codes') }}
 ),
 
-
 final as (
     select
         users.user_id,
