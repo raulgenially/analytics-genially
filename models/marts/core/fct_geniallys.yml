@@ -41,6 +41,9 @@ models:
           description: Foreign key referring to the user creating the genially.
           tests:
             - not_null
+            - relationships:
+                to: ref('dim_users')
+                field: user_id
 
         - name: modified_at
           description: Modification date.
