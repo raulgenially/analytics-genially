@@ -55,6 +55,8 @@ models:
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.

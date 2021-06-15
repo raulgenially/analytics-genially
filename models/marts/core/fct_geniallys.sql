@@ -28,8 +28,7 @@ final as (
     from geniallys
     inner join users 
         on geniallys.user_id = users.user_id
-    where DATE(geniallys.created_at) >= DATE(2019, 1, 1)
-        and geniallys.is_deleted = False  
+    where geniallys.is_deleted = False  
 
 )
 

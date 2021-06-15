@@ -1,7 +1,5 @@
 with active_users as (
-    select * 
-    from {{ ref('dim_users') }}
-    where DATE_DIFF(CURRENT_DATE(), DATE(last_access_at), DAY) <= 90
+    select * from {{ ref('active_users') }}
 ),
 
 final as (
@@ -15,7 +13,7 @@ final as (
 
     from active_users
     group by 1, 2, 3, 4, 5
-    order by register_at desc
+    order by register_at asc
 )
 
 select * from final
