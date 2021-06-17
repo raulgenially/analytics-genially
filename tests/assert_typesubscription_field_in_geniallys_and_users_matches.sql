@@ -17,7 +17,9 @@ final as (
         geniallys.genially_id,
         users.user_id,
         geniallys.subscription_plan,
-        users.subscription_plan
+        users.subscription_plan,
+        geniallys.created_at,
+        users.register_at
 
     from geniallys
     inner join users 
