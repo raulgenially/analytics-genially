@@ -1,9 +1,3 @@
-{{
-    config(
-        severity='warn'
-    )
-}}
-
 with geniallys as (
     select * from {{ ref('stg_genially_geniallys') }}
 ),
@@ -16,13 +10,13 @@ final as (
     select
         geniallys.genially_id,
         users.user_id,
-        geniallys.subscription_plan,
-        users.subscription_plan
+        geniallys.created_at,
+        users.register_at
 
     from geniallys
-    inner join users 
+    inner join users
         on geniallys.user_id = users.user_id
-    where geniallys.subscription_plan != users.subscription_plan
+    where geniallys.created_at < users.register_at
 )
 
 select * from final

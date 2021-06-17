@@ -32,7 +32,7 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
-    where creationtime is not null -- Remove very old geniallys
+    where DATE(creationtime) >= DATE(2015, 1, 1) -- Remove very old geniallys
 )
 
 select * from geniallys

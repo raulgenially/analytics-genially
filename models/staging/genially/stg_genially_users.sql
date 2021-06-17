@@ -30,7 +30,7 @@ with users as (
         ifnull(lastaccesstime, dateregister) as last_access_at
 
     from {{ source('genially', 'users') }}
-    where dateregister is not null -- Remove very old users
+    where DATE(dateregister) >= DATE(2015, 1, 1) -- Remove very old users
 )
 
 select * from users
