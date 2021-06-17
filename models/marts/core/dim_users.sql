@@ -17,7 +17,8 @@ role_codes as (
 users_geniallys as (
     select
         users.user_id,
-        count(users.user_id) as n_creations,
+        count(users.user_id) as n_total_creations,
+        countif(geniallys.is_deleted = False) as n_active_creations,
         min(geniallys.created_at) as first_creation_at,
         max(geniallys.created_at) as last_creation_at
 
@@ -35,7 +36,8 @@ final as (
         coalesce(sector_codes.sector_name, 'Missing') as sector,
         coalesce(role_codes.role_name, 'Missing') as role,
         coalesce(users.country, 'Missing') as market,
-        coalesce(users_geniallys.n_creations, 0) as n_creations,
+        coalesce(users_geniallys.n_total_creations, 0) as n_total_creations,
+        coalesce(users_geniallys.n_active_creations, 0) as n_active_creations,
         
         users_geniallys.first_creation_at,
         users_geniallys.last_creation_at,

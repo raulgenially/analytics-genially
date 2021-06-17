@@ -9,7 +9,10 @@ final as (
         sector,
         role, 
         market,
-        count(user_id) as n_active_users
+        count(user_id) as n_active_users,
+        sum(n_total_creations) as n_total_creations,
+        sum(n_active_creations) as n_active_creations
+
 
     from active_users
     group by 1, 2, 3, 4, 5

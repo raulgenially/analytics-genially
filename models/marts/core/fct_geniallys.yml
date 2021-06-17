@@ -36,6 +36,13 @@ models:
 
         - name: is_published
           description: Whether the genially has been published.
+          tests:
+              - not_null
+          
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.

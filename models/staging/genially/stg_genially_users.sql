@@ -22,15 +22,15 @@ with users as (
         socialmedia as social_media_accounts,
         summary,
 
-        validated as is_validated,	
+        ifnull(validated, False) as is_validated,
 
         idanalytics	as analytics_id,
         
-        dateregister as register_at,	
-        lastaccesstime as last_access_at
+        dateregister as register_at,
+        ifnull(lastaccesstime, dateregister) as last_access_at
 
     from {{ source('genially', 'users') }}
-    where dateregister is not null and lastaccesstime is not null -- Remove very old users
+    where dateregister is not null -- Remove very old users
 )
 
 select * from users

@@ -2,7 +2,7 @@ version: 2
 
 models:
     - name: stg_genially_geniallys
-      description: Geniallys created by users (it does not include templates, which are located in another table).
+      description: All geniallys created (by users, by employees, templates + collaboratives).
       columns:
         - name: genially_id
           description: Primary key for geniallys.
@@ -34,6 +34,13 @@ models:
 
         - name: is_published
           description: Whether the genially has been published.
+          tests:
+            - not_null
+          
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
@@ -45,13 +52,10 @@ models:
           description: Whether the genially is shown in user's social profile.
 
         - name: is_reusable
-          description: Whether the genially is reusable as a template by another user.
+          description: Whether the genially can be reusable as a template by another user.
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
-
-        - name: is_deleted
-          description: Whether the genially has been deleted.
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.

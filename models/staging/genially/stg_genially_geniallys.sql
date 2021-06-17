@@ -9,13 +9,13 @@ with geniallys as (
         description,
         friendlyurl as friendly_url,
 
-        published as is_published,
+        ifnull(published, False) as is_published,
+        ifnull(deleted, False) as is_deleted,
         noindex as is_private,
         public as is_password_free,
         showinsocialprofile as is_in_social_profile,
         reusable as is_reusable,
         inspiration as is_inspiration,
-        deleted as is_deleted,
 
         idUser as user_id,
         idanalytics as analytics_id,

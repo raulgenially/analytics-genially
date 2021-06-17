@@ -55,6 +55,8 @@ models:
 
         - name: is_validated
           description: Whether the user has validated their email.
+          tests:
+            - not_null
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.

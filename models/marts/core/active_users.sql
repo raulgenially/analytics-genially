@@ -1,4 +1,8 @@
-{{ config(materialized='ephemeral') }}
+{{
+    config(
+        materialized='ephemeral'
+    )
+}}
 
 with active_users as (
     select * 

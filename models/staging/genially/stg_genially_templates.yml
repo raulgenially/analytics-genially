@@ -17,12 +17,10 @@ models:
         
         - name: subcategory
           description: Template subcategory.
-          tests:
-            - not_null
-          
+
         - name: name
           description: Name of the template.
-
+          
         - name: language
           description: Language of the template.
 
@@ -35,12 +33,23 @@ models:
         - name: is_new
           description: Whether the template is new.
 
+        - name: are_slides_selectable
+          description: Whether you can select specific slides when using the template.
+
         - name: genially_id
           description: Id of the actual genially referring to this template.
           tests:
             - not_null
+            - relationships:
+                to: ref('stg_genially_geniallys')
+                field: genially_id
+                severity: warn
 
         - name: genially_to_view_id
           description: Id of the actual genially referring to this template when visualized.
           tests:
             - not_null
+            - relationships:
+                to: ref('stg_genially_geniallys')
+                field: genially_id
+                severity: warn

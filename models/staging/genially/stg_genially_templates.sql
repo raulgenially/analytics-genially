@@ -11,9 +11,10 @@ final as (
         name,
         language,
         tags,
-        templates.order as template_order,
+        cast(templates.order as int64) as template_order,
         
         templates.new as is_new,
+        selectslides as are_slides_selectable,
         
         idgenially as genially_id,
         idgeniallytoview as genially_to_view_id

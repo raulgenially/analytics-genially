@@ -11,14 +11,16 @@ final as (
         geniallys.genially_id,
 
         geniallys.genially_type,
-        geniallys.subscription_plan as plan,
+        users.plan,
         users.sector,
         users.role,
         users.market,
 
         geniallys.is_published,
+        geniallys.is_deleted,
 
         geniallys.user_id,
+        
         geniallys.modified_at,
         geniallys.created_at,
         geniallys.published_at,
@@ -28,8 +30,7 @@ final as (
     from geniallys
     inner join users 
         on geniallys.user_id = users.user_id
-    where geniallys.is_deleted = False  
-
+    where DATE(geniallys.created_at) >= DATE(2019, 1, 1)
 )
 
 select * from final

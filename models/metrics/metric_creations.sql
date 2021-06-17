@@ -5,11 +5,12 @@ with geniallys as (
 final as (
     select
         DATE(created_at) as created_at,
-        role, 
+        plan,
         sector, 
-        market, 
-        plan, 
-        count(genially_id) as n_creations
+        role,
+        market,  
+        count(genially_id) as n_total_creations,
+        countif(is_deleted = False) as n_active_creations
 
     from geniallys
     group by 1, 2, 3, 4, 5

@@ -31,6 +31,22 @@ models:
           tests:
             - not_null
 
+        - name: n_total_creations
+          description: Total number of creations (including those that has been removed).
+          tests:
+            - not_null
+
+        - name: n_active_creations
+          description: Total number of active creations (excluding those that has been removed).
+          tests:
+            - not_null
+
+        - name: first_creation_at
+          description: Date at which the first genially (removed or not) was created.
+
+        - name: last_creation_at
+          description: Date at which the last genially (removed or not) was created.
+
         - name: register_at
           description: Registration date.
           tests:
