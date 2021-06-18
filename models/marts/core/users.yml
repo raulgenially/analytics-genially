@@ -1,7 +1,7 @@
 version: 2
 
 models:  
-    - name: dim_users
+    - name: users
       columns:
         - name: user_id
           description: Primary key for users.

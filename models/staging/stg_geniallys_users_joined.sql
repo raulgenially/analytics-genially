@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='table'
-    )
-}}
-
 with geniallys as (
     select * from {{ ref('src_genially_geniallys') }}
 ),
