@@ -1,3 +1,5 @@
+-- When the number of creations is 0, first and last creations dates should be NULL.
+
 with final as (
     select
         user_id, 
@@ -5,7 +7,7 @@ with final as (
         first_creation_at,
         last_creation_at
 
-    from {{ ref('dim_users') }}
+    from {{ ref('users') }}
     where n_total_creations = 0 and 
         (first_creation_at is not null or last_creation_at is not null)
 )

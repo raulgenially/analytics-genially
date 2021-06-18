@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: stg_genially_templates
+    - name: src_genially_templates
       description: Templates that users can use for creations.
       columns:
         - name: template_id
@@ -41,7 +41,7 @@ models:
           tests:
             - not_null
             - relationships:
-                to: ref('stg_genially_geniallys')
+                to: ref('src_genially_geniallys')
                 field: genially_id
                 severity: warn
 
@@ -50,6 +50,6 @@ models:
           tests:
             - not_null
             - relationships:
-                to: ref('stg_genially_geniallys')
+                to: ref('src_genially_geniallys')
                 field: genially_id
                 severity: warn

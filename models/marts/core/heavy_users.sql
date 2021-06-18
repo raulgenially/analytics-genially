@@ -1,12 +1,6 @@
-{{
-    config(
-        materialized='ephemeral'
-    )
-}}
-
 with heavy_users as (
     select * 
-    from {{ ref('dim_users') }}
+    from {{ ref('users') }}
     where n_total_creations >= 5
 )
 

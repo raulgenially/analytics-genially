@@ -1,7 +1,7 @@
 version: 2
 
 models:  
-    - name: stg_genially_users
+    - name: src_genially_users
       description: Registered users.
       columns:
         - name: user_id
@@ -19,9 +19,13 @@ models:
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
 
         - name: role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
 
         - name: username
           description: Username.
@@ -34,6 +38,8 @@ models:
 
         - name: country
           description: Country (ISO code).
+          tests:
+            - not_null
 
         - name: city
           description: City.
