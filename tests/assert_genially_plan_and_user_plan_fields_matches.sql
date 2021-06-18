@@ -11,7 +11,7 @@ final as (
         genially_plan,
         user_plan,
         created_at,
-        user_register_at
+        user_registered_at
 
     from geniallys_users
     where genially_plan != user_plan

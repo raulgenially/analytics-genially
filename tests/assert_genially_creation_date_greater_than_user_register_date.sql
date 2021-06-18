@@ -9,10 +9,10 @@ final as (
         genially_id,
         user_id,
         created_at,
-        user_register_at
+        user_registered_at
 
     from geniallys_users
-    where created_at < user_register_at
+    where created_at < user_registered_at
 )
 
 select * from final

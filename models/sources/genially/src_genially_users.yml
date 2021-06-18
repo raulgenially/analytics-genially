@@ -67,7 +67,7 @@ models:
         - name: analytics_id
           description: Foreign key referring to web analytics data.
 
-        - name: register_at
+        - name: registered_at
           description: Registration date.
           tests:
             - not_null

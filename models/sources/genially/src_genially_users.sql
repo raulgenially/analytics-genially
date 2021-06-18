@@ -38,7 +38,7 @@ final as (
 
         idanalytics	as analytics_id,
         
-        dateregister as register_at,
+        dateregister as registered_at,
         ifnull(lastaccesstime, dateregister) as last_access_at
 
     from users

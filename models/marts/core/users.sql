@@ -22,17 +22,16 @@ users_creations as (
 final as (
     select
         users.user_id,
-
         users.subscription_plan as plan,
         users.sector,
         users.role,
         users.country as market,
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
-        coalesce(users_creations.n_active_creations, 0) as n_active_creations,
-        
+        coalesce(users_creations.n_active_creations, 0) as n_active_creations,    
+        users.is_validated,
         users_creations.first_creation_at,
         users_creations.last_creation_at,
-        users.register_at,
+        users.registered_at,
         users.last_access_at
 
     from users

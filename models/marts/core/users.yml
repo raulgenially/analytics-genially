@@ -41,13 +41,18 @@ models:
           tests:
             - not_null
 
+        - name: is_validated
+          description: Whether the user has validated their account.
+          tests:
+            - not_null
+
         - name: first_creation_at
           description: Date at which the first genially (removed or not) was created.
 
         - name: last_creation_at
           description: Date at which the last genially (removed or not) was created.
 
-        - name: register_at
+        - name: registered_at
           description: Registration date.
           tests:
             - not_null

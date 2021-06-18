@@ -4,7 +4,7 @@ with active_users as (
 
 final as (
     select
-        DATE(register_at) as register_at,
+        DATE(registered_at) as registered_at,
         plan,
         sector,
         role, 
@@ -16,7 +16,8 @@ final as (
 
     from active_users
     group by 1, 2, 3, 4, 5
-    order by register_at asc
+    having registered_at >= DATE(2019, 1, 1)
+    order by registered_at asc
 )
 
 select * from final
