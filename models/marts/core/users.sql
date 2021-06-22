@@ -3,7 +3,7 @@ with users as (
 ),
 
 geniallys_users as (
-    select * from {{ ref('stg_geniallys_users_joined') }}
+    select * from {{ ref('stg_geniallys') }}
 ),
 
 users_creations as (

@@ -1,7 +1,7 @@
  -- The creation date of a genially should be greather than user's registration date.
 
 with geniallys_users as (
-    select * from {{ ref('stg_geniallys_users_joined') }}
+    select * from {{ ref('stg_geniallys') }}
 ),
 
 final as (

@@ -1,3 +1,4 @@
 term,definition
+Active creation,Creation that has not been removed by the user (it shows up in user's panel)
 Active user,User that has logged in within the last 90 days
 Heavy user,User with more than five creations

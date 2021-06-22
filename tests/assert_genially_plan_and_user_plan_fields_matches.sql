@@ -1,7 +1,7 @@
 -- Info as to plan in both geniallys and users should match.
 
 with geniallys_users as (
-    select * from {{ ref('stg_geniallys_users_joined') }}
+    select * from {{ ref('stg_geniallys') }}
 ),
 
 final as (
