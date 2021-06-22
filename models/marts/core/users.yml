@@ -1,7 +1,7 @@
 version: 2
 
 models:  
-    - name: dim_users
+    - name: users
       columns:
         - name: user_id
           description: Primary key for users.
@@ -31,7 +31,33 @@ models:
           tests:
             - not_null
 
-        - name: register_at
+        - name: n_total_creations
+          description: Total number of creations (including those that has been removed).
+          tests:
+            - not_null
+
+        - name: n_active_creations
+          description: Total number of active creations (excluding those that has been removed).
+          tests:
+            - not_null
+
+        - name: is_validated
+          description: Whether the user has validated their account.
+          tests:
+            - not_null
+
+        - name: first_creation_at
+          description: Date at which the first genially (removed or not) was created.
+
+        - name: last_creation_at
+          description: Date at which the last genially (removed or not) was created.
+
+        - name: registered_at
           description: Registration date.
+          tests:
+            - not_null
+
+        - name: last_access_at
+          description: Last access date.
           tests:
             - not_null

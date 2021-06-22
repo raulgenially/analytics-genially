@@ -1,7 +1,7 @@
 version: 2
 
 models:  
-    - name: stg_genially_users
+    - name: src_genially_users
       description: Registered users.
       columns:
         - name: user_id
@@ -15,14 +15,17 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: [1, 2, 3, 4, 5, 6, 7]
-                quote: false
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
 
         - name: role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
 
         - name: username
           description: Username.
@@ -35,6 +38,8 @@ models:
 
         - name: country
           description: Country (ISO code).
+          tests:
+            - not_null
 
         - name: city
           description: City.
@@ -56,11 +61,13 @@ models:
 
         - name: is_validated
           description: Whether the user has validated their email.
+          tests:
+            - not_null
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.
 
-        - name: register_at
+        - name: registered_at
           description: Registration date.
           tests:
             - not_null

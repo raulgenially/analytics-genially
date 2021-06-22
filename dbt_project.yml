@@ -34,6 +34,10 @@ models:
   analytics_genially:
     marts:
         materialized: table
+    metrics:
+        materialized: table
+    sources:
+        materialized: view
     staging:
         materialized: view
     utils:

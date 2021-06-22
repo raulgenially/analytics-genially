@@ -3,19 +3,19 @@ with geniallys as (
         _id as genially_id,
 
         typegenially as genially_type,
-        typesubscription as subscription_plan,        
+        {{ map_subscription_code('typesubscription') }} as subscription_plan,
         name,
         tags, 
         description,
         friendlyurl as friendly_url,
 
-        published as is_published,
+        ifnull(published, False) as is_published,
+        ifnull(deleted, False) as is_deleted,
         noindex as is_private,
         public as is_password_free,
         showinsocialprofile as is_in_social_profile,
         reusable as is_reusable,
         inspiration as is_inspiration,
-        deleted as is_deleted,
 
         idUser as user_id,
         idanalytics as analytics_id,
@@ -32,7 +32,7 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
-    where creationtime is not null -- Remove very old geniallys
+    where DATE(creationtime) >= DATE(2013, 1, 1)
 )
 
 select * from geniallys

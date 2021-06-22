@@ -1,8 +1,8 @@
 version: 2
 
 models:
-    - name: stg_genially_geniallys
-      description: Geniallys created by users (it does not include templates, which are located in another table).
+    - name: src_genially_geniallys
+      description: All geniallys created (by users, by employees, templates + collaboratives).
       columns:
         - name: genially_id
           description: Primary key for geniallys.
@@ -18,8 +18,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: [1, 2, 3, 4, 5, 6, 7]
-                quote: false
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
         - name: name
           description: Genially name.
@@ -35,6 +34,13 @@ models:
 
         - name: is_published
           description: Whether the genially has been published.
+          tests:
+            - not_null
+          
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
@@ -46,16 +52,19 @@ models:
           description: Whether the genially is shown in user's social profile.
 
         - name: is_reusable
-          description: Whether the genially is reusable as a template by another user.
+          description: Whether the genially can be reusable as a template by another user.
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
 
-        - name: is_deleted
-          description: Whether the genially has been deleted.
-
         - name: user_id
           description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
+                severity: warn
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.

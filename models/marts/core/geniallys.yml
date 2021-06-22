@@ -1,0 +1,85 @@
+version: 2
+
+models:  
+    - name: geniallys
+      columns:
+        - name: genially_id
+          description: Primary key for geniallys.
+          tests:
+            - unique
+            - not_null
+
+        - name: genially_type
+          description: Type of genially.
+
+        - name: is_published
+          description: Whether the genially has been published.
+          tests:
+            - not_null
+          
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
+
+        - name: is_private
+          description: Whether the genially can be indexed by search engines.
+
+        - name: is_password_free
+          description: Whether the genially has a an access password.
+        
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+
+        - name: is_reusable
+          description: Whether the genially can be reusable as a template by another user.
+
+        - name: is_inspiration
+          description: Whether the genially is shown in inspiration.
+
+        - name: reused_from_id
+          description: Id of the original genially that this one is based on.
+
+        - name: from_template_id
+          description: Id of the template used for the creation of the genially.
+
+        - name: modified_at
+          description: Modification date.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Creation date.
+          tests:
+            - not_null
+
+        - name: published_at
+          description: Publication date.
+
+        - name: last_view_at
+          description: Last time the genially was visualized.
+
+        - name: deleted_at
+          description: Deletion date.
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+
+        - name: is_current_user
+          description: Whether the genially belongs to a current user.
+          tests:
+            - not_null
+                    
+        - name: user_plan
+          description: "{{ doc('subscription_codes') }}"
+        
+        - name: user_sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+        
+        - name: user_role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          
+        - name: user_market
+          description: Country.
