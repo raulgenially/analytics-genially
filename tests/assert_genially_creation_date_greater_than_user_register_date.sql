@@ -1,6 +1,6 @@
  -- The creation date of a genially should be greather than user's registration date.
 
-with geniallys_users as (
+with geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
@@ -11,7 +11,7 @@ final as (
         created_at,
         user_registered_at
 
-    from geniallys_users
+    from geniallys
     where created_at < user_registered_at
 )
 

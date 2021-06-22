@@ -2,7 +2,7 @@ with users as (
     select * from {{ ref('src_genially_users') }}
 ),
 
-geniallys_users as (
+geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
@@ -14,7 +14,7 @@ users_creations as (
         min(created_at) as first_creation_at,
         max(created_at) as last_creation_at
 
-    from geniallys_users
+    from geniallys
     where user_id is not null
     group by 1
 ),

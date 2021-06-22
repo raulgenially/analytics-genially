@@ -1,6 +1,6 @@
 -- Info as to plan in both geniallys and users should match.
 
-with geniallys_users as (
+with geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
@@ -13,7 +13,7 @@ final as (
         created_at,
         user_registered_at
 
-    from geniallys_users
+    from geniallys
     where genially_plan != user_plan
 )
 

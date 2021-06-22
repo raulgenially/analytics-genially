@@ -1,4 +1,4 @@
-with geniallys_users as (
+with geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
@@ -32,7 +32,7 @@ final as (
         user_role,
         user_market
 
-    from geniallys_users
+    from geniallys
 )
 
 select * from final
