@@ -10,14 +10,36 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
--- Note that there are geniallys from people who are not users any more.
+geniallys_with_decoded_type as (
+    select
+        geniallys.genially_id,
+        case
+            when template_type is not null
+                then template_type
+            when geniallys.genially_type = 17
+                then 'blank-creation'
+            when geniallys.genially_type = 27
+                then 'interactive-image'
+            when geniallys.genially_type = 18
+                then 'ppt-importer'
+            else 'other'
+        end as genially_type
+
+    from geniallys
+    -- Remove geniallys that are templates
+    left join templates
+        on geniallys.from_template_id = templates.template_id
+    where geniallys.genially_id not in (select genially_id from templates) 
+        and geniallys.genially_id not in (select genially_to_view_id from templates) 
+
+),
 
 final as (
     select
         --- Genially fields
         geniallys.genially_id,
         
-        geniallys.genially_type,
+        geniallys_with_decoded_type.genially_type,
         geniallys.subscription_plan as genially_plan,
         
         geniallys.is_published,
@@ -29,6 +51,11 @@ final as (
         geniallys.is_inspiration,
         
         geniallys.user_id as genially_user_id,
+        case
+            when users.user_id is not null
+                then True
+            else False
+        end as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
         
@@ -47,19 +74,12 @@ final as (
         users.is_validated as user_is_validated,
         users.registered_at as user_registered_at,
         users.last_access_at as user_last_access_at,
-
-        -- Template fields
-        templates.template_id,
-        templates.template_type,
-        templates.genially_id as template_genially_id,
-        templates.genially_to_view_id as template_genially_to_view_id
-        
-
+      
     from geniallys
+    inner join geniallys_with_decoded_type
+        on geniallys.genially_id = geniallys_with_decoded_type.genially_id
     left join users
         on geniallys.user_id = users.user_id
-    left join templates
-        on geniallys.from_template_id = templates.template_id
 )
 
 select * from final

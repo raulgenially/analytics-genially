@@ -6,6 +6,7 @@ final as (
     select
         genially_id,
         genially_type,
+        genially_plan,
         is_published,
         is_deleted,
         is_private,
@@ -22,11 +23,7 @@ final as (
         deleted_at,
 
         genially_user_id as user_id,
-        case
-            when user_id is null
-                then False
-            else True
-        end as is_current_user,
+        is_current_user,
         user_plan,
         user_sector,
         user_role,
