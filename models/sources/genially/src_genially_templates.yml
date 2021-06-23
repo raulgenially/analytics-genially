@@ -20,7 +20,9 @@ models:
 
         - name: name
           description: Name of the template.
-          
+          tests:
+            - not_null
+
         - name: language
           description: Language of the template.
 
