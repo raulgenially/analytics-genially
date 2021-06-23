@@ -10,20 +10,18 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
-geniallys_with_decoded_type as (
+geniallys_templates_joined as (
     select
         geniallys.genially_id,
         case
             when template_type is not null
-                then regexp_replace(template_type, '^template-', '')
+                then template_type
             when geniallys.genially_type = 17
                 then 'blank-creation'
             when geniallys.genially_type = 27
                 then 'interactive-image'
-            when geniallys.genially_type = 18
-                then 'ppt-importer'
-            else 'other'
-        end as genially_type,
+            else 'no-template'
+        end as template_type,
         templates.name as template_name
 
     from geniallys
@@ -32,7 +30,6 @@ geniallys_with_decoded_type as (
     -- Remove geniallys that are templates
     where geniallys.genially_id not in (select genially_id from templates) 
         and geniallys.genially_id not in (select genially_to_view_id from templates) 
-
 ),
 
 final as (
@@ -40,7 +37,6 @@ final as (
         --- Genially fields
         geniallys.genially_id,
         
-        geniallys_with_decoded_type.genially_type,
         geniallys.subscription_plan as genially_plan,
         
         geniallys.is_published,
@@ -59,7 +55,8 @@ final as (
         end as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
-        geniallys_with_decoded_type.template_name,
+        geniallys_templates_joined.template_type,
+        geniallys_templates_joined.template_name,
         
         geniallys.modified_at,
         geniallys.created_at,
@@ -78,8 +75,8 @@ final as (
         users.last_access_at as user_last_access_at,
       
     from geniallys
-    inner join geniallys_with_decoded_type
-        on geniallys.genially_id = geniallys_with_decoded_type.genially_id
+    inner join geniallys_templates_joined
+        on geniallys.genially_id = geniallys_templates_joined.genially_id
     left join users
         on geniallys.user_id = users.user_id
 )

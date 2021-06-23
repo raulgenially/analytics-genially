@@ -10,7 +10,6 @@ final as (
         user_sector as sector, 
         user_role as role,
         user_market as market, 
-        genially_type,
 
         -- Metrics
         count(genially_id) as total_creations,
@@ -26,7 +25,7 @@ final as (
 
     from geniallys
     where date(created_at) >= date(2019, 1, 1)
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5
     order by created_at asc
 )
 

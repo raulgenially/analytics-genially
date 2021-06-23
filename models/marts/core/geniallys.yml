@@ -9,11 +9,6 @@ models:
             - unique
             - not_null
 
-        - name: genially_type
-          description: Type of genially.
-          tests:
-            - not_null
-
         - name: genially_plan
           description:  "{{ doc('subscription_codes') }}"
           tests:
@@ -61,6 +56,11 @@ models:
 
         - name: from_template_id
           description: Id of the template used for the creation of the genially.
+
+        - name: template_type
+          description: Template type that the genially is based on, if any.
+          tests:
+            - not_null
 
         - name: template_name
           description: Name of the template.

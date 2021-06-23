@@ -6,7 +6,6 @@ final as (
     select
         genially_id,
 
-        genially_type,
         genially_plan,
 
         is_published,
@@ -19,6 +18,7 @@ final as (
 
         reused_from_id,
         from_template_id,
+        template_type,
         template_name,
 
         modified_at,
