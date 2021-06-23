@@ -5,8 +5,10 @@ with geniallys as (
 final as (
     select
         genially_id,
+
         genially_type,
         genially_plan,
+
         is_published,
         is_deleted,
         is_private,
@@ -14,8 +16,11 @@ final as (
         is_in_social_profile,
         is_reusable,
         is_inspiration,
+
         reused_from_id,
         from_template_id,
+        template_name,
+
         modified_at,
         created_at,
         published_at,

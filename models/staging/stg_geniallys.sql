@@ -15,7 +15,7 @@ geniallys_with_decoded_type as (
         geniallys.genially_id,
         case
             when template_type is not null
-                then template_type
+                then regexp_replace(template_type, '^template-', '')
             when geniallys.genially_type = 17
                 then 'blank-creation'
             when geniallys.genially_type = 27
@@ -23,12 +23,13 @@ geniallys_with_decoded_type as (
             when geniallys.genially_type = 18
                 then 'ppt-importer'
             else 'other'
-        end as genially_type
+        end as genially_type,
+        templates.name as template_name
 
     from geniallys
-    -- Remove geniallys that are templates
     left join templates
         on geniallys.from_template_id = templates.template_id
+    -- Remove geniallys that are templates
     where geniallys.genially_id not in (select genially_id from templates) 
         and geniallys.genially_id not in (select genially_to_view_id from templates) 
 
@@ -58,6 +59,7 @@ final as (
         end as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys_with_decoded_type.template_name,
         
         geniallys.modified_at,
         geniallys.created_at,
