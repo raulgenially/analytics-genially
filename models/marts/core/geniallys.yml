@@ -33,18 +33,28 @@ models:
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
+          tests:
+            - not_null
 
         - name: is_password_free
           description: Whether the genially has a an access password.
+          tests:
+            - not_null
         
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile.
+          tests:
+            - not_null
 
         - name: is_reusable
           description: Whether the genially can be reusable as a template by another user.
+          tests:
+            - not_null
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
+          tests:
+            - not_null
 
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
