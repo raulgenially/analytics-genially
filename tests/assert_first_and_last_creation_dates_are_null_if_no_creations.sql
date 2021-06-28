@@ -1,4 +1,4 @@
--- When the number of creations is 0, first and last creations dates should be NULL.
+-- When the number of creations is 0, first and last creation dates should be NULL.
 
 with final as (
     select
@@ -8,8 +8,8 @@ with final as (
         last_creation_at
 
     from {{ ref('users') }}
-    where n_total_creations = 0 and 
-        (first_creation_at is not null or last_creation_at is not null)
+    where n_total_creations = 0 
+        and (first_creation_at is not null or last_creation_at is not null)
 )
 
 select * from final

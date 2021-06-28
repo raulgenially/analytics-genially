@@ -16,8 +16,9 @@ final as (
         user_market
 
     from geniallys
-    where is_current_user = False and (user_plan is not null or user_sector is not null 
-        or user_role is not null or user_market is not null) 
+    where is_current_user = False 
+        and (user_plan is not null or user_sector is not null 
+            or user_role is not null or user_market is not null) 
 )
 
 select * from final

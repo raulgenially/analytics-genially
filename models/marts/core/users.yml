@@ -41,6 +41,18 @@ models:
           tests:
             - not_null
 
+        - name: days_btw_registration_and_first_creation
+          description: Number of days since the user signs up until they create their first genially
+
+        - name: days_btw_first_and_second_creation
+          description: Number of days since the user creates their first genially until they create their second one
+
+        - name: days_btw_second_and_third_creation
+          description: Number of days since the user creates their second genially until they create their third one
+
+        - name: days_btw_registration_and_third_creation
+          description: Number of days since the user signs up until they create their third genially
+
         - name: is_validated
           description: Whether the user has validated their account.
           tests:
