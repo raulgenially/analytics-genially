@@ -1,0 +1,39 @@
+version: 2
+
+models:
+    - name: src_genially_collaboratives
+      description: Collaborative creations/geniallys by different users.
+      columns:
+        - name: collaborative_id
+          description: Primary key for collaboratives.
+          tests:
+            - unique
+            - not_null
+        
+        - name: user_email
+          description: Email of the user taking part of the collaboration.
+          tests:
+            - not_null
+
+        - name: genially_id
+          description: Id of the genially referring to the collaboration. 
+          tests:
+            - not_null
+
+        - name: user_id
+          description: Id of a user taking part of the collaboration.
+          tests:
+            - not_null
+      
+        - name: user_owner_id
+          description: Id of the user that is owner of the collaborative genially.
+          tests:
+            - not_null
+
+        - name: team_id
+          description: Id of the team formed by the people collaborating in the genially.
+
+        - name: created_at
+          description: Creation date.
+          tests:
+            - not_null

@@ -27,4 +27,12 @@ sources:
               description: Primary key for templates.
               tests:
                 - unique
-                - not_null         
+                - not_null
+
+        - name: collaborative
+          columns:
+            - name: _id
+              description: Primary key for collaboratives.
+              tests:
+                - unique
+                - not_null
