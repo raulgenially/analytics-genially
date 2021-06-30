@@ -32,7 +32,8 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
-    where date(creationtime) >= date(2013, 1, 1)
+    where date(creationtime) >= date(2014, 1, 1)
+        and __hevo__marked_deleted = False
 )
 
 select * from geniallys

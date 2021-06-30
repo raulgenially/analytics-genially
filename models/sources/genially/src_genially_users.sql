@@ -46,7 +46,8 @@ final as (
         on users.newsector = sector_codes.sector_id
     left join role_codes
         on users.newrole = role_codes.role_id
-    where date(dateregister) >= date(2013, 1, 1) -- Remove users for testing
+    where date(dateregister) >= date(2014, 1, 1) -- Remove users for testing
+        and __hevo__marked_deleted = False
 )
 
 select * from final

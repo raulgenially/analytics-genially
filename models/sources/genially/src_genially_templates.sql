@@ -20,6 +20,7 @@ final as (
         idgeniallytoview as genially_to_view_id
    
     from templates
+    where __hevo__marked_deleted = False
 )
 
 select * from final
