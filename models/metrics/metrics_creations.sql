@@ -10,7 +10,7 @@ final as (
         user_sector as sector, 
         user_role as role,
         user_market as market,
-        template_type as category,
+        if(is_collaborative, 'Yes', 'No') as collaborative,       
 
         -- Metrics
         count(genially_id) as n_total_creations,

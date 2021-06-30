@@ -15,6 +15,7 @@ final as (
         is_in_social_profile,
         is_reusable,
         is_inspiration,
+        is_collaborative,
 
         reused_from_id,
         from_template_id,

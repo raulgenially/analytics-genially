@@ -51,6 +51,11 @@ models:
           tests:
             - not_null
 
+        - name: is_collaborative
+          description: Whether the genially is collaborative.
+          tests:
+            - not_null
+
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 

@@ -10,6 +10,10 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
+collaboratives as (
+    select * from {{ ref('src_genially_collaboratives') }}
+),
+
 geniallys_templates_joined as (
     select
         geniallys.genially_id,
@@ -46,6 +50,8 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
+        if(geniallys.genially_id in 
+            (select genially_id from collaboratives), True, False) as is_collaborative,
         
         geniallys.user_id as genially_user_id,
         case

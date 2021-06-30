@@ -23,7 +23,8 @@ models:
         - name: user_id
           description: Id of a user taking part of the collaboration.
           tests:
-            - not_null
+            - not_null:
+                severity: warn
       
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
@@ -34,6 +35,6 @@ models:
           description: Id of the team formed by the people collaborating in the genially.
 
         - name: created_at
-          description: Creation date.
+          description: When the genially was shared with the user id for collaboration.
           tests:
             - not_null
