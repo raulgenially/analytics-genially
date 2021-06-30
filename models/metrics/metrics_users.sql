@@ -20,10 +20,6 @@ final as (
         count(user_id) as n_users,
         sum(n_total_creations) as n_total_creations,
         sum(n_active_creations) as n_active_creations,
-        avg(days_btw_registration_and_first_creation) as avg_days_btw_registration_and_first_creation,
-        avg(days_btw_first_and_second_creation) as avg_days_btw_first_and_second_creation,
-        avg(days_btw_second_and_third_creation) as avg_days_btw_second_and_third_creation,
-        avg(days_btw_registration_and_third_creation) as avg_days_btw_registration_and_third_creation,
 
     from users
     where date(registered_at) >= date(2019, 1, 1)
