@@ -12,7 +12,8 @@ final as (
         user_registered_at
 
     from geniallys
-    where created_at < user_registered_at
+    where created_at < user_registered_at and is_deleted = False
+    order by user_registered_at desc
 )
 
 select * from final
