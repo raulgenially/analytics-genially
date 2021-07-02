@@ -16,6 +16,11 @@ models:
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
+        - name: category
+          description: Genially category.
+          tests:
+            - not_null
+
         - name: is_published
           description: Whether the genially has been published.
           tests:

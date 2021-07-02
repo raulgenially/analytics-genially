@@ -17,15 +17,8 @@ collaboratives as (
 geniallys_templates_joined as (
     select
         geniallys.genially_id,
-        case
-            when template_type is not null
-                then template_type
-            when geniallys.genially_type = 17
-                then 'blank-creation'
-            when geniallys.genially_type = 27
-                then 'interactive-image'
-            else 'no-template'
-        end as template_type,
+        {{ map_genially_category('template_type', 'geniallys.genially_type') }} as category,
+        template_type,
         templates.name as template_name
 
     from geniallys
@@ -42,6 +35,7 @@ final as (
         geniallys.genially_id,
         
         geniallys.subscription_plan as genially_plan,
+        geniallys_templates_joined.category,
         
         geniallys.is_published,
         geniallys.is_deleted,
@@ -54,11 +48,7 @@ final as (
             (select genially_id from collaboratives), True, False) as is_collaborative,
         
         geniallys.user_id as genially_user_id,
-        case
-            when users.user_id is not null
-                then True
-            else False
-        end as is_current_user,
+        if(users.user_id is not null, True, False) as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
         geniallys_templates_joined.template_type,

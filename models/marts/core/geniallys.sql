@@ -7,6 +7,7 @@ final as (
         genially_id,
 
         genially_plan,
+        category,
 
         is_published,
         is_deleted,
