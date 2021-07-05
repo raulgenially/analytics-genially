@@ -15,8 +15,8 @@ final as (
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
-        coalesce(sector_codes.sector_name, 'Missing') as sector,	
-        coalesce(role_codes.role_name, 'Missing') as role,	
+        coalesce(sector_codes.sector_name, 'Not-selected') as sector,	
+        coalesce(role_codes.role_name, 'Not-selected') as role,	
         username,
         nickname,	
         email,
@@ -24,7 +24,7 @@ final as (
             when country = 'GB' 
                 then 'UK' 
             when country = '' or country is null
-                then 'Missing'
+                then 'Not-selected'
             else country
         end as country,
         city,	

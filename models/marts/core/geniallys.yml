@@ -69,8 +69,6 @@ models:
 
         - name: template_type
           description: Template type that the genially is based on, if any.
-          tests:
-            - not_null
 
         - name: template_name
           description: Name of the template.
