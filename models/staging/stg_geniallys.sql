@@ -10,15 +10,32 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
--- Note that there are geniallys from people who are not users any more.
+collaboratives as (
+    select * from {{ ref('src_genially_collaboratives') }}
+),
+
+geniallys_templates_joined as (
+    select
+        geniallys.genially_id,
+        {{ map_genially_category('template_type', 'geniallys.genially_type') }} as category,
+        template_type,
+        templates.name as template_name
+
+    from geniallys
+    left join templates
+        on geniallys.from_template_id = templates.template_id
+    -- Remove geniallys that are templates
+    where geniallys.genially_id not in (select genially_id from templates) 
+        and geniallys.genially_id not in (select genially_to_view_id from templates) 
+),
 
 final as (
     select
         --- Genially fields
         geniallys.genially_id,
         
-        geniallys.genially_type,
         geniallys.subscription_plan as genially_plan,
+        geniallys_templates_joined.category,
         
         geniallys.is_published,
         geniallys.is_deleted,
@@ -27,10 +44,15 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
+        if(geniallys.genially_id in 
+            (select genially_id from collaboratives), True, False) as is_collaborative,
         
         geniallys.user_id as genially_user_id,
+        if(users.user_id is not null, True, False) as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys_templates_joined.template_type,
+        geniallys_templates_joined.template_name,
         
         geniallys.modified_at,
         geniallys.created_at,
@@ -47,19 +69,12 @@ final as (
         users.is_validated as user_is_validated,
         users.registered_at as user_registered_at,
         users.last_access_at as user_last_access_at,
-
-        -- Template fields
-        templates.template_id,
-        templates.template_type,
-        templates.genially_id as template_genially_id,
-        templates.genially_to_view_id as template_genially_to_view_id
-        
-
+      
     from geniallys
+    inner join geniallys_templates_joined
+        on geniallys.genially_id = geniallys_templates_joined.genially_id
     left join users
         on geniallys.user_id = users.user_id
-    left join templates
-        on geniallys.from_template_id = templates.template_id
 )
 
 select * from final

@@ -5,7 +5,10 @@ with geniallys as (
 final as (
     select
         genially_id,
-        genially_type,
+
+        genially_plan,
+        category,
+
         is_published,
         is_deleted,
         is_private,
@@ -13,8 +16,13 @@ final as (
         is_in_social_profile,
         is_reusable,
         is_inspiration,
+        is_collaborative,
+
         reused_from_id,
         from_template_id,
+        template_type,
+        template_name,
+
         modified_at,
         created_at,
         published_at,
@@ -22,11 +30,7 @@ final as (
         deleted_at,
 
         genially_user_id as user_id,
-        case
-            when user_id is null
-                then False
-            else True
-        end as is_current_user,
+        is_current_user,
         user_plan,
         user_sector,
         user_role,

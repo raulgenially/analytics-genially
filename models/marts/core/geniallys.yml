@@ -9,8 +9,17 @@ models:
             - unique
             - not_null
 
-        - name: genially_type
-          description: Type of genially.
+        - name: genially_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
+        - name: category
+          description: Genially category.
+          tests:
+            - not_null
 
         - name: is_published
           description: Whether the genially has been published.
@@ -24,24 +33,45 @@ models:
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
+          tests:
+            - not_null
 
         - name: is_password_free
           description: Whether the genially has a an access password.
+          tests:
+            - not_null
         
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile.
+          tests:
+            - not_null
 
         - name: is_reusable
           description: Whether the genially can be reusable as a template by another user.
+          tests:
+            - not_null
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
+          tests:
+            - not_null
+
+        - name: is_collaborative
+          description: Whether the genially is collaborative.
+          tests:
+            - not_null
 
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 
         - name: from_template_id
           description: Id of the template used for the creation of the genially.
+
+        - name: template_type
+          description: Template type that the genially is based on, if any.
+
+        - name: template_name
+          description: Name of the template.
 
         - name: modified_at
           description: Modification date.

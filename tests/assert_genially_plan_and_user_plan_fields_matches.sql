@@ -14,7 +14,8 @@ final as (
         user_registered_at
 
     from geniallys
-    where genially_plan != user_plan
+    where genially_plan != user_plan and is_deleted = False
+    order by user_registered_at desc
 )
 
 select * from final

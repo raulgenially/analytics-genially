@@ -11,11 +11,11 @@ with geniallys as (
 
         ifnull(published, False) as is_published,
         ifnull(deleted, False) as is_deleted,
-        noindex as is_private,
-        public as is_password_free,
-        showinsocialprofile as is_in_social_profile,
-        reusable as is_reusable,
-        inspiration as is_inspiration,
+        ifnull(noindex, False) as is_private,
+        ifnull(public, False) as is_password_free,
+        ifnull(showinsocialprofile, False) as is_in_social_profile,
+        ifnull(reusable, False) as is_reusable,
+        ifnull(inspiration, False) as is_inspiration,
 
         idUser as user_id,
         idanalytics as analytics_id,
@@ -32,7 +32,8 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
-    where DATE(creationtime) >= DATE(2013, 1, 1)
+    where date(creationtime) >= date(2014, 1, 1)
+        and __hevo__marked_deleted = False
 )
 
 select * from geniallys
