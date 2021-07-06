@@ -16,6 +16,11 @@ models:
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
+        - name: origin
+          description: Genially origin.
+          tests:
+            - not_null
+
         - name: category
           description: Genially category.
           tests:
