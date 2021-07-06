@@ -21,7 +21,7 @@ final as (
         countif(is_deleted = False and is_published = True) as n_published_creations
 
     from geniallys
-    where date(created_at) >= date(2019, 1, 1)
+    where date(created_at) >= date(2020, 1, 1)
     group by 1, 2, 3, 4, 5, 6, 7, 8
     order by created_at asc
 )

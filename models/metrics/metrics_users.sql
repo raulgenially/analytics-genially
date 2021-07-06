@@ -22,7 +22,7 @@ final as (
         sum(n_active_creations) as n_active_creations,
 
     from users
-    where date(registered_at) >= date(2019, 1, 1)
+    where date(registered_at) >= date(2020, 1, 1)
     group by 1, 2, 3, 4, 5, 6
     order by registered_at asc
 )
