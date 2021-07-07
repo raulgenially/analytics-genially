@@ -87,7 +87,6 @@ final as (
     left join users
         on geniallys.user_id = users.user_id
     where date(geniallys.created_at) >= date(2014, 1, 1) 
-        and date(users.registered_at) >= date(2014, 1, 1)
 )
 
 select * from final

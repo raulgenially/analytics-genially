@@ -46,7 +46,8 @@ final as (
         on users.newsector = sector_codes.sector_id
     left join role_codes
         on users.newrole = role_codes.role_id
-    where __hevo__marked_deleted = False
+    where dateregister is not null
+        and __hevo__marked_deleted = False
 )
 
 select * from final

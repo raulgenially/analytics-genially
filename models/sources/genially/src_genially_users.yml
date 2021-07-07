@@ -69,6 +69,10 @@ models:
 
         - name: registered_at
           description: Registration date.
-
+          tests:
+            - not_null  
+        
         - name: last_access_at
           description: Last access date.
+          tests:
+            - not_null
