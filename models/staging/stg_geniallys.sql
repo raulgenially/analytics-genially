@@ -36,7 +36,7 @@ final as (
         geniallys.subscription_plan as genially_plan,
         case
             when reused_from_id is not null
-                then 'Reusable Genially'
+                then 'Reusable'
             when geniallys_templates_joined.template_type is not null
                 then 'Template'
             when geniallys.genially_type = 17 or geniallys.genially_type = 27
@@ -86,6 +86,8 @@ final as (
         on geniallys.genially_id = geniallys_templates_joined.genially_id
     left join users
         on geniallys.user_id = users.user_id
+    where date(geniallys.created_at) >= date(2014, 1, 1) 
+        and date(users.registered_at) >= date(2014, 1, 1)
 )
 
 select * from final

@@ -10,6 +10,7 @@ final as (
         user_sector as sector, 
         user_role as role,
         user_market as market,
+        category,
         template_name,
        
         -- Metrics
@@ -21,7 +22,7 @@ final as (
     where date(created_at) >= date(2020, 1, 1)
         and user_plan != 'Free' 
         and origin = 'Template'
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by created_at asc
 )
 

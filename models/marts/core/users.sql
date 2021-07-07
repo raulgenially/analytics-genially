@@ -84,6 +84,7 @@ final as (
         on users.user_id = users_creations.user_id
     left join users_adoption_velocity
         on users.user_id = users_adoption_velocity.user_id
+    where date(registered_at) >= date(2014, 1, 1)
 )
 
 select * from final

@@ -12,17 +12,15 @@ final as (
         user_market as market,
         origin,
         category,
-        if(is_current_user, 'Yes', 'No') as current_user,
 
         -- Metrics
         count(genially_id) as n_total_creations,
         countif(is_deleted = False) as n_active_creations,
-        countif(is_deleted = False and is_collaborative = True) as n_collaborative_creations,
         countif(is_deleted = False and is_published = True) as n_published_creations
 
     from geniallys
     where date(created_at) >= date(2020, 1, 1)
-    group by 1, 2, 3, 4, 5, 6, 7, 8
+    group by 1, 2, 3, 4, 5, 6, 7
     order by created_at asc
 )
 
