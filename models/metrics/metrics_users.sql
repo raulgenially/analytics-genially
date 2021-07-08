@@ -20,6 +20,7 @@ final as (
         count(user_id) as n_users,
         sum(n_total_creations) as n_total_creations,
         sum(n_active_creations) as n_active_creations,
+        sum(n_published_creations) as n_published_creations,
 
     from users
     where date(registered_at) >= date(2020, 1, 1)

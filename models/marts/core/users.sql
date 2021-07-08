@@ -49,6 +49,7 @@ users_creations as (
         user_id,
         count(user_id) as n_total_creations,
         countif(is_deleted = False) as n_active_creations,
+        countif(is_deleted = False and is_published = True) as n_published_creations,
         min(created_at) as first_creation_at,
         max(created_at) as last_creation_at
 
@@ -67,6 +68,7 @@ final as (
         users.country as market,
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
+        coalesce(users_creations.n_published_creations, 0) as n_published_creations,
         users_adoption_velocity.days_btw_registration_and_first_creation,
         users_adoption_velocity.days_btw_first_and_second_creation,
         users_adoption_velocity.days_btw_second_and_third_creation,
