@@ -7,6 +7,7 @@ final as (
         genially_id,
 
         genially_plan,
+        origin,
         category,
 
         is_published,
@@ -37,6 +38,7 @@ final as (
         user_market
 
     from geniallys
+    where date(geniallys.created_at) >= date(2014, 1, 1) 
 )
 
 select * from final

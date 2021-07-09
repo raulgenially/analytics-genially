@@ -26,7 +26,9 @@
             then 'Blank Creation'
         when {{ genially_type }} = 27
             then 'Interactive Image'
+        when {{ genially_type }} = 18
+            then 'Presentation (PPTX)'
         else
-            'Unknown'
+            'Other'
     end
 {% endmacro %}

@@ -17,8 +17,7 @@ collaboratives as (
 geniallys_templates_joined as (
     select
         geniallys.genially_id,
-        {{ map_genially_category('template_type', 'geniallys.genially_type') }} as category,
-        template_type,
+        templates.template_type,
         templates.name as template_name
 
     from geniallys
@@ -35,8 +34,20 @@ final as (
         geniallys.genially_id,
         
         geniallys.subscription_plan as genially_plan,
-        geniallys_templates_joined.category,
-        
+        case
+            when reused_from_id is not null
+                then 'Reusable'
+            when geniallys_templates_joined.template_type is not null
+                then 'Template'
+            when geniallys.genially_type = 17 or geniallys.genially_type = 27
+                then 'From Scratch'
+            when geniallys.genially_type = 18
+                then 'PPTX Import'
+            else
+                'Other'
+        end as origin,
+        {{ map_genially_category('geniallys_templates_joined.template_type', 'geniallys.genially_type') }} as category, 
+
         geniallys.is_published,
         geniallys.is_deleted,
         geniallys.is_private,
