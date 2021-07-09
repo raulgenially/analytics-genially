@@ -32,8 +32,7 @@ with geniallys as (
         datedeleted as deleted_at
    
     from {{ source('genially', 'geniallys') }}
-    where creationtime is not null
-        and __hevo__marked_deleted = False
+    where __hevo__marked_deleted = False
 )
 
 select * from geniallys

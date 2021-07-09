@@ -14,7 +14,8 @@ final as (
         template_name
 
     from geniallys
-    where category = 'Other' and template_type is not null
+    where category = 'Other' 
+        and template_type is not null
 )
 
 select * from final
