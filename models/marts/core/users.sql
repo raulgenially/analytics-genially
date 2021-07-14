@@ -6,6 +6,7 @@ geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
+-- TODO to be reviewed
 previously_created_geniallys as (
     select
         genially_id,

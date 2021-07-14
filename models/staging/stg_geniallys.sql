@@ -14,6 +14,7 @@ collaboratives as (
     select * from {{ ref('src_genially_collaboratives') }}
 ),
 
+-- TODO remove this model and simplify
 geniallys_templates_joined as (
     select
         geniallys.genially_id,
@@ -46,7 +47,7 @@ final as (
             else
                 'Other'
         end as origin,
-        {{ map_genially_category('geniallys_templates_joined.template_type', 'geniallys.genially_type') }} as category, 
+        {{ map_genially_category('geniallys_templates_joined.template_type', 'geniallys.genially_type') }} as category, -- TODO fix mapping
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -77,7 +78,7 @@ final as (
         users.sector as user_sector,
         users.role as user_role,
         users.country as user_market,
-        users.is_validated as user_is_validated,
+        users.is_validated as user_is_validated,  
         users.registered_at as user_registered_at,
         users.last_access_at as user_last_access_at,
       
