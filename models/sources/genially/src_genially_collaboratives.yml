@@ -19,12 +19,13 @@ models:
           description: Id of the genially referring to the collaboration. 
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_geniallys')
+                field: genially_id
+                severity: warn 
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
-          tests:
-            - not_null:
-                severity: warn
       
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
