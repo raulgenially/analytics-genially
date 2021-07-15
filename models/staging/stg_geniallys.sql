@@ -14,7 +14,7 @@ collaboratives as (
     select * from {{ ref('src_genially_collaboratives') }}
 ),
 
--- TODO remove this model and simplify
+-- TODO remove this model and simplify it
 geniallys_templates_joined as (
     select
         geniallys.genially_id,
