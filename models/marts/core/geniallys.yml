@@ -9,13 +9,6 @@ models:
             - unique
             - not_null
 
-        - name: genially_plan
-          description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
-
         - name: origin
           description: Genially origin.
           tests:
@@ -66,6 +59,11 @@ models:
           tests:
             - not_null
 
+        - name: is_created_before_registration
+          description: Whether the genially has been created before registration date.
+          tests:
+            - not_null
+
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 
@@ -85,8 +83,6 @@ models:
 
         - name: created_at
           description: Creation date.
-          tests:
-            - not_null
 
         - name: published_at
           description: Publication date.

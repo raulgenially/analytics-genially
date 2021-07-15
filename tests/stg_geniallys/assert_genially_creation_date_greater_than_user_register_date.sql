@@ -13,7 +13,8 @@ final as (
 
     from geniallys
     where created_at < user_registered_at 
-        and is_deleted = False
+        and is_deleted = false
+        and is_created_before_registration = false
     order by user_registered_at desc
 )
 
