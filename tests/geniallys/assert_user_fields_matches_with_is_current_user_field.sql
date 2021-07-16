@@ -9,7 +9,6 @@ final as (
         genially_id, 
         user_id,
         is_current_user,
-        genially_plan,
         user_plan,
         user_sector,
         user_role,

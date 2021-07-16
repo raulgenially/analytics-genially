@@ -1,4 +1,8 @@
 with geniallys as (
+    select * from {{ source('genially', 'geniallys') }}
+),
+
+final as (
     select
         _id as genially_id,
 
@@ -7,17 +11,17 @@ with geniallys as (
         name,
         tags, 
         description,
-        friendlyurl as friendly_url,
+        friendlyurl as friendly_url, -- url used for the view social
 
         ifnull(published, False) as is_published,
         ifnull(deleted, False) as is_deleted,
         ifnull(noindex, False) as is_private,
-        ifnull(public, False) as is_password_free,
-        ifnull(showinsocialprofile, False) as is_in_social_profile,
+        ifnull(public, False) as is_password_free, -- TODO review the name
+        ifnull(showinsocialprofile, False) as is_in_social_profile, -- concept different from view social
         ifnull(reusable, False) as is_reusable,
         ifnull(inspiration, False) as is_inspiration,
 
-        idUser as user_id,
+        iduser as user_id,
         idanalytics as analytics_id,
         reusedfrom as reused_from_id,        
         idfromtemplate as from_template_id,
@@ -26,13 +30,14 @@ with geniallys as (
         idfromteamtemplate as from_team_template_id,
 
         lastmodified as modified_at,
-        creationtime as created_at,
+        -- First valid creation date is 2016-05-25T21:46:53 (as of 2021-07-15)
+        if(creationtime >= '2016-05-25', creationtime, null) as created_at,
         datepublished as published_at,
         lastview as last_view_at,
         datedeleted as deleted_at
    
-    from {{ source('genially', 'geniallys') }}
+    from geniallys
     where __hevo__marked_deleted = False
 )
 
-select * from geniallys
+select * from final

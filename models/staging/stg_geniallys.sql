@@ -14,20 +14,6 @@ collaboratives as (
     select * from {{ ref('src_genially_collaboratives') }}
 ),
 
-geniallys_templates_joined as (
-    select
-        geniallys.genially_id,
-        templates.template_type,
-        templates.name as template_name
-
-    from geniallys
-    left join templates
-        on geniallys.from_template_id = templates.template_id
-    -- Remove geniallys that are templates
-    where geniallys.genially_id not in (select genially_id from templates) 
-        and geniallys.genially_id not in (select genially_to_view_id from templates) 
-),
-
 final as (
     select
         --- Genially fields
@@ -37,7 +23,7 @@ final as (
         case
             when reused_from_id is not null
                 then 'Reusable'
-            when geniallys_templates_joined.template_type is not null
+            when templates.template_type is not null
                 then 'Template'
             when geniallys.genially_type = 17 or geniallys.genially_type = 27
                 then 'From Scratch'
@@ -46,7 +32,7 @@ final as (
             else
                 'Other'
         end as origin,
-        {{ map_genially_category('geniallys_templates_joined.template_type', 'geniallys.genially_type') }} as category, 
+        {{ map_genially_category('templates.template_type', 'geniallys.genially_type') }} as category, -- TODO fix mapping
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -56,17 +42,19 @@ final as (
         geniallys.is_reusable,
         geniallys.is_inspiration,
         if(geniallys.genially_id in 
-            (select genially_id from collaboratives), True, False) as is_collaborative,
+            (select genially_id from collaboratives), true, false) as is_collaborative,
         
         geniallys.user_id as genially_user_id,
-        if(users.user_id is not null, True, False) as is_current_user,
+        if(users.user_id is not null, true, false) as is_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
-        geniallys_templates_joined.template_type,
-        geniallys_templates_joined.template_name,
+        templates.template_type,
+        templates.name as template_name,
         
         geniallys.modified_at,
         geniallys.created_at,
+        -- In some cases creation date < registration date
+        if(geniallys.created_at < users.registered_at, true, false) as is_created_before_registration,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
@@ -77,15 +65,18 @@ final as (
         users.sector as user_sector,
         users.role as user_role,
         users.country as user_market,
-        users.is_validated as user_is_validated,
+        users.is_validated as user_is_validated,  
         users.registered_at as user_registered_at,
         users.last_access_at as user_last_access_at,
       
     from geniallys
-    inner join geniallys_templates_joined
-        on geniallys.genially_id = geniallys_templates_joined.genially_id
+    left join templates
+        on geniallys.from_template_id = templates.template_id
     left join users
         on geniallys.user_id = users.user_id
+     -- Remove geniallys that are templates
+    where geniallys.genially_id not in (select genially_id from templates) 
+        and geniallys.genially_id not in (select genially_to_view_id from templates)
 )
 
 select * from final

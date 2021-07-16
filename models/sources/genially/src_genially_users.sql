@@ -1,3 +1,5 @@
+{% set not_select = 'Not-selected' %}
+
 with users as (
     select * from {{ source('genially', 'users') }}
 ),
@@ -15,8 +17,8 @@ final as (
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
-        coalesce(sector_codes.sector_name, 'Not-selected') as sector,	
-        coalesce(role_codes.role_name, 'Not-selected') as role,	
+        coalesce(sector_codes.sector_name, '{{ not_select }}') as sector,	
+        coalesce(role_codes.role_name, '{{ not_select }}') as role,	
         username,
         nickname,	
         email,
@@ -24,7 +26,7 @@ final as (
             when country = 'GB' 
                 then 'UK' 
             when country = '' or country is null
-                then 'Not-selected'
+                then '{{ not_select }}'
             else country
         end as country,
         city,	
@@ -37,9 +39,11 @@ final as (
         ifnull(validated, False) as is_validated,
 
         idanalytics	as analytics_id,
-        
-        dateregister as registered_at,
-        ifnull(lastaccesstime, dateregister) as last_access_at
+
+        -- First valid registration date is 2015-02-23T13:27:13 (as of 2021-07-15)
+        if(dateregister >= '2015-02-23', dateregister, null) as registered_at,
+        -- First valid last access date is 2016-06-02T17:01:47 (as of 2021-07-15)
+        if(lastaccesstime >= '2016-06-02', lastaccesstime, null) as last_access_at
 
     from users
     left join sector_codes 

@@ -6,7 +6,6 @@ final as (
     select
         genially_id,
 
-        genially_plan,
         origin,
         category,
 
@@ -18,6 +17,7 @@ final as (
         is_reusable,
         is_inspiration,
         is_collaborative,
+        is_created_before_registration,
 
         reused_from_id,
         from_template_id,
@@ -38,7 +38,6 @@ final as (
         user_market
 
     from geniallys
-    where date(geniallys.created_at) >= date(2014, 1, 1) 
 )
 
 select * from final
