@@ -32,15 +32,6 @@ final as (
         lastmodified as modified_at,
         -- First valid creation date is 2016-05-25T21:46:53 (as of 2021-07-15)
         if(creationtime >= '2016-05-25', creationtime, null) as created_at,
-
-        /*-- First valid creation date is 2016-05-25T21:46:53 (as of 2021-07-15)
-        case 
-            when date(creationtime) < date(2016, 5, 25) or creationtime is null
-                then '2016-01-01'
-            else
-                creationtime
-        end as created_at,*/
-
         datepublished as published_at,
         lastview as last_view_at,
         datedeleted as deleted_at
