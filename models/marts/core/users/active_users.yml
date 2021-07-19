@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: active_users
+    description: Users that accessed Genially in the last 90 days.
+      This model is a filtered version of the users model and contains the same fields
