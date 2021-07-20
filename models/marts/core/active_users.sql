@@ -1,3 +1,7 @@
+{{ config(
+    materialized='view'
+) }}
+
 with users as (
     select * from {{ ref('activated_users') }}
 ),

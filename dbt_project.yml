@@ -34,9 +34,6 @@ models:
   analytics_genially:
     marts:
       +materialized: table
-      core:
-        users:
-          +materialized: view
     metrics:
         materialized: table
     sources:
