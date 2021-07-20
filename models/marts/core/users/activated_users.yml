@@ -3,4 +3,4 @@ version: 2
 models:
   - name: activated_users
     description: Users that have created at least one genially.
-      This model is a filtered version of the users model and contains the same fields
+      This model is a filtered version of the users model and contains the same fields.

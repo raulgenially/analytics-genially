@@ -6,7 +6,7 @@ with users as (
 
 final as (
     select * from users
-    where users.n_total_creations > {{ min_creations }}
+    where n_total_creations > {{ min_creations }}
 )
 
 select * from final
