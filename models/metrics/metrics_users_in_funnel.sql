@@ -1,3 +1,5 @@
+-- Model containing number of users for different stages of the funnel
+
 with users as (
     select * from {{ ref('users') }}
 ),
@@ -11,11 +13,6 @@ final as (
         sector,
         role,
         market,
-        case
-            when n_published_creations >= 5
-                then '5+ creations'
-            else concat(n_published_creations, ' creations')
-        end as published_creations,
 
         -- Metrics
         count(user_id) as n_registered_users,
@@ -25,7 +22,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1)
-    group by 1, 2, 3, 4, 5, 6, 7
+    group by 1, 2, 3, 4, 5, 6
     order by registered_at asc
 )
 

@@ -5,7 +5,7 @@ with geniallys as (
 final as (
     select
         -- Dimensions
-        DATE(created_at) as created_at,
+        date(created_at) as created_at,
         user_plan as plan,
         user_sector as sector, 
         user_role as role,
