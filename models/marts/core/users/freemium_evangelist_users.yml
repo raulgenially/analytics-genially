@@ -1,6 +1,0 @@
-version: 2
-
-models:
-  - name: freemium_evangelist_users
-    description: Users that have no paid plan and have published at least one publication.
-      This model is a filtered version of the active users model and contains the same fields.

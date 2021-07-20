@@ -1,6 +1,0 @@
-version: 2
-
-models:
-  - name: freemium_active_users
-    description: Users that have no paid plan.
-      This model is a filtered version of the active users model and contains the same fields.

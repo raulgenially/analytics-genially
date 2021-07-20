@@ -1,10 +1,10 @@
 with users as (
-    select * from {{ ref('active_users') }}
+    select * from {{ ref('users') }}
 ),
 
 final as (
     select * from users
-    where plan = 'Free'
+    where {{ define_evangelist_user() }}
 )
 
 select * from final

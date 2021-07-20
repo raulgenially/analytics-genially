@@ -1,6 +1,0 @@
-version: 2
-
-models:
-  - name: premium_active_users
-    description: Users that have paid for a plan.
-      This model is a filtered version of the active users model and contains the same fields.

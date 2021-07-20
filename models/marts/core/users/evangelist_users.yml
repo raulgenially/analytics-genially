@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: evangelist_users
+    description: Users that published a Genially.
+      This model is a filtered version of the users model and contains the same fields.

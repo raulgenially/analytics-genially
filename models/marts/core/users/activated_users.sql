@@ -1,12 +1,10 @@
-{% set min_creations = 1 %}
-
 with users as (
     select * from {{ ref('users') }}
 ),
 
 final as (
     select * from users
-    where n_total_creations > {{ min_creations }}
+    where {{ define_activated_user() }}
 )
 
 select * from final
