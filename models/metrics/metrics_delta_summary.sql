@@ -7,6 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
+        if(plan = 'Free', 'Free', 'Premium') as subscription,
         sector,
         role,
         market,
@@ -17,15 +18,14 @@ final as (
         end as published_creations,
 
         -- Metrics
-        count(user_id) as n_users,
-        countif({{ define_active_user() }}) as n_activate_users,
-        sum(n_total_creations) as n_total_creations,
-        sum(n_active_creations) as n_active_creations,
-        sum(n_published_creations) as n_published_creations,
+        count(user_id) as n_registered_users,
+        countif({{ define_activated_user() }}) as n_activated_users,
+        countif({{ define_active_user() }}) as n_active_users,
+        countif({{ define_evangelist_user() }}) as n_evangelist_users,
 
     from users
     where date(registered_at) >= date(2019, 1, 1)
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by registered_at asc
 )
 
