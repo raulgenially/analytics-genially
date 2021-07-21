@@ -7,6 +7,7 @@ final as (
         -- Dimensions
         DATE(created_at) as created_at,
         user_plan as plan,
+        if(plan = 'Free', 'Free', 'Premium') as subscription,
         user_sector as sector, 
         user_role as role,
         user_market as market,
@@ -21,7 +22,8 @@ final as (
     from geniallys
     where date(created_at) >= date(2019, 1, 1) 
         and is_current_user = True
-    group by 1, 2, 3, 4, 5, 6, 7
+        and is_created_before_registration = False
+    group by 1, 2, 3, 4, 5, 6, 7, 8
     order by created_at asc
 )
 

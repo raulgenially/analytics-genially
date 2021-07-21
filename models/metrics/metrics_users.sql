@@ -7,6 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
+        if(plan = 'Free', 'Free', 'Premium') as subscription,
         sector,
         role,
         market,
@@ -24,7 +25,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1)
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by registered_at asc
 )
 
