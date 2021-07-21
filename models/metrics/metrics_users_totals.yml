@@ -1,27 +1,15 @@
 version: 2
 
 models:  
-    - name: metrics_users_in_funnel
-      description: Model containing number of users for different stages of the funnel.
+    - name: metrics_users_totals
+      description: Model specifically created for aggregating total number of users and their creations.
       columns:
-        - name: registered_at
-          description: Registration date
-          tests:
-            - not_null
-
         - name: plan
           description: "{{ doc('subscription_codes') }}"
           tests:
             - not_null
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
-
-        - name: subscription
-          description: Type of subscription, Free or Premium
-          tests:
-            - not_null
-            - accepted_values:
-                values: ['Free', 'Premium']
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
@@ -38,22 +26,22 @@ models:
           tests:
             - not_null
 
-        - name: n_registered_users
-          description: Total number of registered users.
+        - name: n_users
+          description: Total number of users (current registered users).
           tests:
             - not_null
 
-        - name: n_activated_users
-          description: Total number of activated users.
+        - name: n_total_creations
+          description: Total number of creations (including those that has been removed).
           tests:
             - not_null
 
-        - name: n_active_users
-          description: Total number of active users.
+        - name: n_active_creations
+          description: Total number of active creations (excluding those that has been removed).
           tests:
             - not_null
 
-        - name: n_evangelist_users
-          description: Total number of evangelist users.
+        - name: n_published_creations
+          description: Total number of published creations (excluding those that has been removed).
           tests:
             - not_null

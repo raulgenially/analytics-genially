@@ -1,5 +1,3 @@
--- Model containing number of users for different stages of the funnel
-
 with users as (
     select * from {{ ref('users') }}
 ),
