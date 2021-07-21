@@ -13,13 +13,23 @@ final as (
         description,
         friendlyurl as friendly_url, -- url used for the view social
 
-        ifnull(published, False) as is_published,
-        ifnull(deleted, False) as is_deleted,
-        ifnull(noindex, False) as is_private,
-        ifnull(public, False) as is_password_free, -- TODO review the name
-        ifnull(showinsocialprofile, False) as is_in_social_profile, -- concept different from view social
-        ifnull(reusable, False) as is_reusable,
-        ifnull(inspiration, False) as is_inspiration,
+        ifnull(published, false) as is_published,
+        ifnull(deleted, false) as is_deleted,
+        ifnull(noindex, false) as is_private,
+        ifnull(public, false) as is_password_free, -- TODO review the name
+        case 
+          when published is true 
+          and ifnull(noindex, false) is false
+          then (case 
+                  when showinsocialprofile is null and reusable is true then true
+                  when showinsocialprofile is true then true 
+                  else false
+                end)
+          else false
+        end as is_in_social_profile, -- concept different from view social
+        showinsocialprofile,
+        ifnull(reusable, false) as is_reusable,
+        ifnull(inspiration, false) as is_inspiration,
 
         iduser as user_id,
         idanalytics as analytics_id,
@@ -37,7 +47,7 @@ final as (
         datedeleted as deleted_at
    
     from geniallys
-    where __hevo__marked_deleted = False
+    where __hevo__marked_deleted = false
 )
 
 select * from final
