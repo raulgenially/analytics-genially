@@ -3,7 +3,7 @@
 ) }}
 
 with users as (
-    select * from {{ ref('activated_users') }}
+    select * from {{ ref('users') }}
 ),
 
 final as (

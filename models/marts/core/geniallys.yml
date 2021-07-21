@@ -13,6 +13,8 @@ models:
           description: Genially origin.
           tests:
             - not_null
+            - accepted_values:
+                values: ['Reusable', 'Template', 'From Scratch', 'PPTX Import', 'Other']
 
         - name: category
           description: Genially category.

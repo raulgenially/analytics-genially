@@ -33,7 +33,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   analytics_genially:
     marts:
-      +materialized: table
+        materialized: table
     metrics:
         materialized: table
     sources:

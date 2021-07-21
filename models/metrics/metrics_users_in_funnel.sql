@@ -7,7 +7,13 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        if(plan = 'Free', 'Free', 'Premium') as subscription,
+        case
+            when plan is null
+                then 'Unknown'
+            when plan = 'Free'
+                then 'Free'
+            else 'Premium' 
+        end as subscription,
         sector,
         role,
         market,
