@@ -7,7 +7,7 @@ final as (
         -- Dimensions
         DATE(created_at) as created_at,
         user_plan as plan,
-        if(plan = 'Free', 'Free', 'Premium') as subscription,
+        if(user_plan = 'Free', 'Free', 'Premium') as subscription,
         user_sector as sector, 
         user_role as role,
         user_market as market,
