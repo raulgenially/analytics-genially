@@ -18,15 +18,16 @@ final as (
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free, -- TODO review the name
         case 
-          when published is true and ifnull(noindex, false) is false
-          then case 
-                  when showinsocialprofile is null and reusable is true
-                  then true
-                  when showinsocialprofile is true
-                  then true
-                  else false
-               end
-          else false
+            when published is true and ifnull(noindex, false) is false
+                then 
+                    case 
+                        when showinsocialprofile is null and reusable is true
+                            then true
+                        when showinsocialprofile is true
+                            then true
+                        else false
+                    end
+            else false
         end as is_in_social_profile, -- concept different from view social // currently in BETA
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
