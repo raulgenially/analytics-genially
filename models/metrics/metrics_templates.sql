@@ -20,7 +20,7 @@ final as (
 
     from geniallys
     where date(created_at) >= date(2019, 1, 1)
-        and is_current_user = True
+        and is_from_current_user = True
         and user_plan != 'Free' 
         and origin = 'Template'
     group by 1, 2, 3, 4, 5, 6, 7

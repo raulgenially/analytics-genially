@@ -13,10 +13,10 @@ final as (
     select 
         genially_id, 
         user_id,
-        is_current_user,
+        is_from_current_user,
         
     from geniallys
-    where is_current_user = True 
+    where is_from_current_user = true 
         and user_id not in (select user_id from users)
 )
 
