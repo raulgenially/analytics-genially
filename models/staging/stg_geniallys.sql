@@ -45,7 +45,7 @@ final as (
             (select genially_id from collaboratives), true, false) as is_collaborative,
         
         geniallys.user_id as genially_user_id,
-        if(users.user_id is not null, true, false) as is_current_user,
+        if(users.user_id is not null, true, false) as is_from_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
         templates.template_type,
@@ -54,7 +54,13 @@ final as (
         geniallys.modified_at,
         geniallys.created_at,
         -- In some cases creation date < registration date
-        if(geniallys.created_at < users.registered_at, true, false) as is_created_before_registration,
+        case
+            when geniallys.created_at is null or users.registered_at is null
+                then null
+            when geniallys.created_at < users.registered_at
+                then true
+            else false
+        end as is_created_before_registration,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,

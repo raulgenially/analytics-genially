@@ -14,7 +14,7 @@ users_creations as (
         countif(is_deleted = false and is_published = true) as n_published_creations
 
     from geniallys
-    where is_current_user = true
+    where is_from_current_user = true
     group by 1
 ),
 

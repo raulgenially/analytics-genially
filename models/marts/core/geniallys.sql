@@ -31,7 +31,7 @@ final as (
         deleted_at,
 
         genially_user_id as user_id,
-        is_current_user,
+        is_from_current_user,
         user_plan,
         user_sector,
         user_role,
