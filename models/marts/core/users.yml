@@ -46,6 +46,11 @@ models:
           tests:
             - not_null
 
+        - name: n_collaborative_published_creations
+          description: Total number of collaborative published creations (excluding those that has been removed).
+          tests:
+            - not_null
+
         - name: is_validated
           description: Whether the user has validated their account.
           tests:

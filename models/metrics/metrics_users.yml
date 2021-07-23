@@ -37,8 +37,8 @@ models:
           tests:
             - not_null
 
-        - name: active_creations
-          description: Describe a user according to their number of active creations.
+        - name: published_creations
+          description: Describe an user according to their number of published creations.
           tests:
             - not_null
             - accepted_values:
@@ -61,5 +61,10 @@ models:
 
         - name: n_published_creations
           description: Total number of published creations (excluding those that has been removed).
+          tests:
+            - not_null
+
+        - name: n_collaborative_published_creations
+          description: Total number of collaborative published creations (excluding those that has been removed).
           tests:
             - not_null
