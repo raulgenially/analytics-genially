@@ -1,10 +1,13 @@
 version: 2
 
 models:  
-    - name: metrics_users_totals
-      description: Model specifically created for aggregating total number of users and their creations.
-        Regardless of the registration date and creation date.
+    - name: metrics_users
       columns:
+        - name: registered_at
+          description: Registration date.
+          tests:
+            - not_null
+
         - name: plan
           description: "{{ doc('subscription_codes') }}"
           tests:
@@ -12,6 +15,13 @@ models:
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
+        - name: subscription
+          description: Type of subscription, Free or Premium
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Premium']
+                
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
@@ -26,6 +36,13 @@ models:
           description: Country.
           tests:
             - not_null
+
+        - name: active_creations
+          description: Describe a user according to their number of active creations.
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['0 creations', '1 creations', '2 creations', '3 creations', '4 creations', '5+ creations']
 
         - name: n_users
           description: Total number of users (current registered users).

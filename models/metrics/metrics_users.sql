@@ -7,21 +7,15 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        case
-            when plan is null
-                then 'Unknown'
-            when plan = 'Free'
-                then 'Free'
-            else 'Premium' 
-        end as subscription,
+        {{ create_subscription_field('plan') }} as subscription,
         sector,
         role,
         market,
         case
-            when n_published_creations >= 5
+            when n_active_creations >= 5
                 then '5+ creations'
-            else concat(n_published_creations, ' creations')
-        end as published_creations,
+            else concat(n_active_creations, ' creations')
+        end as active_creations,
 
         -- Metrics
         count(user_id) as n_users,

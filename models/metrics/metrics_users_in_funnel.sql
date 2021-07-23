@@ -7,13 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        case
-            when plan is null
-                then 'Unknown'
-            when plan = 'Free'
-                then 'Free'
-            else 'Premium' 
-        end as subscription,
+        {{ create_subscription_field('plan') }} as subscription,
         sector,
         role,
         market,
