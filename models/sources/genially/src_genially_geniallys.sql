@@ -23,9 +23,7 @@ final as (
                     case 
                         when showinsocialprofile is null and reusable is true
                             then true
-                        when showinsocialprofile is true
-                            then true
-                        else false
+                        else ifnull(showinsocialprofile, false)
                     end
             else false
         end as is_in_social_profile, -- concept different from view social // currently in BETA
