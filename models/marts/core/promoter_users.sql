@@ -8,7 +8,7 @@ with users as (
 
 final as (
     select * from users
-    where {{ define_evangelist_user() }}
+    where {{ define_promoter_user() }}
 )
 
 select * from final

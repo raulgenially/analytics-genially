@@ -53,7 +53,7 @@ models:
           tests:
             - not_null
 
-        - name: n_evangelist_users
-          description: Total number of evangelist users.
+        - name: n_promoter_users
+          description: Total number of users that promote the brand.
           tests:
             - not_null
