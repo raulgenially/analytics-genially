@@ -1,0 +1,15 @@
+apiVersion: cloud-build-notifiers/v1
+kind: SlackNotifier
+metadata:
+  name: Slack Production Failed Build Notifier
+spec:
+  notification:
+    # build_trigger_id corresponds to the trigger analytics-prod
+    filter: build.status in [Build.Status.FAILURE, Build.Status.TIMEOUT, Build.Status.SUCCESS]
+      && build.build_trigger_id == "3997b276-348f-48c2-9b47-58d31194db89"
+    delivery:
+      webhookUrl:
+        secretRef: webhook-url
+  secrets:
+  - name: webhook-url
+    value: projects/data-genially/secrets/cloud-build-slack-webhook/versions/latest
