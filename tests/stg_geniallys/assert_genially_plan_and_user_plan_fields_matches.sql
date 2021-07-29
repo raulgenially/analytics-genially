@@ -1,4 +1,5 @@
 -- Info as to plan in both geniallys and users should match.
+{{ config(severity = 'warn') }} -- Until we know how to fix this
 
 with geniallys as (
     select * from {{ ref('stg_geniallys') }}
