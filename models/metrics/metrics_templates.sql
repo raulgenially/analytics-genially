@@ -15,12 +15,12 @@ final as (
        
         -- Metrics
         count(genially_id) as n_total_creations,
-        countif(is_deleted = False) as n_active_creations,
-        countif(is_deleted = False and is_published = True) as n_published_creations
+        countif(is_deleted = false) as n_active_creations,
+        countif(is_deleted = false and is_published = true) as n_published_creations
 
     from geniallys
     where date(created_at) >= date(2019, 1, 1)
-        and is_from_current_user = True
+        and is_from_current_user = true
         and user_plan != 'Free' 
         and origin = 'Template'
     group by 1, 2, 3, 4, 5, 6, 7

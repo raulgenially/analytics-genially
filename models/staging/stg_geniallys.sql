@@ -57,9 +57,7 @@ final as (
         case
             when geniallys.created_at is null or users.registered_at is null
                 then null
-            when geniallys.created_at < users.registered_at
-                then true
-            else false
+            else geniallys.created_at < users.registered_at
         end as is_created_before_registration,
         geniallys.published_at,
         geniallys.last_view_at,
