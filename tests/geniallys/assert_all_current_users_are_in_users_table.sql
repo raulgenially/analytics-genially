@@ -11,13 +11,15 @@ users as (
 
 final as (
     select 
-        genially_id, 
-        user_id,
-        is_from_current_user,
+        geniallys.genially_id, 
+        geniallys.user_id as genially_user_id,
+        geniallys.is_from_current_user,
+        users.user_id as user_id
         
     from geniallys
-    where is_from_current_user = true 
-        and user_id not in (select user_id from users)
+    left join users on geniallys.user_id = users.user_id
+    where geniallys.is_from_current_user = true 
+        and users.user_id is null
 )
 
 select * from final
