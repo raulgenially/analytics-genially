@@ -11,13 +11,7 @@ final as (
         -- Dimensions
         date(geniallys.created_at) as created_at,
         users.plan as plan,
-        case
-            when users.plan is null
-                then 'Unknown'
-            when users.plan = 'Free'
-                then 'Free'
-            else 'Premium' 
-        end as subscription,
+        {{ create_subscription_field('users.plan') }} as subscription,
         users.sector as sector, 
         users.role as role,
         users.market as market,
@@ -25,12 +19,12 @@ final as (
         geniallys.category as category,
 
         -- Metrics
-        count(genially_id) as n_total_creations_by_registered_users,
+        count(geniallys.genially_id) as n_total_creations_by_registered_users,
         countif({{ define_activated_user() }}) as n_total_creations_by_activated_users,
-        countif(is_deleted = false) as n_active_creations_by_registered_users,
-        countif(is_deleted = false and {{ define_activated_user() }}) as n_active_creations_by_activated_users,
-        countif(is_deleted = false and is_published = true) as n_published_creations_by_registered_users,
-        countif(is_deleted = false and is_published = true and {{ define_activated_user() }}) as n_published_creations_by_activated_users
+        countif(geniallys.is_deleted = false) as n_active_creations_by_registered_users,
+        countif(geniallys.is_deleted = false and {{ define_activated_user() }}) as n_active_creations_by_activated_users,
+        countif(geniallys.is_deleted = false and geniallys.is_published = true) as n_published_creations_by_registered_users,
+        countif(geniallys.is_deleted = false and geniallys.is_published = true and {{ define_activated_user() }}) as n_published_creations_by_activated_users
 
     from geniallys
     inner join users on geniallys.user_id = users.user_id
