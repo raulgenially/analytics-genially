@@ -11,10 +11,11 @@ users_creations as (
         user_id,
         count(genially_id) as n_total_creations,
         countif(is_deleted = false) as n_active_creations,
-        countif(is_deleted = false and is_published = true) as n_published_creations
+        countif(is_deleted = false and is_published = true) as n_published_creations,
+        countif(is_deleted = false and is_published = true and is_collaborative = true) as n_collaborative_published_creations
 
     from geniallys
-    where is_current_user = true
+    where is_from_current_user = true
     group by 1
 ),
 
@@ -29,6 +30,7 @@ final as (
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
+        coalesce(users_creations.n_collaborative_published_creations, 0) as n_collaborative_published_creations,
 
         users.is_validated,
 

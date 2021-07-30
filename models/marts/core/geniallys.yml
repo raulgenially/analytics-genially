@@ -13,6 +13,8 @@ models:
           description: Genially origin.
           tests:
             - not_null
+            - accepted_values:
+                values: ['Reusable', 'Template', 'From Scratch', 'PPTX Import', 'Other']
 
         - name: category
           description: Genially category.
@@ -61,8 +63,6 @@ models:
 
         - name: is_created_before_registration
           description: Whether the genially has been created before registration date.
-          tests:
-            - not_null
 
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
@@ -98,7 +98,7 @@ models:
           tests:
             - not_null
 
-        - name: is_current_user
+        - name: is_from_current_user
           description: Whether the genially belongs to a current user.
           tests:
             - not_null

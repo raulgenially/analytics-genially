@@ -16,7 +16,7 @@ final as (
 
     from geniallys
     where genially_plan != user_plan 
-        and is_deleted = False
+        and is_deleted = false
     order by user_registered_at desc
 )
 

@@ -1,0 +1,59 @@
+version: 2
+
+models:  
+    - name: metrics_users_in_funnel
+      description: Model containing number of users for different stages of the funnel.
+      columns:
+        - name: registered_at
+          description: Registration date
+          tests:
+            - not_null
+
+        - name: plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
+        - name: subscription
+          description: Type of subscription, Free or Premium
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Premium']
+
+        - name: sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: market
+          description: Country.
+          tests:
+            - not_null
+
+        - name: n_registered_users
+          description: Total number of registered users.
+          tests:
+            - not_null
+
+        - name: n_activated_users
+          description: Total number of activated users.
+          tests:
+            - not_null
+
+        - name: n_active_users
+          description: Total number of active users.
+          tests:
+            - not_null
+
+        - name: n_promoter_users
+          description: Total number of users that promote the brand.
+          tests:
+            - not_null

@@ -7,6 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
+        {{ create_subscription_field('plan') }} as subscription,
         sector,
         role,
         market,
@@ -21,10 +22,11 @@ final as (
         sum(n_total_creations) as n_total_creations,
         sum(n_active_creations) as n_active_creations,
         sum(n_published_creations) as n_published_creations,
+        sum(n_collaborative_published_creations) as n_collaborative_published_creations,
 
     from users
     where date(registered_at) >= date(2019, 1, 1)
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by registered_at asc
 )
 
