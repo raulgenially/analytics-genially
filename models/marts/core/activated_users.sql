@@ -1,6 +1,8 @@
-{{ config(
+{{
+  config(
     materialized='view'
-) }}
+  )
+}}
 
 with users as (
     select * from {{ ref('users') }}
