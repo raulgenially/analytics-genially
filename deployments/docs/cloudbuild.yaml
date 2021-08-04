@@ -1,0 +1,30 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud secrets versions access latest --secret="dbt-prod-profiles" > profiles.yml']
+
+- name: 'fishtownanalytics/dbt:0.19.2'
+  args: ['docs', 'generate']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  dir: 'target'
+  entrypoint: 'bash'
+  args: ['-c', 'mkdir $$SITE_DIR && cp catalog.json manifest.json index.html $$SITE_DIR']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  dir: '/workspace/deployments/docs/site'
+  args: ['app', 'deploy', '--version=$COMMIT_SHA']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud app versions list --format="value(version.id)" --sort-by="~version.createTime" | \
+      tail -n +6 | \
+      xargs -r gcloud app versions delete --quiet
+
+options:
+  env:
+  - 'DBT_PROFILES_DIR=/workspace'
+  - 'SITE_DIR=/workspace/deployments/docs/site/public'
