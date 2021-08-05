@@ -1,0 +1,4 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bq'
+  args: ['rm', '-r', '-f', '-d', '$PROJECT_ID:dbt_ci_${_PR_NUMBER}']
