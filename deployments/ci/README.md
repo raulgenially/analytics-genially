@@ -18,6 +18,8 @@ The job definition is in `cloudbuild.yaml` and it has two main parts:
   tagged with the dbt version it has installed. Should we upgrade the dbt version we use for the project, we
   should also change the version of these images.
 
+There is another trigger setup to delete the dataset we just created for the CI build when the PR is
+merged. The config for this job is in `cleanupbuild.yaml`.
 
 ### Testing `cloudbuild.yaml`
 
