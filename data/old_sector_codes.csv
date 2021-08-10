@@ -1,12 +1,12 @@
 sector_id,sector_name,category
-1,Educación Primaria,EDU
-11,Educación Secundaria,EDU
-2,Educación Universitaria,EDU
+1,Primary Education,EDU
+11,Secondary Education,EDU
+2,Higher Education,EDU
 3,E-Learning,EDU
 4,PYME,CORPORATE
-5,Compañia,CORPORATE
-6,Administración Pública,CORPORATE
+5,Company,CORPORATE
+6,Public Admin. & ONG,CORPORATE
 7,Freelance,CORPORATE
 8,Media,DIGITAL CONTENT
 9,Editorial,DIGITAL CONTENT
-10,Agencia,DIGITAL CONTENT
+10,Agency,DIGITAL CONTENT

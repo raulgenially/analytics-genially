@@ -1,55 +1,55 @@
 role_id,role_name,sector_id
-1,Profesor,1
-2,Estudiante,1
-3,Administración,1
-4,Otros,1
-51,Profesor,11
-52,Estudiante,11
-53,Administración,11
-54,Otros,11
-5,Profesor,2
-6,Estudiante,2
-7,Administración,2
-8,Diseñador,2
-9,Marketing,2
-10,Otros,2
-11,Profesor,3
-12,Estudiante,3
-13,Administración,3
-14,Diseñador,3
-15,Marketing,3
-16,Otros,3
-17,Diseñador,4
-18,Marketing,4
-19,Training,4
-20,Técnico,4
-21,Ventas,4
-22,Otro,4
-23,Diseñador,5
-24,Marketing,5
-25,Training,5
-26,Técnico,5
-27,Ventas,5
-28,Otro,5
-29,Diseñador,6
-30,Marketing,6
-31,Training,6
-32,Técnico,6
-33,Otro,6
-34,Diseñador,7
-35,Marketing,7
-36,Training,7
-37,Técnico,7
-38,Otro,7
-39,Diseñador de infografías,8
-40,Marketing,8
-41,Journalist editor,8
-42,Otro,8
-43,Diseñador de infografías,9
-44,Marketing,9
-45,Editor,9
-46,Otro,9
-47,Diseñador,10
-48,Marketing,10
-49,Training,10
-50,Otro,10
+1,Teacher,1
+2,Student,1
+3,Admin - Technician,1
+4,Other,1
+51,Teacher,11
+52,Student,11
+53,Admin - Technician,11
+54,Other,11
+5,Teacher,2
+6,Student,2
+7,Admin - Technician,2
+8,Designer,2
+9,Marketing and Communication,2
+10,Other,2
+11,Teacher,3
+12,Student,3
+13,Admin - Technician,3
+14,Designer,3
+15,Marketing and Communication,3
+16,Other,3
+17,Designer,4
+18,Marketing and Communication,4
+19,Trainer,4
+20,Admin - Technician,4
+21,Sales,4
+22,Other,4
+23,Designer,5
+24,Marketing and Communication,5
+25,Trainer,5
+26,Admin - Technician,5
+27,Sales,5
+28,Other,5
+29,Designer,6
+30,Marketing and Communication,6
+31,Trainer,6
+32,Admin - Technician,6
+33,Other,6
+34,Designer,7
+35,Marketing and Communication,7
+36,Trainer,7
+37,Admin - Technician,7
+38,Other,7
+39,Designer,8
+40,Marketing and Communication,8
+41,Journalist - Editor,8
+42,Other,8
+43,Designer,9
+44,Marketing and Communication,9
+45,Journalist - Editor,9
+46,Other,9
+47,Designer,10
+48,Marketing and Communication,10
+49,Trainer,10
+50,Other,10

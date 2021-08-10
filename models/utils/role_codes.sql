@@ -3,7 +3,11 @@ with new_role_codes as (
 ),
 
 old_role_codes as (
-    select * from {{ ref('old_role_codes') }}
+    select
+        role_id,
+        concat(role_name, ' (old)') as role_name,
+        sector_id
+    from {{ ref('old_role_codes') }}
 ),
 
 final as (
