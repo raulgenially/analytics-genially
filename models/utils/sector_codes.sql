@@ -3,7 +3,11 @@ with new_sector_codes as (
 ),
 
 old_sector_codes as (
-    select * from {{ ref('old_sector_codes') }}
+    select
+        sector_id,
+        concat(sector_name, ' (old)') as sector_name,
+        {{ map_old_sector_category('category') }} as category
+    from {{ ref('old_sector_codes') }}
 ),
 
 final as (
