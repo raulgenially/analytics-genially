@@ -26,4 +26,3 @@ models:
                 to: ref('src_genially_users')
                 field: user_id
                 severity: warn
-                
