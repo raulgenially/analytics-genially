@@ -4,7 +4,7 @@ models:
     - name: src_genially_social
       description: Users Social Profiles
       columns:
-        - name: socialprofile_id
+        - name: social_profile_id
           description: Primary key for the social profiles.
           tests:
             - unique
@@ -15,7 +15,7 @@ models:
           tests:
             - not_null
         
-        - name: social_profiile_name
+        - name: social_profile_name
           description: Social Profiles alias & URL.
 
         - name: user_id

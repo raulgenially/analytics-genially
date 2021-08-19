@@ -4,10 +4,11 @@ with social as (
 
 final as (
     select
-        _id as socialprofile_id,
+        _id as social_profile_id,
+
+        name as social_profile_name,
 
         ifnull(active, false) as is_active,
-        name as social_profiile_name,
         
         iduser as user_id,
    

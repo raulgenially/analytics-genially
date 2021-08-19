@@ -49,4 +49,3 @@ sources:
               description: Id User of the social profile.
               tests:
                 - unique
-                - not_null
