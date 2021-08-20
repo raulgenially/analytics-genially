@@ -13,7 +13,7 @@ final as (
         iduser as user_id,
    
     from social
-    where __hevo__marked_deleted = False
+    where __hevo__marked_deleted = false
 )
 
 select * from final

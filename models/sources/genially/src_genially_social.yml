@@ -21,6 +21,7 @@ models:
         - name: user_id
           description: Creator's User Id of the social profile.
           tests:
+            - unique
             - not_null
             - relationships:
                 to: ref('src_genially_users')
