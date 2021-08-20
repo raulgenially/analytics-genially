@@ -36,3 +36,16 @@ sources:
               tests:
                 - unique
                 - not_null
+                
+        - name: social
+          description: Users Social Profiles information
+          columns:
+            - name: _id
+              description: Primary key for social profiles.
+              tests:
+                - unique
+                - not_null
+            - name: iduser
+              description: Id User of the social profile.
+              tests:
+                - unique
