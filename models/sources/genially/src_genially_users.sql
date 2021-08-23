@@ -21,7 +21,7 @@ final as (
         coalesce(role_codes.role_name, '{{ not_select }}') as role,	
         username,
         nickname,	
-        email,
+        lower(email) as email,
         case 
             when country = 'GB' 
                 then 'UK' 
@@ -50,7 +50,8 @@ final as (
         on users.newsector = sector_codes.sector_id
     left join role_codes
         on users.newrole = role_codes.role_id
-    where __hevo__marked_deleted = False
+    where __hevo__marked_deleted = false
+        and email is not null
 )
 
 select * from final

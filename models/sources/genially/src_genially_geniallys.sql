@@ -11,7 +11,7 @@ final as (
         name,
         tags, 
         description,
-        friendlyurl as friendly_url, -- url used for the view social
+        friendlyurl as friendly_url, -- url used for the social view
 
         ifnull(published, false) as is_published,
         ifnull(deleted, false) as is_deleted,
@@ -26,7 +26,7 @@ final as (
                         else ifnull(showinsocialprofile, false)
                     end
             else false
-        end as is_in_social_profile, -- concept different from view social // currently in BETA
+        end as is_in_social_profile, -- concept different from social view // currently in BETA
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
 
