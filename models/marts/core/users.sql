@@ -24,6 +24,7 @@ final as (
         users.user_id,
 
         users.subscription_plan as plan,
+        users.email,
         users.sector,
         users.role,
         users.country as market,

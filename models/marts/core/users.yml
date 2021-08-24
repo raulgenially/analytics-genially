@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: users
       columns:
         - name: user_id
@@ -15,6 +15,11 @@ models:
             - not_null
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
+        - name: email
+          description: Email of the user.
+          tests:
+            - not_null
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
