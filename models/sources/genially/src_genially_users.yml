@@ -34,7 +34,9 @@ models:
           description: Nickname.
 
         - name: email
-          description: Email account.
+          description: Email account (same as username).
+          tests:
+            - not_null
 
         - name: country
           description: Country (ISO code).

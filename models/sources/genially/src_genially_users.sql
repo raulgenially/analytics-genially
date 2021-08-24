@@ -13,32 +13,32 @@ role_codes as (
 ),
 
 final as (
-    select 
+    select
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
-        coalesce(sector_codes.sector_name, '{{ not_select }}') as sector,	
-        coalesce(role_codes.role_name, '{{ not_select }}') as role,	
+        coalesce(sector_codes.sector_name, '{{ not_select }}') as sector,
+        coalesce(role_codes.role_name, '{{ not_select }}') as role,
         username,
-        nickname,	
-        email,
-        case 
-            when country = 'GB' 
-                then 'UK' 
+        nickname,
+        lower(email) as email,
+        case
+            when country = 'GB'
+                then 'UK'
             when country = '' or country is null
                 then '{{ not_select }}'
             else country
         end as country,
-        city,	
-        logins,	
-        language,		
-        organization,		
+        city,
+        logins,
+        language,
+        organization,
         socialmedia as social_media_accounts,
         summary,
 
         ifnull(validated, False) as is_validated,
 
-        idanalytics	as analytics_id,
+        idanalytics as analytics_id,
 
         -- First valid registration date is 2015-02-23T13:27:13 (as of 2021-07-15)
         if(dateregister >= '2015-02-23', dateregister, null) as registered_at,
@@ -46,11 +46,12 @@ final as (
         if(lastaccesstime >= '2016-06-02', lastaccesstime, null) as last_access_at
 
     from users
-    left join sector_codes 
+    left join sector_codes
         on users.newsector = sector_codes.sector_id
     left join role_codes
         on users.newrole = role_codes.role_id
-    where __hevo__marked_deleted = False
+    where __hevo__marked_deleted = false
+        and email is not null
 )
 
 select * from final
