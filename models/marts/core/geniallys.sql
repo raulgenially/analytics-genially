@@ -25,7 +25,8 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
-        if(collaboratives.genially_id is not null, true, false) as is_collaborative,
+        if(geniallys.genially_id in 
+            (select genially_id from collaboratives), true, false) as is_collaborative,
         -- In some cases creation date < registration date
         case
             when geniallys.created_at is null or users.registered_at is null
@@ -54,8 +55,6 @@ final as (
     from geniallys
     left join users
         on geniallys.user_id = users.user_id
-    left join collaboratives
-        on geniallys.genially_id = collaboratives.genially_id
 )
 
 select * from final

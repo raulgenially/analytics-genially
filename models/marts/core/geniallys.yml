@@ -9,6 +9,13 @@ models:
             - unique
             - not_null
 
+        - name: genially_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
         - name: origin
           description: Genially origin.
           tests:

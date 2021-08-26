@@ -35,7 +35,10 @@ models:
           description: Email account (same as username).
           tests:
             - not_null
-            
+
+        - name: social_profile_name
+          description: Social Profiles alias & URL. 
+
         - name: n_total_creations
           description: Total number of creations (including those that has been removed).
           tests:
@@ -56,8 +59,18 @@ models:
           tests:
             - not_null
 
+        - name: is_social_profile_active
+          description: Whether the user's social profile is active or not.
+          tests:
+            - not_null
+
         - name: is_collaborator
           description: Whether the user forms part of a collaboration, regardless of whether or not they are owner.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_published_creation
+          description: Whether the user forms part of a collaboration that is published, regardless of whether or not they are owner.
           tests:
             - not_null
 
