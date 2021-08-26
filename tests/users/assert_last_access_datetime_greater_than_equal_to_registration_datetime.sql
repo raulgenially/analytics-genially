@@ -6,7 +6,11 @@
   )
 }}
 
-with final as (
+with users as (
+  select * from {{ ref('users') }}
+),
+
+final as (
     select
         user_id,
         plan, 
@@ -17,7 +21,7 @@ with final as (
         registered_at, 
         last_access_at
 
-    from {{ ref('users') }}
+    from users
     where last_access_at < registered_at
 )
 

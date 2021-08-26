@@ -27,7 +27,12 @@ models:
         - name: user_id
           description: Id of a user taking part of the collaboration. 
             You can send an invitation to people who is not registered, so this field is empty.
-      
+          tests:
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
+                severity: warn 
+
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
           tests:

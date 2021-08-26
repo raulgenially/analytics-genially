@@ -16,7 +16,7 @@ final as (
         ifnull(published, false) as is_published,
         ifnull(deleted, false) as is_deleted,
         ifnull(noindex, false) as is_private,
-        ifnull(public, false) as is_password_free, -- TODO review the name
+        ifnull(public, false) as is_password_free,
         case 
             when published is true and ifnull(noindex, false) is false
                 then 
@@ -26,7 +26,7 @@ final as (
                         else ifnull(showinsocialprofile, false)
                     end
             else false
-        end as is_in_social_profile, -- concept different from social view // currently in BETA
+        end as is_in_social_profile, -- concept different from social view
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
 
