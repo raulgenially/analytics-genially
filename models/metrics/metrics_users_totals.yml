@@ -42,7 +42,7 @@ models:
           tests:
             - not_null
 
-        - name: n_published_creations
+        - name: n_active_published_creations
           description: Total number of published creations (excluding those that has been removed).
           tests:
             - not_null
