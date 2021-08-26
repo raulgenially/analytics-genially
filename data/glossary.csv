@@ -1,4 +1,5 @@
 term,definition
 Active creation,Creation that has not been removed by the user (it shows up in user's panel)
-Active user,User that has logged in within the last 90 days
-Heavy user,User with more than five creations
+Creator,Registered user that has initiated a creation (active or not). A user forming part of a collaboration (active or not) is also considered as a creator.
+Publisher,Registered user that has published a creation (active or not). A user forming part of a published collaboration (active or not) is also considered as a publisher. 
+Promoter,Registered user that has published a creation (active or not) in their social profile (active or not). A user forming part of a collaboration (active or not) in owner's social profile (active or not) is also considered as a promoter.
