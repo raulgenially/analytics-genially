@@ -14,9 +14,9 @@ final as (
 
         -- Metrics
         count(user_id) as n_registered_users,
-        countif({{ define_activated_user() }}) as n_activated_users,
-        countif({{ define_active_user() }}) as n_active_users,
-        countif({{ define_promoter_user() }}) as n_promoter_users,
+        countif({{ define_creator() }}) as n_creators,
+        countif({{ define_publisher() }}) as n_publishers,
+        countif({{ define_promoter() }}) as n_promoters,
 
     from users
     where date(registered_at) >= date(2019, 1, 1)

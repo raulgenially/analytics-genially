@@ -50,7 +50,17 @@ models:
             - not_null
 
         - name: n_published_creations
+          description: Total number of published creations (including those that has been removed).
+          tests:
+            - not_null
+
+        - name: n_active_published_creations
           description: Total number of published creations (excluding those that has been removed).
+          tests:
+            - not_null
+
+        - name: n_creations_in_social_profile
+          description: Total number of creations that have been published in user's social profile (including those that has been removed).
           tests:
             - not_null
 
@@ -65,12 +75,17 @@ models:
             - not_null
 
         - name: is_collaborator
-          description: Whether the user forms part of a collaboration, regardless of whether or not they are owner.
+          description: Whether the user forms part of a collaboration (deleted or not), regardless of whether or not they are owner.
           tests:
             - not_null
 
         - name: is_collaborator_of_published_creation
-          description: Whether the user forms part of a collaboration that is published, regardless of whether or not they are owner.
+          description: Whether the user forms part of a collaboration that has been published (deleted or not), regardless of whether or not they are owner.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_in_social_profile
+          description: Whether the user forms part of a collaboration that has been published in owner's social profile, regardless of whether or not they are owner.
           tests:
             - not_null
 

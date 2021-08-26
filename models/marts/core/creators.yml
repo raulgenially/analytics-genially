@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: creators
+    description: Users that have initiated at some point a Genially (including users that act as collaborators).
+      This model is a filtered version of the users model and contains the same fields.
