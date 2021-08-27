@@ -96,6 +96,21 @@ models:
           tests:
             - not_null
 
+        - name: has_creation_visualized_last_90_days
+          description: Whether the user has a genially visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: has_creation_visualized_last_60_days
+          description: Whether the user has a genially visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: has_creation_visualized_last_30_days
+          description: Whether the user has a genially visualized within the last 30 days.
+          tests:
+            - not_null
+
         - name: registered_at
           description: Registration date.
 

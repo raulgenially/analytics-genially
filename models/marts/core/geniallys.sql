@@ -25,6 +25,9 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
+        is_visualized_last_90_days,
+        is_visualized_last_60_days,
+        is_visualized_last_30_days,
         if(geniallys.genially_id in 
             (select genially_id from collaboratives), true, false) as is_collaborative,
         -- In some cases creation date < registration date

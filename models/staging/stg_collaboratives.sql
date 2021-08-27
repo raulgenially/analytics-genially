@@ -17,6 +17,9 @@ final as (
         geniallys.is_published,
         geniallys.is_deleted,
         geniallys.is_in_social_profile,
+        geniallys.is_visualized_last_90_days,
+        geniallys.is_visualized_last_60_days,
+        geniallys.is_visualized_last_30_days,
         users.is_social_profile_active as is_owner_social_profile_active,
 
         collaboratives.genially_id,        

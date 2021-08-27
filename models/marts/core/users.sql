@@ -18,7 +18,10 @@ users_creations as (
         countif(is_published = true) as n_published_creations,
         countif(is_deleted = false and is_published = true) as n_active_published_creations,
         countif(is_in_social_profile = true) as n_creations_in_social_profile,
-        countif(is_deleted = false and is_in_social_profile = true) as n_active_creations_in_social_profile
+        countif(is_deleted = false and is_in_social_profile = true) as n_active_creations_in_social_profile,
+        max(is_visualized_last_90_days) as has_creation_visualized_last_90_days,
+        max(is_visualized_last_60_days) as has_creation_visualized_last_60_days,
+        max(is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
     group by 1
@@ -69,6 +72,10 @@ final as (
             or users.user_id in (select user_owner_id from publisher_collaboratives), true, false) as is_collaborator_of_published_creation,
         if(users.user_id in (select user_id from publisher_collaboratives_in_social_profile) 
             or users.user_id in (select user_owner_id from publisher_collaboratives_in_social_profile), true, false) as is_collaborator_of_creation_in_social_profile,
+        ifnull(has_creation_visualized_last_90_days, false) as has_creation_visualized_last_90_days,
+        ifnull(has_creation_visualized_last_90_days, false) as has_creation_visualized_last_60_days,
+        ifnull(has_creation_visualized_last_90_days, false) as has_creation_visualized_last_30_days,
+        
         users.registered_at,
         users.last_access_at
 
