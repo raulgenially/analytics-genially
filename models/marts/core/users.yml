@@ -45,7 +45,7 @@ models:
             - not_null
 
         - name: n_active_creations
-          description: Total number of active creations (excluding those that has been removed).
+          description: Total number of active creations, that is, creations that have not been removed.
           tests:
             - not_null
 
@@ -55,12 +55,18 @@ models:
             - not_null
 
         - name: n_active_published_creations
-          description: Total number of published creations (excluding those that has been removed).
+          description: Total number of published creations that are active.
           tests:
             - not_null
 
         - name: n_creations_in_social_profile
-          description: Total number of creations that have been published in user's social profile (including those that has been removed).
+          description: Total number of creations that have been published in user's social profile at some point.
+          tests:
+            - not_null
+
+        - name: n_active_creations_in_social_profile
+          description: Total number of creations that have been published in user's social profile and are active. 
+            Note that the user's social profile might not be currently active (see is_social_profile_active field).
           tests:
             - not_null
 
@@ -75,17 +81,18 @@ models:
             - not_null
 
         - name: is_collaborator
-          description: Whether the user forms part of a collaboration (deleted or not), regardless of whether or not they are owner.
+          description: Whether the user forms part of a collaboration (active or not). The user might be or not the owner.
           tests:
             - not_null
 
         - name: is_collaborator_of_published_creation
-          description: Whether the user forms part of a collaboration that has been published (deleted or not), regardless of whether or not they are owner.
+          description: Whether the user forms part of a collaboration (active or not) that has been published at some point. The user might be or not the owner.
           tests:
             - not_null
 
         - name: is_collaborator_of_creation_in_social_profile
-          description: Whether the user forms part of a collaboration that has been published in owner's social profile, regardless of whether or not they are owner.
+          description: Whether the user forms part of a collaboration (active or not) that has been published in owner's social profile at some point. The user might be or not the owner.
+            Owner's social profile might not be currently active.
           tests:
             - not_null
 

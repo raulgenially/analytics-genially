@@ -17,7 +17,8 @@ users_creations as (
         countif(is_deleted = false) as n_active_creations,
         countif(is_published = true) as n_published_creations,
         countif(is_deleted = false and is_published = true) as n_active_published_creations,
-        countif(is_in_social_profile = true) as n_creations_in_social_profile
+        countif(is_in_social_profile = true) as n_creations_in_social_profile,
+        countif(is_deleted = false and is_in_social_profile = true) as n_active_creations_in_social_profile
 
     from geniallys
     group by 1
@@ -57,6 +58,7 @@ final as (
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
         coalesce(users_creations.n_active_published_creations, 0) as n_active_published_creations,
         coalesce(users_creations.n_creations_in_social_profile, 0) as n_creations_in_social_profile,
+        coalesce(users_creations.n_active_creations_in_social_profile, 0) as n_active_creations_in_social_profile,
 
         users.is_validated,
         users.is_social_profile_active,
