@@ -40,6 +40,7 @@ publisher_collaboratives_in_social_profile as (
 
     from collaboratives
     where is_in_social_profile = true
+        and is_owner_social_profile_active = true
 
 ),
 
