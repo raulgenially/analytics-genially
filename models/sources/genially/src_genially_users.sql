@@ -22,13 +22,7 @@ final as (
         username,
         nickname,
         lower(email) as email,
-        case
-            when country = 'GB'
-                then 'UK'
-            when country = '' or country is null
-                then '{{ not_select }}'
-            else country
-        end as country,
+        {{ clean_country_code('country') }} as country,
         city,
         logins,
         language,
