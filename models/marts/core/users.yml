@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: users
       columns:
         - name: user_id
