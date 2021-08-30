@@ -1,6 +1,6 @@
 term,definition
 Active creation,Creation that has not been removed by the user (it shows up in user's panel)
-Creator,User that has initiated a creation (which can be or not active for the time being). A User forming part of a collaboration (active or not) is also considered as a creator.
-Publisher,User that has published a creation (which can be or not active for the time being). A User forming part of a published collaboration (active or not) is also considered as a publisher. 
+Creator,User that has initiated a creation (which can be or not active for the time being). A user forming part of a collaboration (active or not) is also considered as a creator.
+Publisher,User that has published a creation (which can be or not active for the time being). A user forming part of a published collaboration (active or not) is also considered as a publisher. 
 Active user,User that has accessed their panel within the last 30/60/90 days or has a creation visualized within the last 30/60/90 days. A user forming part of a collaboration visualized within the last 30/60/90 days is also considered as an active user.
 Promoter,User with social profile active and that has published a creation (which can be active or not for the time being) in their social profile. A user forming part of a published collaboration (active or not) in owner's social profile is also considered as a promoter. Owner's social profile must be active too.
