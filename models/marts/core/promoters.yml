@@ -2,5 +2,5 @@ version: 2
 
 models:
   - name: promoters
-    description: Users that have published at some point a creation in their social profile (including users that act as collaborators).
+    description: see glossary.csv
       This model is a filtered version of the users model and contains the same fields.

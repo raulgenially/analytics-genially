@@ -111,6 +111,21 @@ models:
           tests:
             - not_null
 
+        - name: is_collaborator_of_creation_visualized_last_90_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_visualized_last_60_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_visualized_last_30_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 30 days.
+          tests:
+            - not_null
+
         - name: registered_at
           description: Registration date.
 
