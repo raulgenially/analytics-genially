@@ -18,10 +18,10 @@ final as (
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
         case 
-            when published is true and ifnull(noindex, false) is false
+            when published = true and ifnull(noindex, false) = false
                 then 
                     case 
-                        when showinsocialprofile is null and reusable is true
+                        when showinsocialprofile is null and reusable = true
                             then true
                         else ifnull(showinsocialprofile, false)
                     end
