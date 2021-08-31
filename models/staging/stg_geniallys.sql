@@ -25,6 +25,8 @@ final as (
                 'Other'
         end as origin,
         {{ map_genially_category('templates.template_type', 'geniallys.genially_type') }} as category, -- TODO review mapping
+        templates.template_type,
+        templates.name as template_name,
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -36,12 +38,10 @@ final as (
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 90) }} as is_visualized_last_90_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 60) }} as is_visualized_last_60_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 30) }} as is_visualized_last_30_days,
-               
+        
         geniallys.user_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
-        templates.template_type,
-        templates.name as template_name,
         
         geniallys.modified_at,
         geniallys.created_at,

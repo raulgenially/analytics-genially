@@ -40,7 +40,7 @@ models:
           description: Social Profiles alias & URL. 
 
         - name: n_total_creations
-          description: Total number of creations (including those that has been removed).
+          description: Total number of creations (including those that have been removed).
           tests:
             - not_null
 
@@ -50,7 +50,7 @@ models:
             - not_null
 
         - name: n_published_creations
-          description: Total number of published creations (including those that has been removed).
+          description: Total number of published creations (including those that have been removed).
           tests:
             - not_null
 
