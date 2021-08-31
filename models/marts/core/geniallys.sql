@@ -24,6 +24,8 @@ final as (
         geniallys.plan as genially_plan,
         geniallys.origin,
         geniallys.category,
+        geniallys.template_type,
+        geniallys.template_name,
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -32,9 +34,9 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
-        is_visualized_last_90_days,
-        is_visualized_last_60_days,
-        is_visualized_last_30_days,
+        geniallys.is_visualized_last_90_days,
+        geniallys.is_visualized_last_60_days,
+        geniallys.is_visualized_last_30_days,
         if(geniallys_collaboratives.genially_id is not null, true, false) as is_collaborative,
         -- In some cases creation date < registration date
         case
@@ -42,13 +44,11 @@ final as (
                 then null
             else geniallys.created_at < users.registered_at
         end as is_created_before_registration,
+        if(users.user_id is not null, true, false) as is_from_current_user,
 
         geniallys.user_id,
-        if(users.user_id is not null, true, false) as is_from_current_user,
         geniallys.reused_from_id,
         geniallys.from_template_id,
-        geniallys.template_type,
-        geniallys.template_name,
 
         geniallys.modified_at,
         geniallys.created_at,
