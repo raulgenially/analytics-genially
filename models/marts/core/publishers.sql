@@ -10,7 +10,7 @@ with users as (
 
 final as (
     select * from users
-    where {{ define_activated_user() }}
+    where {{ define_publisher() }}
 )
 
 select * from final

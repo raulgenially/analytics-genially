@@ -16,11 +16,6 @@ models:
             - accepted_values:
                 values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
 
-        - name: email
-          description: Email of the user.
-          tests:
-            - not_null
-
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
@@ -36,28 +31,98 @@ models:
           tests:
             - not_null
 
+        - name: email
+          description: Email account (same as username).
+          tests:
+            - not_null
+
+        - name: social_profile_name
+          description: Social Profiles alias & URL. 
+
         - name: n_total_creations
-          description: Total number of creations (including those that has been removed).
+          description: Total number of creations (including those that have been removed).
           tests:
             - not_null
 
         - name: n_active_creations
-          description: Total number of active creations (excluding those that has been removed).
+          description: Total number of active creations, that is, creations that have not been removed.
           tests:
             - not_null
 
         - name: n_published_creations
-          description: Total number of published creations (excluding those that has been removed).
+          description: Total number of published creations (including those that have been removed).
           tests:
             - not_null
 
-        - name: n_collaborative_published_creations
-          description: Total number of collaborative published creations (excluding those that has been removed).
+        - name: n_active_published_creations
+          description: Total number of published creations that are active.
+          tests:
+            - not_null
+
+        - name: n_creations_in_social_profile
+          description: Total number of creations that have been published in user's social profile at some point.
+          tests:
+            - not_null
+
+        - name: n_active_creations_in_social_profile
+          description: Total number of creations that have been published in user's social profile and are active. 
+            Note that the user's social profile might not be currently active (see is_social_profile_active field).
           tests:
             - not_null
 
         - name: is_validated
           description: Whether the user has validated their account.
+          tests:
+            - not_null
+
+        - name: is_social_profile_active
+          description: Whether the user's social profile is active or not.
+          tests:
+            - not_null
+
+        - name: is_collaborator
+          description: Whether the user forms part of a collaboration (active or not). The user might be or not the owner.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_published_creation
+          description: Whether the user forms part of a collaboration (active or not) that has been published at some point. The user might be or not the owner.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_in_social_profile
+          description: Whether the user forms part of a collaboration (active or not) that has been published in owner's social profile at some point. The user might be or not the owner.
+            This field can be only true for owners with social profile active.
+          tests:
+            - not_null
+
+        - name: has_creation_visualized_last_90_days
+          description: Whether the user has a genially visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: has_creation_visualized_last_60_days
+          description: Whether the user has a genially visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: has_creation_visualized_last_30_days
+          description: Whether the user has a genially visualized within the last 30 days.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_visualized_last_90_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_visualized_last_60_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_collaborator_of_creation_visualized_last_30_days
+          description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 30 days.
           tests:
             - not_null
 

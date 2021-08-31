@@ -1,8 +1,13 @@
 -- Info as to plan in both geniallys and users should match.
-{{ config(severity = 'warn') }} -- Until we know how to fix this
+-- Until we know how to fix this.
+{{
+  config(
+    severity='warn' 
+  )
+}}
 
 with geniallys as (
-    select * from {{ ref('stg_geniallys') }}
+    select * from {{ ref('geniallys') }}
 ),
 
 final as (
@@ -12,12 +17,10 @@ final as (
         genially_plan,
         user_plan,
         created_at,
-        user_registered_at
 
     from geniallys
     where genially_plan != user_plan 
         and is_deleted = false
-    order by user_registered_at desc
 )
 
 select * from final

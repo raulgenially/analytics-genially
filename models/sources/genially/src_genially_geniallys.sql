@@ -11,22 +11,22 @@ final as (
         name,
         tags, 
         description,
-        friendlyurl as friendly_url, -- url used for the view social
+        friendlyurl as friendly_url, -- url used for the social view
 
         ifnull(published, false) as is_published,
         ifnull(deleted, false) as is_deleted,
         ifnull(noindex, false) as is_private,
-        ifnull(public, false) as is_password_free, -- TODO review the name
+        ifnull(public, false) as is_password_free,
         case 
-            when published is true and ifnull(noindex, false) is false
+            when published = true and ifnull(noindex, false) = false
                 then 
                     case 
-                        when showinsocialprofile is null and reusable is true
+                        when showinsocialprofile is null and reusable = true
                             then true
                         else ifnull(showinsocialprofile, false)
                     end
             else false
-        end as is_in_social_profile, -- concept different from view social // currently in BETA
+        end as is_in_social_profile, -- concept different from social view
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
 

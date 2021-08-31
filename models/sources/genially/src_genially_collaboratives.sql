@@ -12,7 +12,8 @@ with collaboratives as (
         createat as created_at
 
     from {{ source('genially', 'collaborative') }}
-    where __hevo__marked_deleted = False
+    where __hevo__marked_deleted = false
+        and email is not null
 )
 
 select * from collaboratives

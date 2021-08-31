@@ -17,7 +17,8 @@ final as (
         users.user_id as user_id
         
     from geniallys
-    left join users on geniallys.user_id = users.user_id
+    left join users 
+        on geniallys.user_id = users.user_id
     where geniallys.is_from_current_user = true 
         and users.user_id is null
 )

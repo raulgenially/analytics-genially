@@ -35,7 +35,7 @@ models:
         - name: is_new
           description: Whether the template is new.
 
-        - name: are_slides_selectable
+        - name: has_slides_selectable
           description: Whether you can select specific slides when using the template.
 
         - name: genially_id

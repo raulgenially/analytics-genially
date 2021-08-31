@@ -9,6 +9,13 @@ models:
             - unique
             - not_null
 
+        - name: genially_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+
         - name: origin
           description: Genially origin.
           tests:
@@ -20,6 +27,12 @@ models:
           description: Genially category.
           tests:
             - not_null
+
+        - name: template_type
+          description: Template type that the genially is based on, if any.
+
+        - name: template_name
+          description: Name of the template.
 
         - name: is_published
           description: Whether the genially has been published.
@@ -56,6 +69,21 @@ models:
           tests:
             - not_null
 
+        - name: is_visualized_last_90_days
+          description: Whether the genially has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_60_days
+          description: Whether the genially has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_30_days
+          description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
+
         - name: is_collaborative
           description: Whether the genially is collaborative.
           tests:
@@ -64,17 +92,21 @@ models:
         - name: is_created_before_registration
           description: Whether the genially has been created before registration date.
 
+        - name: is_from_current_user
+          description: Whether the genially belongs to a non-deleted user.
+          tests:
+            - not_null
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+  
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 
         - name: from_template_id
           description: Id of the template used for the creation of the genially.
-
-        - name: template_type
-          description: Template type that the genially is based on, if any.
-
-        - name: template_name
-          description: Name of the template.
 
         - name: modified_at
           description: Modification date.
@@ -92,17 +124,7 @@ models:
 
         - name: deleted_at
           description: Deletion date.
-
-        - name: user_id
-          description: Foreign key referring to the user creating the genially.
-          tests:
-            - not_null
-
-        - name: is_from_current_user
-          description: Whether the genially belongs to a current user.
-          tests:
-            - not_null
-                    
+                   
         - name: user_plan
           description: "{{ doc('subscription_codes') }}"
         
