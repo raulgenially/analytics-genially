@@ -10,6 +10,13 @@ collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
 ),
 
+geniallys_collaboratives as (
+    select
+        distinct genially_id
+    
+    from collaboratives
+),
+
 final as (
     select
         geniallys.genially_id,
@@ -28,8 +35,7 @@ final as (
         is_visualized_last_90_days,
         is_visualized_last_60_days,
         is_visualized_last_30_days,
-        if(geniallys.genially_id in 
-            (select genially_id from collaboratives), true, false) as is_collaborative,
+        if(geniallys_collaboratives.genially_id is not null, true, false) as is_collaborative,
         -- In some cases creation date < registration date
         case
             when geniallys.created_at is null or users.registered_at is null
@@ -58,6 +64,8 @@ final as (
     from geniallys
     left join users
         on geniallys.user_id = users.user_id
+    left join geniallys_collaboratives
+        on geniallys_collaboratives.genially_id = geniallys.genially_id
 )
 
 select * from final
