@@ -1,6 +1,5 @@
 -- Geniallys from current users should be present in users table
 -- That is, the foreign key should be valid for current users
-
 with geniallys as (
     select * from {{ ref('geniallys') }}
 ),

@@ -1,5 +1,4 @@
 -- Data relative to users should match the status of is_from_current_user
-
 with geniallys as (
     select * from {{ ref('geniallys') }}
 ),

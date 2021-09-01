@@ -1,6 +1,5 @@
 -- Make sure the different types of templates are considered during the mapping of genially category
 -- See macro "map_genially_category"
-
 with geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),

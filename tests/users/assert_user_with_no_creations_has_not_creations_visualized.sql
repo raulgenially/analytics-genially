@@ -1,5 +1,4 @@
 -- Fields has_creation_visualized_last_X_days should be false for users with 0 creations.
-
 with users as (
   select * from {{ ref('users') }}
 ),

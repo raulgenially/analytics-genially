@@ -1,5 +1,4 @@
 -- Fields related to collaboratives should make sense
-
 with users as (
   select * from {{ ref('users') }}
 ),
