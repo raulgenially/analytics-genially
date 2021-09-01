@@ -15,7 +15,7 @@ final as (
 
     from users
     left join country_codes
-        on country_codes.code = users.country
+        on users.country = country_codes.code
     where users.country != '{{ var('not_selected') }}' and country_codes.code is null
 )
 
