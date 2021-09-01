@@ -1,5 +1,3 @@
-{% set not_select = 'Not-selected' %}
-
 with users as (
     select * from {{ source('genially', 'users') }}
 ),
@@ -17,8 +15,8 @@ final as (
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
-        coalesce(sector_codes.sector_name, '{{ not_select }}') as sector,
-        coalesce(role_codes.role_name, '{{ not_select }}') as role,
+        coalesce(sector_codes.sector_name,'{{ var('not_selected') }}') as sector,
+        coalesce(role_codes.role_name, '{{ var('not_selected') }}') as role,
         username,
         nickname,
         lower(email) as email,
