@@ -33,16 +33,16 @@ models:
             - not_null
 
         - name: n_total_creations
-          description: Total number of creations (including those that has been removed).
+          description: Total number of creations (including those that have been removed).
           tests:
             - not_null
 
         - name: n_active_creations
-          description: Total number of active creations (excluding those that has been removed).
+          description: Total number of active creations, that is, creations that have not been removed by the user.
           tests:
             - not_null
 
         - name: n_active_published_creations
-          description: Total number of published creations (excluding those that has been removed).
+          description: Total number of published creations that are currently active.
           tests:
             - not_null

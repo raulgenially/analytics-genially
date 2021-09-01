@@ -38,7 +38,7 @@ models:
           tests:
             - not_null
 
-        - name: n_registered_users
+        - name: n_signups
           description: Total number of registered users.
           tests:
             - not_null
@@ -50,6 +50,21 @@ models:
 
         - name: n_publishers
           description: Total number of publishers.
+          tests:
+            - not_null
+
+        - name: n_active_users_90
+          description: Total number of active users considering 90 days as active period.
+          tests:
+            - not_null
+
+        - name: n_active_users_60
+          description: Total number of active users considering 60 days as active period.
+          tests:
+            - not_null
+
+        - name: n_active_users_30
+          description: Total number of active users considering 30 days as active period.
           tests:
             - not_null
 
