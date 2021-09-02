@@ -12,29 +12,37 @@ collaboratives as (
 
 users_creations as (
     select
-        user_id,
-        count(genially_id) as n_total_creations,
-        countif(is_deleted = false) as n_active_creations,
-        countif(is_published = true) as n_published_creations,
-        countif(is_deleted = false and is_published = true) as n_active_published_creations,
-        countif(is_in_social_profile = true) as n_creations_in_social_profile,
-        countif(is_deleted = false and is_in_social_profile = true) as n_active_creations_in_social_profile,
+        geniallys.user_id,
+        count(geniallys.genially_id) as n_total_creations,
+        countif(geniallys.is_deleted = false) as n_active_creations,
+        countif(geniallys.is_published = true) as n_published_creations,
         countif(
-            is_deleted = false
-            and is_published = true
-            and is_collaborative = true
+            geniallys.is_deleted = false
+            and geniallys.is_published = true
+        ) as n_active_published_creations,
+        countif(geniallys.is_in_social_profile = true) as n_creations_in_social_profile,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_in_social_profile = true
+        ) as n_active_creations_in_social_profile,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_published = true
+            and collaboratives.genially_id is not null -- Check if the genially is collaborative.
         ) as n_active_collaborative_published_creations,
         countif(
-            is_deleted = false
-            and is_in_social_profile = true
-            and is_reusable = true
-        ) as n_active_reusable_creations_in_social_profile
+            geniallys.is_deleted = false
+            and geniallys.is_in_social_profile = true
+            and geniallys.is_reusable = true
+        ) as n_active_reusable_creations_in_social_profile,
 
-        max(is_visualized_last_90_days) as has_creation_visualized_last_90_days,
-        max(is_visualized_last_60_days) as has_creation_visualized_last_60_days,
-        max(is_visualized_last_30_days) as has_creation_visualized_last_30_days
+        max(geniallys.is_visualized_last_90_days) as has_creation_visualized_last_90_days,
+        max(geniallys.is_visualized_last_60_days) as has_creation_visualized_last_60_days,
+        max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
     group by 1
 ),
 

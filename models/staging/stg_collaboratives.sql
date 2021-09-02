@@ -12,7 +12,7 @@ users as (
 
 final as (
     select
-        collaboratives.collaborative_id, 
+        collaboratives.collaborative_id,
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -22,12 +22,12 @@ final as (
         geniallys.is_visualized_last_30_days,
         users.is_social_profile_active as is_owner_social_profile_active,
 
-        collaboratives.genially_id,        
+        collaboratives.genially_id,
         collaboratives.user_id,
         collaboratives.user_owner_id,
 
     from collaboratives
-    inner join geniallys 
+    inner join geniallys
         on collaboratives.genially_id = geniallys.genially_id
     left join users
         on collaboratives.user_owner_id = users.user_id

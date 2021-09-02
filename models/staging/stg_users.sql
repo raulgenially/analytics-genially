@@ -15,6 +15,9 @@ final as (
         users.role,
         users.country as market,
         users.email,
+        users.language,
+        users.summary,
+        users.social_media_accounts,
         social.social_profile_name,
 
         users.is_validated,
