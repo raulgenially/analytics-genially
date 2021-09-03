@@ -22,7 +22,7 @@ final as (
         countif({{ define_promoter() }}) as n_promoters,
 
     from users
-    where date(registered_at) >= date(2019, 1, 1)
+    where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
     group by 1, 2, 3, 4, 5, 6
     order by registered_at asc
 )
