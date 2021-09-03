@@ -42,9 +42,6 @@ models:
         - name: about_me
           description: Short description about the user (user defined).
 
-        - name: social_media_accounts
-          description: Linked social media accounts.
-
         - name: facebook_account
           description: Link to Facebook account.
 

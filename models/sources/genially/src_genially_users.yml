@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: src_genially_users
       description: Registered users.
       columns:
@@ -55,11 +55,23 @@ models:
         - name: organization
           description: Organization.
 
-        - name: social_media_accounts
-          description: Social media accounts.
+        - name: facebook_account
+          description: Link to Facebook account.
 
-        - name: summary
-          description: Summary.
+        - name: twitter_account
+          description: Link to Twitter account.
+
+        - name: youtube_account
+          description: Link to YouTube account.
+
+        - name: instagram_account
+          description: Link to Instagram account.
+
+        - name: linkedin_account
+          description: Link to LinkedIn account.
+
+        - name: about_me
+          description: Short description about the user (user defined).
 
         - name: is_validated
           description: Whether the user has validated their email.
@@ -71,6 +83,6 @@ models:
 
         - name: registered_at
           description: Registration date.
-        
+
         - name: last_access_at
           description: Last access date.

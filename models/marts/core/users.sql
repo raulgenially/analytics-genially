@@ -96,7 +96,6 @@ final as (
         users.email as email,
         users.language,
         users.about_me,
-        users.social_media_accounts,
         users.facebook_account,
         users.twitter_account,
         users.youtube_account,

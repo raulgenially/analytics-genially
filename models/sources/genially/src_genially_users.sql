@@ -33,14 +33,13 @@ final as (
         logins,
         language,
         organization,
-        socialmedia as social_media_accounts,
         json_extract_scalar(socialmedia, '$.facebook') as facebook_account,
         json_extract_scalar(socialmedia, '$.twitter') as twitter_account,
         json_extract_scalar(socialmedia, '$.youtube') as youtube_account,
         json_extract_scalar(socialmedia, '$.instagram') as instagram_account,
         json_extract_scalar(socialmedia, '$.linkedin') as linkedin_account,
 
-        summary,
+        summary as about_me,
 
         ifnull(validated, False) as is_validated,
 
