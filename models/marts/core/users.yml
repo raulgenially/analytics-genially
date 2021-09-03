@@ -36,9 +36,6 @@ models:
           tests:
             - not_null
 
-        - name: social_profile_name
-          description: Social Profiles alias & URL. 
-
         - name: language
           description: Language the Genially web interface is in.
 
@@ -47,6 +44,24 @@ models:
 
         - name: social_media_accounts
           description: Linked social media accounts.
+
+        - name: facebook_account
+          description: Link to Facebook account.
+
+        - name: twitter_account
+          description: Link to Twitter account.
+
+        - name: youtube_account
+          description: Link to YouTube account.
+
+        - name: instagram_account
+          description: Link to Instagram account.
+
+        - name: linkedin_account
+          description: Link to LinkedIn account.
+
+        - name: social_profile_name
+          description: Social Profiles alias & URL.
 
         - name: n_total_creations
           description: Total number of creations (including those that have been removed).
@@ -79,7 +94,7 @@ models:
             - not_null
 
         - name: n_active_creations_in_social_profile
-          description: Total number of creations that have been published in user's social profile and are active. 
+          description: Total number of creations that have been published in user's social profile and are active.
             Note that the user's social profile might not be currently active (see is_social_profile_active field).
           tests:
             - not_null
