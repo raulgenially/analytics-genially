@@ -93,7 +93,7 @@ final as (
         users.sector,
         users.role,
         users.market,
-        users.email as email,
+        users.email,
         users.language,
         users.about_me,
         users.facebook_account,

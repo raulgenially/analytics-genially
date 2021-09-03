@@ -38,7 +38,6 @@ final as (
         json_extract_scalar(socialmedia, '$.youtube') as youtube_account,
         json_extract_scalar(socialmedia, '$.instagram') as instagram_account,
         json_extract_scalar(socialmedia, '$.linkedin') as linkedin_account,
-
         summary as about_me,
 
         ifnull(validated, False) as is_validated,
