@@ -10,7 +10,7 @@ final as (
     select
         --- Genially fields
         geniallys.genially_id,
-        
+
         geniallys.subscription_plan as plan,
         case
             when geniallys.reused_from_id is not null
@@ -38,22 +38,22 @@ final as (
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 90) }} as is_visualized_last_90_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 60) }} as is_visualized_last_60_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 30) }} as is_visualized_last_30_days,
-        
+
         geniallys.user_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
-        
+
         geniallys.modified_at,
         geniallys.created_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
-      
+
     from geniallys
     left join templates
         on geniallys.from_template_id = templates.template_id
      -- Remove geniallys that are templates
-    where geniallys.genially_id not in (select genially_id from templates) 
+    where geniallys.genially_id not in (select genially_id from templates)
         and geniallys.genially_id not in (select genially_to_view_id from templates)
 )
 

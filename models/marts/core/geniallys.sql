@@ -13,7 +13,7 @@ collaboratives as (
 geniallys_collaboratives as (
     select
         distinct genially_id
-    
+
     from collaboratives
 ),
 
@@ -65,7 +65,7 @@ final as (
     left join users
         on geniallys.user_id = users.user_id
     left join geniallys_collaboratives
-        on geniallys.genially_id = geniallys_collaboratives.genially_id 
+        on geniallys.genially_id = geniallys_collaboratives.genially_id
 )
 
 select * from final

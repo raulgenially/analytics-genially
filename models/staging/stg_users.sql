@@ -15,6 +15,13 @@ final as (
         users.role,
         users.country as market,
         users.email,
+        users.language,
+        users.about_me,
+        users.facebook_account,
+        users.twitter_account,
+        users.youtube_account,
+        users.instagram_account,
+        users.linkedin_account,
         social.social_profile_name,
 
         users.is_validated,
