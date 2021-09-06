@@ -6,6 +6,24 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
+genially_templates as (
+    select
+        geniallys.genially_id,
+
+    from geniallys
+    inner join templates
+        on geniallys.genially_id = templates.genially_id
+),
+
+genially_templates_view as (
+    select
+        geniallys.genially_id,
+
+    from geniallys
+    inner join templates
+        on geniallys.genially_id = templates.genially_to_view_id
+),
+
 final as (
     select
         --- Genially fields
@@ -53,8 +71,12 @@ final as (
     left join templates
         on geniallys.from_template_id = templates.template_id
      -- Remove geniallys that are templates
-    where geniallys.genially_id not in (select genially_id from templates)
-        and geniallys.genially_id not in (select genially_to_view_id from templates)
+    left join genially_templates
+        on geniallys.genially_id = genially_templates.genially_id
+    left join genially_templates_view
+        on geniallys.genially_id = genially_templates_view.genially_id
+    where genially_templates.genially_id is null
+        and genially_templates_view.genially_id is null
 )
 
 select * from final
