@@ -1,6 +1,3 @@
--- This query is used here:
--- https://docs.google.com/spreadsheets/d/1I4tDFcdzNtstH8bknZ0HtbGpQNBiTabb5S-QfvZcm8c
-
 with users as (
     select * from {{ ref('users') }}
 )
