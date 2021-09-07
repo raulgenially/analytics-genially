@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: adhoc_all_social_profiles
+    description: Query to extract all users with social profiles.
+      This query is used in the following
+      [Google sheet](https://docs.google.com/spreadsheets/d/1xrRQ6yJKbL3eB9g8sh_YzLsHGGMEi0B89TSfB9dl1T4)
+
+  - name: adhoc_user_data_enrichment
+    description: Query to extract some metadata from the users.
+      This query is used in the following
+      [Google sheet](https://docs.google.com/spreadsheets/d/1I4tDFcdzNtstH8bknZ0HtbGpQNBiTabb5S-QfvZcm8c)
