@@ -4,7 +4,7 @@ with users as (
 
 select
   email as UserName,
-  CONCAT("https://view.genial.ly/profile/", social_profile_name) as URL,
+  concat("https://view.genial.ly/profile/", social_profile_name) as URL,
   is_social_profile_active as active,
   sector,
   market,

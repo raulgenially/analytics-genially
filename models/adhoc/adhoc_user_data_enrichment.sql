@@ -4,7 +4,7 @@ with users as (
 
 select
     email,
-    DATE(last_access_at) as last_access_at,
+    date(last_access_at) as last_access_at,
     plan,
     market,
     n_total_creations as total_creations
