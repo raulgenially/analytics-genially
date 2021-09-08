@@ -33,6 +33,7 @@ final as (
         on collaboratives.user_owner_id = users.user_id
     where collaboratives.user_owner_id = geniallys.user_id
         and collaboratives.user_id is not null
+        and users.user_id is not null
 )
 
 select * from final
