@@ -16,9 +16,6 @@ final as (
         count(user_id) as n_signups,
         countif({{ define_creator() }}) as n_creators,
         countif({{ define_publisher() }}) as n_publishers,
-        countif({{ define_active_user(active_period=90) }}) as n_active_users_90,
-        countif({{ define_active_user(active_period=60) }}) as n_active_users_60,
-        countif({{ define_active_user(active_period=30) }}) as n_active_users_30,
         countif({{ define_promoter() }}) as n_promoters,
 
     from users
