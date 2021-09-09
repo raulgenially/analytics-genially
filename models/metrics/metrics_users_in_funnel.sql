@@ -10,7 +10,7 @@ final as (
         {{ create_subscription_field('plan') }} as subscription,
         sector,
         role,
-        market,
+        country,
 
         -- Metrics
         count(user_id) as n_signups,

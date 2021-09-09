@@ -73,7 +73,7 @@ final as (
         users.plan,
         users.sector,
         users.role,
-        users.market,
+        users.country,
         users.email as email,
         users.social_profile_name,
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,

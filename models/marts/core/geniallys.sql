@@ -59,7 +59,7 @@ final as (
         users.plan as user_plan,
         users.sector as user_sector,
         users.role as user_role,
-        users.market as user_market
+        users.country as user_country
 
     from geniallys
     left join users

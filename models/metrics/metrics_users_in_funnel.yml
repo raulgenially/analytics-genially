@@ -33,7 +33,7 @@ models:
           tests:
             - not_null
 
-        - name: market
+        - name: country
           description: Country.
           tests:
             - not_null

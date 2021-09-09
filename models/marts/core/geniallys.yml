@@ -134,5 +134,5 @@ models:
         - name: user_role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
           
-        - name: user_market
+        - name: user_country
           description: Country.

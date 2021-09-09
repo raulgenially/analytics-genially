@@ -13,7 +13,7 @@ final as (
         users.subscription_plan as plan,
         users.sector,
         users.role,
-        users.country as market,
+        users.country,
         users.email,
         social.social_profile_name,
 
