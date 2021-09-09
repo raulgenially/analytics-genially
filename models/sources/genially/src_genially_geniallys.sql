@@ -9,7 +9,7 @@ final as (
         typegenially as genially_type,
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
         name,
-        tags, 
+        tags,
         description,
         friendlyurl as friendly_url, -- url used for the social view
 
@@ -17,10 +17,10 @@ final as (
         ifnull(deleted, false) as is_deleted,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
-        case 
+        case
             when published = true and ifnull(noindex, false) = false
-                then 
-                    case 
+                then
+                    case
                         when showinsocialprofile is null and reusable = true
                             then true
                         else ifnull(showinsocialprofile, false)
@@ -29,12 +29,14 @@ final as (
         end as is_in_social_profile, -- concept different from social view
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
+        ifnull(hasgeniallyanalytics, false) as has_genially_analytics,
 
         iduser as user_id,
         idanalytics as analytics_id,
-        reusedfrom as reused_from_id,        
+        reusedfrom as reused_from_id,
         idfromtemplate as from_template_id,
         idteam as team_id,
+        idspace as space_id,
         idteamtemplate as team_template_id,
         idfromteamtemplate as from_team_template_id,
 
@@ -44,7 +46,7 @@ final as (
         datepublished as published_at,
         lastview as last_view_at,
         datedeleted as deleted_at
-   
+
     from geniallys
     where __hevo__marked_deleted = false
 )

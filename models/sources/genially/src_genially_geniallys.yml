@@ -67,6 +67,11 @@ models:
           tests:
             - not_null
 
+        - name: has_genially_analytics
+          description: Whether the genially has tinybird analytics activated.
+          tests:
+            - not_null
+
         - name: user_id
           description: Foreign key referring to the user creating the genially.
           tests:
@@ -87,6 +92,9 @@ models:
 
         - name: team_id
           description: Id of the team possessing this genially.
+
+        - name: space_id
+          description: Id of the space this genially is part of.
 
         - name: team_template_id
           description: Id of the genially as a team template.
