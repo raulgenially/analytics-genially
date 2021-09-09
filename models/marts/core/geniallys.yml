@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: geniallys
       columns:
         - name: genially_id
@@ -14,14 +14,14 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+                values: "{{ get_plan_values() }}"
 
         - name: origin
           description: Genially origin.
           tests:
             - not_null
             - accepted_values:
-                values: ['Reusable', 'Template', 'From Scratch', 'PPTX Import', 'Other']
+                values: "{{ get_genially_origin_values() }}"
 
         - name: category
           description: Genially category.
@@ -38,7 +38,7 @@ models:
           description: Whether the genially has been published.
           tests:
             - not_null
-          
+
         - name: is_deleted
           description: Whether the genially has been deleted.
           tests:
@@ -53,7 +53,7 @@ models:
           description: Whether the genially has a an access password.
           tests:
             - not_null
-        
+
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile.
           tests:
@@ -101,7 +101,7 @@ models:
           description: Foreign key referring to the user creating the genially.
           tests:
             - not_null
-  
+
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 
@@ -124,15 +124,15 @@ models:
 
         - name: deleted_at
           description: Deletion date.
-                   
+
         - name: user_plan
           description: "{{ doc('subscription_codes') }}"
-        
+
         - name: user_sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
-        
+
         - name: user_role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
-          
+
         - name: user_market
           description: Country.

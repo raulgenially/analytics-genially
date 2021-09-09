@@ -1,0 +1,73 @@
+version: 2
+
+models:
+    - name: stg_collaboratives
+      description: Collaborative creations/geniallys by different users.
+      columns:
+        - name: collaborative_id
+          description: Primary key for collaboratives.
+          tests:
+            - unique
+            - not_null
+
+        - name: is_published
+          description: Whether the genially has been published.
+          tests:
+            - not_null
+
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
+
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_90_days
+          description: Whether the genially has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_60_days
+          description: Whether the genially has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_30_days
+          description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
+
+        - name: is_owner_social_profile_active
+          description: Whether the social profile of the owner is active.
+          tests:
+            - not_null
+
+        - name: genially_id
+          description: Id of the genially referring to the collaboration.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('stg_geniallys')
+                field: genially_id
+                severity: warn
+
+        - name: user_id
+          description: Id of a user taking part of the collaboration.
+            You can send an invitation to people who is not registered, so this field is empty.
+          tests:
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                severity: warn
+
+        - name: user_owner_id
+          description: Id of the user that is owner of the collaborative genially.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                severity: warn

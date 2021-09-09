@@ -29,7 +29,7 @@ final as (
     from collaboratives
     inner join geniallys
         on collaboratives.genially_id = geniallys.genially_id
-    left join users
+    inner join users
         on collaboratives.user_owner_id = users.user_id
     where collaboratives.user_owner_id = geniallys.user_id
         and collaboratives.user_id is not null
