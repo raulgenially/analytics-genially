@@ -3,6 +3,7 @@ with collaboratives as (
         _id as collaborative_id,
 
         email as user_email,
+        ifnull(collaborationtype, 1) as collaboration_type,
 
         idgenially as genially_id,
         iduser as user_id,
