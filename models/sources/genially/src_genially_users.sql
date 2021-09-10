@@ -25,11 +25,16 @@ final as (
         logins,
         language,
         organization,
+        -- socialmedia extraction
         json_extract_scalar(socialmedia, '$.facebook') as facebook_account,
         json_extract_scalar(socialmedia, '$.twitter') as twitter_account,
         json_extract_scalar(socialmedia, '$.youtube') as youtube_account,
         json_extract_scalar(socialmedia, '$.instagram') as instagram_account,
         json_extract_scalar(socialmedia, '$.linkedin') as linkedin_account,
+        -- emailvalidationtoken extraction
+        json_extract_scalar(emailvalidationtoken, '$.Token') as email_validation_token,
+        timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_date,
+        json_extract_scalar(emailvalidationtoken, '$.DurationInHours') as email_validation_duration,
         summary as about_me,
 
         ifnull(validated, False) as is_validated,
