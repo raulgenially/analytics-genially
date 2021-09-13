@@ -16,6 +16,9 @@ models:
             - accepted_values:
                 values: "{{ get_plan_values() }}"
 
+        - name: name
+          description: Genially name.
+
         - name: origin
           description: Genially origin.
           tests:
