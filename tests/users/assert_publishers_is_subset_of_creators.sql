@@ -12,7 +12,6 @@ final as (
         publishers.user_id as publishers_user_id,
         publishers.email,
         creators.user_id as creators_user_id,
-        creators.email
 
     from publishers
     left join creators

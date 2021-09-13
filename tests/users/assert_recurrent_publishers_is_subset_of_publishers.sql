@@ -12,7 +12,6 @@ final as (
         recurrent_publishers.user_id as recurrent_publishers_user_id,
         recurrent_publishers.email,
         publishers.user_id as publishers_user_id,
-        publishers.email
 
     from recurrent_publishers
     left join publishers
