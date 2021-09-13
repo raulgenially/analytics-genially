@@ -11,6 +11,8 @@ final as (
         sector,
         role,
         country,
+        {{ set_country_order('country') }} as country_order,
+
 
         -- Metrics
         count(user_id) as n_signups,

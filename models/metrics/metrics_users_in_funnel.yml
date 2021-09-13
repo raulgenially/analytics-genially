@@ -38,6 +38,12 @@ models:
           tests:
             - not_null
 
+        - name: country_order
+          description: Order established for the country according its importance for the stragey of the company.
+            For visualization purposes.
+          tests:
+            - not_null
+
         - name: n_signups
           description: Total number of signups.
           tests:
