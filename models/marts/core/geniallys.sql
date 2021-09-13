@@ -26,6 +26,10 @@ final as (
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
+        users.plan as user_plan,
+        users.sector as user_sector,
+        users.role as user_role,
+        users.market as user_market,
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -44,7 +48,6 @@ final as (
                 then null
             else geniallys.created_at < users.registered_at
         end as is_created_before_registration,
-        if(users.user_id is not null, true, false) as is_from_current_user,
 
         geniallys.user_id,
         geniallys.reused_from_id,
@@ -56,13 +59,8 @@ final as (
         geniallys.last_view_at,
         geniallys.deleted_at,
 
-        users.plan as user_plan,
-        users.sector as user_sector,
-        users.role as user_role,
-        users.market as user_market
-
     from geniallys
-    left join users
+    inner join users
         on geniallys.user_id = users.user_id
     left join geniallys_collaboratives
         on geniallys.genially_id = geniallys_collaboratives.genially_id

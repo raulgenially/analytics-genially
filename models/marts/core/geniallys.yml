@@ -34,6 +34,26 @@ models:
         - name: template_name
           description: Name of the template.
 
+        - name: user_plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+
+        - name: user_sector
+          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: user_role
+          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: user_market
+          description: Country.
+          tests:
+            - not_null
+
         - name: is_published
           description: Whether the genially has been published.
           tests:
@@ -92,15 +112,13 @@ models:
         - name: is_created_before_registration
           description: Whether the genially has been created before registration date.
 
-        - name: is_from_current_user
-          description: Whether the genially belongs to a non-deleted user.
-          tests:
-            - not_null
-
         - name: user_id
           description: Foreign key referring to the user creating the genially.
           tests:
             - not_null
+            - relationships:
+                to: ref('users')
+                field: user_id
 
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
@@ -124,15 +142,3 @@ models:
 
         - name: deleted_at
           description: Deletion date.
-
-        - name: user_plan
-          description: "{{ doc('subscription_codes') }}"
-
-        - name: user_sector
-          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
-
-        - name: user_role
-          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
-
-        - name: user_market
-          description: Country.
