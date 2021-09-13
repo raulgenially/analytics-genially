@@ -1,7 +1,0 @@
-term,definition
-Active creation,Creation that has not been removed by the user (it shows up in user's panel)
-Active user,Signup that has accessed their panel within the last 30/60/90 days. This access date must be different from registration date. A user with a publication visualized within the last 30/60/90 days is also an active user. A collaborator of a collaboration visualized within the last 30/60/90 days is also considered as an active user.
-Collaborator,​User forming part of a collaborative Genially (aka collaboration). 
-Creator,Signup that has initiated a creation at some point in time. This creation can be or not active for the time being. For example a signup that initiated a creation and removed it afterwards is also a creator. A collaborator is also a creator. The collaboration can be or not active for the time being.
-Promoter,User with an active social profile and that has published a creation in their social profile. The creation can be or not active for the time being. A collaborator of a publication in owner's social profile is also a promoter. Owner's social profile must be active too.
-Publisher,User that has published a creation at some point in time. This publication can be or not active for the time being. A collaborator of a publication is also a publisher. The collaboration can be or not active for the time being.

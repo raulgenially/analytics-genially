@@ -2,5 +2,5 @@ version: 2
 
 models:
   - name: publishers
-    description: see glossary.csv
+    description: see corresponding definition in macros.
       This model is a filtered version of the users model and contains the same fields.
