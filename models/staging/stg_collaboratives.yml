@@ -52,16 +52,15 @@ models:
             - relationships:
                 to: ref('stg_geniallys')
                 field: genially_id
-                severity: warn
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
             You can send an invitation to people who is not registered, so this field is empty.
           tests:
+            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id
-                severity: warn
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
@@ -70,4 +69,3 @@ models:
             - relationships:
                 to: ref('stg_users')
                 field: user_id
-                severity: warn
