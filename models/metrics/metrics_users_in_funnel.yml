@@ -59,7 +59,12 @@ models:
           tests:
             - not_null
 
-        - name: n_promoters
-          description: Total number of promoters.
+        - name: n_recurrent_publishers
+          description: Total number of recurrent publishers.
+          tests:
+            - not_null
+
+        - name: n_heavy_publishers
+          description: Total number of heavy publishers.
           tests:
             - not_null

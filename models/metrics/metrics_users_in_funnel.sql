@@ -18,7 +18,8 @@ final as (
         count(user_id) as n_signups,
         countif({{ define_creator() }}) as n_creators,
         countif({{ define_publisher() }}) as n_publishers,
-        countif({{ define_promoter() }}) as n_promoters,
+        countif({{ define_recurrent_publisher() }}) as n_recurrent_publishers,
+        countif({{ define_heavy_publisher() }}) as n_heavy_publishers
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
