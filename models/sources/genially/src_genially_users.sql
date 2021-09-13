@@ -33,8 +33,6 @@ final as (
         json_extract_scalar(socialmedia, '$.linkedin') as linkedin_account,
         -- emailvalidationtoken extraction
         json_extract_scalar(emailvalidationtoken, '$.Token') as email_validation_token,
-        timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_date,
-        json_extract_scalar(emailvalidationtoken, '$.DurationInHours') as email_validation_duration,
         summary as about_me,
 
         ifnull(validated, False) as is_validated,
@@ -44,7 +42,9 @@ final as (
         -- First valid registration date is 2015-02-23T13:27:13 (as of 2021-07-15)
         if(dateregister >= '2015-02-23', dateregister, null) as registered_at,
         -- First valid last access date is 2016-06-02T17:01:47 (as of 2021-07-15)
-        if(lastaccesstime >= '2016-06-02', lastaccesstime, null) as last_access_at
+        if(lastaccesstime >= '2016-06-02', lastaccesstime, null) as last_access_at,
+        -- emailvalidationtoken extraction
+        timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_created_at,
 
     from users
     left join sector_codes

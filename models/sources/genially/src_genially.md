@@ -22,10 +22,10 @@ Type of collaboration.
 
 One of the following values:
 
-| collaboration_type |              definition                 |
-|--------------------|-----------------------------------------|
-| 1                  | Collaboration with a user               |
-| 2                  | Collaboration with a team               |
-| 4                  | Collaboration with a member from a team |
+| collaboration_type |                   definition                    |
+|--------------------|-------------------------------------------------|
+| 1                  | Collaboration with a user in personal workspace |
+| 2                  | Collaboration with a group in team workspace    |
+| 4                  | Collaboration with a member in team workspace   |
 
 {% enddocs %}

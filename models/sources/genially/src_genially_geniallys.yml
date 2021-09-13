@@ -91,7 +91,7 @@ models:
           description: Id of the template used for the creation of the genially.
 
         - name: team_id
-          description: Id of the team possessing this genially.
+          description: Id of the team this genially is part of.
 
         - name: space_id
           description: Id of the space this genially is part of.
