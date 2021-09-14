@@ -1,0 +1,62 @@
+version: 2
+
+models:
+    - name: src_genially_teams
+      description: Teams
+      columns:
+        - name: team_id
+          description: Primary key for the teams.
+          tests:
+            - unique
+            - not_null
+
+        - name: name
+          description: Name of the team
+          tests:
+            - not_null
+
+        - name: seats
+          description: Number of users that can be part of this team.
+          tests:
+            - not_null
+
+        - name: logo
+          description: Link to the team logo image.
+
+        - name: description
+          description: Short description about what team is about.
+
+        - name: team_type
+          description: "{{ doc('team_type') }}"
+          tests:
+            - not_null
+
+        - name: banner
+          description: Link to the top banner image.
+
+        - name: branding_size_watermark
+          description: TODO
+
+        - name: branding_custom_watermark
+          description: TODO
+
+        - name: branding_custom_logo
+          description: TODO
+
+        - name: branding_watermark_link
+          description: TODO
+
+        - name: user_id
+          description: User id that created the team
+          tests:
+            - not_null
+
+        - name: is_configured
+          description: Whether the team has been customized (banner, logo, etc).
+          tests:
+            - not_null
+
+        - name: created_at
+          description: The date the team was created
+          tests:
+            - not_null

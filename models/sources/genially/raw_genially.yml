@@ -64,6 +64,11 @@ sources:
           columns:
             - name: _id
               description: Primary key for invoices.
+
+        - name: team
+          columns:
+            - name: _id
+              description: Primary key for teams.
               tests:
                 - unique
                 - not_null

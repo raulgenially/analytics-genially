@@ -29,3 +29,18 @@ One of the following values:
 | 4                  | Collaboration with a member in team workspace   |
 
 {% enddocs %}
+
+
+{% docs team_type %}
+
+Type of team.
+
+One of the following values:
+
+| team_type | definition |
+|-----------|------------|
+| 1         | Free       |
+| 2         | Master     |
+| 4         | Edu        |
+
+{% enddocs %}
