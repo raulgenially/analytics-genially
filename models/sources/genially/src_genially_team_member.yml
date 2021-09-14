@@ -1,0 +1,37 @@
+version: 2
+
+models:
+    - name: src_genially_team_member
+      description: Teams
+      columns:
+        - name: team_member_id
+          description: Primary key for the teams.
+          tests:
+            - unique
+            - not_null
+
+        - name: email
+          description: Email of the user.
+          tests:
+            - not_null
+
+        - name: role
+          description: Role of the user.
+          tests:
+            - not_null
+
+        - name: user_id
+          description: Id of the user that is/was part of the team.
+
+        - name: team_id
+          description: The team id this user belongs to.
+          tests:
+            - not_null
+
+        - name: confirmed_at
+          description: The time the user accepted the
+            invitation to the team.
+
+        - name: deleted_at
+          description: The time the user left the team.
+

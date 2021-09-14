@@ -72,3 +72,11 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: teammember
+          columns:
+            - name: _id
+              description: Primary key for team member.
+              tests:
+                - unique
+                - not_null
