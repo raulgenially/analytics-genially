@@ -1,0 +1,41 @@
+version: 2
+
+models:
+    - name: src_genially_team_space_collaborator
+      description: Team spaces
+      columns:
+        - name: team_space_collaborator_id
+          description: Primary key for the team space collaborators.
+          tests:
+            - unique
+            - not_null
+
+        - name: collaborator_type
+          description: "{{ doc('team_space_collaborator_type') }}"
+          tests:
+          - not_null
+
+        - name: space_id
+          description: The team space id the collaborating entity is collaborating in.
+          tests:
+            - not_null
+
+        - name: space_owner_id
+          description: The user id owning of the team space.
+          tests:
+            - not_null
+
+        - name: team_id
+          description: The team id the space belongs to.
+          tests:
+            - not_null
+
+        - name: collaborator_id
+          description: Id of the collaborating entity. See `collaborator_type`.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Date time this record was created.
+          tests:
+            - not_null

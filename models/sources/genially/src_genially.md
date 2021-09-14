@@ -44,3 +44,18 @@ One of the following values:
 | 4         | Edu        |
 
 {% enddocs %}
+
+
+{% docs team_space_collaborator_type %}
+
+The type of id that we are dealing with in `collaborator_id`
+
+One of the following values:
+
+| collaborator_type |  definition  |
+|-------------------|--------------|
+| 1                 | User         |
+| 2                 | Team Group   |
+| 4                 | Team Member  |
+
+{% enddocs %}

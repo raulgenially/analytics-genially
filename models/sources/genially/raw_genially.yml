@@ -88,3 +88,11 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: teamspacecollaborator
+          columns:
+            - name: _id
+              description: Primary key for team space collaborator.
+              tests:
+                - unique
+                - not_null
