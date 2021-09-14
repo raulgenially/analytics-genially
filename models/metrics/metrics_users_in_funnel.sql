@@ -13,7 +13,6 @@ final as (
         country,
         {{ set_country_order('country') }} as country_order,
 
-
         -- Metrics
         count(user_id) as n_signups,
         countif({{ define_creator() }}) as n_creators,
@@ -23,7 +22,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by registered_at asc
 )
 

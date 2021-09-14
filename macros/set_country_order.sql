@@ -1,23 +1,23 @@
 {% macro set_country_order(country) %}
     case
         when {{ country }} = 'US'
-            then 1
+            then '01-'
         when {{ country }} = 'FR'
-            then 2
+            then '02-'
         when {{ country }} = 'ES'
-            then 3
+            then '03-'
         when {{ country }} = 'BR'
-            then 4
+            then '04-'
         when {{ country }} = 'MX'
-            then 5
+            then '05-'
         when {{ country }} = 'CO'
-            then 6
+            then '06-'
         when {{ country }} = 'IT'
-            then 7
+            then '07-'
         when {{ country }} = 'UK'
-            then 8
+            then '08-'
         when {{ country }} = 'DE'
-            then 9
-        else 10
+            then '09-'
+        else '10-'
     end
 {% endmacro %}
