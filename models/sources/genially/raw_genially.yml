@@ -96,3 +96,11 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: teamtemplate
+          columns:
+            - name: _id
+              description: Primary key for team templates.
+              tests:
+                - unique
+                - not_null
