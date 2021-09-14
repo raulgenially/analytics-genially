@@ -54,7 +54,6 @@ One of the following values:
 
 | collaborator_type |  definition  |
 |-------------------|--------------|
-| 1                 | User         |
 | 2                 | Team Group   |
 | 4                 | Team Member  |
 
