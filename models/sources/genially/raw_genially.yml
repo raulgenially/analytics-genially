@@ -104,3 +104,11 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: teamgroup
+          columns:
+            - name: _id
+              description: Primary key for team groups.
+              tests:
+                - unique
+                - not_null
