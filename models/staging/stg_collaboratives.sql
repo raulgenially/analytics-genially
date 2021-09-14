@@ -20,7 +20,7 @@ final as (
         geniallys.is_visualized_last_90_days,
         geniallys.is_visualized_last_60_days,
         geniallys.is_visualized_last_30_days,
-        users.is_social_profile_active as is_owner_social_profile_active,
+        owners.is_social_profile_active as is_owner_social_profile_active,
 
         collaboratives.genially_id,
         collaboratives.user_id,
@@ -29,10 +29,11 @@ final as (
     from collaboratives
     inner join geniallys
         on collaboratives.genially_id = geniallys.genially_id
+    inner join users as owners
+        on collaboratives.user_owner_id = owners.user_id
     inner join users
-        on collaboratives.user_owner_id = users.user_id
+        on collaboratives.user_id = users.user_id
     where collaboratives.user_owner_id = geniallys.user_id
-        and collaboratives.user_id is not null
 )
 
 select * from final
