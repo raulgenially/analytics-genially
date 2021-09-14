@@ -9,12 +9,12 @@ models:
           tests:
             - unique
             - not_null
-        
+
         - name: template_type
           description: Template type.
           tests:
             - not_null
-        
+
         - name: subcategory
           description: Template subcategory.
 
@@ -31,6 +31,20 @@ models:
 
         - name: template_order
           description: The template is shown in the application according to this field.
+
+        - name: default_color
+          description: The default accent color of the creation.
+
+        - name: is_hidden
+          description: Whether the template is hidden in the template panel.
+          tests:
+            - not_null
+
+        - name: is_premium
+          description: Whether the template is premium.
+            Premium templates can only be used in premium plans.
+          tests:
+            - not_null
 
         - name: is_new
           description: Whether the template is new.

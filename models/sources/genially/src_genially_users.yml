@@ -70,6 +70,12 @@ models:
         - name: linkedin_account
           description: Link to LinkedIn account.
 
+        - name: email_validation_token
+          description: Token used to validate the email.
+
+        - name: email_validation_created_at
+          description: Date the validation email was sent.
+
         - name: about_me
           description: Short description about the user (user defined).
 

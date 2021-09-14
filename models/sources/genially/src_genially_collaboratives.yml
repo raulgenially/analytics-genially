@@ -15,6 +15,14 @@ models:
           tests:
             - not_null
 
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+
         - name: genially_id
           description: Id of the genially referring to the collaboration.
           tests:
