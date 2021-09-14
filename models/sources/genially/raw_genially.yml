@@ -80,3 +80,11 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: teamspace
+          columns:
+            - name: _id
+              description: Primary key for team space.
+              tests:
+                - unique
+                - not_null
