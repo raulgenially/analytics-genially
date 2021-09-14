@@ -9,7 +9,7 @@ models:
           tests:
             - unique
             - not_null
-        
+
         - name: genially_type
           description: Type of genially.
 
@@ -18,7 +18,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+                values: "{{ get_plan_values() }}"
 
         - name: name
           description: Genially name.
@@ -36,7 +36,7 @@ models:
           description: Whether the genially has been published.
           tests:
             - not_null
-          
+
         - name: is_deleted
           description: Whether the genially has been deleted.
           tests:
@@ -51,7 +51,7 @@ models:
           description: Whether the genially has an access password.
           tests:
             - not_null
-        
+
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile (This is different from social view).
           tests:
@@ -64,6 +64,11 @@ models:
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
+          tests:
+            - not_null
+
+        - name: has_genially_analytics
+          description: Whether the genially has tinybird analytics activated.
           tests:
             - not_null
 
@@ -86,7 +91,10 @@ models:
           description: Id of the template used for the creation of the genially.
 
         - name: team_id
-          description: Id of the team possessing this genially.
+          description: Id of the team this genially is part of.
+
+        - name: space_id
+          description: Id of the space this genially is part of.
 
         - name: team_template_id
           description: Id of the genially as a team template.

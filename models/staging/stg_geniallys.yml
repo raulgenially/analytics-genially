@@ -1,0 +1,116 @@
+version: 2
+
+models:
+    - name: stg_geniallys
+      columns:
+        - name: genially_id
+          description: Primary key for geniallys.
+          tests:
+            - unique
+            - not_null
+
+        - name: plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_plan_values() }}"
+
+        - name: name
+          description: Genially name.
+
+        - name: origin
+          description: Genially origin.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_genially_origin_values() }}"
+
+        - name: category
+          description: Genially category.
+          tests:
+            - not_null
+
+        - name: template_type
+          description: Template type that the genially is based on, if any.
+
+        - name: template_name
+          description: Name of the template.
+
+        - name: is_published
+          description: Whether the genially has been published.
+          tests:
+            - not_null
+
+        - name: is_deleted
+          description: Whether the genially has been deleted.
+          tests:
+            - not_null
+
+        - name: is_private
+          description: Whether the genially can be indexed by search engines.
+          tests:
+            - not_null
+
+        - name: is_password_free
+          description: Whether the genially has a an access password.
+          tests:
+            - not_null
+
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+          tests:
+            - not_null
+
+        - name: is_reusable
+          description: Whether the genially can be reusable as a template by another user.
+          tests:
+            - not_null
+
+        - name: is_inspiration
+          description: Whether the genially is shown in inspiration.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_90_days
+          description: Whether the genially has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_60_days
+          description: Whether the genially has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_30_days
+          description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+
+        - name: reused_from_id
+          description: Id of the original genially that this one is based on.
+
+        - name: from_template_id
+          description: Id of the template used for the creation of the genially.
+
+        - name: modified_at
+          description: Modification date.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Creation date.
+
+        - name: published_at
+          description: Publication date.
+
+        - name: last_view_at
+          description: Last time the genially was visualized.
+
+        - name: deleted_at
+          description: Deletion date.

@@ -5,6 +5,10 @@ name: 'analytics_genially'
 version: '1.0.0'
 config-version: 2
 
+vars:
+  # Constant we use in some cases to indicate that a value is not selected
+  not_selected: 'Not-selected'
+
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'
 
@@ -41,4 +45,6 @@ models:
     staging:
         materialized: view
     utils:
+        materialized: ephemeral
+    adhoc:
         materialized: ephemeral

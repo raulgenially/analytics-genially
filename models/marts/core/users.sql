@@ -12,18 +12,37 @@ collaboratives as (
 
 users_creations as (
     select
-        user_id,
-        count(genially_id) as n_total_creations,
-        countif(is_deleted = false) as n_active_creations,
-        countif(is_published = true) as n_published_creations,
-        countif(is_deleted = false and is_published = true) as n_active_published_creations,
-        countif(is_in_social_profile = true) as n_creations_in_social_profile,
-        countif(is_deleted = false and is_in_social_profile = true) as n_active_creations_in_social_profile,
-        max(is_visualized_last_90_days) as has_creation_visualized_last_90_days,
-        max(is_visualized_last_60_days) as has_creation_visualized_last_60_days,
-        max(is_visualized_last_30_days) as has_creation_visualized_last_30_days
+        geniallys.user_id,
+        count(geniallys.genially_id) as n_total_creations,
+        countif(geniallys.is_deleted = false) as n_active_creations,
+        countif(geniallys.is_published = true) as n_published_creations,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_published = true
+        ) as n_active_published_creations,
+        countif(geniallys.is_in_social_profile = true) as n_creations_in_social_profile,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_in_social_profile = true
+        ) as n_active_creations_in_social_profile,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_published = true
+            and collaboratives.genially_id is not null -- Check if the genially is collaborative.
+        ) as n_active_collaborative_published_creations,
+        countif(
+            geniallys.is_deleted = false
+            and geniallys.is_in_social_profile = true
+            and geniallys.is_reusable = true
+        ) as n_active_reusable_creations_in_social_profile,
+
+        max(geniallys.is_visualized_last_90_days) as has_creation_visualized_last_90_days,
+        max(geniallys.is_visualized_last_60_days) as has_creation_visualized_last_60_days,
+        max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
     group by 1
 ),
 
@@ -33,9 +52,9 @@ users_collaboratives_union as (
         max(is_published) as is_collaborator_of_published_creation,
         sum(0) as n_published_creations_as_collaborator, -- to prevent double-counting
         max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
-        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days, 
-        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days, 
-        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days, 
+        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
+        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
+        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
 
     from collaboratives
     group by 1
@@ -47,9 +66,9 @@ users_collaboratives_union as (
         max(is_published) as is_collaborator_of_published_creation,
         countif(is_published = true) as n_published_creations_as_collaborator,
         max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
-        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days, 
-        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days, 
-        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days, 
+        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
+        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
+        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
 
     from collaboratives
     group by 1
@@ -64,7 +83,7 @@ users_collaboratives as (
         max(is_collaborator_of_creation_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
         max(is_collaborator_of_creation_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
         max(is_collaborator_of_creation_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
-    
+
     from users_collaboratives_union
     group by 1
 ),
@@ -78,15 +97,27 @@ final as (
         users.sector_category,
         users.role,
         users.country,
-        users.email as email,
+        users.email,
+        users.language,
+        users.about_me,
+        users.facebook_account,
+        users.twitter_account,
+        users.youtube_account,
+        users.instagram_account,
+        users.linkedin_account,
         users.social_profile_name,
+
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
         coalesce(users_collaboratives.n_published_creations_as_collaborator, 0) as n_published_creations_as_collaborator,
         coalesce(users_creations.n_active_published_creations, 0) as n_active_published_creations,
+        coalesce(users_creations.n_active_collaborative_published_creations, 0)
+            as n_active_collaborative_published_creations,
         coalesce(users_creations.n_creations_in_social_profile, 0) as n_creations_in_social_profile,
         coalesce(users_creations.n_active_creations_in_social_profile, 0) as n_active_creations_in_social_profile,
+        coalesce(users_creations.n_active_reusable_creations_in_social_profile, 0)
+            as n_active_reusable_creations_in_social_profile,
 
         users.is_validated,
         users.is_social_profile_active,
@@ -99,7 +130,7 @@ final as (
         ifnull(is_collaborator_of_creation_visualized_last_90_days, false) as is_collaborator_of_creation_visualized_last_90_days,
         ifnull(is_collaborator_of_creation_visualized_last_60_days, false) as is_collaborator_of_creation_visualized_last_60_days,
         ifnull(is_collaborator_of_creation_visualized_last_30_days, false) as is_collaborator_of_creation_visualized_last_30_days,
-        
+
         users.registered_at,
         users.last_access_at
 

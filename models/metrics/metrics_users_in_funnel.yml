@@ -14,7 +14,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+                values: "{{ get_plan_values() }}"
 
         - name: subscription
           description: Type of subscription, Free or Premium
@@ -29,7 +29,7 @@ models:
             - not_null
 
         - name: sector_category
-          description: broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
 

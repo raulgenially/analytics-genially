@@ -14,7 +14,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+                values: "{{ get_plan_values() }}"
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
@@ -22,7 +22,7 @@ models:
             - not_null
 
         - name: sector_category
-          description: broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
 
@@ -41,8 +41,29 @@ models:
           tests:
             - not_null
 
+        - name: language
+          description: Language the Genially web interface is in.
+
+        - name: about_me
+          description: Short description about the user (user defined).
+
+        - name: facebook_account
+          description: Link to Facebook account.
+
+        - name: twitter_account
+          description: Link to Twitter account.
+
+        - name: youtube_account
+          description: Link to YouTube account.
+
+        - name: instagram_account
+          description: Link to Instagram account.
+
+        - name: linkedin_account
+          description: Link to LinkedIn account.
+
         - name: social_profile_name
-          description: Social Profiles alias & URL. 
+          description: Social Profiles alias & URL.
 
         - name: n_total_creations
           description: Total number of creations (including those that have been removed).
@@ -69,14 +90,24 @@ models:
           tests:
             - not_null
 
+        - name: n_active_collaborative_published_creations
+          description: Total number of collaborative published creations that are active.
+          tests:
+            - not_null
+
         - name: n_creations_in_social_profile
           description: Total number of creations that have been published in user's social profile at some point.
           tests:
             - not_null
 
         - name: n_active_creations_in_social_profile
-          description: Total number of creations that have been published in user's social profile and are active. 
+          description: Total number of creations that have been published in user's social profile and are active.
             Note that the user's social profile might not be currently active (see is_social_profile_active field).
+          tests:
+            - not_null
+
+        - name: n_active_reusable_creations_in_social_profile
+          description: Total number of reusable creations included in the social profile that are active.
           tests:
             - not_null
 
