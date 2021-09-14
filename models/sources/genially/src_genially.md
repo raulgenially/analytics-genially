@@ -58,3 +58,18 @@ One of the following values:
 | 4                 | Team Member  |
 
 {% enddocs %}
+
+
+{% docs team_member_role %}
+
+Permission level of the member in the team
+
+One of the following values:
+
+| collaborator_type |  definition  |
+|-------------------|--------------|
+| 1                 | Owner        |
+| 2                 | Admin        |
+| 3                 | Editor       |
+
+{% enddocs %}

@@ -15,8 +15,8 @@ models:
           tests:
             - not_null
 
-        - name: role
-          description: Role of the user.
+        - name: member_role
+          description: " {{ doc('team_member_role') }}"
           tests:
             - not_null
 

@@ -35,19 +35,19 @@ models:
           description: Link to the top banner image.
 
         - name: branding_size_watermark
-          description: TODO
+          description: Size of the watermark image (e.g. medium).
 
         - name: branding_custom_watermark
-          description: TODO
+          description: Link to the image to use as a watermark.
 
         - name: branding_custom_logo
-          description: TODO
+          description: Link to the image to use as a logo.
 
         - name: branding_watermark_link
-          description: TODO
+          description: Web where the watermark should take you.
 
         - name: user_id
-          description: User id that created the team
+          description: User id that created the team.
           tests:
             - not_null
 
@@ -57,6 +57,6 @@ models:
             - not_null
 
         - name: created_at
-          description: The date the team was created
+          description: The date the team was created.
           tests:
             - not_null

@@ -7,7 +7,7 @@ final as (
         _id as team_member_id,
 
         email,
-        role,
+        role as member_role,
 
         iduser as user_id,
         idteam as team_id,
