@@ -18,6 +18,7 @@ final as (
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
         coalesce(sector_codes.sector_name, '{{ not_select }}') as sector,
+        coalesce(sector_codes.category, '{{ not_select }}') as sector_category,
         coalesce(role_codes.role_name, '{{ not_select }}') as role,
         username,
         nickname,

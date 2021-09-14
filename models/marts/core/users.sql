@@ -75,6 +75,7 @@ final as (
 
         users.plan,
         users.sector,
+        users.sector_category,
         users.role,
         users.country,
         users.email as email,

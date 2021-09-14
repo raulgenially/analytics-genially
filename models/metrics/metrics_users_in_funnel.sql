@@ -9,6 +9,7 @@ final as (
         plan,
         {{ create_subscription_field('plan') }} as subscription,
         sector,
+        sector_category,
         role,
         country,
 
@@ -21,7 +22,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
-    group by 1, 2, 3, 4, 5, 6
+    group by 1, 2, 3, 4, 5, 6, 7
     order by registered_at asc
 )
 
