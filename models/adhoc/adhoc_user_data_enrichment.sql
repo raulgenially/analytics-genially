@@ -6,7 +6,7 @@ select
     email,
     date(last_access_at) as last_access_at,
     plan,
-    market,
+    country,
     n_total_creations as total_creations
 
 from users
