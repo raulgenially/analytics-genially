@@ -1,4 +1,4 @@
-with teamspace as (
+with team_spaces as (
     select * from {{ source('genially', 'teamspace') }}
 ),
 
@@ -16,7 +16,7 @@ final as (
 
         createdat as created_at,
 
-    from teamspace
+    from team_spaces
     where __hevo__marked_deleted = false
 )
 

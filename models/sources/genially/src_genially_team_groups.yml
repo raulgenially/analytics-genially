@@ -1,8 +1,8 @@
 version: 2
 
 models:
-    - name: src_genially_team_group
-      description: Team spaces
+    - name: src_genially_team_groups
+      description: Team groups. A team group is a subset of users within a given team.
       columns:
         - name: team_group_id
           description: Primary key for the team groups.

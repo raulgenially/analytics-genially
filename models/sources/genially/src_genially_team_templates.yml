@@ -1,8 +1,8 @@
 version: 2
 
 models:
-    - name: src_genially_team_template
-      description: Team spaces
+    - name: src_genially_team_templates
+      description: Team templates. Geniallys that can be used as a templates for a given team.
       columns:
         - name: team_template_id
           description: Primary key for the team templates.

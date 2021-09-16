@@ -1,4 +1,4 @@
-with teamtemplate as (
+with team_templates as (
     select * from {{ source('genially', 'teamtemplate') }}
 ),
 
@@ -10,7 +10,7 @@ final as (
         idteam as team_id,
         idspace as space_id,
 
-    from teamtemplate
+    from team_templates
     where __hevo__marked_deleted = false
 )
 

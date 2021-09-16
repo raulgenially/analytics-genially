@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: src_genially_team_space
+    - name: src_genially_team_spaces
       description: Team spaces
       columns:
         - name: team_space_id

@@ -1,4 +1,4 @@
-with teammember as (
+with team_groups as (
     select * from {{ source('genially', 'teamgroup') }}
 ),
 
@@ -14,7 +14,7 @@ final as (
 
         createdat as created_at
 
-    from teammember
+    from team_groups
     where __hevo__marked_deleted = false
 )
 

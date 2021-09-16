@@ -30,6 +30,9 @@ models:
           description: "{{ doc('team_type') }}"
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_team_type_values() }}"
+                quote: false
 
         - name: banner
           description: Link to the top banner image.
@@ -46,7 +49,7 @@ models:
         - name: branding_watermark_link
           description: Web where the watermark should take you.
 
-        - name: user_id
+        - name: owner_id
           description: User id that created the team.
           tests:
             - not_null

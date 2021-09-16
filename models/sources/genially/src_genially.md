@@ -41,7 +41,7 @@ One of the following values:
 |-----------|------------|
 | 1         | Free       |
 | 2         | Master     |
-| 4         | Edu        |
+| 3         | Edu        |
 
 {% enddocs %}
 

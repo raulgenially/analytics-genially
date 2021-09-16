@@ -1,4 +1,4 @@
-with teamspacecollaborator as (
+with team_space_collaborators as (
     select * from {{ source('genially', 'teamspacecollaborator') }}
 ),
 
@@ -15,7 +15,7 @@ final as (
 
         createdat as created_at,
 
-    from teamspacecollaborator
+    from team_space_collaborators
     where __hevo__marked_deleted = false
 )
 

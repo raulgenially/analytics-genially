@@ -18,7 +18,7 @@ final as (
         json_extract_scalar(brandingsettings, '$.WatermarkLink') as branding_watermark_link,
         json_extract_scalar(brandingsettings, '$.CustomLogo') as branding_custom_logo,
 
-        iduser as user_id,
+        iduser as owner_id,
 
         isconfigured as is_configured,
 

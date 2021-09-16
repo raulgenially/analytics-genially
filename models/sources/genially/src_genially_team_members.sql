@@ -1,4 +1,4 @@
-with teammember as (
+with team_members as (
     select * from {{ source('genially', 'teammember') }}
 ),
 
@@ -15,7 +15,7 @@ final as (
         confirmedat as confirmed_at,
         deletedat as deleted_at
 
-    from teammember
+    from team_members
     where __hevo__marked_deleted = false
 )
 

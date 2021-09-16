@@ -1,11 +1,11 @@
 version: 2
 
 models:
-    - name: src_genially_team_member
+    - name: src_genially_team_members
       description: Teams
       columns:
         - name: team_member_id
-          description: Primary key for the teams.
+          description: Primary key for the team members.
           tests:
             - unique
             - not_null
@@ -16,9 +16,12 @@ models:
             - not_null
 
         - name: member_role
-          description: " {{ doc('team_member_role') }}"
+          description: "{{ doc('team_member_role') }}"
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_team_member_roles() }}"
+                quote: false
 
         - name: user_id
           description: Id of the user that is/was part of the team.
@@ -34,4 +37,3 @@ models:
 
         - name: deleted_at
           description: The time the user left the team.
-

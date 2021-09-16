@@ -1,11 +1,12 @@
 version: 2
 
 models:
-    - name: src_genially_team_space_collaborator
-      description: Team spaces
+    - name: src_genially_team_space_collaborators
+      description: Team space collaborator.
+        A member of the team or a team group that is invited to collaborate in a team space.
       columns:
         - name: team_space_collaborator_id
-          description: Primary key for the team space collaborators.
+          description: Primary key for the team space collaborators table.
           tests:
             - unique
             - not_null
@@ -14,6 +15,9 @@ models:
           description: "{{ doc('team_space_collaborator_type') }}"
           tests:
           - not_null
+          - accepted_values:
+              values: "{{ get_team_space_collaborator_types() }}"
+              quote: false
 
         - name: space_id
           description: The team space id the collaborating entity is collaborating in.
@@ -31,7 +35,8 @@ models:
             - not_null
 
         - name: collaborator_id
-          description: Id of the collaborating entity. See `collaborator_type`.
+          description: Id of the collaborating entity (e.g. team member or team group).
+            See `collaborator_type`.
           tests:
             - not_null
 
