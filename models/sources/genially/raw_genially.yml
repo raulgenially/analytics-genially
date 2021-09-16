@@ -11,7 +11,7 @@ sources:
               description: Primary key for geniallys.
               tests:
                 - unique
-                - not_null  
+                - not_null
 
         - name: users
           columns:
@@ -36,7 +36,7 @@ sources:
               tests:
                 - unique
                 - not_null
-                
+
         - name: social
           description: Users Social Profiles information
           columns:
@@ -49,3 +49,12 @@ sources:
               description: Id User of the social profile.
               tests:
                 - unique
+
+        - name: license
+          description: Information about the licenses the users purchase
+          columns:
+            - name: _id
+              description: Primary key for licenses.
+              tests:
+                - unique
+                - not_null

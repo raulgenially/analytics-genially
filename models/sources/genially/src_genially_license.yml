@@ -1,0 +1,78 @@
+version: 2
+
+models:
+    - name: src_genially_license
+      description: Information about the licenses the users purchase
+      columns:
+        - name: license_id
+          description: Primary key for licenses.
+          tests:
+            - unique
+            - not_null
+
+        - name: price
+          description: License's monetary value in the currency that the payment is made.
+            This information is in the invoices table.
+          tests:
+            - not_null
+
+        - name: currency
+          description: Price currency. Mostly useless, as the majority
+            of licenses do not have this property set up.
+            To get the currency go to the invoice table.
+
+        - name: status
+          description: The status of the subscription,
+            either Finished, Pending or Canceled.
+            **Finished** means the license has been paid and it is active.
+            **Pending** means the license has an outstanding payment.
+            **Canceled** means the user has canceled the subscription.
+          tests:
+            - not_null
+
+        - name: license_type
+          description: Identifier of the type of license.
+            This describes whether the license has a monthly or annual payment
+            and the degree of feature access to the platform.
+          tests:
+            - not_null
+
+        - name: comments
+          description: Notes on the license.
+
+        - name: user_ip
+          description: Ip address from which the user purchased the license.
+
+        - name: user_id
+          description: Id of the User purchasing the license.
+          tests:
+            - not_null
+
+        - name: payer_id
+          description: Id of the user in the payment processing platform
+            used (e.g. Stripe or Braintree).
+          tests:
+            - not_null
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+            Each recurrent payment will have a different transaction_id.
+          tests:
+            - not_null
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+          tests:
+            - not_null
+
+        - name: started_at
+          description: Date time the license starts.
+          tests:
+            - not_null
+
+        - name: finished_at
+          description: Date time the license finished.
+
+        - name: manual_finished_at
+          description: Date time the license finished.
+            This is set by genially employees.
