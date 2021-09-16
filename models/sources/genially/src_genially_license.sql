@@ -39,6 +39,7 @@ final as (
 
     from license
     where __hevo__marked_deleted = false
+        and typelicense != '-1'
 )
 
 select * from final
