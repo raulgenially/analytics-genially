@@ -1,6 +1,5 @@
 -- Ensure that is_visualized_last_X_days fields are consistent
 -- See macro "map_genially_category"
-
 with geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),

@@ -1,5 +1,4 @@
 -- The number of active creations (not deleted) shouldn't exceed the number of total creations.
-
 with users as (
   select * from {{ ref('users') }}
 ),

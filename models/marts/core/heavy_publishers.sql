@@ -10,7 +10,7 @@ with users as (
 
 final as (
     select * from users
-    where {{ define_active_user(active_period=30) }}
+    where {{ define_heavy_publisher() }}
 )
 
 select * from final

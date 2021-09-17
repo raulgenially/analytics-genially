@@ -7,7 +7,7 @@ select
   concat("https://view.genial.ly/profile/", social_profile_name) as URL,
   is_social_profile_active as active,
   sector,
-  market,
+  country,
   language,
   twitter_account,
   facebook_account,

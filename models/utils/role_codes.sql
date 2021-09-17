@@ -7,6 +7,7 @@ old_role_codes as (
         role_id,
         concat(role_name, ' (old)') as role_name,
         sector_id
+    
     from {{ ref('old_role_codes') }}
 ),
 

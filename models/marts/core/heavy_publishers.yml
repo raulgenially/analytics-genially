@@ -1,6 +1,6 @@
 version: 2
 
 models:
-  - name: active_users_90_days
-    description: see glossary.csv
+  - name: heavy_publishers
+    description: see corresponding definition in macros.
       This model is a filtered version of the users model and contains the same fields.

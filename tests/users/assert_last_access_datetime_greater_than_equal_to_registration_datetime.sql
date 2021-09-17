@@ -16,7 +16,7 @@ final as (
         plan, 
         sector, 
         role,
-        market,
+        country,
         email, 
         registered_at, 
         last_access_at

@@ -29,8 +29,9 @@ final as (
         geniallys.template_name,
         users.plan as user_plan,
         users.sector as user_sector,
+        users.sector_category as user_sector_category,
         users.role as user_role,
-        users.market as user_market,
+        users.country as user_country,
 
         geniallys.is_published,
         geniallys.is_deleted,

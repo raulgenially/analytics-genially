@@ -1,6 +1,0 @@
-version: 2
-
-models:
-  - name: active_users_30_days
-    description: see glossary.csv
-      This model is a filtered version of the users model and contains the same fields.

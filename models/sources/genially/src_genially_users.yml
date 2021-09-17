@@ -15,10 +15,15 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Pro', 'Master', 'Edu Pro', 'Edu Team', 'Team', 'Student']
+                values: "{{ get_plan_values() }}"
 
         - name: sector
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: sector_category
+          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
 

@@ -12,8 +12,9 @@ final as (
 
         users.subscription_plan as plan,
         users.sector,
+        users.sector_category,
         users.role,
-        users.country as market,
+        users.country,
         users.email,
         users.language,
         users.about_me,

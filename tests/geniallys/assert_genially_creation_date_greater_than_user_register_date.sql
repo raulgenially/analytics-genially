@@ -1,5 +1,4 @@
  -- The creation date of a genially should be greather than user's registration date.
-
 with geniallys as (
     select * from {{ ref('geniallys') }}
 ),

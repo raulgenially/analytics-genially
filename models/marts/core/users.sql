@@ -50,6 +50,7 @@ users_collaboratives_union as (
     select
         user_owner_id as user_id,
         max(is_published) as is_collaborator_of_published_creation,
+        sum(0) as n_published_creations_as_collaborator, -- to prevent double-counting
         max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
         max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
         max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
@@ -63,6 +64,7 @@ users_collaboratives_union as (
     select
         user_id,
         max(is_published) as is_collaborator_of_published_creation,
+        countif(is_published = true) as n_published_creations_as_collaborator,
         max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
         max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
         max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
@@ -76,6 +78,7 @@ users_collaboratives as (
     select
         user_id,
         max(is_collaborator_of_published_creation) as is_collaborator_of_published_creation,
+        sum(n_published_creations_as_collaborator) as n_published_creations_as_collaborator,
         max(is_collaborator_of_creation_in_social_profile) as is_collaborator_of_creation_in_social_profile,
         max(is_collaborator_of_creation_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
         max(is_collaborator_of_creation_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
@@ -91,8 +94,9 @@ final as (
 
         users.plan,
         users.sector,
+        users.sector_category,
         users.role,
-        users.market,
+        users.country,
         users.email,
         users.language,
         users.about_me,
@@ -106,6 +110,7 @@ final as (
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
+        coalesce(users_collaboratives.n_published_creations_as_collaborator, 0) as n_published_creations_as_collaborator,
         coalesce(users_creations.n_active_published_creations, 0) as n_active_published_creations,
         coalesce(users_creations.n_active_collaborative_published_creations, 0)
             as n_active_collaborative_published_creations,
