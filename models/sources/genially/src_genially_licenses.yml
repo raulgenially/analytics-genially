@@ -10,17 +10,6 @@ models:
             - unique
             - not_null
 
-        - name: price
-          description: License's monetary value in the currency that the payment is made.
-            This information is in the invoices table.
-          tests:
-            - not_null
-
-        - name: currency
-          description: Price currency. Mostly useless, as the majority
-            of licenses do not have this property set up.
-            To get the currency go to the invoice table.
-
         - name: status
           description: The status of the subscription,
             either Finished, Pending or Canceled.
