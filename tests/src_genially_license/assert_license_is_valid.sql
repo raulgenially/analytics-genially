@@ -4,7 +4,7 @@ with license_codes as (
 ),
 
 licenses as (
-    select * from {{ ref('src_genially_license') }}
+    select * from {{ ref('src_genially_licenses') }}
 ),
 
 final as (

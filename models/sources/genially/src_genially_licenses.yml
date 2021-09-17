@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: src_genially_license
+    - name: src_genially_licenses
       description: Information about the licenses the users purchase
       columns:
         - name: license_id
@@ -29,6 +29,8 @@ models:
             **Canceled** means the user has canceled the subscription.
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_license_status_values() }}"
 
         - name: license_type
           description: Identifier of the type of license.
