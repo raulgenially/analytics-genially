@@ -49,3 +49,17 @@ sources:
               description: Id User of the social profile.
               tests:
                 - unique
+
+        - name: inspirationv4
+          description: Geniallys shown at inspiration section.
+          columns:
+            - name: _id
+              description: Primary key for inspiration geniallys.
+              tests:
+                - unique
+                - not_null
+            - name: geniallyid
+              description: Id Genially of the inspiration genially.
+              tests:
+                - unique
+                - not_null

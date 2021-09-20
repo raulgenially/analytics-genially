@@ -15,7 +15,7 @@ genially_templates as (
         on geniallys.genially_id = templates.genially_id
 ),
 
-genially_templates_view as (
+genially_templates_view as (  --this is to remove geniallys that are templates 
     select
         geniallys.genially_id,
 
@@ -36,10 +36,14 @@ final as (
                 then 'Reusable'
             when templates.template_type is not null
                 then 'Template'
+            when geniallys.team_template_id is not null
+                then 'Team Template'
             when geniallys.genially_type = 17 or geniallys.genially_type = 27
                 then 'From Scratch'
             when geniallys.genially_type = 18
                 then 'PPTX Import'
+            -- when inspiration.inspiration_id is not null
+            --     then 'From Inspiration'
             else
                 'Other'
         end as origin,
