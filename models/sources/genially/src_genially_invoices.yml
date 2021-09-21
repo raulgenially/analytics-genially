@@ -18,6 +18,8 @@ models:
 
         - name: payer_email
           description: The email of the person paying the invoice.
+          tests:
+            - not_null
 
         - name: residence_country
           description: Country of residence of the person paying the invoice.
@@ -40,13 +42,17 @@ models:
           tests:
             - not_null
 
-        - name: user_id
-          description: Id of the user making the payment.
+        - name: invoice_number
+          description: Unique invoice number.
           tests:
             - not_null
 
-        - name: invoice_number
-          description: Unique invoice number.
+        - name: payment_platform
+          description: Payment platform used to make the payment. Either Braintree,
+            Paypal or Stripe.
+
+        - name: user_id
+          description: Id of the user making the payment.
           tests:
             - not_null
 

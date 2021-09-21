@@ -62,7 +62,8 @@ models:
             - not_null
 
         - name: finished_at
-          description: Date time the license finished.
+          description: Date time the license finished. This field is filled in once the license
+            is canceled (see status field)
 
         - name: manual_finished_at
           description: Date time the license finished.
