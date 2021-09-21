@@ -1,4 +1,4 @@
--- The user profile info (sector and role) is known
+-- The user profile info (sector and role) is known.
 {{
   config(
     severity='warn' 
