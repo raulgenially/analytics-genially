@@ -8,6 +8,8 @@ config-version: 2
 vars:
   # Constant we use in some cases to indicate that a value is not selected
   not_selected: 'Not-selected'
+  # Constant we use to indicate unknown attributes (and to avoid typos ;))
+  unknown: 'Unknown'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'
