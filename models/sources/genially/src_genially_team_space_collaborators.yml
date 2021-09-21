@@ -19,6 +19,9 @@ models:
               values: "{{ get_team_space_collaborator_types() }}"
               quote: false
 
+        - name: collaborator_type_name
+          description: Name associated to the collaborator_type.
+
         - name: space_id
           description: The team space id the collaborating entity is collaborating in.
           tests:

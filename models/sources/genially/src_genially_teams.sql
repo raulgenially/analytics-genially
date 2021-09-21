@@ -1,30 +1,45 @@
-with teams as (
+with src_teams as (
     select * from {{ source('genially', 'team') }}
+),
+
+team_types as (
+    select * from {{ ref('team_type_codes') }}
+),
+
+-- sanitize team_type so that it always has a value
+teams as (
+    select
+        *,
+        ifnull(type, 1) as team_type
+    from src_teams
 ),
 
 final as (
     select
-        _id as team_id,
+        teams._id as team_id,
 
-        name,
-        seatsnumber as seats,
-        logo,
-        description,
-        ifnull(type, 1) as team_type,
-        banner,
+        teams.name,
+        teams.seatsnumber as seats,
+        teams.logo,
+        teams.description,
+        teams.team_type,
+        team_types.name as team_type_name,
+        teams.banner,
         -- brandingsettings extraction
-        json_extract_scalar(brandingsettings, '$.SizeWatermark') as branding_size_watermark,
-        json_extract_scalar(brandingsettings, '$.CustomWatermark') as branding_custom_watermark,
-        json_extract_scalar(brandingsettings, '$.WatermarkLink') as branding_watermark_link,
-        json_extract_scalar(brandingsettings, '$.CustomLogo') as branding_custom_logo,
+        json_extract_scalar(teams.brandingsettings, '$.SizeWatermark') as branding_size_watermark,
+        json_extract_scalar(teams.brandingsettings, '$.CustomWatermark') as branding_custom_watermark,
+        json_extract_scalar(teams.brandingsettings, '$.WatermarkLink') as branding_watermark_link,
+        json_extract_scalar(teams.brandingsettings, '$.CustomLogo') as branding_custom_logo,
 
-        iduser as owner_id,
+        teams.iduser as owner_id,
 
-        isconfigured as is_configured,
+        ifnull(teams.isconfigured, false) as is_configured,
 
-        creationtime as created_at,
+        teams.creationtime as created_at,
 
     from teams
+    left join team_types
+        on teams.team_type = team_types.code
     where __hevo__marked_deleted = false
 )
 

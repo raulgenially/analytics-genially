@@ -34,6 +34,11 @@ models:
                 values: "{{ get_team_type_values() }}"
                 quote: false
 
+        - name: team_type_name
+          description: The equivalent name of the team_type property. Extracted from `team_type_codes.csv`.
+          tests:
+            - not_null
+
         - name: banner
           description: Link to the top banner image.
 

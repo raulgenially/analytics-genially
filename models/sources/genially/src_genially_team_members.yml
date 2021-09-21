@@ -23,6 +23,9 @@ models:
                 values: "{{ get_team_member_roles() }}"
                 quote: false
 
+        - name: member_role_name
+          description: The name of the member_role code
+
         - name: user_id
           description: Id of the user that is/was part of the team.
 
