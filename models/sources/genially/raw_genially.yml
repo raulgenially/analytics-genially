@@ -63,3 +63,17 @@ sources:
               tests:
                 - unique
                 - not_null
+
+        - name: templatecolors
+          description: Template colors variation (Old Templates).
+          columns:
+            - name: _id
+              description: Primary key for template colors.
+              tests:
+                - unique
+                - not_null
+            - name: idgenially
+              description: Id Genially of the inspiration genially.
+              tests:
+                - unique
+                - not_null

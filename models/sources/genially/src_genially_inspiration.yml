@@ -4,10 +4,9 @@ models:
     - name: src_genially_inspiration
       description: Geniallys shown at inspiration section.
       columns:
-        - name: inspiration_id
+        - name: inspiration_id 
           description: Primary key for inspiration geniallys.
           tests:
-            - unique
             - not_null
 
         - name: tags   

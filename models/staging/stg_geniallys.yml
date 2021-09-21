@@ -19,12 +19,12 @@ models:
         - name: name
           description: Genially name.
 
-        - name: origin
-          description: Genially origin.
+        - name: source
+          description: Genially source.
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_genially_origin_values() }}"
+                values: "{{ get_genially_source_values() }}"
 
         - name: category
           description: Genially category.

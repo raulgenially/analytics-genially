@@ -23,7 +23,7 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
-        geniallys.origin,
+        geniallys.source,
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
