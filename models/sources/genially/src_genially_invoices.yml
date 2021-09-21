@@ -58,6 +58,8 @@ models:
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
+          tests:
+            - not_null
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
