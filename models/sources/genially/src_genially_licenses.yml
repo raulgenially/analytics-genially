@@ -1,0 +1,70 @@
+version: 2
+
+models:
+    - name: src_genially_licenses
+      description: Information about the licenses the users purchase
+      columns:
+        - name: license_id
+          description: Primary key for licenses.
+          tests:
+            - unique
+            - not_null
+
+        - name: status
+          description: The status of the subscription,
+            either Finished, Pending or Canceled.
+            **Finished** means the license has been paid and it is active.
+            **Pending** means the license has an outstanding payment.
+            **Canceled** means the user has canceled the subscription.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_license_status_values() }}"
+
+        - name: license_type
+          description: Identifier of the type of license.
+            This describes whether the license has a monthly or annual payment
+            and the degree of feature access to the platform.
+          tests:
+            - not_null
+
+        - name: comments
+          description: Notes on the license.
+
+        - name: user_ip
+          description: Ip address from which the user purchased the license.
+
+        - name: user_id
+          description: Id of the User purchasing the license.
+          tests:
+            - not_null
+
+        - name: payer_id
+          description: Id of the user in the payment processing platform
+            used (e.g. Stripe or Braintree).
+          tests:
+            - not_null
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+            Each recurrent payment will have a different transaction_id.
+          tests:
+            - not_null
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+          tests:
+            - not_null
+
+        - name: started_at
+          description: Date time the license starts.
+          tests:
+            - not_null
+
+        - name: finished_at
+          description: Date time the license finished. This field is filled in once the license
+            is canceled (see status field)
+
+        - name: manual_finished_at
+          description: Date time the license will be finished.
+            This is set by genially employees to a future date.
