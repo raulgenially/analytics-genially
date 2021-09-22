@@ -1,11 +1,11 @@
 sector_id,sector_name,category
-1,Primary Education,Education (K12)
-11,Secondary Education,Education (K12)
-2,Higher Education,High Education
-3,E-Learning,Corporate
+1,Primary Education,Education
+11,Secondary Education,Education
+2,Higher Education,Education
+3,E-Learning,Education
 4,PYME,Corporate
 5,Company,Corporate
-6,Public Admin. & ONG,Corporate
+6,Public Admin. & NGO,Corporate
 7,Freelance,Corporate
 8,Media,Corporate
 9,Editorial,Corporate
