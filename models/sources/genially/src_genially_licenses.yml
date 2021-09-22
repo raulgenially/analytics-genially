@@ -66,5 +66,5 @@ models:
             is canceled (see status field)
 
         - name: manual_finished_at
-          description: Date time the license finished.
-            This is set by genially employees.
+          description: Date time the license will be finished.
+            This is set by genially employees to a future date.

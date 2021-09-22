@@ -10,15 +10,9 @@ duplicated_invoice_numbers as (
         count(*)
 
     from invoices
+    where invoices.invoiced_at > timestamp('2020-01-01')
     group by invoice_number
     having count(*) > 1
 )
 
-select
-    invoices.*
-
-from invoices
-inner join duplicated_invoice_numbers
-    on invoices.invoice_number = duplicated_invoice_numbers.invoice_number
-where invoices.invoiced_at > timestamp('2020-01-01')
-order by invoices.invoiced_at desc
+select * from duplicated_invoice_numbers
