@@ -1,32 +1,27 @@
--- From the new onboarding on ('2021-05-12'), sectors and roles of creators should have valid data.
+-- Sectors and roles of creators should have valid data from new onboarding date on.
 {{
   config(
     severity='warn' 
   )
 }}
 
-with creators as (
-    select * from {{ ref('creators') }}
+with geniallys as (
+    select * from {{ ref('geniallys') }}
 ),
 
 final as (
     select
         user_id,
-        sector, 
-        sector_category,
-        role,
-        country,
-        registered_at,
-        last_access_at
+        count(genially_id) as n_creations
 
-    from creators
-    where (registered_at >= '2021-05-12'
-      or last_access_at >= '2021-05-12')
-      and (sector like '%(old)%'
-        or sector = '{{ var('not_selected') }}'
-        or role like '%(old)%'
-        or role = '{{ var('not_selected') }}')
-    order by registered_at desc
+    from geniallys
+    where created_at > '{{ var('new_onboarding_date') }}'
+        and (user_sector like '%(old)%'
+            or user_sector = '{{ var('not_selected') }}'
+            or user_role like '%(old)%'
+            or user_role = '{{ var('not_selected') }}')
+    group by 1
+    order by n_creations desc
 )
 
 select * from final
