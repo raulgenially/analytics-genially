@@ -11,6 +11,7 @@ final as (
         sector,
         broad_sector,
         role,
+        {{ create_broad_role_field('role', 'broad_sector') }} as broad_role,
         country,
         country_name,
 
@@ -23,7 +24,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
-    group by 1, 2, 3, 4, 5, 6, 7, 8
+    group by 1, 2, 3, 4, 5, 6, 7, 8, 9
     order by registered_at asc
 )
 
