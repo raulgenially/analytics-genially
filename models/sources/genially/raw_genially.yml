@@ -51,10 +51,10 @@ sources:
                 - unique
 
         - name: inspirationv4
-          description: Geniallys shown at inspiration section.
+          description: Geniallys shown at Inspiration section.
           columns:
             - name: _id
-              description: Primary key for inspiration geniallys.
+              description: Primary key for Inspiration geniallys.
               tests:
                 - unique
                 - not_null
