@@ -11,7 +11,7 @@ templatecolors as (
 ),
 
 inspiration as (
-    select * from {{ ref('src_genially_inspiration') }}
+    select * from {{ ref('stg_inspiration') }}
 ),
 
 total_templates as(

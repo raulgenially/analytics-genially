@@ -11,7 +11,7 @@ sources:
               description: Primary key for geniallys.
               tests:
                 - unique
-                - not_null  
+                - not_null
 
         - name: users
           columns:
@@ -36,7 +36,7 @@ sources:
               tests:
                 - unique
                 - not_null
-                
+
         - name: social
           description: Users Social Profiles information
           columns:
@@ -61,7 +61,6 @@ sources:
             - name: geniallyid
               description: Id Genially of the inspiration genially.
               tests:
-                - unique
                 - not_null
 
         - name: templatecolors
@@ -74,6 +73,18 @@ sources:
                 - not_null
             - name: idgenially
               description: Id Genially of the inspiration genially.
+
+        - name: license
+          description: Information about the licenses the users purchase
+          columns:
+            - name: _id
+              description: Primary key for licenses.
+
+        - name: invoice
+          description: Information about invoices
+          columns:
+            - name: _id
+              description: Primary key for invoices.
               tests:
                 - unique
                 - not_null

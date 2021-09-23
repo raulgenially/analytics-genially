@@ -1,22 +1,14 @@
 version: 2
 
 models:
-    - name: stg_templatecolors
+    - name: stg_inspiration
       description: Template color variations with enriched information from main template.
       columns:
-        - name: template_id
+        - name: inspiration_id
           description: Primary key for the template color variation. Same as genially_id
           tests:
             - unique
             - not_null
-
-        - name: template_type
-          description: Template type.
-          tests:
-            - not_null
-
-        - name: subcategory
-          description: Template subcategory.
 
         - name: name
           description: Name of the template.
@@ -25,45 +17,48 @@ models:
 
         - name: language
           description: Language of the template.
+          tests:
+            - not_null
 
         - name: tags
           description: Tags associated to the template.
+          tests:
+            - not_null
 
-        - name: template_order
-          description: The template is shown in the application according to this field.
-
-        - name: default_color
+        - name: inspiration_order
           description: The default accent color of the creation.
+          tests:
+            - not_null
 
-        - name: is_hidden
+        - name: name
           description: Whether the template is hidden in the template panel.
           tests:
             - not_null
 
-        - name: is_premium
+        - name: category
           description: Whether the template is premium.
             Premium templates can only be used in premium plans.
           tests:
             - not_null
 
-        - name: is_new
+        - name: language
           description: Whether the template is new.
+          tests:
+            - not_null
 
-        - name: has_slides_selectable
+        - name: genially_type
           description: Whether you can select specific slides when using the template.
+          tests:
+            - not_null
 
-        - name: genially_id
+        - name: is_reusable
           description: Id of the actual genially referring to this template. Is the id_from_template when a template color variation is used
           tests:
             - not_null
             - unique
-            - relationships:
-                to: ref('src_genially_geniallys')
-                field: genially_id
-                severity: warn
 
-        - name: genially_to_view_id
-          description: Id of the actual genially referring to this template when visualized.
+        - name: genially_id
+          description: Id of the genially shown at Inspiration section.
           tests:
             - not_null
             - unique
@@ -71,4 +66,3 @@ models:
                 to: ref('src_genially_geniallys')
                 field: genially_id
                 severity: warn
-

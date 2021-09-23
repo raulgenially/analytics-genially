@@ -16,7 +16,6 @@ models:
         - name: genially_id
           description: Id from the genially wich is used to be a template.
           tests:
-            - unique
             - not_null
             - relationships:
                 to: ref('src_genially_geniallys')
@@ -26,7 +25,6 @@ models:
         - name: genially_to_view_id
           description: Id to view from the genially wich is used to be a template.
           tests:
-            - unique
             - not_null
             - relationships:
                 to: ref('src_genially_geniallys')
@@ -39,5 +37,5 @@ models:
             - not_null
             - relationships:
                 to: ref('src_genially_templates')
-                field: genially_id
+                field: template_id
                 severity: warn
