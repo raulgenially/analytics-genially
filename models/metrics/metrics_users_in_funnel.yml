@@ -39,7 +39,12 @@ models:
             - not_null
 
         - name: country
-          description: Country.
+          description: Country (ISO code).
+          tests:
+            - not_null
+
+        - name: country_name
+          description: Full name of the country.
           tests:
             - not_null
 

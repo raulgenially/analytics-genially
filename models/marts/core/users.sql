@@ -2,6 +2,10 @@ with users as (
     select * from {{ ref('stg_users') }}
 ),
 
+country_codes as (
+    select * from {{ ref('country_codes') }}
+),
+
 geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
@@ -97,6 +101,7 @@ final as (
         replace(users.sector_category, '{{ var('unknown') }}', '{{ var('not_selected') }}') as sector_category,
         replace(users.role, '{{ var('unknown') }}', '{{ var('not_selected') }}') as role,
         users.country,
+        ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
         users.email,
         users.language,
         users.about_me,
@@ -135,6 +140,8 @@ final as (
         users.last_access_at
 
     from users
+    left join country_codes 
+        on users.country = country_codes.code
     left join users_creations
         on users.user_id = users_creations.user_id
     left join users_collaboratives

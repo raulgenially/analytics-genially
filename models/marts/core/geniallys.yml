@@ -58,7 +58,7 @@ models:
             - not_null
 
         - name: user_country
-          description: Country.
+          description: Country (ISO code).
           tests:
             - not_null
 
