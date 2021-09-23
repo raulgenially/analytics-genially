@@ -2,60 +2,48 @@ version: 2
 
 models:
     - name: stg_inspiration
-      description: Template color variations with enriched information from main template.
+      description: Geniallys list at Inspiration section.
       columns:
         - name: inspiration_id
-          description: Primary key for the template color variation. Same as genially_id
+          description: Primary key for the inspiration genially. Is not internally used.
           tests:
             - unique
             - not_null
 
-        - name: name
-          description: Name of the template.
-          tests:
-            - not_null
-
-        - name: language
-          description: Language of the template.
-          tests:
-            - not_null
-
         - name: tags
-          description: Tags associated to the template.
+          description: Tags associated to the Inspiration Genially to be searched.
           tests:
             - not_null
 
         - name: inspiration_order
-          description: The default accent color of the creation.
+          description: Order to be shorted at Inspiration section.
           tests:
             - not_null
 
         - name: name
-          description: Whether the template is hidden in the template panel.
+          description: Name of the Inspiration genially shown.
           tests:
             - not_null
 
         - name: category
-          description: Whether the template is premium.
-            Premium templates can only be used in premium plans.
+          description: Category used to filter at Inspiration section.
           tests:
             - not_null
 
         - name: language
-          description: Whether the template is new.
+          description: Language of the Inspiration Genially.
           tests:
             - not_null
 
         - name: genially_type
-          description: Whether you can select specific slides when using the template.
+          description: Type of the genially wich is shown at Inspiration section.
           tests:
             - not_null
 
         - name: is_reusable
-          description: Id of the actual genially referring to this template. Is the id_from_template when a template color variation is used
+          description: Whether the Inspiration genially can be reusable as a template by another user.
           tests:
             - not_null
-            - unique
 
         - name: genially_id
           description: Id of the genially shown at Inspiration section.
