@@ -16,7 +16,7 @@ final as (
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
         {{ parse_user_profile('newsector', 'sector_codes.sector_name') }} as sector,
-        {{ parse_user_profile('newsector', 'sector_codes.category') }} as sector_category,
+        {{ parse_user_profile('newsector', 'sector_codes.category') }} as broad_sector,
         {{ parse_user_profile('newrole', 'role_codes.role_name') }} as role,
         username,
         nickname,

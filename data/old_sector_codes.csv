@@ -1,7 +1,7 @@
 sector_id,sector_name,category
-1,Primary Education,Education
-11,Secondary Education,Education
-2,Higher Education,Education
+1,Primary Education,K12 Education
+11,Secondary Education,K12 Education
+2,Higher Education,Higher Education
 3,E-Learning,Corporate
 4,PYME,Corporate
 5,Company,Corporate

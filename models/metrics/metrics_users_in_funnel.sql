@@ -9,7 +9,7 @@ final as (
         plan,
         {{ create_subscription_field('plan') }} as subscription,
         sector,
-        sector_category,
+        broad_sector,
         role,
         country,
         country_name,

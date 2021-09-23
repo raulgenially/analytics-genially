@@ -1,10 +1,10 @@
 sector_id,sector_name,category
-200,Elementary School,Education
-201,Middle School,Education
-202,High School,Education
+200,Elementary School,K12 Education
+201,Middle School,K12 Education
+202,High School,K12 Education
 203,Technical vocational training,Corporate
-204,University/Graduate School,Education
-205,Other,Education
+204,University/Graduate School,Higher Education
+205,Other,Education (Other)
 206,Agency,Corporate
 207,Publisher,Corporate
 208,Private company,Corporate
