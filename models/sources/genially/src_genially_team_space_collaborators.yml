@@ -14,13 +14,15 @@ models:
         - name: collaborator_type
           description: "{{ doc('team_space_collaborator_type') }}"
           tests:
-          - not_null
-          - accepted_values:
-              values: "{{ get_team_space_collaborator_types() }}"
-              quote: false
+            - not_null
+            - accepted_values:
+                values: "{{ get_team_space_collaborator_types() }}"
+                quote: false
 
         - name: collaborator_type_name
           description: Name associated to the collaborator_type.
+          tests:
+            - not_null
 
         - name: space_id
           description: The team space id the collaborating entity is collaborating in.
@@ -28,7 +30,7 @@ models:
             - not_null
 
         - name: space_owner_id
-          description: The user id owning of the team space.
+          description: The user id owning the team space.
           tests:
             - not_null
 

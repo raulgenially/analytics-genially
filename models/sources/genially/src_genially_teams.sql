@@ -11,6 +11,7 @@ teams as (
     select
         *,
         ifnull(type, 1) as team_type
+
     from src_teams
 ),
 

@@ -28,9 +28,6 @@ models:
 
         - name: owner_id
           description: The user id that created this space.
-          tests:
-            - not_null:
-                severity: warn
 
         - name: created_at
           description: Date time this space was created.
