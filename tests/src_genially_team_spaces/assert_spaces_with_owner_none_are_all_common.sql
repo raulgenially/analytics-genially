@@ -7,5 +7,5 @@ select
     *
 
 from spaces
-where spaces.is_common = false
-    and spaces.owner_id is null
+where is_common = false
+    and owner_id is null
