@@ -10,6 +10,14 @@ models:
             - unique
             - not_null
 
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+                
         - name: is_published
           description: Whether the genially has been published.
           tests:
@@ -42,8 +50,6 @@ models:
 
         - name: is_owner_social_profile_active
           description: Whether the social profile of the owner is active.
-          tests:
-            - not_null
 
         - name: genially_id
           description: Id of the genially referring to the collaboration.
@@ -55,9 +61,7 @@ models:
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
-            You can send an invitation to people who is not registered, so this field is empty.
           tests:
-            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id
@@ -65,7 +69,6 @@ models:
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
           tests:
-            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id

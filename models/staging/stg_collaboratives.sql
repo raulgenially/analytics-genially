@@ -10,10 +10,25 @@ users as (
     select * from {{ ref('stg_users') }}
 ),
 
+team_members as (
+    select * from {{ ref('src_genially_team_members') }}
+),
+
+team_members_users as (
+    select
+        team_members.team_member_id,
+        team_members.user_id
+
+    from team_members
+    inner join users
+        on team_members.user_id = users.user_id
+),
+
 final as (
     select
         collaboratives.collaborative_id,
 
+        collaboratives.collaboration_type,
         geniallys.is_published,
         geniallys.is_deleted,
         geniallys.is_in_social_profile,
@@ -23,17 +38,23 @@ final as (
         owners.is_social_profile_active as is_owner_social_profile_active,
 
         collaboratives.genially_id,
-        collaboratives.user_id,
-        collaboratives.user_owner_id,
+        case
+            when collaboration_type = 1
+                then users.user_id
+            else team_members_users.user_id
+        end as user_id,
+        owners.user_id as user_owner_id
 
     from collaboratives
     inner join geniallys
         on collaboratives.genially_id = geniallys.genially_id
-    inner join users as owners
+    left join users as owners
         on collaboratives.user_owner_id = owners.user_id
-    inner join users
+    left join users
         on collaboratives.user_id = users.user_id
-    where collaboratives.user_owner_id = geniallys.user_id
+    left join team_members_users
+        on collaboratives.user_id = team_members_users.team_member_id
+    where collaboratives.user_owner_id = geniallys.user_id       
 )
 
 select * from final
