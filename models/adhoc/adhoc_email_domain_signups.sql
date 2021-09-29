@@ -5,7 +5,7 @@ with signups as (
 base as (
     select
         REGEXP_EXTRACT(email, r'@(.+)') as Domain,
-        count(*) as Users,
+        count(user_id) as Users,
         countif(plan != 'Free') as PremiumUsers,
         sum(n_total_creations) as Geniallys,
 
