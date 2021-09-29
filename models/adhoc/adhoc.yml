@@ -11,7 +11,12 @@ models:
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1I4tDFcdzNtstH8bknZ0HtbGpQNBiTabb5S-QfvZcm8c)
 
-  - name: adhoc_user_licenses_metadata
+  - name: adhoc_licenses_metadata
     description: Query to extract license metadata from the users.
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1pB_STTYInuDMQT1PJEXAMS8e-AScqFnWb3rI4401Qmo)
+
+  - name: adhoc_email_domain_signups
+    description: Query to extract signups with the given email domain.
+      This query is used in the following
+      [Google sheet](https://docs.google.com/spreadsheets/d/1pZoQOdSXJjCGHYJzbavhKGcngAEDJtR43Ff0SsTiKyU)
