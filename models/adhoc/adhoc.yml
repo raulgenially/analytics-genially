@@ -7,14 +7,9 @@ models:
       [Google sheet](https://docs.google.com/spreadsheets/d/1xrRQ6yJKbL3eB9g8sh_YzLsHGGMEi0B89TSfB9dl1T4)
 
   - name: adhoc_user_data_enrichment
-    description: Query to extract some metadata from the users.
+    description: Query to extract metadata from the users.
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1I4tDFcdzNtstH8bknZ0HtbGpQNBiTabb5S-QfvZcm8c)
-
-  - name: adhoc_licenses_metadata
-    description: Query to extract license metadata from the users.
-      This query is used in the following
-      [Google sheet](https://docs.google.com/spreadsheets/d/1pB_STTYInuDMQT1PJEXAMS8e-AScqFnWb3rI4401Qmo)
 
   - name: adhoc_email_domain_signups
     description: Query to extract signups with the given email domain.
