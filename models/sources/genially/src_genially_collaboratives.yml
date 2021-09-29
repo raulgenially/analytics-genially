@@ -27,28 +27,15 @@ models:
           description: Id of the genially referring to the collaboration.
           tests:
             - not_null
-            - relationships:
-                to: ref('src_genially_geniallys')
-                field: genially_id
-                severity: warn
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
             You can send an invitation to people who is not registered, so this field is empty.
-          tests:
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                severity: warn
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
           tests:
             - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                severity: warn
 
         - name: team_id
           description: Id of the team formed by the people collaborating in the genially.

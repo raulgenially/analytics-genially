@@ -76,10 +76,6 @@ models:
           description: Foreign key referring to the user creating the genially.
           tests:
             - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                severity: warn
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.
