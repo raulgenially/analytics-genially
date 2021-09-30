@@ -13,7 +13,6 @@ final as (
     select
         user_id,
         sector, 
-        broad_sector,
         role,
         country,
         registered_at
