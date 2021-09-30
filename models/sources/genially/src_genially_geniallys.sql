@@ -15,13 +15,8 @@ final as (
 
         ifnull(published, false) as is_published,
         ifnull(deleted, false) as is_in_recyclebin,
-        case
-            when deleted is true
-            and date_diff(datedeleted, current_timestamp(), day) >= 30
-                then true
-            else false
-        end as is_logic_deleted, 
-        ifnull(__hevo__marked_deleted, false) as is_deleted, 
+        ifnull(deleted and date_diff(datedeleted, current_timestamp(), day) >= 30, false) as is_logically_deleted,
+        __hevo__marked_deleted as is_deleted,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
         case

@@ -12,6 +12,10 @@ sources:
               tests:
                 - unique
                 - not_null
+            - name: __hevo__marked_deleted
+              description: Indicates if the genially is deleted in MongoDB
+              tests:
+              - not_null
 
         - name: users
           columns:

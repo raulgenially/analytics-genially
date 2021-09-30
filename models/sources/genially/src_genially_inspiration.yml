@@ -1,19 +1,20 @@
-version: 2 
+version: 2
 
 models:
     - name: src_genially_inspiration
       description: Geniallys shown at Inspiration section.
       columns:
-        - name: inspiration_id 
+        - name: inspiration_id
           description: Primary key for inspiration geniallys.
           tests:
             - not_null
+            - unique
 
-        - name: tags   
+        - name: tags
           description: Tags associated to the inspiration genially.
 
         - name: inspiration_order
-          description: The genially is ordered by the aplication acording this field.
+          description: The genially is ordered by the aplication according this field.
 
         - name: name
           description: Name shown into the application for the inspiration genially.
@@ -24,6 +25,8 @@ models:
           description: Inspiration Genially category (to use in top filters).
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_inspiration_categories() }}"
 
         - name: language
           description: Language of the inspiration genially.
@@ -39,7 +42,7 @@ models:
             - not_null
 
         - name: genially_id
-          description: Id of the actual genially referring to this template.
+          description: Id of the actual genially referring to this inspiration.
           tests:
             - not_null
             - relationships:

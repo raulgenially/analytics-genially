@@ -11,7 +11,7 @@ templatecolors as (
 ),
 
 inspiration as (
-    select * from {{ ref('stg_inspiration') }}
+    select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
 ),
 
 total_templates as(
@@ -55,7 +55,7 @@ final as (
             when geniallys.reused_from_id is not null
                 then
                     case
-                        when inspiration_id is null
+                        when inspiration.genially_id is null
                             then 'Reusable'
                         else 'Inspiration Reusable'
                     end
@@ -76,7 +76,7 @@ final as (
 
         geniallys.is_published,
         geniallys.is_in_recyclebin,
-        geniallys.is_logic_deleted,
+        geniallys.is_logically_deleted,
         geniallys.is_deleted,
         geniallys.is_private,
         geniallys.is_password_free,
