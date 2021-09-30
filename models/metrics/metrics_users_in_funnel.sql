@@ -11,7 +11,7 @@ final as (
         sector,
         broad_sector,
         role,
-        {{ create_broad_role_field('role', 'broad_sector') }} as broad_role,
+        broad_role,
         country,
         country_name,
 

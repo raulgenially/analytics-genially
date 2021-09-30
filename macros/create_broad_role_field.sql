@@ -9,10 +9,18 @@
                         then 'Student (K12)'
                     when {{ broad_sector }} = 'Higher Education'
                         then 'Student (Higher)'
-                    -- In the old onboarding, there can be students from the Corporate sector
                     when {{ broad_sector }} = 'Education (Other)' or {{ broad_sector }} = 'Corporate'
                         then 'Student (Other)'
-                    else null
+                end
+        when {{ role }} like 'Teacher%'
+            then 
+                case
+                    when {{ broad_sector }} = 'K12 Education'
+                        then 'Teacher (K12)'
+                    when {{ broad_sector }} = 'Higher Education'
+                        then 'Teacher (Higher)'
+                    when {{ broad_sector }} = 'Education (Other)' or {{ broad_sector }} = 'Corporate'
+                        then 'Teacher (Other)'
                 end
         else 'Professional'
     end

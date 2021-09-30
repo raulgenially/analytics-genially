@@ -6,15 +6,18 @@ social as (
     select * from {{ ref('src_genially_social') }}
 ),
 
+sector_codes as (
+    select * from {{ ref('sector_codes') }}
+),
+
 final as (
     select
         users.user_id,
 
         users.subscription_plan as plan,
-        users.sector_code,
-        users.sector,
-        users.role_code,
-        users.role,
+        replace(users.sector, '{{ var('unknown') }}', '{{ var('not_selected') }}') as sector,
+        coalesce(sector_codes.category, '{{ var('not_selected') }}') as broad_sector,
+        replace(users.role, '{{ var('unknown') }}', '{{ var('not_selected') }}') as role,
         users.country,
         users.email,
         users.language,
@@ -35,6 +38,8 @@ final as (
     from users
     left join social
         on users.user_id = social.user_id
+    left join sector_codes
+        on users.sector_code = sector_codes.sector_id
 )
 
 select * from final
