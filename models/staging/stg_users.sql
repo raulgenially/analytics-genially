@@ -11,8 +11,9 @@ final as (
         users.user_id,
 
         users.subscription_plan as plan,
+        users.sector_code,
         users.sector,
-        users.broad_sector,
+        users.role_code,
         users.role,
         users.country,
         users.email,

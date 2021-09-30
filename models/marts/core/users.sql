@@ -97,9 +97,10 @@ final as (
         users.user_id,
 
         users.plan,
-        replace(users.sector, '{{ var('unknown') }}', '{{ var('not_selected') }}') as sector,
-        replace(users.broad_sector, '{{ var('unknown') }}', '{{ var('not_selected') }}') as broad_sector,
-        replace(users.role, '{{ var('unknown') }}', '{{ var('not_selected') }}') as role,
+        users.sector_code,
+        users.sector,
+        users.role_code,
+        users.role,
         users.country,
         ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
         users.email,

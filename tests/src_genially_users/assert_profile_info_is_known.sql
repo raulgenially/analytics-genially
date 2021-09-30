@@ -12,7 +12,9 @@ with users as (
 final as (
     select
         user_id,
-        sector, 
+        sector_code,
+        sector,
+        role_code, 
         role,
         country,
         registered_at
