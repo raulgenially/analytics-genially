@@ -64,6 +64,51 @@ sources:
           columns:
             - name: _id
               description: Primary key for invoices.
+
+        - name: team
+          columns:
+            - name: _id
+              description: Primary key for teams.
+              tests:
+                - unique
+                - not_null
+
+        - name: teammember
+          columns:
+            - name: _id
+              description: Primary key for team member.
+              tests:
+                - unique
+                - not_null
+
+        - name: teamspace
+          columns:
+            - name: _id
+              description: Primary key for team space.
+              tests:
+                - unique
+                - not_null
+
+        - name: teamspacecollaborator
+          columns:
+            - name: _id
+              description: Primary key for team space collaborator.
+              tests:
+                - unique
+                - not_null
+
+        - name: teamtemplate
+          columns:
+            - name: _id
+              description: Primary key for team templates.
+              tests:
+                - unique
+                - not_null
+
+        - name: teamgroup
+          columns:
+            - name: _id
+              description: Primary key for team groups.
               tests:
                 - unique
                 - not_null

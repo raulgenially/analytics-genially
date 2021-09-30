@@ -1,0 +1,35 @@
+version: 2
+
+models:
+    - name: src_genially_team_spaces
+      description: Team spaces
+      columns:
+        - name: team_space_id
+          description: Primary key for the team spaces.
+          tests:
+            - unique
+            - not_null
+
+        - name: name
+          description: Name of the space.
+
+        - name: icon
+          description: Emoji character attached to the space name.
+
+        - name: is_common
+          description: Whether this is the common space of the team.
+          tests:
+            - not_null
+
+        - name: team_id
+          description: The team id this space belongs to.
+          tests:
+            - not_null
+
+        - name: owner_id
+          description: The user id that created this space.
+
+        - name: created_at
+          description: Date time this space was created.
+          tests:
+            - not_null
