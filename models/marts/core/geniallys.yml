@@ -37,6 +37,13 @@ models:
         - name: template_name
           description: Name of the template.
 
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+
         - name: user_plan
           description: "{{ doc('subscription_codes') }}"
           tests:

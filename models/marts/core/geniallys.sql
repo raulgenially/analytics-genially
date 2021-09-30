@@ -12,7 +12,8 @@ collaboratives as (
 
 geniallys_collaboratives as (
     select
-        distinct genially_id
+        distinct genially_id,
+        collaboration_type
 
     from collaboratives
 ),
@@ -27,6 +28,7 @@ final as (
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
         users.sector_category as user_sector_category,
