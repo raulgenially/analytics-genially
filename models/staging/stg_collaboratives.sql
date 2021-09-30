@@ -24,7 +24,7 @@ team_members_users as (
         on team_members.user_id = users.user_id
 ),
 
-final as (
+collaboratives_joined as (
     select
         collaboratives.collaborative_id,
 
@@ -43,18 +43,26 @@ final as (
                 then users.user_id
             else team_members_users.user_id
         end as user_id,
-        owners.user_id as user_owner_id
+        collaboratives.user_owner_id
 
     from collaboratives
     inner join geniallys
         on collaboratives.genially_id = geniallys.genially_id
-    left join users as owners
+    inner join users as owners
         on collaboratives.user_owner_id = owners.user_id
     left join users
         on collaboratives.user_id = users.user_id
     left join team_members_users
         on collaboratives.user_id = team_members_users.team_member_id
     where collaboratives.user_owner_id = geniallys.user_id       
+),
+
+final as (
+    select 
+        *
+
+    from collaboratives_joined
+    where user_owner_id != user_id
 )
 
 select * from final

@@ -62,6 +62,7 @@ models:
         - name: user_id
           description: Id of a user taking part of the collaboration.
           tests:
+            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id
@@ -69,6 +70,7 @@ models:
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
           tests:
+            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id
