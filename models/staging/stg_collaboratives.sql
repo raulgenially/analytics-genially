@@ -29,6 +29,7 @@ collaboratives_joined as (
         collaboratives.collaborative_id,
 
         collaboratives.collaboration_type,
+
         geniallys.is_published,
         geniallys.is_deleted,
         geniallys.is_in_social_profile,
@@ -43,7 +44,10 @@ collaboratives_joined as (
                 then users.user_id
             else team_members_users.user_id
         end as user_id,
-        collaboratives.user_owner_id
+        collaboratives.user_owner_id,
+        collaboratives.team_id,
+
+        collaboratives.created_at
 
     from collaboratives
     inner join geniallys
@@ -62,7 +66,7 @@ final as (
         *
 
     from collaboratives_joined
-    where user_owner_id != user_id
+    where user_owner_id != user_id -- This also remove null values of user_id
 )
 
 select * from final

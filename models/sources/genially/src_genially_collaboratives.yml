@@ -14,7 +14,6 @@ models:
           description: Email of the user taking part of the collaboration.
           tests:
             - not_null:
-                severity: warn
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"

@@ -74,3 +74,11 @@ models:
             - relationships:
                 to: ref('stg_users')
                 field: user_id
+
+        - name: team_id
+          description: Id of the team formed by the people collaborating in the genially.
+
+        - name: created_at
+          description: When the genially was shared with the user id for collaboration.
+          tests:
+            - not_null
