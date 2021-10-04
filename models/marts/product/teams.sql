@@ -35,7 +35,7 @@ users_in_teams as (
 geniallys_in_teams as (
     select
         team_id,
-        countif({{ define_active_creation('geniallys') }}) as n_active_creations
+        countif({{ define_active_creation('geniallys') }}) as n_active_shared_with_me_creations
 
     from geniallys
     where collaboration_type = 4
@@ -51,7 +51,7 @@ final as (
         teams.seats,
         coalesce(spaces_in_teams.n_spaces, 0) as n_spaces,
         coalesce(users_in_teams.n_members, 0) as n_members,
-        coalesce(geniallys_in_teams.n_active_creations, 0) as n_active_creations,
+        coalesce(geniallys_in_teams.n_active_shared_with_me_creations, 0) as n_active_shared_with_me_creations,
 
         if(teams.logo is null, false, true) as has_logo,
         if(teams.banner is null, false, true) as has_banner,
