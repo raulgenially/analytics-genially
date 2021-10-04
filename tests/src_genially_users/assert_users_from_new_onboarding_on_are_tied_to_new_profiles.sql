@@ -1,10 +1,4 @@
--- The user profile info (sector and role) is known.
-{{
-  config(
-    severity='warn' 
-  )
-}}
-
+-- Sectors and roles info of new users is associated to new codes.
 with users as (
     select * from {{ ref('src_genially_users') }}
 ),
@@ -14,14 +8,14 @@ final as (
         user_id,
         sector_code,
         sector,
-        role_code, 
+        role_code,
         role,
-        country,
         registered_at
 
     from users
-    where sector = '{{ var('unknown') }}'
-        or role = '{{ var('unknown') }}'
+    where registered_at > '{{ var('new_onboarding_date') }}'
+        and (sector like '%(old)%'
+            or role like '%(old)%')
     order by registered_at desc
 )
 

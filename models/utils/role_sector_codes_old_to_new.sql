@@ -1,5 +1,5 @@
-with role_sector_mapping as (
-    select * from {{ ref('role_sector_mapping') }}
+with old_role_codes as (
+    select * from {{ ref('old_role_codes') }}
 ),
 
 role_codes as (
@@ -8,18 +8,18 @@ role_codes as (
 
 final as (
     select
-        role_sector_mapping.old_role_id,
-        role_sector_mapping.old_role_name,
-        role_sector_mapping.old_sector_id,
-        role_sector_mapping.old_sector_name,
-        role_sector_mapping.new_role_id,
+        old_role_codes.role_id as old_role_id,
+        concat(old_role_codes.role_name, ' (old)') as old_role_name,
+        old_role_codes.sector_id as old_sector_id,
+        concat(old_role_codes.sector_name, ' (old)') as old_sector_name,
+        old_role_codes.new_role_id,
         role_codes.role_name as new_role_name,
         role_codes.sector_id as new_sector_id,
         role_codes.sector_name as new_sector_name
 
-    from role_sector_mapping
+    from old_role_codes
     left join role_codes
-        on role_sector_mapping.new_role_id = role_codes.role_id
+        on old_role_codes.new_role_id = role_codes.role_id
 )
 
 select * from final
