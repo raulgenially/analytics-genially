@@ -1,0 +1,55 @@
+old_role_id,old_role_name,old_sector_id,old_sector_name,new_role_id
+1,Teacher,1,Primary Education,100
+2,Student,1,Primary Education,101
+3,Admin - Technician,1,Primary Education,102
+4,Other,1, Primary Education,103
+51,Teacher,11,Secondary Education,104
+52,Student,11,Secondary Education,105
+53,Admin - Technician,11,Secondary Education,106
+54,Other,11,Secondary Education,107
+5,Teacher,2,Higher Education,116
+6,Student,2,Higher Education,117
+7,Admin - Technician,2,Higher Education,118
+8,Designer,2,Higher Education,119
+9,Marketing and Communication,2,Higher Education,119
+10,Other,2,Higher Education,119
+11,Teacher,3,E-Learning,120
+12,Student,3,E-Learning,121
+13,Admin - Technician,3,E-Learning,122
+14,Designer,3,E-Learning,123
+15,Marketing and Communication,3,E-Learning,123
+16,Other,3,E-Learning,123
+17,Designer,4,PYME,138
+18,Marketing and Communication,4,PYME,139
+19,Trainer,4,PYME,140
+20,Admin - Technician,4,PYME,144
+21,Sales,4,PYME,143
+22,Other,4,PYME,144
+23,Designer,5,Company,138
+24,Marketing and Communication,5,Company,139
+25,Trainer,5,Company,140
+26,Admin - Technician,5,Company,144
+27,Sales,5,Company,143
+28,Other,5,Company,144
+29,Designer,6,Public Admin. & NGO,145
+30,Marketing and Communication,6,Public Admin. & NGO,146
+31,Trainer,6,Public Admin. & NGO,147
+32,Admin - Technician,6,Public Admin. & NGO,151
+33,Other,6,Public Admin. & NGO,151
+34,Designer,7,Freelance,159
+35,Marketing and Communication,7,Freelance,160
+36,Trainer,7,Freelance,161
+37,Admin - Technician,7,Freelance,162
+38,Other,7,Freelance,166
+39,Designer,8,Media,131
+40,Marketing and Communication,8,Media,132
+41,Journalist - Editor,8,Media,133
+42,Other,8,Media,137
+43,Designer,9,Editorial,131
+44,Marketing and Communication,9,Editorial,132
+45,Journalist - Editor,9,Editorial,133
+46,Other,9,Editorial,137
+47,Designer,10,Agency,124
+48,Marketing and Communication,10,Agency,125
+49,Trainer,10,Agency,126
+50,Other,10,Agency,127
