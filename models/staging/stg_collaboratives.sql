@@ -66,7 +66,7 @@ final as (
         *
 
     from collaboratives_joined
-    where user_owner_id != user_id -- This also remove null values of user_id
+    where user_owner_id != user_id -- This also removes null values of user_id
 )
 
 select * from final

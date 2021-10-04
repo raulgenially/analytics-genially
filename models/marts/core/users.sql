@@ -14,7 +14,7 @@ users_creations as (
     select
         geniallys.user_id,
         count(geniallys.genially_id) as n_total_creations,
-        countif(geniallys.is_deleted = false) as n_active_creations,
+        countif({{ define_active_creation('geniallys') }}) as n_active_creations,
         countif(geniallys.is_published = true) as n_published_creations,
         countif(
             geniallys.is_deleted = false

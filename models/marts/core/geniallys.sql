@@ -13,7 +13,8 @@ collaboratives as (
 geniallys_collaboratives as (
     select
         distinct genially_id,
-        collaboration_type
+        collaboration_type,
+        team_id
 
     from collaboratives
 ),
@@ -54,6 +55,7 @@ final as (
         end as is_created_before_registration,
 
         geniallys.user_id,
+        geniallys_collaboratives.team_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
 
