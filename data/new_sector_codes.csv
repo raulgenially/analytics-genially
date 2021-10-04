@@ -1,14 +1,14 @@
-sector_id,sector_name,category
-200,Elementary School,K12 Education
-201,Middle School,K12 Education
-202,High School,K12 Education
-203,Technical vocational training,Education (Other)
-204,University/Graduate School,Higher Education
-205,Other,Education (Other)
-206,Agency,Corporate
-207,Publisher,Corporate
-208,Private company,Corporate
-209,Government/Institution,Corporate
-210,Non-profit/NGO,Corporate
-211,Freelance,Corporate
-212,Other,Corporate
+sector_id,sector_name
+200,Elementary School
+201,Middle School
+202,High School
+203,Technical vocational training
+204,University/Graduate School
+205,Other
+206,Agency
+207,Publisher
+208,Private company
+209,Government/Institution
+210,Non-profit/NGO
+211,Freelance
+212,Other

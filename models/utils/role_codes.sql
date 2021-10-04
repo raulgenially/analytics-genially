@@ -27,7 +27,6 @@ final as (
         roles_codes_unioned.role_name,
         roles_codes_unioned.sector_id,
         sector_codes.sector_name,
-        sector_codes.category as sector_category
 
     from roles_codes_unioned
     left join sector_codes

@@ -6,7 +6,6 @@ old_sector_codes as (
     select
         sector_id,
         concat(sector_name, ' (old)') as sector_name,
-        category
     
     from {{ ref('old_sector_codes') }}
 ),

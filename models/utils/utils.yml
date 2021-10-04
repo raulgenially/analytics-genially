@@ -12,8 +12,6 @@ models:
         - name: sector_name
           description: Sector name. Those whose name ends in `(old)` belong
             to sectors defined for the old onboarding.
-        - name: category
-          description: Broad category of the sector (e.g. education, corporate, etc).
 
     - name: role_codes
       description: Codes used to identify old and new roles.
@@ -28,3 +26,15 @@ models:
             to roles defined for the old onboarding.
         - name: sector_id
           description: Foreign key to sector_codes.
+        - name: sector_name
+          description: Sector name. Those whose name ends in `(old)` belong
+            to sectors defined for the old onboarding.
+            
+    - name: role_sector_codes_old_to_new
+      description: mapping from old to new onboarding
+      columns:
+        - name: old_role_id
+          description: role code for the old onboarding
+          tests:
+            - unique
+            - not_null
