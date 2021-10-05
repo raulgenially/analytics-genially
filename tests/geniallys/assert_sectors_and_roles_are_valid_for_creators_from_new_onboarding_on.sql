@@ -1,4 +1,6 @@
 -- Sectors and roles of creators should have valid data from new onboarding date on.
+-- Keep in mind that, at this point, we have already performed the old-new onboarding mapping and some of the
+-- profiles associated to the old onboarding will be masked for this test.
 {{
   config(
     severity='warn' 
