@@ -1,12 +1,12 @@
-sector_id,sector_name
-1,Primary Education
-11,Secondary Education
-2,Higher Education
-3,E-Learning
-4,PYME
-5,Company
-6,Public Admin. & NGO
-7,Freelance
-8,Media
-9,Editorial
-10,Agency
+sector_id,sector_name,agg_sector
+1,Primary Education,K12 Education
+11,Secondary Education,K12 Education
+2,Higher Education,University
+3,E-Learning,Other Education
+4,PYME,Company
+5,Company,Company
+6,Public Admin. & NGO,Public Admin. & NGO
+7,Freelance,Other Corporate
+8,Media,Company
+9,Editorial,Company
+10,Agency,Company
