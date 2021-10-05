@@ -14,6 +14,15 @@ collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
 ),
 
+collaborative_geniallys as (
+    select
+        distinct geniallys.genially_id
+
+    from geniallys
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
+),
+
 users_creations as (
     select
         geniallys.user_id,
@@ -32,7 +41,7 @@ users_creations as (
         countif(
             geniallys.is_deleted = false
             and geniallys.is_published = true
-            and collaboratives.genially_id is not null -- Check if the genially is collaborative.
+            and collaborative_geniallys.genially_id is not null -- Check if the genially is collaborative.
         ) as n_active_collaborative_published_creations,
         countif(
             geniallys.is_deleted = false
@@ -45,8 +54,8 @@ users_creations as (
         max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
-    left join collaboratives
-        on geniallys.genially_id = collaboratives.genially_id
+    left join collaborative_geniallys
+        on geniallys.genially_id = collaborative_geniallys.genially_id
     group by 1
 ),
 
