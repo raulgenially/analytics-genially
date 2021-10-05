@@ -1,6 +1,6 @@
 -- Broad sector and broad role fields should not refer to old onboarding
 with users as (
-    select * from {{ ref('users') }}
+    select * from {{ ref('stg_users') }}
 ),
 
 final as (

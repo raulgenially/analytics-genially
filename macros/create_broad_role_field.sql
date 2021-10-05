@@ -39,11 +39,11 @@
         when {{ broad_sector }} = 'University'
             then 'Pro Uni'
         -- Now CORPORATE
-        when {{ role }} = 'Design' or when {{ role }} = 'Designer'
+        when {{ role }} = 'Design' or {{ role }} = 'Designer'
             then 'Design'
-        when {{ role }} = 'Marketing/Communications' or when {{ role }} = 'Marketing and Communication'
+        when {{ role }} = 'Marketing/Communications' or {{ role }} = 'Marketing and Communication'
             then 'Marketing/Communications'
-        when {{ role }} = 'Training' or when {{ role }} = 'Trainer'
+        when {{ role }} = 'Training' or {{ role }} = 'Trainer'
             then 'Training'
         else 'Other Pro'
     end

@@ -109,7 +109,7 @@ final as (
         users.sector,
         users.broad_sector,
         users.role,
-        {{ create_broad_role_field('users.role', 'users.broad_sector') }} as broad_role,
+        users.broad_role,
         users.country,
         ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
         users.email,

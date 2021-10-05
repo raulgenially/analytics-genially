@@ -1,3 +1,11 @@
+-- We need to materialize this model to avoid resources exceeded in users model
+{{
+  config(
+    materialized='table'
+  )
+}}
+
+
 with users as (
     select * from {{ ref('src_genially_users') }}
 ),
@@ -48,14 +56,29 @@ user_profiles as (
             and users.role = role_sector_mapping.old_role_name
 ),
 
+user_profiles_broad_sector as (
+    select
+        user_profiles.user_id,
+        user_profiles.sector,
+        user_profiles.role,
+        if(sector_codes.agg_sector is null, '{{ var('not_selected') }}', sector_codes.agg_sector) as broad_sector,
+
+    from user_profiles
+    -- Perform the following join using names rather than codes to mitigate some inconsistencies
+    -- See tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
+    left join sector_codes
+        on user_profiles.sector = sector_codes.sector_name
+),
+
 final as (
     select
         users.user_id,
 
         users.subscription_plan as plan,
-        user_profiles.sector,
-        user_profiles.role,
-        if(sector_codes.agg_sector is null, '{{ var('not_selected') }}' , sector_codes.agg_sector) as broad_sector,
+        user_profiles_broad_sector.sector,
+        user_profiles_broad_sector.broad_sector,
+        user_profiles_broad_sector.role,
+        {{ create_broad_role_field('user_profiles_broad_sector.role', 'user_profiles_broad_sector.broad_sector') }} as broad_role,
         users.country,
         users.email,
         users.language,
@@ -74,12 +97,8 @@ final as (
         users.last_access_at
 
     from users
-    inner join user_profiles
-        on users.user_id = user_profiles.user_id
-    -- Perform the following join using names rather than codes to mitigate some inconsistencies
-    -- See tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
-    left join sector_codes
-        on users.sector = sector_codes.sector_name
+    inner join user_profiles_broad_sector
+        on users.user_id = user_profiles_broad_sector.user_id
     left join social
         on users.user_id = social.user_id
 )

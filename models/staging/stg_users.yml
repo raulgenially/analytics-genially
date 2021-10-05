@@ -21,16 +21,21 @@ models:
           tests:
             - not_null
         
+        - name: broad_sector
+          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
         - name: role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
           tests:
             - not_null
 
-        - name: broad_sector
-          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+        - name: broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
           tests:
-            - not_null  
-        
+            - not_null
+            
         - name: country
           description: Country (ISO code).
           tests:
