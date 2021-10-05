@@ -55,12 +55,7 @@ final as (
         users.subscription_plan as plan,
         user_profiles.sector,
         user_profiles.role,
-        -- Agg sector
-        case
-            when sector_codes.agg_sector is null -- It means users.sector is unknown or not selected
-                then users.sector
-            else sector_codes.agg_sector
-        end as broad_sector,
+        if(sector_codes.agg_sector is null, '{{ var('not_selected') }}' , sector_codes.agg_sector) as broad_sector,
         users.country,
         users.email,
         users.language,
@@ -79,14 +74,14 @@ final as (
         users.last_access_at
 
     from users
-    left join social
-        on users.user_id = social.user_id
     inner join user_profiles
         on users.user_id = user_profiles.user_id
-    -- Perform the join using names rather than codes to mitigate some inconsistencies
+    -- Perform the following join using names rather than codes to mitigate some inconsistencies
     -- See tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
     left join sector_codes
         on users.sector = sector_codes.sector_name
+    left join social
+        on users.user_id = social.user_id
 )
 
 select * from final

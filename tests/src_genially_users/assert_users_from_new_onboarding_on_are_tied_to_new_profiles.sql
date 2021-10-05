@@ -10,7 +10,8 @@ final as (
         sector,
         role_code,
         role,
-        registered_at
+        registered_at,
+        last_access_at
 
     from users
     where registered_at > '{{ var('new_onboarding_date') }}'

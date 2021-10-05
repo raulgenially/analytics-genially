@@ -1,10 +1,4 @@
 -- The user profile info (sector and role) is known.
-{{
-  config(
-    severity='warn' 
-  )
-}}
-
 with users as (
     select * from {{ ref('src_genially_users') }}
 ),
