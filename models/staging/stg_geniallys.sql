@@ -61,6 +61,10 @@ final as (
         geniallys.user_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys.team_id,
+        geniallys.space_id,
+        geniallys.team_template_id,
+        geniallys.from_team_template_id,
 
         geniallys.modified_at,
         geniallys.created_at,

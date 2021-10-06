@@ -98,6 +98,18 @@ models:
         - name: from_template_id
           description: Id of the template used for the creation of the genially.
 
+        - name: team_id
+          description: Id of the team this genially is part of.
+
+        - name: space_id
+          description: Id of the space this genially is part of.
+
+        - name: team_template_id
+          description: Id of the genially as a team template.
+
+        - name: from_team_template_id
+          description: Id of the team template used for the creation of the genially.
+      
         - name: modified_at
           description: Modification date.
           tests:

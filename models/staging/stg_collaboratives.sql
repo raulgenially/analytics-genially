@@ -28,7 +28,9 @@ collaboratives_joined as (
     select
         collaboratives.collaborative_id,
 
+        collaboratives.user_email,
         collaboratives.collaboration_type,
+        geniallys.name,
 
         geniallys.is_published,
         geniallys.is_deleted,
@@ -39,13 +41,11 @@ collaboratives_joined as (
         owners.is_social_profile_active as is_owner_social_profile_active,
 
         collaboratives.genially_id,
-        case
-            when collaboration_type = 1
-                then users.user_id
-            else team_members_users.user_id
-        end as user_id,
+        if(collaboration_type = 1, users.user_id, team_members_users.user_id) as user_id,
         collaboratives.user_owner_id,
         collaboratives.team_id,
+        geniallys.team_id as genially_team_id,
+        geniallys.space_id as genially_space_id,
 
         collaboratives.created_at
 
