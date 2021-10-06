@@ -9,9 +9,9 @@ final as (
 
     from collaboratives
     where collaboration_type = 4
-        and (team_id is null
+        and (collaborative_team_id is null
             or genially_team_id is null
-            or team_id != genially_team_id)
+            or collaborative_team_id != genially_team_id)
 )
 
 select * from final

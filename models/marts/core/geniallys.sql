@@ -14,7 +14,6 @@ geniallys_collaboratives as (
     select
         distinct genially_id,
         collaboration_type,
-        team_id
 
     from collaboratives
 ),
@@ -55,9 +54,12 @@ final as (
         end as is_created_before_registration,
 
         geniallys.user_id,
-        geniallys_collaboratives.team_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys.team_id,
+        geniallys.space_id,
+        geniallys.team_template_id,
+        geniallys.from_team_template_id,
 
         geniallys.modified_at,
         geniallys.created_at,

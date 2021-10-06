@@ -81,7 +81,7 @@ models:
                 to: ref('stg_users')
                 field: user_id
 
-        - name: team_id
+        - name: collaborative_team_id
           description: Id of the team where the collaboration happens.
 
         - name: genially_team_id

@@ -43,7 +43,7 @@ collaboratives_joined as (
         collaboratives.genially_id,
         if(collaboration_type = 1, users.user_id, team_members_users.user_id) as user_id,
         collaboratives.user_owner_id,
-        collaboratives.team_id,
+        collaboratives.team_id as collaborative_team_id,
         geniallys.team_id as genially_team_id,
         geniallys.space_id as genially_space_id,
 
