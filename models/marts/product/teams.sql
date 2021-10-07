@@ -23,7 +23,7 @@ spaces_in_teams as (
     group by 1
 ),
 
-users_in_teams as (
+members_in_teams as (
     select
         team_id,
         countif(confirmed_at is not null) as n_members
@@ -35,10 +35,9 @@ users_in_teams as (
 geniallys_in_teams as (
     select
         team_id,
-        countif({{ define_active_creation('geniallys') }}) as n_active_shared_with_me_creations
+        countif({{ define_active_creation('geniallys') }}) as n_active_creations
 
     from geniallys
-    where collaboration_type = 4
     group by 1
 ), 
 
@@ -46,24 +45,25 @@ final as (
     select 
         teams.team_id, 
 
-        teams.team_type_name as team_plan,
+        teams.team_type_name as plan,
         teams.name,
-        teams.seats,
+        teams.seats as n_seats,
         coalesce(spaces_in_teams.n_spaces, 0) as n_spaces,
-        coalesce(users_in_teams.n_members, 0) as n_members,
-        coalesce(geniallys_in_teams.n_active_shared_with_me_creations, 0) as n_active_shared_with_me_creations,
+        coalesce(members_in_teams.n_members, 0) as n_members,
+        coalesce(geniallys_in_teams.n_active_creations, 0) as n_active_creations,
 
-        if(teams.logo is null, false, true) as has_logo,
-        if(teams.banner is null, false, true) as has_banner,
-        if(teams.branding_custom_watermark is null, false, true) as has_custom_watermark,
+        if(teams.logo is null, false, true) as has_logo_in_team_tab,
+        if(teams.banner is null, false, true) as has_cover_picture_in_team_tab,
+        if(teams.branding_custom_watermark is null, false, true) as has_logo_in_team_branding_section,
+        if(teams.branding_custom_logo is null, false, true) as has_loader_in_team_branding_section,
 
         teams.created_at
 
     from teams
     left join spaces_in_teams
         on teams.team_id = spaces_in_teams.team_id
-    left join users_in_teams
-        on teams.team_id = users_in_teams.team_id
+    left join members_in_teams
+        on teams.team_id = members_in_teams.team_id
     left join geniallys_in_teams
         on teams.team_id = geniallys_in_teams.team_id
 )
