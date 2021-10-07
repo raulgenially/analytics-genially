@@ -24,6 +24,7 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
+        geniallys.team_name,
         geniallys.origin,
         geniallys.category,
         geniallys.template_type,

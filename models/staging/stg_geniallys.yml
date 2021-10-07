@@ -19,6 +19,9 @@ models:
         - name: name
           description: Genially name.
 
+        - name: team_name
+          description: Name of the team this genially belongs to.
+
         - name: origin
           description: Genially origin.
           tests:

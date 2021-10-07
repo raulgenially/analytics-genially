@@ -6,6 +6,10 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
+teams as (
+    select * from {{ ref('src_genially_teams') }}
+),
+
 genially_templates as (
     select
         geniallys.genially_id,
@@ -31,6 +35,7 @@ final as (
 
         geniallys.subscription_plan as plan,
         geniallys.name,
+        teams.name as team_name,
         case
             when geniallys.reused_from_id is not null
                 then 'Reusable'
@@ -73,6 +78,8 @@ final as (
         geniallys.deleted_at,
 
     from geniallys
+    left join teams
+        on geniallys.team_id = teams.team_id
     left join templates
         on geniallys.from_template_id = templates.template_id
      -- Remove geniallys that are templates

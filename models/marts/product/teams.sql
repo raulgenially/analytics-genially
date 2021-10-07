@@ -11,7 +11,7 @@ team_members as (
 ),
 
 geniallys as (
-    select * from {{ ref('geniallys') }}
+    select * from {{ ref('team_geniallys') }}
 ),
 
 spaces_in_teams as (
