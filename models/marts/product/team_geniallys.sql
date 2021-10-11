@@ -8,9 +8,18 @@ with geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
+teams as (
+  select * from {{ ref('src_genially_teams') }}
+),
+
 final as (
-    select * from geniallys
-    where team_name is not null -- Only retains geniallys from existing teams
+    select
+        geniallys.*
+      
+    from geniallys
+    inner join teams
+        on geniallys.team_id = teams.team_id -- Only retains geniallys from existing teams
+    where space_id is not null
 )
 
 select * from final
