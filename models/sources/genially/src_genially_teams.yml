@@ -55,7 +55,7 @@ models:
           description: Web where the watermark should take you.
 
         - name: owner_id
-          description: User id that created the team.
+          description: Member id that created the team.
           tests:
             - not_null
 
