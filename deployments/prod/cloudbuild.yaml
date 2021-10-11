@@ -3,16 +3,16 @@ steps:
   entrypoint: 'bash'
   args: ['-c', 'gcloud secrets versions access latest --secret="dbt-prod-profiles" > profiles.yml']
 
-- name: 'fishtownanalytics/dbt:0.19.2'
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['seed']
 
-- name: 'fishtownanalytics/dbt:0.19.2'
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run']
 
-- name: 'fishtownanalytics/dbt:0.19.2'
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['test']
 
-- name: 'fishtownanalytics/dbt:0.19.2'
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run-operation', 'cleanup_dataset']
 
 options:

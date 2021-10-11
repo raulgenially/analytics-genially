@@ -3,7 +3,7 @@ steps:
   entrypoint: 'bash'
   args: ['-c', 'gcloud secrets versions access latest --secret="dbt-prod-profiles" > profiles.yml']
 
-- name: 'fishtownanalytics/dbt:0.19.2'
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['docs', 'generate']
 
 - name: 'gcr.io/cloud-builders/gcloud'
