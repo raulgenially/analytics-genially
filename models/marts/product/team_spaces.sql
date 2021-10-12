@@ -1,9 +1,5 @@
 with spaces as (
-    select * from {{ ref('src_genially_team_spaces') }}
-),
-
-teams as (
-    select * from {{ ref('src_genially_teams') }}
+    select * from {{ ref('stg_team_spaces') }}
 ),
 
 geniallys as (
@@ -24,7 +20,7 @@ final as (
         spaces.team_space_id,
 
         spaces.name,
-        teams.name as team_name,
+        spaces.team_name,
         coalesce(geniallys_spaces.n_active_creations, 0) as n_active_creations,
 
         spaces.is_common,
@@ -32,11 +28,10 @@ final as (
         spaces.team_id,
         spaces.owner_id,
 
-        spaces.created_at
+        spaces.created_at,
+        spaces.owner_confirmed_at
 
     from spaces
-    left join teams
-        on spaces.team_id = teams.team_id
     left join geniallys_spaces
         on spaces.team_space_id = geniallys_spaces.space_id
 )

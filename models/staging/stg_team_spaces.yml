@@ -1,0 +1,43 @@
+version: 2
+
+models:
+    - name: stg_team_spaces
+      description: Team spaces
+      columns:
+        - name: team_space_id
+          description: Primary key for the team spaces.
+          tests:
+            - unique
+            - not_null
+
+        - name: name
+          description: Name of the space.
+
+        - name: team_name
+          description: Name of the team this space belongs to.
+
+        - name: icon
+          description: Emoji character attached to the space name.
+
+        - name: is_common
+          description: Whether this is the common space of the team.
+
+        - name: team_id
+          description: The team id this space belongs to.
+          tests:
+            - not_null
+            
+        - name: owner_id
+          description: The team member id that created this space.
+          tests:
+            - dbt_utils.not_null_where:
+                where: "is_common = false"
+            - relationships:
+                to: ref('stg_team_members')
+                field: team_member_id
+
+        - name: created_at
+          description: Date time this space was created.
+
+        - name: owner_confirmed_at
+          description: The time the owner accepted the invitation to the team.

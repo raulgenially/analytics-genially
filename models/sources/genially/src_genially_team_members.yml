@@ -37,8 +37,7 @@ models:
             - not_null
 
         - name: confirmed_at
-          description: The time the user accepted the
-            invitation to the team.
+          description: The time the user accepted the invitation to the team.
 
         - name: deleted_at
           description: The time the user left the team.

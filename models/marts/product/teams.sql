@@ -2,12 +2,12 @@ with teams as (
     select * from {{ ref('src_genially_teams') }}
 ),
 
-spaces as (
-    select * from {{ ref('team_spaces') }}
+members as (
+    select * from {{ ref('stg_team_members') }}
 ),
 
-members as (
-    select * from {{ ref('src_genially_team_members') }}
+spaces as (
+    select * from {{ ref('team_spaces') }}
 ),
 
 geniallys as (
@@ -19,7 +19,7 @@ spaces_teams as (
         team_id,
         count(team_space_id) as n_spaces,
         countif(n_active_creations > 0) as n_spaces_with_active_creations,
-        count(distinct owner_id) as n_space_creators
+        count(distinct if(owner_confirmed_at is not null, owner_id, null)) as n_space_creators
 
     from spaces
     group by 1

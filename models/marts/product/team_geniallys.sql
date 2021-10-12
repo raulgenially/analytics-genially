@@ -8,8 +8,8 @@ with geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
-teams as (
-  select * from {{ ref('src_genially_teams') }}
+spaces as (
+  select * from {{ ref('stg_team_spaces') }}
 ),
 
 final as (
@@ -17,9 +17,8 @@ final as (
         geniallys.*
       
     from geniallys
-    inner join teams
-        on geniallys.team_id = teams.team_id -- Only retains geniallys from existing teams
-    where space_id is not null
+    inner join spaces
+        on geniallys.space_id = spaces.team_space_id -- Only retains geniallys from existing spaces
 )
 
 select * from final

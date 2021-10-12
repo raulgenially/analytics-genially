@@ -1,0 +1,44 @@
+version: 2
+
+models:
+    - name: stg_team_members
+      description: Members from a given team.
+      columns:
+        - name: team_member_id
+          description: Primary key for the team members.
+          tests:
+            - unique
+            - not_null
+
+        - name: email
+          description: Email of the user.
+
+        - name: member_role
+          description: "{{ doc('team_member_role') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_team_member_roles() }}"
+                quote: false
+
+        - name: member_role_name
+          description: The name of the member_role code
+
+        - name: user_id
+          description: Id of the user that is/was part of the team.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+
+        - name: team_id
+          description: The team id this user belongs to.
+          tests:
+            - not_null
+
+        - name: confirmed_at
+          description: The time the user accepted the invitation to the team.
+
+        - name: deleted_at
+          description: The time the user left the team.
