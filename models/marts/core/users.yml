@@ -25,7 +25,7 @@ models:
           description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
-      
+
         - name: role
           description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
           tests:

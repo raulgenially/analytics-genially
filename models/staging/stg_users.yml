@@ -20,7 +20,7 @@ models:
           description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
-        
+
         - name: broad_sector
           description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:

@@ -8,8 +8,6 @@ config-version: 2
 vars:
   # Constant we use in some cases to indicate that a value is not selected
   not_selected: 'Not-selected'
-  # Constant we use to indicate unknown attributes (and to avoid typos ;))
-  unknown: 'Unknown'
   # Date at which the new onboarding process was deployed
   new_onboarding_date: '2021-05-11'
 
