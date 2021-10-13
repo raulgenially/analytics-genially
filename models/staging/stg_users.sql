@@ -22,9 +22,9 @@ sector_codes as (
     select * from {{ ref('sector_codes') }}
 ),
 
-user_profiles as (
+users_new_profiles as (
     select
-        user_id,
+        users.user_id,
         -- Sector mapping (I'm not using macros here to better understand what's going on)
         case
             when users.sector like '%(old)' -- This row refers to a user from the old onboarding
@@ -49,25 +49,19 @@ user_profiles as (
         end as role
     
     from users
-    -- Perform the join using names rather than codes to mitigate some inconsistencies
-    -- See tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
     left join role_sector_mapping
-        on users.sector = role_sector_mapping.old_sector_name
-            and users.role = role_sector_mapping.old_role_name
+        on users.sector_code = role_sector_mapping.old_sector_id
+            and users.role_code = role_sector_mapping.old_role_id
 ),
 
-user_profiles_broad_sector as (
+users_broad_sector as (
     select
-        user_profiles.user_id,
-        user_profiles.sector,
-        user_profiles.role,
+        users.user_id,
         if(sector_codes.agg_sector is null, '{{ var('not_selected') }}', sector_codes.agg_sector) as broad_sector,
 
-    from user_profiles
-    -- Perform the following join using names rather than codes to mitigate some inconsistencies
-    -- See tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
+    from users
     left join sector_codes
-        on user_profiles.sector = sector_codes.sector_name
+        on users.sector_code = sector_codes.sector_id
 ),
 
 final as (
@@ -75,10 +69,10 @@ final as (
         users.user_id,
 
         users.subscription_plan as plan,
-        user_profiles_broad_sector.sector,
-        user_profiles_broad_sector.broad_sector,
-        user_profiles_broad_sector.role,
-        {{ create_broad_role_field('user_profiles_broad_sector.role', 'user_profiles_broad_sector.broad_sector') }} as broad_role,
+        users_new_profiles.sector,
+        users_broad_sector.broad_sector,
+        users_new_profiles.role,
+        {{ create_broad_role_field('users_new_profiles.role', 'users_broad_sector.broad_sector') }} as broad_role,
         users.country,
         users.email,
         users.language,
@@ -97,8 +91,10 @@ final as (
         users.last_access_at
 
     from users
-    inner join user_profiles_broad_sector
-        on users.user_id = user_profiles_broad_sector.user_id
+    inner join users_new_profiles
+        on users.user_id = users_new_profiles.user_id
+    inner join users_broad_sector
+        on users.user_id = users_broad_sector.user_id
     left join social
         on users.user_id = social.user_id
 )
