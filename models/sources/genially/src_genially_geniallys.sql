@@ -13,9 +13,10 @@ final as (
         description,
         friendlyurl as friendly_url, -- url used for the social view
 
+        not ifnull(deleted, false) as is_active,
         ifnull(published, false) as is_published,
-        ifnull(deleted, false) as is_in_recyclebin,
-        ifnull(deleted and date_diff(datedeleted, current_timestamp(), day) >= 30, false) as is_logically_deleted,
+        ifnull(deleted and __hevo__marked_deleted = false and date_diff(datedeleted, current_timestamp(), day) < 30, false) as is_in_recyclebin,
+        ifnull(deleted and __hevo__marked_deleted = false and date_diff(datedeleted, current_timestamp(), day) >= 30, false) as is_logically_deleted,
         __hevo__marked_deleted as is_deleted,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,

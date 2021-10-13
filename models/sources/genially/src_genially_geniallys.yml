@@ -37,12 +37,17 @@ models:
           tests:
             - not_null
 
+        - name: is_active
+          description: Whether the genially is active at the user panel.
+          tests:
+            - not_null
+
         - name: is_in_recyclebin
           description: Whether the genially has been sent to the Recycle Bin.
           tests:
             - not_null
 
-        - name: is_logic_deleted
+        - name: is_logically_deleted
           description: Whether the genially has been deleted from the Recycle Bin.
           tests:
             - not_null

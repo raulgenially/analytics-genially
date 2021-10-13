@@ -6,6 +6,10 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
+genially_templatecolors as ( --We will use this table to filter out all geniallys that are templates color variations
+    select distinct(genially_to_view_id) from {{ ref('src_genially_templatecolors') }}
+),
+
 templatecolors as (
     select * from {{ ref('stg_templatecolors') }}
 ),
@@ -14,34 +18,26 @@ inspiration as (
     select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
 ),
 
-total_templates as(
+total_templates as( --Here we unite all templates and colors variations
     select
         *
 
     from templates
-    union all 
+    union all
     select
         *
 
     from templatecolors
 ),
 
-genially_templates as (
+genially_templates as ( --We will use this table to filter out all geniallys that are templates
     select
         geniallys.genially_id,
 
     from geniallys
-    inner join templates
-        on geniallys.genially_id = templates.genially_id
-),
-
-genially_templates_view as (
-    select
-        geniallys.genially_id,
-
-    from geniallys
-    inner join templates
-        on geniallys.genially_id = templates.genially_to_view_id
+    inner join total_templates
+        on geniallys.genially_id = total_templates.genially_id
+        or geniallys.genially_id = total_templates.genially_to_view_id --Some geniallys could have various versions
 ),
 
 final as (
@@ -100,15 +96,15 @@ final as (
     from geniallys
     left join total_templates
         on geniallys.from_template_id = total_templates.template_id
-     -- Remove geniallys that are templates
+    left join inspiration
+        on geniallys.reused_from_id = inspiration.genially_id
+     -- Remove geniallys that are templates or template colors
     left join genially_templates
         on geniallys.genially_id = genially_templates.genially_id
-    left join genially_templates_view
-        on geniallys.genially_id = genially_templates_view.genially_id
-    left join inspiration
-        on geniallys.reused_from_id = inspiration.genially_id    
+    left join genially_templatecolors
+        on geniallys.genially_id = genially_templatecolors.genially_to_view_id
     where genially_templates.genially_id is null
-        and genially_templates_view.genially_id is null
+        and genially_templatecolors.genially_to_view_id is null
 )
 
 select * from final

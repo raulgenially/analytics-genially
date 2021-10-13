@@ -23,13 +23,13 @@ final as (
         templates.is_new,
         templates.has_slides_selectable,
 
-        max(templatecolors.genially_id) as genially_id,
-        max(templatecolors.genially_to_view_id) as genially_to_view_id,
+        templatecolors.genially_id as genially_id,
+        templatecolors.genially_to_view_id as genially_to_view_id,
 
     from templatecolors
     inner join templates
         on templatecolors.template_id = templates.template_id
-    group by 1,2,3,7,8,9,10,11,12    
+    group by 1,2,3,7,8,9,10,11,12,13,14
 )
 
 select * from final

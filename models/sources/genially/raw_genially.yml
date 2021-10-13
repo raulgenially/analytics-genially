@@ -83,6 +83,9 @@ sources:
           columns:
             - name: _id
               description: Primary key for licenses.
+              tests:
+                - unique
+                - not_null
 
         - name: invoice
           description: Information about invoices
