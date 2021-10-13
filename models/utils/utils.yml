@@ -29,6 +29,8 @@ models:
         - name: sector_name
           description: Sector name. Those whose name ends in `(old)` belong
             to sectors defined for the old onboarding.
+          tests:
+            - not_null
             
     - name: role_sector_codes_old_to_new
       description: mapping from old to new onboarding
