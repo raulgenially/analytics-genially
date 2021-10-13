@@ -12,6 +12,9 @@ steps:
 - name: 'fishtownanalytics/dbt:0.19.2'
   args: ['test']
 
+- name: 'fishtownanalytics/dbt:0.19.2'
+  args: ['run-operation', 'cleanup_dataset']
+
 options:
   env:
   - 'DBT_PROFILES_DIR=/workspace'
