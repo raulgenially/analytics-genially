@@ -46,8 +46,8 @@ final as (
 
         if(teams.logo is null, false, true) as has_logo_in_team_tab,
         if(teams.banner is null, false, true) as has_cover_picture_in_team_tab,
-        if(teams.branding_custom_watermark is null, false, true) as has_logo_in_team_branding_section,
-        if(teams.branding_custom_logo is null, false, true) as has_loader_in_team_branding_section,
+        if(teams.branding_custom_watermark is null, false, true) as has_logo_in_team_brand_section,
+        if(teams.branding_custom_logo is null, false, true) as has_loader_in_team_brand_section,
 
         teams.created_at
 

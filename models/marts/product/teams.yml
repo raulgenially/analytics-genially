@@ -36,8 +36,8 @@ models:
 
         - name: has_cover_picture_in_team_tab
 
-        - name: has_logo_in_team_branding_section
+        - name: has_logo_in_team_brand_section
 
-        - name: has_loader_in_team_branding_section
+        - name: has_loader_in_team_brand_section
 
         - name: created_at
