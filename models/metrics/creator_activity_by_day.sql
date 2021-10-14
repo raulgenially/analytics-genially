@@ -1,7 +1,9 @@
 {{
     config(
         materialized='incremental',
-        unique_key='id'
+        unique_key='id',
+        cluster_by='date_day',
+        partition_by={'field': 'date_day', 'data_type': 'datetime'}
     )
 }}
 
@@ -117,11 +119,7 @@ rolling_status as (
                 then 'C'
             else 'A'
         end as status_28d
-   from user_day_traffic
-),
-
-users as (
-    select * from {{ ref('users') }}
+    from user_day_traffic
 ),
 
 final as (
