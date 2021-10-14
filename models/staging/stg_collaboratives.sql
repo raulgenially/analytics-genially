@@ -11,7 +11,7 @@ users as (
 ),
 
 team_members as (
-    select * from {{ ref('src_genially_team_members') }}
+    select * from {{ ref('stg_team_members') }}
 ),
 
 team_members_users as (

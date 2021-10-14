@@ -14,8 +14,6 @@ with collaboratives as (
 
     from {{ source('genially', 'collaborative') }}
     where __hevo__marked_deleted = false
-        -- I'm commenting for now because all collaboratives of type 4 (Teams context) have email set to Null
-        --and email is not null
 )
 
 select * from collaboratives

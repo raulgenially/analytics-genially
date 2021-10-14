@@ -13,7 +13,8 @@ models:
         - name: user_email
           description: Email of the user taking part of the collaboration.
           tests:
-            - not_null
+            - dbt_utils.not_null_where:
+                where: "collaboration_type = 1"
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"

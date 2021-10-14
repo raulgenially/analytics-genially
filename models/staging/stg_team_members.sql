@@ -3,7 +3,7 @@ with team_members as (
 ),
 
 users as (
-    select * from {{ ref('stg_users') }}
+    select * from {{ ref('src_genially_users') }}
 ),
 
 teams as (

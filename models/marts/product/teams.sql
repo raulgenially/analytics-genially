@@ -10,14 +10,11 @@ spaces as (
     select * from {{ ref('team_spaces') }}
 ),
 
-geniallys as (
-    select * from {{ ref('team_geniallys') }}
-),
-
 spaces_teams as (
     select
         team_id,
         count(team_space_id) as n_spaces,
+        sum(n_active_creations) as n_active_creations,
         countif(n_active_creations > 0) as n_spaces_with_active_creations,
         count(distinct if(owner_confirmed_at is not null, owner_id, null)) as n_space_creators
 
@@ -34,15 +31,6 @@ members_teams as (
     group by 1
 ),
 
-geniallys_teams as (
-    select
-        team_id,
-        countif({{ define_active_creation('geniallys') }}) as n_active_creations
-
-    from geniallys
-    group by 1
-), 
-
 final as (
     select 
         teams.team_id, 
@@ -54,7 +42,7 @@ final as (
         coalesce(spaces_teams.n_spaces_with_active_creations, 0) as n_spaces_with_active_creations,
         coalesce(members_teams.n_members, 0) as n_members,
         coalesce(spaces_teams.n_space_creators, 0) as n_space_creators,
-        coalesce(geniallys_teams.n_active_creations, 0) as n_active_creations,
+        coalesce(spaces_teams.n_active_creations, 0) as n_active_creations,
 
         if(teams.logo is null, false, true) as has_logo_in_team_tab,
         if(teams.banner is null, false, true) as has_cover_picture_in_team_tab,
@@ -68,8 +56,6 @@ final as (
         on teams.team_id = spaces_teams.team_id
     left join members_teams
         on teams.team_id = members_teams.team_id
-    left join geniallys_teams
-        on teams.team_id = geniallys_teams.team_id
 )
 
 select * from final
