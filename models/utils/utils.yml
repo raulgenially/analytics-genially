@@ -12,6 +12,8 @@ models:
         - name: sector_name
           description: Sector name. Those whose name ends in `(old)` belong
             to sectors defined for the old onboarding.
+        - name: agg_sector
+          description: Broad category of the sector (e.g. education, corporate, etc).
 
     - name: role_codes
       description: Codes used to identify old and new roles.

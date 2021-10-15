@@ -10,8 +10,10 @@ final as (
         broad_sector
 
     from users
-    where broad_sector = '{{ var('not_selected') }}'
-        and sector != '{{ var('not_selected') }}'
+    where (broad_sector = '{{ var('not_selected') }}'
+            and sector != '{{ var('not_selected') }}')
+        or (broad_sector != '{{ var('not_selected') }}'
+            and sector = '{{ var('not_selected') }}')
 )
 
 select * from final

@@ -1,4 +1,4 @@
--- We need to materialize this model to avoid resources exceeded in users model
+-- We need to materialize this model to avoid resources exceeded error in users model
 {{
   config(
     materialized='table'
@@ -27,7 +27,17 @@ users_new_profiles as (
         users.user_id,
         -- Sector mapping (I'm not using macros here to better understand what's going on)
         case
-            when users.sector like '%(old)' -- This row refers to a user from the old onboarding
+            when users.sector_code < 200 -- This row refers to a user from the old onboarding
+                then
+                    case
+                        when role_sector_mapping.new_sector_id is not null
+                            then role_sector_mapping.new_sector_id
+                        else users.sector_code
+                    end
+            else users.sector_code
+        end as sector_code,
+        case
+            when users.sector_code < 200 -- This row refers to a user from the old onboarding
                 then
                     case
                         when role_sector_mapping.new_sector_name is not null
@@ -38,7 +48,17 @@ users_new_profiles as (
         end as sector,
         -- Role mapping (similar to above)
         case
-            when users.role like '%(old)'
+            when users.role_code < 100
+                then
+                    case
+                        when role_sector_mapping.new_role_id is not null
+                            then role_sector_mapping.new_role_id
+                        else users.role_code
+                    end
+            else users.role_code
+        end as role_code,
+        case
+            when users.role_code < 100
                 then
                     case
                         when role_sector_mapping.new_role_name is not null
@@ -56,12 +76,16 @@ users_new_profiles as (
 
 users_broad_sector as (
     select
-        users.user_id,
+        users_new_profiles.user_id,
+        users_new_profiles.sector_code,
+        users_new_profiles.sector,
+        users_new_profiles.role_code,
+        users_new_profiles.role,
         if(sector_codes.agg_sector is null, '{{ var('not_selected') }}', sector_codes.agg_sector) as broad_sector,
 
-    from users
+    from users_new_profiles
     left join sector_codes
-        on users.sector_code = sector_codes.sector_id
+        on users_new_profiles.sector_code = sector_codes.sector_id
 ),
 
 final as (
@@ -69,10 +93,12 @@ final as (
         users.user_id,
 
         users.subscription_plan as plan,
-        users_new_profiles.sector,
+        users_broad_sector.sector_code,
+        users_broad_sector.sector,
         users_broad_sector.broad_sector,
-        users_new_profiles.role,
-        {{ create_broad_role_field('users_new_profiles.role', 'users_broad_sector.broad_sector') }} as broad_role,
+        users_broad_sector.role_code,
+        users_broad_sector.role,
+        {{ create_broad_role_field('users_broad_sector.role', 'users_broad_sector.broad_sector') }} as broad_role,
         users.country,
         users.email,
         users.language,
@@ -91,8 +117,6 @@ final as (
         users.last_access_at
 
     from users
-    inner join users_new_profiles
-        on users.user_id = users_new_profiles.user_id
     inner join users_broad_sector
         on users.user_id = users_broad_sector.user_id
     left join social
