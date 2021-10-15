@@ -3,7 +3,7 @@ with teams as (
 ),
 
 members as (
-    select * from {{ ref('stg_team_members') }}
+    select * from {{ ref('team_members') }}
 ),
 
 spaces as (
@@ -16,7 +16,6 @@ spaces_teams as (
         count(team_space_id) as n_spaces,
         sum(n_active_creations) as n_active_creations,
         countif(n_active_creations > 0) as n_spaces_with_active_creations,
-        count(distinct if(owner_confirmed_at is not null, owner_id, null)) as n_space_creators
 
     from spaces
     group by 1
@@ -25,7 +24,8 @@ spaces_teams as (
 members_teams as (
     select
         team_id,
-        countif(confirmed_at is not null) as n_members
+        countif(confirmed_at is not null) as n_members,
+        countif(is_owner_of_some_space = true and confirmed_at is not null) as n_space_owners
 
     from members
     group by 1
@@ -41,7 +41,7 @@ final as (
         coalesce(spaces_teams.n_spaces, 0) as n_spaces,
         coalesce(spaces_teams.n_spaces_with_active_creations, 0) as n_spaces_with_active_creations,
         coalesce(members_teams.n_members, 0) as n_members,
-        coalesce(spaces_teams.n_space_creators, 0) as n_space_creators,
+        coalesce(members_teams.n_space_owners, 0) as n_space_owners,
         coalesce(spaces_teams.n_active_creations, 0) as n_active_creations,
 
         if(teams.logo is null, false, true) as has_logo_in_team_tab,

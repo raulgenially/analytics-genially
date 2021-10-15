@@ -13,8 +13,13 @@ models:
         - name: email
           description: Email of the member.
 
-        - name: member_role_name
+        - name: role
           description: Member role.
+
+        - name: is_owner_of_same_space
+          description: Indicates whether the member is owner of some space.
+          tests:
+            - not_null
 
         - name: user_id
           description: Id of the user.

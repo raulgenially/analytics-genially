@@ -8,7 +8,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: "n_spaces_with_active_creations <= n_spaces"
         - dbt_utils.expression_is_true:
-            expression: "n_space_creators <= n_members"
+            expression: "n_space_owners <= n_members"
       columns:
         - name: team_id
           description: Primary key for teams.
@@ -28,7 +28,7 @@ models:
 
         - name: n_members
 
-        - name: n_space_creators
+        - name: n_space_owners
 
         - name: n_active_creations
 
