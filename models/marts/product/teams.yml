@@ -17,27 +17,40 @@ models:
             - not_null
 
         - name: plan
+          description: Plan of the team. Each member of the team has the same plan.
 
         - name: name
+          description: Name of the team.
 
         - name: n_seats
+          description: Number of users that can be part of this team.
 
         - name: n_spaces
+          description: Number of spaces in the team.
 
         - name: n_spaces_with_active_creations
+          description: Number of spaces with, at least, an active creation. 
 
         - name: n_members
+          description: Number of members in the team.
 
         - name: n_space_owners
+          description: Number of members in the team that are owners of some space.
 
         - name: n_active_creations
+          description: Number of active creations in the team.
 
         - name: has_log_in_team_tab
+          description: Whether the team has configured the logo in the team tab.
 
         - name: has_cover_picture_in_team_tab
+          description: Whether the team has configured the cover picture in the team tab.
 
         - name: has_logo_in_team_brand_section
+          description: Whether the team has configured the logo in the team brand section.
 
         - name: has_loader_in_team_brand_section
+          description: Whether the team has configured the loader in the team brand section.
 
         - name: created_at
+          description: Date at which the team was created.

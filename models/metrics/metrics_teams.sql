@@ -7,7 +7,11 @@ team_spaces as (
 ),
 
 teams as (
-    select name from {{ ref('teams') }}
+    select 
+        name,
+        created_at
+ 
+    from {{ ref('teams') }}
 ),
 
 -- Geniallys moved to a Team workspace maintain the original creation date
@@ -26,7 +30,8 @@ date_spine as (
 spine as (
     select
         date(date_spine.date_day) as created_at,
-        name as team_name
+        name as team_name,
+        created_at as team_created_at
 
     from date_spine
     cross join teams
@@ -63,6 +68,7 @@ metrics_joined as (
         -- Dimensions
         spine.created_at,
         spine.team_name,
+        spine.team_created_at,
 
         -- Metrics
         coalesce(geniallys_by_creation_date.n_active_creations, 0) as n_active_creations,

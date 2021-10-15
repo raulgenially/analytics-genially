@@ -15,6 +15,8 @@ models:
 
         - name: team_name
           description: Name of the team this space belongs to.
+          tests:
+            - not_null
 
         - name: icon
           description: Emoji character attached to the space name.
@@ -41,3 +43,8 @@ models:
 
         - name: owner_confirmed_at
           description: The time the owner accepted the invitation to the team.
+
+        - name: team_created_at
+          description: The date the team was created.
+          tests:
+            - not_null

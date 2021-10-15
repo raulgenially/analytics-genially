@@ -29,7 +29,8 @@ final as (
         spaces.owner_id,
 
         spaces.created_at,
-        spaces.owner_confirmed_at
+        spaces.owner_confirmed_at,
+        spaces.team_created_at
 
     from spaces
     left join geniallys_spaces

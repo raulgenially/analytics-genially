@@ -16,8 +16,16 @@ models:
         - name: role
           description: Member role.
 
+        - name: team_name
+          description: Name of the team this member belongs to.
+
         - name: is_owner_of_same_space
           description: Indicates whether the member is owner of some space.
+          tests:
+            - not_null
+
+        - name: has_spaces_other_than_common
+          description: Indicates whether the member is part of some space other than the common space.
           tests:
             - not_null
 
@@ -42,3 +50,6 @@ models:
 
         - name: deleted_at
           description: The time the member left the team.
+
+        - name: team_created_at
+          description: The date the team was created.

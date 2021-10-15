@@ -41,3 +41,6 @@ models:
 
         - name: owner_confirmed_at
           description: The time the owner accepted the invitation to the team.
+
+        - name: team_created_at
+          description: The date the team was created.

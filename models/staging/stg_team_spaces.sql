@@ -24,7 +24,8 @@ final as (
         spaces.owner_id,
 
         spaces.created_at,
-        members.confirmed_at as owner_confirmed_at
+        members.confirmed_at as owner_confirmed_at,
+        teams.created_at as team_created_at
 
     from spaces
     inner join teams

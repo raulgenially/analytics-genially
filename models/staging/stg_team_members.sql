@@ -1,4 +1,4 @@
-with team_members as (
+with members as (
     select * from {{ ref('src_genially_team_members') }}
 ),
 
@@ -12,13 +12,25 @@ teams as (
 
 final as (
     select
-        team_members.*,
+        members.team_member_id,
 
-    from team_members
+        members.email,
+        members.member_role,
+        members.member_role_name,
+        teams.name as team_name,
+
+        members.user_id,
+        members.team_id,
+
+        members.confirmed_at,
+        members.deleted_at,
+        teams.created_at as team_created_at
+
+    from members
     inner join users
-        on team_members.user_id = users.user_id
+        on members.user_id = users.user_id
     inner join teams
-        on team_members.team_id = teams.team_id    
+        on members.team_id = teams.team_id    
 )
 
 select * from final
