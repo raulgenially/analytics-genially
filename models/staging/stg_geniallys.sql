@@ -76,6 +76,7 @@ final as (
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
+        teams.created_at as team_created_at
 
     from geniallys
     left join teams

@@ -19,7 +19,7 @@ models:
         - name: team_name
           description: Name of the team this member belongs to.
 
-        - name: is_owner_of_same_space
+        - name: is_owner_of_some_space
           description: Indicates whether the member is owner of some space.
           tests:
             - not_null
