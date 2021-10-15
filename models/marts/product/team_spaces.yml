@@ -32,6 +32,8 @@ models:
         - name: owner_id
           description: Foreign key to the team member.
           tests:
+            - dbt_utils.not_null_where:
+                where: "is_common = false"
             - relationships:
                 to: ref('team_members')
                 field: team_member_id

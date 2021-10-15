@@ -146,9 +146,19 @@ models:
 
         - name: team_id
           description: Id of the team this genially is part of.
+          tests:
+            - dbt_utils.relationships_where:
+                to: ref('teams')
+                field: team_id
+                from_condition: is_deleted = false
 
         - name: space_id
           description: Id of the space this genially is part of.
+          tests:
+            - dbt_utils.relationships_where:
+                to: ref('team_spaces')
+                field: team_space_id
+                from_condition: is_deleted = false
 
         - name: team_template_id
           description: Id of the genially as a team template.
