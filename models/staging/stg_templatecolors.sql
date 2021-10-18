@@ -29,7 +29,7 @@ final as (
     from templatecolors
     inner join templates
         on templatecolors.template_id = templates.template_id
-    group by 1,2,3,7,8,9,10,11,12,13,14 --to change this to: {{ dbt_utils.group_by(n=14) }}
+    group by 1,2,3,7,8,9,10,11,12,13,14 {#to change this to:  dbt_utils.group_by(n=14)#}
 )
 
 select * from final
