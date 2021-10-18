@@ -57,7 +57,7 @@ models:
           tests:
             - not_null
 
-        - name: user_sector_category
+        - name: user_broad_sector
           description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
           tests:
             - not_null
@@ -67,8 +67,13 @@ models:
           tests:
             - not_null
 
+        - name: user_broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+          tests:
+            - not_null
+
         - name: user_country
-          description: Country.
+          description: Country (ISO code).
           tests:
             - not_null
 

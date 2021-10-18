@@ -32,8 +32,9 @@ final as (
         geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
-        users.sector_category as user_sector_category,
+        users.broad_sector as user_broad_sector,
         users.role as user_role,
+        users.broad_role as user_broad_role,
         users.country as user_country,
 
         geniallys.is_published,
