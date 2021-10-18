@@ -15,9 +15,10 @@ final as (
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
-        coalesce(sector_codes.sector_name, '{{ var('not_selected') }}') as sector,
-        coalesce(sector_codes.category, '{{ var('not_selected') }}') as sector_category,
-        coalesce(role_codes.role_name, '{{ var('not_selected') }}') as role,
+        newsector as sector_code,
+        {{ extract_user_profile('newsector', 'sector_codes.sector_name') }} as sector,
+        newrole as role_code,
+        {{ extract_user_profile('newrole', 'role_codes.role_name') }} as role,
         username,
         nickname,
         lower(email) as email,

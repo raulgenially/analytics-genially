@@ -11,10 +11,26 @@ old_role_codes as (
     from {{ ref('old_role_codes') }}
 ),
 
-final as (
+sector_codes as (
+    select * from {{ ref('sector_codes') }}
+),
+
+roles_codes_unioned as (
     select * from new_role_codes
     union distinct
     select * from old_role_codes
+),
+
+final as (
+    select 
+        roles_codes_unioned.role_id,
+        roles_codes_unioned.role_name,
+        roles_codes_unioned.sector_id,
+        sector_codes.sector_name,
+
+    from roles_codes_unioned
+    left join sector_codes
+        on roles_codes_unioned.sector_id = sector_codes.sector_id
 )
 
 select * from final
