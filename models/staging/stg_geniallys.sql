@@ -71,6 +71,7 @@ final as (
         total_templates.name as template_name,
 
         geniallys.is_published,
+        geniallys.is_active,
         geniallys.is_in_recyclebin,
         geniallys.is_logically_deleted,
         geniallys.is_deleted,

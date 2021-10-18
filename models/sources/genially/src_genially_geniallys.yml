@@ -38,7 +38,7 @@ models:
             - not_null
 
         - name: is_active
-          description: Whether the genially is active at the user panel.
+          description: Whether the genially is active at the user dashboard.
           tests:
             - not_null
 
