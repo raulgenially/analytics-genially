@@ -14,7 +14,7 @@ AW,Aruba
 AU,Australia
 AT,Austria
 AZ,Azerbaijan
-AX,Åland
+AX,Åland Islands
 BS,Bahamas
 BH,Bahrain
 BD,Bangladesh
@@ -25,7 +25,7 @@ BZ,Belize
 BJ,Benin
 BM,Bermuda
 BT,Bhutan
-BO,Bolivia Plurinational State of
+BO,Bolivia (Plurinational State of)
 BQ,Bonaire Sint Eustatius and Saba
 BA,Bosnia and Herzegovina
 BW,Botswana
@@ -36,10 +36,10 @@ BN,Brunei Darussalam
 BG,Bulgaria
 BF,Burkina Faso
 BI,Burundi
+CV,Cabo Verde
 KH,Cambodia
 CM,Cameroon
 CA,Canada
-CV,Cape Verde
 KY,Cayman Islands
 CF,Central African Republic
 TD,Chad
@@ -49,8 +49,8 @@ CX,Christmas Island
 CC,Cocos (Keeling) Islands
 CO,Colombia
 KM,Comoros
+CD,Congo (the Democratic Republic of the)
 CG,Congo
-CD,Congo the Democratic Republic of the
 CK,Cook Islands
 CR,Costa Rica
 CI,Côte d’Ivoire
@@ -58,7 +58,7 @@ HR,Croatia
 CU,Cuba
 CW,Curaçao
 CY,Cyprus
-CZ,Czech Republic
+CZ,the Czech Republic
 DK,Denmark
 DJ,Djibouti
 DM,Dominica
@@ -70,8 +70,7 @@ GQ,Equatorial Guinea
 ER,Eritrea
 EE,Estonia
 ET,Ethiopia
-EU,Europe
-FK,Falkland Islands (Malvinas
+FK,Falkland Islands (Malvinas)
 FO,Faroe Islands
 FJ,Fiji
 FI,Finland
@@ -97,14 +96,14 @@ GW,Guinea-Bissau
 GY,Guyana
 HT,Haiti
 HM,Heard Island and McDonald Islands
-VA,Holy See (Vatican City State
+VA,Holy See
 HN,Honduras
 HK,Hong Kong
 HU,Hungary
 IS,Iceland
 IN,India
 ID,Indonesia
-IR,Iran Islamic Republic of
+IR,Iran (Islamic Republic of)
 IQ,Iraq
 IE,Ireland
 IM,Isle of Man
@@ -117,8 +116,8 @@ JO,Jordan
 KZ,Kazakhstan
 KE,Kenya
 KI,Kiribati
-KP,Korea Democratic People’s Republic of
-KR,Korea Republic of
+KP,Korea (the Democratic People’s Republic of)
+KR,Korea (the Republic of)
 KW,Kuwait
 KG,Kyrgyzstan
 LA,Lao People’s Democratic Republic
@@ -131,7 +130,7 @@ LI,Liechtenstein
 LT,Lithuania
 LU,Luxembourg
 MO,Macao
-MK,Macedonia the former Yugoslav Republic of
+MK,the Republic of North Macedonia
 MG,Madagascar
 MW,Malawi
 MY,Malaysia
@@ -144,8 +143,8 @@ MR,Mauritania
 MU,Mauritius
 YT,Mayotte
 MX,Mexico
-FM,Micronesia Federated States of
-MD,Moldova Republic of
+FM,Micronesia (Federated States of)
+MD,Moldova (the Republic of)
 MC,Monaco
 MN,Mongolia
 ME,Montenegro
@@ -169,7 +168,7 @@ NO,Norway
 OM,Oman
 PK,Pakistan
 PW,Palau
-PS,Palestinian Territory Occupied
+PS,the State of Palestine
 PA,Panama
 PG,Papua New Guinea
 PY,Paraguay
@@ -188,7 +187,7 @@ BL,Saint Barthélemy
 SH,Saint Helena Ascension and Tristan da Cunha
 KN,Saint Kitts and Nevis
 LC,Saint Lucia
-MF,Saint Martin (French part
+MF,Saint Martin (French part)
 PM,Saint Pierre and Miquelon
 VC,Saint Vincent and the Grenadines
 WS,Samoa
@@ -200,7 +199,7 @@ RS,Serbia
 SC,Seychelles
 SL,Sierra Leone
 SG,Singapore
-SX,Sint Maarten (Dutch part
+SX,Sint Maarten (Dutch part)
 SK,Slovakia
 SI,Slovenia
 SB,Solomon Islands
@@ -217,9 +216,9 @@ SZ,Swaziland
 SE,Sweden
 CH,Switzerland
 SY,Syrian Arab Republic
-TW,Taiwan Province of China
+TW,Taiwan (Province of China)
 TJ,Tajikistan
-TZ,Tanzania United Republic of
+TZ,Tanzania (the United Republic of)
 TH,Thailand
 TL,Timor-Leste
 TG,Togo
@@ -235,18 +234,18 @@ UG,Uganda
 UA,Ukraine
 AE,United Arab Emirates
 UK,United Kingdom
-US,United States
+US,United States of America
 UM,United States Minor Outlying Islands
 UY,Uruguay
 UZ,Uzbekistan
 VU,Vanuatu
-VE,Venezuela Bolivarian Republic of
+VE,Venezuela (Bolivarian Republic of)
 VN,Viet Nam
-VG,Virgin Islands British
-VI,Virgin Islands U.S
+VG,Virgin Islands (British)
+VI,Virgin Islands (U.S.)
 WF,Wallis and Futuna
 EH,Western Sahara
-XK,Kosovo
 YE,Yemen
 ZM,Zambia
 ZW,Zimbabwe
+XK,Kosovo
