@@ -1,0 +1,68 @@
+version: 2
+
+models:
+    - name: metrics_creator_activity
+      description: Model containing activity of creators.
+      columns:
+        - name: id
+          description: Primary key. Created from user_id and date_day fields.
+          tests:
+            - unique
+            - not_null
+
+        - name: user_id
+          description: The user id whose activity is described on date_day.
+          tests:
+            - not_null
+
+        - name: first_usage_at
+          description: The date the user created their first Genially.
+          tests:
+            - not_null
+
+        - name: date_day
+          description: The particular day where user's activity is described.
+          tests:
+            - not_null
+
+        - name: n_days_since_first_usage
+          description: The number of days since the user created their first Genially until date_day.
+          tests:
+            - not_null
+
+        - name: is_active
+          description: Whether or not the user created a Genially on date_day.
+          tests:
+            - not_null
+
+        - name: status
+          description: Whether the user is New, Churned or Active on date_day.
+            A user is New on date_day if the first time they ever create a Genially is on date_day.
+            A user is Churned on date_day if they do not create on date_day but they do it on previous days.
+            A user is Active on date_day if they create a Genially on date_day but it is not their first time, that is, they are not New.
+          tests:
+            - not_null
+
+        - name: n_days_active_7d
+          description: Number of days the user is active (because they are New or Active) during the last 7 days.
+
+        - name: status_7d
+          description: Aggregated status over the past 7 days.
+            We consider the user New if the user creates for the first time some genially during the last 7 days.
+            We consider the user Churned if the user has not created anything during the last 7 days.
+            We consider the user Active if the user has created some Genially during the last 7 days but it is not their first.
+       
+        - name: n_days_active_28d
+          description: Number of days the user is active (because they are New or Active) during the last 28 days.
+          
+        - name: status_28d
+          description: Aggregated status over the past 28 days.
+            We consider the user New if the user creates for the first time some genially during the last 28 days.
+            We consider the user Churned if the user has not created anything during the last 28 days.
+            We consider the user Active if the user has created some Genially during the last 28 days but it is not their first.
+
+        - name: previous_status_7d
+          description: Aggregated status over the previous 7 days prior to the last 7 days.
+
+        - name: previous_status_28d
+          description: Aggregated status over the previous 28 days prior to the last 28 days.
