@@ -6,12 +6,21 @@ models:
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1xrRQ6yJKbL3eB9g8sh_YzLsHGGMEi0B89TSfB9dl1T4)
 
+  - name: adhoc_base_user_data_enrichment
+    description: Query to extract metadata from users.
+      This is a query reused in other adhoc queries where the filtering is done in several ways
+
   - name: adhoc_user_data_enrichment
-    description: Query to extract some metadata from the users.
+    description: Query to extract metadata from users given a list of emails.
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1I4tDFcdzNtstH8bknZ0HtbGpQNBiTabb5S-QfvZcm8c)
 
-  - name: adhoc_user_licenses_metadata
-    description: Query to extract license metadata from the users.
+  - name: adhoc_email_domain_signups
+    description: Query to extract signups with the given an email domain.
       This query is used in the following
-      [Google sheet](https://docs.google.com/spreadsheets/d/1pB_STTYInuDMQT1PJEXAMS8e-AScqFnWb3rI4401Qmo)
+      [Google sheet](https://docs.google.com/spreadsheets/d/1pZoQOdSXJjCGHYJzbavhKGcngAEDJtR43Ff0SsTiKyU)
+
+  - name: adhoc_email_domain_data_enrichment
+    description: Query to extract metadata from users given an email domain.
+      This query is used in the following
+      [Google sheet](https://docs.google.com/spreadsheets/d/1pZoQOdSXJjCGHYJzbavhKGcngAEDJtR43Ff0SsTiKyU)

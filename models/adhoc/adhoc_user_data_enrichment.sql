@@ -1,15 +1,19 @@
-with users as (
-    select * from {{ ref('users') }}
+with user_data as (
+    select * from {{ ref('adhoc_base_user_data_enrichment') }}
+),
+
+
+final as (
+    select
+        *
+
+    from user_data
+    -- These emails are used as an example. In the google sheet this is read from an input sheet
+    where email in (
+            "luiscebrian@genially.com",
+            "antonio@genially.com",
+            "raul@genial.ly"
+        )
 )
 
-select
-    email,
-    date(last_access_at) as last_access_at,
-    plan,
-    country,
-    n_total_creations as total_creations
-
-from users
--- These emails are used as an example. In the google sheet this is read from an input sheet
-where email in ('luiscebrian@genially.com', 'antonio@genially.com', 'raul@genial.ly')
-order by email asc
+select * from final

@@ -29,7 +29,7 @@ final as (
         geniallys.template_name,
         users.plan as user_plan,
         users.sector as user_sector,
-        users.sector_category as user_sector_category,
+        users.broad_sector as user_broad_sector,
         users.role as user_role,
         users.country as user_country,
 

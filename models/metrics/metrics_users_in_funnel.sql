@@ -9,9 +9,11 @@ final as (
         plan,
         {{ create_subscription_field('plan') }} as subscription,
         sector,
-        sector_category,
+        broad_sector,
         role,
+        broad_role,
         country,
+        country_name,
 
         -- Metrics
         count(user_id) as n_signups,
@@ -22,7 +24,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
-    group by 1, 2, 3, 4, 5, 6, 7
+    group by 1, 2, 3, 4, 5, 6, 7, 8, 9
     order by registered_at asc
 )
 

@@ -50,7 +50,7 @@ If you have to modify `cloudbuild.yaml` and you want to test that it works, you 
 command to manually submit builds to Cloud build. From the root of the project you need to run:
 
 ```bash
- gcloud builds submit . --config=deployments/ci/cloudbuild.yaml
+ gcloud builds submit . --config=deployments/prod/cloudbuild.yaml
 ```
 
 ### Additional resources

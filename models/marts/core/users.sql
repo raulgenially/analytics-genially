@@ -2,12 +2,25 @@ with users as (
     select * from {{ ref('stg_users') }}
 ),
 
+country_codes as (
+    select * from {{ ref('country_codes') }}
+),
+
 geniallys as (
     select * from {{ ref('stg_geniallys') }}
 ),
 
 collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
+),
+
+collaborative_geniallys as (
+    select
+        distinct geniallys.genially_id
+
+    from geniallys
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
 ),
 
 users_creations as (
@@ -28,7 +41,7 @@ users_creations as (
         countif(
             geniallys.is_active = true
             and geniallys.is_published = true
-            and collaboratives.genially_id is not null -- Check if the genially is collaborative.
+            and collaborative_geniallys.genially_id is not null -- Check if the genially is collaborative.
         ) as n_active_collaborative_published_creations,
         countif(
             geniallys.is_active = true
@@ -41,8 +54,8 @@ users_creations as (
         max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
-    left join collaboratives
-        on geniallys.genially_id = collaboratives.genially_id
+    left join collaborative_geniallys
+        on geniallys.genially_id = collaborative_geniallys.genially_id
     group by 1
 ),
 
@@ -94,9 +107,11 @@ final as (
 
         users.plan,
         users.sector,
-        users.sector_category,
+        users.broad_sector,
         users.role,
+        users.broad_role,
         users.country,
+        ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
         users.email,
         users.language,
         users.about_me,
@@ -135,6 +150,8 @@ final as (
         users.last_access_at
 
     from users
+    left join country_codes 
+        on users.country = country_codes.code
     left join users_creations
         on users.user_id = users_creations.user_id
     left join users_collaboratives
