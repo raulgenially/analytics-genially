@@ -3,7 +3,7 @@
         materialized='incremental',
         unique_key='id',
         cluster_by='date_day',
-        partition_by={'field': 'date_day', 'data_type': 'datetime'}
+        partition_by={'field': 'date_day', 'data_type': 'date'}
     )
 }}
 
@@ -132,6 +132,10 @@ final as (
         ) as previous_status_28d
 
     from user_traffic_rolling_status
+    
+    {% if is_incremental() %}
+    where user_traffic_rolling_status.date_day >= date_sub(current_date(), interval 1 day)
+    {% endif %}
 )
 
 select * from final
