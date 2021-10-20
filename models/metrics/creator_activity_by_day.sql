@@ -1,10 +1,14 @@
+{% set partitions_to_replace = [
+  'date_sub(current_date, interval 1 day)'
+] %}
+
 {{
-    config(
-        materialized='incremental',
-        unique_key='id',
-        cluster_by='date_day',
-        partition_by={'field': 'date_day', 'data_type': 'date'}
-    )
+  config(
+    materialized = 'incremental',
+    incremental_strategy = 'insert_overwrite',
+    partition_by={'field': 'date_day', 'data_type': 'date'},
+    partitions = partitions_to_replace
+  )
 }}
 
 {% set week_days = 7 %}
