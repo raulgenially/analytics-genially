@@ -26,8 +26,10 @@ with geniallys as (
 ),
 
 user_usage as (
-   select user_id,
-          min(date(created_at)) as first_usage
+    select
+        user_id,
+        min(date(created_at)) as first_usage_at
+
    from geniallys
    where created_at is not null
    group by 1
@@ -45,106 +47,91 @@ dates as (
 user_day as (
     select
         user_usage.user_id,
-        user_usage.first_usage,
-        dates.date_day,
-        date_diff(dates.date_day, user_usage.first_usage, day) as day_period
+        user_usage.first_usage_at,
+        date(dates.date_day) as date_day,
+        date_diff(dates.date_day, user_usage.first_usage_at, day) as n_days_since_first_usage
 
     from user_usage
-        cross join dates
-    where dates.date_day >= user_usage.first_usage
-        and dates.date_day < current_date()
-        and user_usage.first_usage >= {{ min_date }}
+    cross join dates
+    where user_usage.first_usage_at >= {{ min_date }} -- Only focus on creators from min_date on
+        and dates.date_day >= user_usage.first_usage_at
 ),
 
 user_day_traffic as (
     select
-        distinct user_day.user_id,
-        user_day.first_usage,
+        user_day.user_id,
+        user_day.first_usage_at,
         user_day.date_day,
-        user_day.day_period,
-        max(geniallys.user_id is not null) as was_active,
+        user_day.n_days_since_first_usage,
+        max(geniallys.user_id is not null) as is_active,
         case
-            when user_day.day_period = 0 then 'N'
-            when user_day.day_period > 0 and max(geniallys.user_id is not null) = false then 'C'
-            when user_day.day_period > 0 and max(geniallys.user_id is not null) = true then 'A'
+            when user_day.n_days_since_first_usage = 0 
+                then 'New'
+            when user_day.n_days_since_first_usage > 0 and max(geniallys.user_id is not null) = false 
+                then 'Churned'
+            when user_day.n_days_since_first_usage > 0 and max(geniallys.user_id is not null) = true 
+                then 'Active'
         end as status
 
     from user_day
     left join geniallys
         on user_day.user_id = geniallys.user_id
-        and user_day.date_day = date(geniallys.created_at)
-        and geniallys.created_at is not null
+            and user_day.date_day = date(geniallys.created_at)
+            and geniallys.created_at is not null
     {{ dbt_utils.group_by(n=4) }}
 ),
 
-rolling_status as (
+user_traffic_rolling_status as (
     select
         user_id,
-        first_usage,
+        first_usage_at,
         date_day,
-        day_period,
-        was_active,
+        n_days_since_first_usage,
+        is_active,
         status,
-        countif(was_active) over (
-            partition by user_id
-            order by day_period
-            rows between {{ week_days_minus }} preceding
-                and current row
-        ) as days_active_7d,
-        countif(was_active) over (
-            partition by user_id
-            order by day_period
-            rows between {{ month_days_minus }} preceding
-                and current row
-        ) as days_active_28d,
+        {{ compute_n_days_active(week_days_minus) }} as n_days_active_7d, 
+        {{ compute_n_days_active(month_days_minus) }} as n_days_active_28d, 
         case
-            when day_period < {{ week_days }} then 'N'
-            when countif(was_active) over (
-                partition by user_id
-                order by day_period
-                rows between {{ week_days_minus }} preceding
-                    and current row
-                ) = 0
-                then 'C'
-            else 'A'
+            when n_days_since_first_usage < {{ week_days }} 
+                then 'New'
+            when {{ compute_n_days_active(week_days_minus) }} = 0
+                then 'Churned'
+            else 'Active'
         end as status_7d,
         case
-            when day_period < {{ month_days }} then 'N'
-            when countif(was_active) over (
-                partition by user_id
-                order by day_period
-                rows between {{ month_days_minus }} preceding
-                    and current row
-                ) = 0
-                then 'C'
-            else 'A'
+            when n_days_since_first_usage < {{ month_days }} 
+                then 'New'
+            when {{ compute_n_days_active(month_days_minus) }} = 0
+                then 'Churned'
+            else 'Active'
         end as status_28d
+    
     from user_day_traffic
 ),
 
 final as (
     select
-        {{ dbt_utils.surrogate_key(['rolling_status.user_id', 'rolling_status.date_day']) }} as id,
-        rolling_status.user_id,
-        rolling_status.first_usage,
-        rolling_status.date_day,
-        rolling_status.day_period,
-        rolling_status.was_active,
-        rolling_status.status,
-        rolling_status.status_7d,
-        rolling_status.days_active_7d,
-        rolling_status.status_28d,
-        rolling_status.days_active_28d,
-        lag(rolling_status.status_7d, {{ week_days }}) over (
-            partition by rolling_status.user_id
-            order by day_period asc
+        {{ dbt_utils.surrogate_key(['user_traffic_rolling_status.user_id', 'user_traffic_rolling_status.date_day']) }} as id,
+        user_traffic_rolling_status.user_id,
+        user_traffic_rolling_status.first_usage_at,
+        user_traffic_rolling_status.date_day,
+        user_traffic_rolling_status.n_days_since_first_usage,
+        user_traffic_rolling_status.is_active,
+        user_traffic_rolling_status.status,
+        user_traffic_rolling_status.n_days_active_7d,
+        user_traffic_rolling_status.status_7d,
+        user_traffic_rolling_status.n_days_active_28d,
+        user_traffic_rolling_status.status_28d,
+        lag(user_traffic_rolling_status.status_7d, {{ week_days }}) over (
+            partition by user_traffic_rolling_status.user_id
+            order by n_days_since_first_usage asc
         ) as previous_status_7d,
-        lag(rolling_status.status_28d, {{ month_days }}) over (
-            partition by rolling_status.user_id
-            order by day_period asc
+        lag(user_traffic_rolling_status.status_28d, {{ month_days }}) over (
+            partition by user_traffic_rolling_status.user_id
+            order by n_days_since_first_usage asc
         ) as previous_status_28d
 
-    from rolling_status
+    from user_traffic_rolling_status
 )
 
 select * from final
