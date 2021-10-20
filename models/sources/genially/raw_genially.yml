@@ -15,7 +15,7 @@ sources:
             - name: __hevo__marked_deleted
               description: Indicates if the genially is deleted in MongoDB
               tests:
-              - not_null
+                - not_null
 
         - name: users
           columns:
@@ -76,7 +76,7 @@ sources:
                 - unique
                 - not_null
             - name: idgenially
-              description: Id Genially of the inspiration genially.
+              description: Id Genially of the template color.
 
         - name: license
           description: Information about the licenses the users purchase

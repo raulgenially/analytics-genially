@@ -45,7 +45,3 @@ models:
           description: Id of the actual genially referring to this inspiration.
           tests:
             - not_null
-            - relationships:
-                to: ref('src_genially_geniallys')
-                field: genially_id
-                severity: warn

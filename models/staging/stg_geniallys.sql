@@ -6,10 +6,6 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
-genially_templatecolors as ( --We will use this table to filter out all geniallys that are templates color variations
-    select distinct(genially_to_view_id) from {{ ref('src_genially_templatecolors') }}
-),
-
 templatecolors as (
     select * from {{ ref('stg_templatecolors') }}
 ),
@@ -102,10 +98,7 @@ final as (
      -- Remove geniallys that are templates or template colors
     left join genially_templates
         on geniallys.genially_id = genially_templates.genially_id
-    left join genially_templatecolors
-        on geniallys.genially_id = genially_templatecolors.genially_to_view_id
     where genially_templates.genially_id is null
-        and genially_templatecolors.genially_to_view_id is null
 )
 
 select * from final
