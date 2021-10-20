@@ -12,6 +12,7 @@ steps:
 - name: 'fishtownanalytics/dbt:0.19.2'
   args: ['test', '-x']
 
+timeout: 1800s # 30 min
 options:
   env:
   - 'PULL_REQUEST=$_PR_NUMBER'

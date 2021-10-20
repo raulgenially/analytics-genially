@@ -62,13 +62,23 @@ models:
           tests:
             - not_null
 
-        - name: is_published
-          description: Whether the genially has been published.
+        - name: is_active
+          description: Whether the genially is active at the user dashboard.
+          tests:
+            - not_null
+
+        - name: is_in_recyclebin
+          description: Whether the genially has been sent to the Recycle Bin.
+          tests:
+            - not_null
+
+        - name: is_logically_deleted
+          description: Whether the genially has been deleted from the Recycle Bin.
           tests:
             - not_null
 
         - name: is_deleted
-          description: Whether the genially has been deleted.
+          description: Whether the genially has been physically deleted.
           tests:
             - not_null
 
