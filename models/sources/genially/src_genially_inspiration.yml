@@ -1,0 +1,47 @@
+version: 2
+
+models:
+    - name: src_genially_inspiration
+      description: Geniallys shown at Inspiration section.
+      columns:
+        - name: inspiration_id
+          description: Primary key for inspiration geniallys.
+          tests:
+            - not_null
+            - unique
+
+        - name: tags
+          description: Tags associated to the inspiration genially.
+
+        - name: inspiration_order
+          description: The genially is ordered by the aplication according this field.
+
+        - name: name
+          description: Name shown into the application for the inspiration genially.
+          tests:
+            - not_null
+
+        - name: category
+          description: Inspiration Genially category (to use in top filters).
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_inspiration_categories() }}"
+
+        - name: language
+          description: Language of the inspiration genially.
+          tests:
+            - not_null
+
+        - name: genially_type
+          description: Type of the inspiration genially.
+
+        - name: is_reusable
+          description: Whether the inspiration genially can be reused as a new creation.
+          tests:
+            - not_null
+
+        - name: genially_id
+          description: Id of the actual genially referring to this inspiration.
+          tests:
+            - not_null
