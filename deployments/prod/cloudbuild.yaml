@@ -15,6 +15,7 @@ steps:
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run-operation', 'cleanup_dataset']
 
+timeout: 1800s # 30 min
 options:
   env:
   - 'DBT_PROFILES_DIR=/workspace'

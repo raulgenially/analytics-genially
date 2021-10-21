@@ -27,24 +27,24 @@ users_creations as (
     select
         geniallys.user_id,
         count(geniallys.genially_id) as n_total_creations,
-        countif({{ define_active_creation('geniallys') }}) as n_active_creations,
+        countif(geniallys.is_active = true) as n_active_creations,
         countif(geniallys.is_published = true) as n_published_creations,
         countif(
-            geniallys.is_deleted = false
+            geniallys.is_active = true
             and geniallys.is_published = true
         ) as n_active_published_creations,
         countif(geniallys.is_in_social_profile = true) as n_creations_in_social_profile,
         countif(
-            geniallys.is_deleted = false
+            geniallys.is_active = true
             and geniallys.is_in_social_profile = true
         ) as n_active_creations_in_social_profile,
         countif(
-            geniallys.is_deleted = false
+            geniallys.is_active = true
             and geniallys.is_published = true
             and collaborative_geniallys.genially_id is not null -- Check if the genially is collaborative.
         ) as n_active_collaborative_published_creations,
         countif(
-            geniallys.is_deleted = false
+            geniallys.is_active = true
             and geniallys.is_in_social_profile = true
             and geniallys.is_reusable = true
         ) as n_active_reusable_creations_in_social_profile,

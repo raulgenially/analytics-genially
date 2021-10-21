@@ -44,7 +44,7 @@ geniallys_by_creation_date as (
         team_name,
 
         -- Metrics
-        countif({{ define_active_creation('geniallys') }}) as n_active_creations,
+        countif(is_active = true) as n_active_creations,
 
     from geniallys
     group by 1, 2

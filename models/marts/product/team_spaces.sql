@@ -9,7 +9,7 @@ geniallys as (
 geniallys_spaces as (
     select
         space_id,
-        countif({{ define_active_creation('geniallys') }}) as n_active_creations
+        countif(is_active = true) as n_active_creations
 
     from geniallys
     group by 1
