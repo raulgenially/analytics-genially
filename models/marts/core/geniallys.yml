@@ -77,6 +77,9 @@ models:
           tests:
             - not_null
 
+        - name: is_published
+          description: Whether the genially has been published.
+
         - name: is_active
           description: Whether the genially is active at the user dashboard.
           tests:

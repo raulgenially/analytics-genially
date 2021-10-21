@@ -1,3 +1,10 @@
+-- We need to materialize this model to avoid resources exceeded error in users model
+{{
+  config(
+    materialized='table'
+  )
+}}
+
 with geniallys as (
     select * from {{ ref('src_genially_geniallys') }}
 ),

@@ -40,7 +40,7 @@ models:
         - name: n_active_creations
           description: Number of active creations in the team.
 
-        - name: has_log_in_team_tab
+        - name: has_logo_in_team_tab
           description: Whether the team has configured the logo in the team tab.
 
         - name: has_cover_picture_in_team_tab
