@@ -33,7 +33,7 @@ collaboratives_joined as (
         geniallys.name,
 
         geniallys.is_published,
-        geniallys.is_deleted,
+        geniallys.is_active,
         geniallys.is_in_social_profile,
         geniallys.is_visualized_last_90_days,
         geniallys.is_visualized_last_60_days,

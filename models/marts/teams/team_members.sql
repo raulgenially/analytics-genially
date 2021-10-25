@@ -42,7 +42,7 @@ final as (
         members.team_name,
 
         members_owners.is_owner_of_some_space,
-        if(members_have_spaces is not null, true, false) as has_spaces_other_than_common,
+        if(members_have_spaces.team_member_id is not null, true, false) as has_spaces_other_than_common,
 
         members.user_id,
         members.team_id,

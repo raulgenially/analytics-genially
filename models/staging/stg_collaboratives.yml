@@ -29,8 +29,8 @@ models:
           tests:
             - not_null
 
-        - name: is_deleted
-          description: Whether the genially has been deleted.
+        - name: is_active
+          description: Whether the genially is active at the user dashboard.
           tests:
             - not_null
 
@@ -89,6 +89,10 @@ models:
 
         - name: genially_space_id
           description: Id of the space where the collaboration happens (data coming from stg_geniallys).
+          tests:
+            - relationships:
+                to: ref('stg_team_spaces')
+                field: team_space_id
 
         - name: created_at
           description: When the genially was shared with the user id for collaboration.

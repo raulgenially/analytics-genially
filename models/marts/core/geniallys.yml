@@ -166,21 +166,21 @@ models:
           description: Id of the team this genially is part of.
           tests:
             - dbt_utils.not_null_where:
-                where: "space_id is not null and is_deleted = false"
+                where: "space_id is not null and is_active = true"
             - dbt_utils.relationships_where:
                 to: ref('teams')
                 field: team_id
-                from_condition: is_deleted = false
+                from_condition: is_active = true
 
         - name: space_id
           description: Id of the space this genially is part of.
           tests:
             - dbt_utils.not_null_where:
-                where: "team_id is not null and is_deleted = false"
+                where: "team_id is not null and is_active = true"
             - dbt_utils.relationships_where:
                 to: ref('team_spaces')
                 field: team_space_id
-                from_condition: is_deleted = false
+                from_condition: is_active = true
 
         - name: team_template_id
           description: Id of the genially as a team template.

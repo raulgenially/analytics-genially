@@ -1,0 +1,40 @@
+version: 2
+
+models:  
+    - name: metrics_teams
+      description: Model containing info as to creations and spaces in teams.
+      columns:
+        - name: created_at
+          description: Date creation of creations or spaces.
+          tests:
+            - not_null
+
+        - name: team_name
+          description: Team name.
+          tests:
+            - not_null
+
+        - name: team_created_at
+          description: Date creation of the team.
+          tests:
+            - not_null
+
+        - name: n_active_creations
+          description: Number of new active creations.
+          tests:
+            - not_null
+
+        - name: n_spaces
+          description: Number of new created spaces.
+          tests:
+            - not_null
+
+        - name: n_cumulative_active_creations
+          description: Total number of active creations created until created_at.
+          tests:
+            - not_null
+
+        - name: n_cumulative_spaces
+          description: Total number of spaces created until created_at.
+          tests:
+            - not_null

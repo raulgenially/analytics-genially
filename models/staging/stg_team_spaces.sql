@@ -32,9 +32,9 @@ final as (
         on spaces.team_id = teams.team_id
     left join members
         on spaces.owner_id = members.team_member_id
-    where (is_common = false
+    where (spaces.is_common = false
             and members.team_member_id is not null)
-        or (is_common = true)
+        or (spaces.is_common = true)
 )
 
 select * from final

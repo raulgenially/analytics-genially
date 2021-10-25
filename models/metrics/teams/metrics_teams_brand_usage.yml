@@ -1,0 +1,26 @@
+version: 2
+
+models:  
+    - name: metrics_teams_brand_usage
+      description: Model containing info as to team's configuration.
+      columns:
+        - name: brand_usage_type
+          description: Type of configuration the team has set up.
+            For example, if the team has configured the loader in team brand section.
+          tests:
+            - not_null
+
+        - name: name
+          description: Name of the team.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Date creation of the team.
+          tests:
+            - not_null
+
+        - name: has_usage
+          description: Indiates whether the team has set up the brand usage type.
+          tests:
+            - not_null
