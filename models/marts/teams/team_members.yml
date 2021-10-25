@@ -19,6 +19,11 @@ models:
         - name: team_name
           description: Name of the team this member belongs to.
 
+        - name: n_active_creations
+          description: Number of active creations within the team.
+          tests:
+            - not_null
+
         - name: is_owner_of_some_space
           description: Indicates whether the member is owner of some space.
           tests:
@@ -26,6 +31,11 @@ models:
 
         - name: has_spaces_other_than_common
           description: Indicates whether the member is part of some space other than the common space.
+          tests:
+            - not_null
+
+        - name: has_created_in_personal_ws
+          description: Indicates whether the member has created in personal workspace after the creation of the team.
           tests:
             - not_null
 

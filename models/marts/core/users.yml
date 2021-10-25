@@ -85,6 +85,11 @@ models:
           tests:
             - not_null
 
+        - name: n_active_creations_in_personal_ws
+          description: Total number of active creations in personal workspace (excluding creations in the context of Teams).
+          tests:
+            - not_null
+
         - name: n_published_creations
           description: Total number of published creations (including those that have been removed).
           tests:

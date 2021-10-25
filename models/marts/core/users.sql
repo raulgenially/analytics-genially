@@ -14,20 +14,15 @@ collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
 ),
 
-collaborative_geniallys as (
-    select
-        distinct geniallys.genially_id
-
-    from geniallys
-    left join collaboratives
-        on geniallys.genially_id = collaboratives.genially_id
-),
-
 users_creations as (
     select
         geniallys.user_id,
         count(geniallys.genially_id) as n_total_creations,
         countif(geniallys.is_active = true) as n_active_creations,
+        countif(
+            geniallys.is_active = true
+            and team_id is null
+        ) as n_active_creations_in_personal_ws,
         countif(geniallys.is_published = true) as n_published_creations,
         countif(
             geniallys.is_active = true
@@ -41,7 +36,7 @@ users_creations as (
         countif(
             geniallys.is_active = true
             and geniallys.is_published = true
-            and collaborative_geniallys.genially_id is not null -- Check if the genially is collaborative.
+            and collaboratives.genially_id is not null -- Check if the genially is collaborative.
         ) as n_active_collaborative_published_creations,
         countif(
             geniallys.is_active = true
@@ -54,8 +49,8 @@ users_creations as (
         max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
-    left join collaborative_geniallys
-        on geniallys.genially_id = collaborative_geniallys.genially_id
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
     group by 1
 ),
 
@@ -124,6 +119,8 @@ final as (
 
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
+        coalesce(users_creations.n_active_creations_in_personal_ws, 0)
+            as n_active_creations_in_ws_personal,
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
         coalesce(users_collaboratives.n_published_creations_as_collaborator, 0) as n_published_creations_as_collaborator,
         coalesce(users_creations.n_active_published_creations, 0) as n_active_published_creations,
