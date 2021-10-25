@@ -10,6 +10,8 @@ vars:
   not_selected: 'Not-selected'
   # Date at which the new onboarding process was deployed
   new_onboarding_date: '2021-05-11'
+  # Estimated date at which Teams feat was deployed
+  team_feat_start_date: '2021-09-01'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'

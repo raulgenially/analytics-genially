@@ -14,15 +14,19 @@ teams as (
     from {{ ref('teams') }}
 ),
 
+{% set min_date %}
+    date('2018-01-01')
+{% endset %}
+
 -- Geniallys moved to a Team workspace maintain the original creation date
 -- 2018 is used as start date to make sure we are including all geniallys in the subsequent calculations (cumulative sums)
 -- Note we are assuming that older Geniallys are not going to be moved to a Team workspace
 -- However, we'll filter out by creation date later for computational performance (see final CTE)
 date_spine as (
     {{ dbt_utils.date_spine(
-        datepart='day', 
-        start_date='date(2018, 1, 1)', 
-        end_date='current_date()'
+        datepart="day", 
+        start_date=min_date, 
+        end_date="current_date()"
        )
     }}
 ),
@@ -97,7 +101,7 @@ final as (
         *
     
     from metrics_joined_cumsum
-    where created_at >= '2021-09-01' -- Teams feat starting at this month
+    where created_at >= '{{ var('team_feat_start_date') }}'
     order by created_at asc
 )
 
