@@ -14,28 +14,19 @@ geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
+users as (
+    select * from {{ ref('users') }}
+),
+
 -- Extract members that are owners of some space
 members_owners as (
-    select
-        members.team_member_id,
-        max(
-            if(members.team_member_id = spaces.owner_id, true, false)
-        ) as is_owner_of_some_space
-
-    from members
-    left join spaces
-        on members.team_id = spaces.team_id
-    group by 1
+    select distinct owner_id from spaces
 ),
 
 -- These are members that have spaces in their Team workspace other than the common space 
 members_have_spaces as (
-    select
-        distinct members.team_member_id 
-
-    from members
-    inner join team_space_collaborators
-        on members.team_member_id = team_space_collaborators.collaborator_id
+    select distinct collaborator_id from team_space_collaborators
+    where collaborator_type_name = 'Team Member'
 ),
 
 -- Compute geniallys created by a team member
@@ -51,7 +42,7 @@ members_geniallys as (
     group by 1
 ),
 
--- Members that still make use of the personal workspace
+-- Members that still make use of the personal workspace (after creation date of the team)
 members_geniallys_personal_ws as (
     select
         members.team_member_id,
@@ -62,7 +53,7 @@ members_geniallys_personal_ws as (
     from members
     left join geniallys
         on members.user_id = geniallys.user_id
-        and geniallys.team_id is null -- Only retains those geniallys in personal ws
+            and geniallys.team_id is null -- Only retains those geniallys in personal ws
     group by 1
 ),
 
@@ -74,9 +65,10 @@ final as (
         members.member_role_name as role,
         members.team_name,
         coalesce(members_geniallys.n_active_creations, 0) as n_active_creations,
+        users.n_active_creations_in_personal_ws,
 
-        members_owners.is_owner_of_some_space,
-        if(members_have_spaces.team_member_id is not null, true, false) as has_spaces_other_than_common,
+        if(members_owners.owner_id is not null, true, false) as is_owner_of_some_space,
+        if(members_have_spaces.collaborator_id is not null, true, false) as has_spaces_other_than_common,
         members_geniallys_personal_ws.has_created_in_personal_ws,
 
         members.user_id,
@@ -88,13 +80,15 @@ final as (
     
     from members
     left join members_owners
-        on members.team_member_id = members_owners.team_member_id
+        on members.team_member_id = members_owners.owner_id
     left join members_have_spaces
-        on members.team_member_id = members_have_spaces.team_member_id
+        on members.team_member_id = members_have_spaces.collaborator_id
     left join members_geniallys
         on members.team_member_id = members_geniallys.team_member_id
     left join members_geniallys_personal_ws
         on members.team_member_id = members_geniallys_personal_ws.team_member_id
+    left join users
+        on members.user_id = users.user_id
 )
 
 select * from final

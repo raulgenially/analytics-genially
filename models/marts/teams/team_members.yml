@@ -24,6 +24,11 @@ models:
           tests:
             - not_null
 
+        - name: n_active_creations_in_personal_ws
+          description: Number of active creations that the user has in their personal ws (do not double count when sum across user_id).
+          tests:
+            - not_null
+
         - name: is_owner_of_some_space
           description: Indicates whether the member is owner of some space.
           tests:
