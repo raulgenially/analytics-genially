@@ -15,12 +15,7 @@ collaboratives as (
 ),
 
 collaborative_geniallys as (
-    select
-        distinct geniallys.genially_id
-
-    from geniallys
-    left join collaboratives
-        on geniallys.genially_id = collaboratives.genially_id
+    select distinct genially_id from collaboratives
 ),
 
 users_creations as (
