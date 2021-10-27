@@ -48,18 +48,18 @@ models:
 
         - name: status_7d
           description: Aggregated status over the past 7 days.
-            We consider the user New if the user creates for the first time some genially during the last 7 days.
+            We consider the user New if the user creates for the first time some Genially during the last 7 days.
             We consider the user Churned if the user has not created anything during the last 7 days.
-            We consider the user Active if the user has created some Genially during the last 7 days but it is not their first.
+            We consider the user Active if the user has created some Genially during the last 7 days and it is not their first.
        
         - name: n_days_active_28d
           description: Number of days the user is active (because they are New or Active) during the last 28 days.
           
         - name: status_28d
           description: Aggregated status over the past 28 days.
-            We consider the user New if the user creates for the first time some genially during the last 28 days.
+            We consider the user New if the user creates for the first time some Genially during the last 28 days.
             We consider the user Churned if the user has not created anything during the last 28 days.
-            We consider the user Active if the user has created some Genially during the last 28 days but it is not their first.
+            We consider the user Active if the user has created some Genially during the last 28 days and it is not their first.
 
         - name: previous_status_7d
           description: Aggregated status over the previous 7 days prior to the last 7 days.

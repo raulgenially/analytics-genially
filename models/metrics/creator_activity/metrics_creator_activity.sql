@@ -1,17 +1,3 @@
-{% set partitions_to_replace = [
-  'date_sub(current_date, interval 1 day)',
-  'date_sub(current_date, interval 2 day)'
-] %}
-
-{{
-  config(
-    materialized='incremental',
-    incremental_strategy='insert_overwrite',
-    partition_by={'field': 'date_day', 'data_type': 'date'},
-    partitions=partitions_to_replace
-  )
-}}
-
 {% set week_days = 7 %}
 {% set week_days_minus = week_days - 1 %}
 
@@ -20,10 +6,6 @@
 
 {% set min_date %}
     date('2019-01-01')
-{% endset %}
-
-{% set lookback_date %}
-    date_sub(current_date(), interval 56 day) -- 28 days * 2
 {% endset %}
 
 with geniallys as (
@@ -43,7 +25,7 @@ user_usage as (
 dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date=lookback_date if is_incremental() else min_date,
+        start_date=min_date,
         end_date="current_date()"
        )
     }}
@@ -137,10 +119,6 @@ final as (
         ) as previous_status_28d
 
     from user_traffic_rolling_status
-    
-    {% if is_incremental() %}
-    where date_day >= date_sub(current_date(), interval 2 day)
-    {% endif %}
 )
 
 select * from final

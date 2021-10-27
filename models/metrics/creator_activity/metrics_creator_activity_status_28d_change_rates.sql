@@ -38,7 +38,7 @@ final as (
     from denominator
     left join numerator
         on denominator.date_day = numerator.date_day
-        and denominator.previous_status_28d = numerator.previous_status_28d
+            and denominator.previous_status_28d = numerator.previous_status_28d
 )
 
 select * from final

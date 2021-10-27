@@ -10,20 +10,21 @@ models:
             - not_null
 
         - name: status_28d
-          description: The status of a creator over the last 28 days (including the date specified on date_day).
-            See status_28d in the `metrics_creator_activity` model.
+          description: The status of a creator over the last 28 days.
+          tests:
+            - accepted_values:
+                values: ['Active']
 
         - name: previous_status_28d
-          description: The status of a creator over the previous 28 days prior to the last 28 days..
-            See status_28d in the `creator_activity_by_day` model.
+          description: The status of a creator over the previous 28 days prior to the last 28 days.
 
         - name: n_active_returning_users
-          description: Number of active returning users coming from the `previous_status_28d`.
+          description: Number of active returning users.
 
         - name: n_total_users
-          description: Total number of users with `previous_status_28d` on the given `date_day`.
+          description: Total number of users with `previous_status_28d`.
           tests:
             - not_null
 
         - name: change_rate
-          description: rate at which active returning users convert from the `previous_status_28d`
+          description: Rate at which active returning users convert from the `previous_status_28d`.
