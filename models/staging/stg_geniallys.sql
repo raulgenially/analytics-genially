@@ -6,22 +6,34 @@ templates as (
     select * from {{ ref('src_genially_templates') }}
 ),
 
-genially_templates as (
-    select
-        geniallys.genially_id,
-
-    from geniallys
-    inner join templates
-        on geniallys.genially_id = templates.genially_id
+templatecolors as (
+    select * from {{ ref('stg_templatecolors') }}
 ),
 
-genially_templates_view as (
+inspiration as (
+    select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
+),
+
+total_templates as( --Here we unite all templates and colors variations
+    select
+        *
+
+    from templates
+    union all
+    select
+        *
+
+    from templatecolors
+),
+
+genially_templates as ( --We will use this table to filter out all geniallys that are templates
     select
         geniallys.genially_id,
 
     from geniallys
-    inner join templates
-        on geniallys.genially_id = templates.genially_to_view_id
+    inner join total_templates
+        on geniallys.genially_id = total_templates.genially_id
+        or geniallys.genially_id = total_templates.genially_to_view_id --Some geniallys could have various versions
 ),
 
 final as (
@@ -33,21 +45,31 @@ final as (
         geniallys.name,
         case
             when geniallys.reused_from_id is not null
-                then 'Reusable'
-            when templates.template_type is not null
+                then
+                    case
+                        when inspiration.genially_id is null
+                            then 'Reusable'
+                        else 'Inspiration Reusable'
+                    end
+            when geniallys.from_template_id is not null
                 then 'Template'
+            when geniallys.from_team_template_id is not null
+                then 'Team Template'
             when geniallys.genially_type = 17 or geniallys.genially_type = 27
                 then 'From Scratch'
             when geniallys.genially_type = 18
                 then 'PPTX Import'
             else
                 'Other'
-        end as origin,
-        {{ map_genially_category('templates.template_type', 'geniallys.genially_type') }} as category, -- TODO review mapping
-        templates.template_type,
-        templates.name as template_name,
+        end as source,
+        {{ map_genially_category('total_templates.template_type', 'geniallys.genially_type') }} as category,
+        total_templates.template_type,
+        total_templates.name as template_name,
 
         geniallys.is_published,
+        geniallys.is_active,
+        geniallys.is_in_recyclebin,
+        geniallys.is_logically_deleted,
         geniallys.is_deleted,
         geniallys.is_private,
         geniallys.is_password_free,
@@ -62,22 +84,21 @@ final as (
         geniallys.reused_from_id,
         geniallys.from_template_id,
 
-        geniallys.modified_at,
         geniallys.created_at,
+        geniallys.modified_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
 
     from geniallys
-    left join templates
-        on geniallys.from_template_id = templates.template_id
-     -- Remove geniallys that are templates
+    left join total_templates
+        on geniallys.from_template_id = total_templates.template_id
+    left join inspiration
+        on geniallys.reused_from_id = inspiration.genially_id
+     -- Remove geniallys that are templates or template colors
     left join genially_templates
         on geniallys.genially_id = genially_templates.genially_id
-    left join genially_templates_view
-        on geniallys.genially_id = genially_templates_view.genially_id
     where genially_templates.genially_id is null
-        and genially_templates_view.genially_id is null
 )
 
 select * from final

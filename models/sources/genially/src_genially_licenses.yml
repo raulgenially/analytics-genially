@@ -49,7 +49,8 @@ models:
           description: Id of the transaction in the payment processing platform.
             Each recurrent payment will have a different transaction_id.
           tests:
-            - not_null
+            - not_null:
+                where: "license_id not in ('61716017b692c60dbaaf952c', '61714d9f98f5a60d43efe33a')"
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.

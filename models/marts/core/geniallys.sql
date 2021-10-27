@@ -23,7 +23,7 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
-        geniallys.origin,
+        geniallys.source,
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
@@ -34,6 +34,9 @@ final as (
         users.country as user_country,
 
         geniallys.is_published,
+        geniallys.is_active,
+        geniallys.is_in_recyclebin,
+        geniallys.is_logically_deleted,
         geniallys.is_deleted,
         geniallys.is_private,
         geniallys.is_password_free,

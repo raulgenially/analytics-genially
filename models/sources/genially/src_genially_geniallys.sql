@@ -14,7 +14,10 @@ final as (
         friendlyurl as friendly_url, -- url used for the social view
 
         ifnull(published, false) as is_published,
-        ifnull(deleted, false) as is_deleted,
+        not ifnull(deleted, false) and __hevo__marked_deleted = false as is_active,
+        ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) < 30 as is_in_recyclebin,
+        ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) >= 30 as is_logically_deleted,
+        __hevo__marked_deleted as is_deleted,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
         case
@@ -48,7 +51,6 @@ final as (
         datedeleted as deleted_at
 
     from geniallys
-    where __hevo__marked_deleted = false
 )
 
 select * from final
