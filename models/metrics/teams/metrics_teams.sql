@@ -33,7 +33,7 @@ date_spine as (
 
 spine as (
     select
-        date(date_spine.date_day) as created_at,
+        date(date_spine.date_day) as date_day,
         name as team_name,
         created_at as team_created_at
 
@@ -70,7 +70,7 @@ spaces_by_creation_date as (
 metrics_joined as (
     select
         -- Dimensions
-        spine.created_at,
+        spine.date_day,
         spine.team_name,
         spine.team_created_at,
 
@@ -80,18 +80,18 @@ metrics_joined as (
 
     from spine
     left join geniallys_by_creation_date
-        on spine.created_at = geniallys_by_creation_date.created_at
+        on spine.date_day = geniallys_by_creation_date.created_at
             and spine.team_name = geniallys_by_creation_date.team_name
     left join spaces_by_creation_date
-        on spine.created_at = spaces_by_creation_date.created_at
+        on spine.date_day = spaces_by_creation_date.created_at
             and spine.team_name = spaces_by_creation_date.team_name
 ),
 
 metrics_joined_cumsum as (
     select
         *,
-        sum(n_active_creations) over (partition by team_name order by created_at) as n_cumulative_active_creations,
-        sum(n_spaces) over (partition by team_name order by created_at) as n_cumulative_spaces
+        sum(n_active_creations) over (partition by team_name order by date_day asc) as n_cumulative_active_creations,
+        sum(n_spaces) over (partition by team_name order by date_day asc) as n_cumulative_spaces
 
     from metrics_joined
 ),
@@ -101,8 +101,8 @@ final as (
         *
     
     from metrics_joined_cumsum
-    where created_at >= '{{ var('team_feat_start_date') }}'
-    order by created_at asc
+    where date_day >= '{{ var('team_feat_start_date') }}'
+    order by date_day asc
 )
 
 select * from final

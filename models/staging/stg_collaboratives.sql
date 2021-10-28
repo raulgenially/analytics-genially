@@ -56,7 +56,7 @@ collaboratives_joined as (
         on collaboratives.user_owner_id = owners.user_id
     left join users
         on collaboratives.user_id = users.user_id
-    left join team_members_users
+    left join team_members_users -- Collaboratives user id is linked to team members when collaboration type is 4 (see https://github.com/Genially/scrum-genially/issues/7287)
         on collaboratives.user_id = team_members_users.team_member_id
     where collaboratives.user_owner_id = geniallys.user_id       
 ),

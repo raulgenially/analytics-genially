@@ -148,5 +148,5 @@ models:
         - name: team_created_at
           description: The date the team was created.
           tests:
-            - dbt_utils.not_null_where:
+            - not_null:
                 where: "team_id is not null and is_active = true"

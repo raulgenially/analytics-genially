@@ -11,8 +11,8 @@ collaboratives as (
 ),
 
 geniallys_collaboratives as (
-    select
-        distinct genially_id,
+    select distinct
+        genially_id,
         collaboration_type,
 
     from collaboratives

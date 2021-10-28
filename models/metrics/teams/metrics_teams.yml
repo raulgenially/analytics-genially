@@ -4,8 +4,8 @@ models:
     - name: metrics_teams
       description: Model containing info as to creations and spaces in teams.
       columns:
-        - name: created_at
-          description: Date creation of creations or spaces.
+        - name: date_day
+          description: The particular day where creations and spaces is described.
           tests:
             - not_null
 
@@ -30,11 +30,11 @@ models:
             - not_null
 
         - name: n_cumulative_active_creations
-          description: Total number of active creations created until created_at.
+          description: Total number of active creations created until date_day.
           tests:
             - not_null
 
         - name: n_cumulative_spaces
-          description: Total number of spaces created until created_at.
+          description: Total number of spaces created until date_day.
           tests:
             - not_null
