@@ -42,6 +42,7 @@ final as (
     left join team_types
         on teams.team_type = team_types.code
     where __hevo__marked_deleted = false
+        and datedisabled is null -- See https://github.com/Genially/scrum-genially/issues/7506
 )
 
 select * from final

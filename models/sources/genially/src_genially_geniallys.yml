@@ -126,4 +126,4 @@ models:
           description: Last time the genially was visualized.
 
         - name: deleted_at
-          description: Deletion date.
+          description: This refers to the date at which the user moves the Genially to the recycle bin.

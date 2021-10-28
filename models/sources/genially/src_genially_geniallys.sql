@@ -51,6 +51,7 @@ final as (
         datedeleted as deleted_at
 
     from geniallys
+    where datedisabled is null -- See https://github.com/Genially/scrum-genially/issues/7506
 )
 
 select * from final
