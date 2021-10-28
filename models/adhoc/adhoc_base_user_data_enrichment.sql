@@ -27,6 +27,7 @@ numbered_invoices as (
 final as (
     select
         users.email as Email,
+        users.nickname as Nickname,
         users.plan as Plan,
         users.role as Role,
         users.sector as Sector,
