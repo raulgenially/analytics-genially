@@ -42,12 +42,12 @@ members_geniallys as (
     group by 1
 ),
 
--- Members that still make use of the personal workspace (after creation date of the team)
+-- Members that still make use of the personal workspace (since they joined the team)
 members_geniallys_personal_ws as (
     select
         members.team_member_id,
         max(
-            if(geniallys.is_active = true and geniallys.created_at >= members.team_created_at, true, false)
+            if(geniallys.is_active = true and geniallys.created_at >= members.confirmed_at, true, false)
         ) as has_created_in_personal_ws
 
     from members
