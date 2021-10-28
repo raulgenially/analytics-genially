@@ -51,6 +51,9 @@ models:
           tests:
             - not_null
 
+        - name: nickname
+          description: User NickName in Genially.
+
         - name: language
           description: Language the Genially web interface is in.
 

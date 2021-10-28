@@ -66,7 +66,7 @@ users_new_profiles as (
                     end
             else users.role
         end as role
-    
+
     from users
     left join role_sector_mapping
         on users.sector_code = role_sector_mapping.old_sector_id
@@ -100,6 +100,7 @@ final as (
         {{ create_broad_role_field('users_broad_sector.role', 'users_broad_sector.broad_sector') }} as broad_role,
         users.country,
         users.email,
+        users.nickname,
         users.language,
         users.about_me,
         users.facebook_account,
