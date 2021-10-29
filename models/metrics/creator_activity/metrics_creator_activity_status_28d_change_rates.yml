@@ -1,0 +1,30 @@
+version: 2
+
+models:
+    - name: metrics_creator_activity_status_28d_change_rates
+      description: Model containing rates of status_28d change for creators.
+      columns:
+        - name: date_day
+          description: Date of the aggregated data point.
+          tests:
+            - not_null
+
+        - name: status_28d
+          description: The status of a creator over the last 28 days.
+          tests:
+            - accepted_values:
+                values: ['Active']
+
+        - name: previous_status_28d
+          description: The status of a creator over the previous 28 days prior to the last 28 days.
+
+        - name: n_active_returning_users
+          description: Number of active returning users.
+
+        - name: n_total_users
+          description: Total number of users with `previous_status_28d`.
+          tests:
+            - not_null
+
+        - name: change_rate
+          description: Rate at which active returning users convert from the `previous_status_28d`.
