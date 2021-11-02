@@ -29,6 +29,10 @@ models:
           tests:
             - not_null
 
+        - name: is_active
+          description: Indicates whether the team member is active.
+            That is, they have confirmed their participation in the team and have not been deleted.
+
         - name: user_id
           description: Id of the user that is/was part of the team.
           tests:

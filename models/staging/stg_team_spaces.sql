@@ -19,12 +19,12 @@ final as (
         spaces.icon,
 
         spaces.is_common,
+        members.is_active as is_owner_active,
 
         spaces.team_id,
         spaces.owner_id,
 
         spaces.created_at,
-        members.confirmed_at as owner_confirmed_at,
         teams.created_at as team_created_at
 
     from spaces

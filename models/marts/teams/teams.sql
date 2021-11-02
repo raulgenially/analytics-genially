@@ -24,8 +24,8 @@ spaces_teams as (
 members_teams as (
     select
         team_id,
-        countif(confirmed_at is not null) as n_members,
-        countif(is_owner_of_some_space = true and confirmed_at is not null) as n_space_owners
+        countif(is_active = true) as n_members,
+        countif(is_active = true and is_owner_of_some_space = true) as n_space_owners
 
     from members
     group by 1

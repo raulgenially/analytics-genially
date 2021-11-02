@@ -19,6 +19,8 @@ final as (
         members.member_role_name,
         teams.name as team_name,
 
+        members.is_active,
+
         members.user_id,
         members.team_id,
 

@@ -21,6 +21,10 @@ models:
         - name: is_common
           description: Indicates whether or not the space is the common space.
 
+        - name: is_owner_active
+          description: Indicates whether the space owner is active.
+            That is, they have confirmed their participation in the team and have not been deleted.
+
         - name: team_id
           description: Foreign key to the team.
           tests:
@@ -40,9 +44,6 @@ models:
 
         - name: created_at
           description: Creation date of the space.
-
-        - name: owner_confirmed_at
-          description: The time the owner accepted the invitation to the team.
 
         - name: team_created_at
           description: The date the team was created.

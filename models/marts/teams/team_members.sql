@@ -67,6 +67,7 @@ final as (
         coalesce(members_geniallys.n_active_creations, 0) as n_active_creations,
         users.n_active_creations_in_personal_ws,
 
+        members.is_active,
         if(members_owners.owner_id is not null, true, false) as is_owner_of_some_space,
         if(members_have_spaces.collaborator_id is not null, true, false) as has_spaces_other_than_common,
         members_geniallys_personal_ws.has_created_in_personal_ws,

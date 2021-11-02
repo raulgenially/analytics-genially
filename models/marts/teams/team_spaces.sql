@@ -24,12 +24,12 @@ final as (
         coalesce(geniallys_spaces.n_active_creations, 0) as n_active_creations,
 
         spaces.is_common,
+        spaces.is_owner_active,
 
         spaces.team_id,
         spaces.owner_id,
 
         spaces.created_at,
-        spaces.owner_confirmed_at,
         spaces.team_created_at
 
     from spaces
