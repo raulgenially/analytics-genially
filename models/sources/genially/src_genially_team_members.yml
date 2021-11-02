@@ -30,6 +30,9 @@ models:
 
         - name: user_id
           description: Id of the user that is/was part of the team.
+          tests:
+            - not_null:
+                where: "confirmed_at is not null"
 
         - name: team_id
           description: The team id this user belongs to.
@@ -41,3 +44,10 @@ models:
 
         - name: deleted_at
           description: The time the user left the team.
+
+        - name: created_at
+          description: Date at which the team member is registered in the production database.
+            In other words, date at which the team member is invited to join in.
+          tests:
+            - not_null:
+                where: "date(confirmed_at) >= date(2021, 10, 19)"

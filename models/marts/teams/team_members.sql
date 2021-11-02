@@ -76,6 +76,7 @@ final as (
 
         members.confirmed_at,
         members.deleted_at,
+        members.created_at,
         members.team_created_at
     
     from members

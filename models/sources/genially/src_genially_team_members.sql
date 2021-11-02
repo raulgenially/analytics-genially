@@ -18,7 +18,8 @@ final as (
         team_members.idteam as team_id,
 
         team_members.confirmedat as confirmed_at,
-        team_members.deletedat as deleted_at
+        team_members.deletedat as deleted_at,
+        team_members.createdat as created_at
 
     from team_members
     left join role_codes

@@ -66,5 +66,9 @@ models:
         - name: deleted_at
           description: The time the member left the team.
 
+        - name: created_at
+          description: Date at which the team member is registered in the production database.
+            In other words, date at which the team member is invited to join in.
+
         - name: team_created_at
           description: The date the team was created.
