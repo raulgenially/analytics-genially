@@ -1,0 +1,20 @@
+version: 2
+
+models:
+    - name: metrics_creator_activity_status_28d
+      description: Model containing aggregated creators by day and status_28d.
+      columns:
+        - name: date_day
+          description: Date of the aggregated data point.
+          tests:
+            - not_null
+
+        - name: status_28d
+          description: Whether the metric is related to active returning creators, active new creators or total active creators.
+          tests:
+            - not_null
+
+        - name: n_users
+          description: Number of creators with the given status_28d.
+          tests:
+            - not_null
