@@ -109,6 +109,13 @@ sources:
                 - unique
                 - not_null
 
+            - name: createdat
+              description: Date at which the team member is registered in the production database.
+                In other words, date at which the team member is invited to join in.
+              tests:
+                - not_null:
+                    where: "__hevo__loaded_at > 1634605270447"
+
         - name: teamspace
           columns:
             - name: _id
