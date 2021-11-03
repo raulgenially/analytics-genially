@@ -93,6 +93,12 @@ sources:
             - name: _id
               description: Primary key for invoices.
 
+        - name: refundinvoice
+          description: Information about refunded invoices.
+          columns:
+            - name: _id
+              description: Primary key for refundinvoices.
+
         - name: team
           columns:
             - name: _id
