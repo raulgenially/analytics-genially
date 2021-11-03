@@ -46,6 +46,8 @@ models:
           description: Unique invoice number.
           tests:
             - not_null
+            - unique:
+                where: "invoiced_at > timestamp('2020-01-01')"
 
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
@@ -68,4 +70,7 @@ models:
           description: Date time at which the invoice was emitted.
           tests:
             - not_null
-
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "total_euro = total"
+            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
