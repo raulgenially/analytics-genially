@@ -10,10 +10,10 @@ steps:
   args: ['seed']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['run']
+  args: ['run', '--exclude', 'metrics_creator_activity+']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['test']
+  args: ['test', '--exclude', 'metrics_creator_activity+']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run-operation', 'cleanup_dataset']

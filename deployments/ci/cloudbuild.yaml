@@ -10,10 +10,10 @@ steps:
   args: ['seed']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['run', '-x']
+  args: ['run', '-x', '--exclude', 'metrics_creator_activity+']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['test']
+  args: ['test', '--exclude', 'metrics_creator_activity+']
 
 timeout: 1800s # 30 min
 options:
