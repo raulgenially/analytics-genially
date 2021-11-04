@@ -20,8 +20,8 @@ final as (
 
         description,
         payeremail as payer_email,
-        payer_name,
-        -- Some cifs/addresses are denoted with '-', '.' or '--'. Nullify them
+        -- Some cifs/addresses are denoted with '-', ' ', '.' or '--'. Nullify them
+        if(regexp_contains(payer_name, r'\w+'), payer_name, null) as payer_name,
         if(regexp_contains(payer_cif, r'\w+'), payer_cif, null) as payer_cif,
         if(regexp_contains(payer_address, r'\w+'), payer_address, null) as payer_address,
         payer_country,

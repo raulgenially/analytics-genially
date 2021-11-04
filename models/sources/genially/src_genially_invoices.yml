@@ -21,6 +21,20 @@ models:
           tests:
             - not_null
 
+        - name: payer_name
+          description: The name of the person paying the invoice. It an also be the email.
+
+        - name: payer_cif
+          description: The tax ID of the payer.
+
+        - name: payer_address
+          description: The payer's address.
+
+        - name: payer_country
+          description: The payer's country.
+          tests:
+            - not_null
+
         - name: residence_country
           description: Country of residence of the person paying the invoice.
           tests:
@@ -46,10 +60,15 @@ models:
           description: Unique invoice number.
           tests:
             - not_null
+            - unique:
+                where: "invoiced_at > timestamp('2020-01-01')"
 
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
+          tests:
+            - not_null:
+                where: "invoiced_at > timestamp('2020-08-15')"
 
         - name: user_id
           description: Id of the user making the payment.
@@ -68,4 +87,7 @@ models:
           description: Date time at which the invoice was emitted.
           tests:
             - not_null
-
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "total_euro = total"
+            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
