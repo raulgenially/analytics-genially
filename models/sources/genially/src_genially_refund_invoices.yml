@@ -10,14 +10,25 @@ models:
             - unique
             - not_null
 
-        - name: data
-          description: Metadata from the payment provider as a json.
-
         - name: description
           description: Description of the type of license purchased.
 
         - name: payer_email
           description: The email of the person paying the invoice.
+          tests:
+            - not_null
+
+        - name: payer_name
+          description: The name of the person paying the invoice. It an also be the email.
+
+        - name: payer_cif
+          description: The tax ID of the payer.
+
+        - name: payer_address
+          description: The payer's address.
+
+        - name: payer_country
+          description: The payer's country.
           tests:
             - not_null
 
@@ -52,6 +63,9 @@ models:
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
+          tests:
+            - not_null:
+                where: "invoiced_at > timestamp('2020-01-15')"
 
         - name: user_id
           description: Id of the user making the payment.
@@ -65,6 +79,11 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+
+        - name: reference_invoice_number
+          description: Invoice number of the invoice we are refunding.
+          tests:
+            - not_null
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
