@@ -10,9 +10,6 @@ models:
             - unique
             - not_null
 
-        - name: data
-          description: Metadata from the payment provider as a json.
-
         - name: description
           description: Description of the type of license purchased.
 
@@ -22,7 +19,7 @@ models:
             - not_null
 
         - name: payer_name
-          description: The name of the person paying the invoice. It an also be the email.
+          description: The name of the person paying the invoice. It can also be the email.
 
         - name: payer_cif
           description: The tax ID of the payer.
