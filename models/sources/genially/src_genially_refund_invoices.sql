@@ -1,17 +1,5 @@
-with refund_invoices as (
-    select * from {{ source('genially', 'refundinvoice') }}
-),
-
-int_refund_invoices as (
-    select
-        *,
-
-        trim(json_extract_scalar(data, '$.Name')) as payer_name,
-        trim(json_extract_scalar(data, '$.Cif')) as payer_cif,
-        trim(json_extract_scalar(data, '$.Address')) as payer_address,
-        trim(json_extract_scalar(data, '$.Country')) as payer_country,
-
-    from refund_invoices
+with invoices as (
+    {{ create_base_invoice_model('refundinvoice') }}
 ),
 
 final as (
@@ -20,18 +8,17 @@ final as (
 
         description,
         payeremail as payer_email,
-        -- Some cifs/addresses are denoted with '-', ' ', '.' or '--'. Nullify them
-        if(regexp_contains(payer_name, r'\w+'), payer_name, null) as payer_name,
-        if(regexp_contains(payer_cif, r'\w+'), payer_cif, null) as payer_cif,
-        if(regexp_contains(payer_address, r'\w+'), payer_address, null) as payer_address,
+        payer_name,
+        payer_cif,
+        payer_address,
         payer_country,
         residencecountry as residence_country,
         -- force all totals to be negative
-        abs(cast(total as float64)) * -1 as total,
-        abs(cast(ifnull(totaleuro, total) as float64)) * -1 as total_euro,
-        ifnull(currency, 'eur') as currency,
+        abs(total_float) * -1 as total,
+        abs(total_euro_float) * -1 as total_euro,
+        cleaned_currency as currency,
         invoiceid as invoice_number,
-        {{ map_payment_platform('realtransactionid') }} as payment_platform,
+        payment_platform,
 
         iduser as user_id,
         transactionid as subscription_id,
@@ -40,8 +27,7 @@ final as (
 
         dateinvoce as invoiced_at,
 
-    from int_refund_invoices
-    where __hevo__marked_deleted = false
+    from invoices
 )
 
 select * from final
