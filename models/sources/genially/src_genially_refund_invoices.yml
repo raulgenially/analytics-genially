@@ -32,11 +32,6 @@ models:
           tests:
             - not_null
 
-        - name: residence_country
-          description: Country of residence of the person paying the invoice.
-          tests:
-            - not_null
-
         - name: total
           description: Amount of monetary value refunded in the currency
             specified in the currency column.

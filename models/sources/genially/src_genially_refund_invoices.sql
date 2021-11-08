@@ -12,7 +12,6 @@ final as (
         payer_cif,
         payer_address,
         payer_country,
-        residencecountry as residence_country,
         -- force all totals to be negative
         abs(total_float) * -1 as total,
         abs(total_euro_float) * -1 as total_euro,
