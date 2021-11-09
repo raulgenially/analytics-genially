@@ -26,7 +26,7 @@ members_owners as (
 -- These are members that have spaces in their Team workspace other than the common space 
 members_have_spaces as (
     select distinct collaborator_id from team_space_collaborators
-    where collaborator_type_name = 'Team Member'
+    where collaborator_type = 4
 ),
 
 -- Compute geniallys created by a team member

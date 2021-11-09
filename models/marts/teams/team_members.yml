@@ -32,6 +32,8 @@ models:
         - name: is_active
           description: Indicates whether the team member is active.
             That is, they have confirmed their participation in the team and have not been deleted.
+          tests:
+            - not_null
 
         - name: is_owner_of_some_space
           description: Indicates whether the member is owner of some space.

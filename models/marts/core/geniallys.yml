@@ -79,6 +79,8 @@ models:
 
         - name: is_published
           description: Whether the genially has been published.
+          tests:
+            - not_null
 
         - name: is_active
           description: Whether the genially is active at the user dashboard.
@@ -155,7 +157,7 @@ models:
             - relationships:
                 to: ref('users')
                 field: user_id
-          
+
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 

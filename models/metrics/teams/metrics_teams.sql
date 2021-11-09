@@ -8,6 +8,7 @@ team_spaces as (
 
 teams as (
     select 
+        team_id,
         name,
         created_at
  
@@ -34,8 +35,9 @@ date_spine as (
 spine as (
     select
         date(date_spine.date_day) as date_day,
-        name as team_name,
-        created_at as team_created_at
+        teams.team_id,
+        teams.name as team_name,
+        teams.created_at as team_created_at
 
     from date_spine
     cross join teams
@@ -45,7 +47,7 @@ geniallys_by_creation_date as (
     select 
         -- Dimensions
         date(created_at) as created_at,
-        team_name,
+        team_id,
 
         -- Metrics
         countif(is_active = true) as n_active_creations,
@@ -58,7 +60,7 @@ spaces_by_creation_date as (
     select 
         -- Dimensions
         date(created_at) as created_at,
-        team_name,
+        team_id,
 
         -- Metrics
         count(team_space_id) as n_spaces,
@@ -71,6 +73,7 @@ metrics_joined as (
     select
         -- Dimensions
         spine.date_day,
+        spine.team_id,
         spine.team_name,
         spine.team_created_at,
 
@@ -81,17 +84,17 @@ metrics_joined as (
     from spine
     left join geniallys_by_creation_date
         on spine.date_day = geniallys_by_creation_date.created_at
-            and spine.team_name = geniallys_by_creation_date.team_name
+            and spine.team_id = geniallys_by_creation_date.team_id
     left join spaces_by_creation_date
         on spine.date_day = spaces_by_creation_date.created_at
-            and spine.team_name = spaces_by_creation_date.team_name
+            and spine.team_id = spaces_by_creation_date.team_id
 ),
 
 metrics_joined_cumsum as (
     select
         *,
-        sum(n_active_creations) over (partition by team_name order by date_day asc) as n_cumulative_active_creations,
-        sum(n_spaces) over (partition by team_name order by date_day asc) as n_cumulative_spaces
+        sum(n_active_creations) over (partition by team_id order by date_day asc) as n_cumulative_active_creations,
+        sum(n_spaces) over (partition by team_id order by date_day asc) as n_cumulative_spaces
 
     from metrics_joined
 ),
