@@ -10,6 +10,11 @@ models:
           tests:
             - not_null
 
+        - name: team_id
+          description: Id of the team
+          tests:
+            - not_null
+
         - name: name
           description: Name of the team.
           tests:
