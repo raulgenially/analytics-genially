@@ -92,6 +92,18 @@ sources:
           columns:
             - name: _id
               description: Primary key for invoices.
+              tests:
+                - unique
+                - not_null
+
+        - name: refundinvoice
+          description: Information about refunded invoices.
+          columns:
+            - name: _id
+              description: Primary key for refund invoices.
+              tests:
+                - unique
+                - not_null
 
         - name: team
           columns:
