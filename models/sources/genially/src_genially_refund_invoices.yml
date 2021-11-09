@@ -55,6 +55,11 @@ models:
             - unique:
                 where: "invoiced_at > timestamp('2020-01-01')"
 
+        - name: reference_invoice_number
+          description: Invoice number of the invoice we are refunding.
+          tests:
+            - not_null
+
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
@@ -74,11 +79,6 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
-
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
-          tests:
-            - not_null
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.

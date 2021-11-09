@@ -17,12 +17,12 @@ final as (
         abs(total_euro_float) * -1 as total_euro,
         cleaned_currency as currency,
         invoiceid as invoice_number,
+        referenceinvoice as reference_invoice_number,
         payment_platform,
 
         iduser as user_id,
         transactionid as subscription_id,
         realtransactionid as transaction_id,
-        referenceinvoice as reference_invoice_number,
 
         dateinvoce as invoiced_at,
 
