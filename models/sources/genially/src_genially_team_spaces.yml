@@ -3,13 +3,6 @@ version: 2
 models:
     - name: src_genially_team_spaces
       description: Team spaces
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "owner_id is null"
-            condition: "is_common = true"
-        - dbt_utils.expression_is_true:
-            expression: "owner_id is not null"
-            condition: "is_common = false"
       columns:
         - name: team_space_id
           description: Primary key for the team spaces.
@@ -27,7 +20,7 @@ models:
           description: Whether this is the common space of the team.
           tests:
             - not_null
-            
+
         - name: team_id
           description: The team id this space belongs to.
           tests:
@@ -40,3 +33,11 @@ models:
           description: Date time this space was created.
           tests:
             - not_null
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "owner_id is null"
+            condition: "is_common = true"
+        - dbt_utils.expression_is_true:
+            expression: "owner_id is not null"
+            condition: "is_common = false"

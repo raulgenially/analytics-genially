@@ -26,6 +26,6 @@ models:
             - not_null
 
         - name: has_usage
-          description: Indiates whether the team has set up the brand usage type.
+          description: Indicates whether the team has set up the brand usage type.
           tests:
             - not_null

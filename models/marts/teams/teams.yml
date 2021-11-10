@@ -2,13 +2,6 @@ version: 2
 
 models:
     - name: teams
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "n_members <= n_seats"
-        - dbt_utils.expression_is_true:
-            expression: "n_spaces_with_active_creations <= n_spaces"
-        - dbt_utils.expression_is_true:
-            expression: "n_space_owners <= n_members"
       columns:
         - name: team_id
           description: Primary key for teams.
@@ -54,3 +47,11 @@ models:
 
         - name: created_at
           description: Date at which the team was created.
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "n_members <= n_seats"
+        - dbt_utils.expression_is_true:
+            expression: "n_spaces_with_active_creations <= n_spaces"
+        - dbt_utils.expression_is_true:
+            expression: "n_space_owners <= n_members"

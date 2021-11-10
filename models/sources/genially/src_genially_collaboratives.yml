@@ -13,7 +13,7 @@ models:
         - name: user_email
           description: Email of the user taking part of the collaboration.
           tests:
-            - dbt_utils.not_null_where:
+            - not_null:
                 where: "collaboration_type = 1"
 
         - name: collaboration_type
@@ -45,3 +45,7 @@ models:
           description: When the genially was shared with the user id for collaboration.
           tests:
             - not_null
+      
+      tests:
+        - dbt_utils.expression_is_true:
+              expression: "user_owner_id != user_id"
