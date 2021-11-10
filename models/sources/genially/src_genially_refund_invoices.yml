@@ -1,11 +1,11 @@
 version: 2
 
 models:
-    - name: src_genially_invoices
-      description: Information about invoices.
+    - name: src_genially_refund_invoices
+      description: Information about refunded invoices.
       columns:
         - name: invoice_id
-          description: Primary key for invoices.
+          description: Primary key for refunded invoices.
           tests:
             - unique
             - not_null
@@ -33,7 +33,7 @@ models:
             - not_null
 
         - name: total
-          description: Amount of monetary value paid in the currency
+          description: Amount of monetary value refunded in the currency
             specified in the currency column.
           tests:
             - not_null
@@ -55,12 +55,17 @@ models:
             - unique:
                 where: "invoiced_at > timestamp('2020-01-01')"
 
+        - name: reference_invoice_number
+          description: Invoice number of the invoice we are refunding.
+          tests:
+            - not_null
+
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
           tests:
             - not_null:
-                where: "invoiced_at > timestamp('2020-08-15')"
+                where: "invoiced_at > timestamp('2020-01-15')"
 
         - name: user_id
           description: Id of the user making the payment.
