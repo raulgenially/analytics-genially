@@ -83,6 +83,8 @@ final as (
         geniallys.is_in_recyclebin,
         geniallys.is_logically_deleted,
         geniallys.is_deleted,
+        geniallys.is_disabled,
+        teams.is_disabled as is_team_disabled,
         geniallys.is_private,
         geniallys.is_password_free,
         geniallys.is_in_social_profile,
@@ -105,6 +107,7 @@ final as (
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
+        geniallys.disabled_at,
         teams.created_at as team_created_at
 
     from geniallys

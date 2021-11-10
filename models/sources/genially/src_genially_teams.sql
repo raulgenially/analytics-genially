@@ -35,14 +35,15 @@ final as (
         teams.iduser as owner_id,
 
         ifnull(teams.isconfigured, false) as is_configured,
+        if(datedisabled is not null, true, false) as is_disabled,
 
         teams.creationtime as created_at,
+        datedisabled as disabled_at
 
     from teams
     left join team_types
         on teams.team_type = team_types.code
     where __hevo__marked_deleted = false
-        and datedisabled is null -- See https://github.com/Genially/scrum-genially/issues/7506
 )
 
 select * from final

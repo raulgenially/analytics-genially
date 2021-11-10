@@ -44,12 +44,14 @@ final as (
         coalesce(members_teams.n_space_owners, 0) as n_space_owners,
         coalesce(spaces_teams.n_active_creations, 0) as n_active_creations,
 
+        teams.is_disabled,
         if(teams.logo is null, false, true) as has_logo_in_team_tab,
         if(teams.banner is null, false, true) as has_cover_picture_in_team_tab,
         if(teams.branding_custom_watermark is null, false, true) as has_logo_in_team_brand_section,
         if(teams.branding_custom_logo is null, false, true) as has_loader_in_team_brand_section,
 
-        teams.created_at
+        teams.created_at,
+        teams.disabled_at
 
     from teams
     left join spaces_teams

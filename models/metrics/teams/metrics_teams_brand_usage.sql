@@ -1,5 +1,6 @@
 with teams as (
     select * from {{ ref('teams') }}
+    where is_disabled = false
 ),
 
 final as (

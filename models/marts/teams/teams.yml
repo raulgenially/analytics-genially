@@ -33,6 +33,10 @@ models:
         - name: n_active_creations
           description: Number of active creations in the team.
 
+        - name: is_disabled
+          description: Indicates whether the team has been disabled.
+            It is a logical way to cut off the access to the team.
+
         - name: has_logo_in_team_tab
           description: Whether the team has configured the logo in the team tab.
 
@@ -47,6 +51,9 @@ models:
 
         - name: created_at
           description: Date at which the team was created.
+
+        - name: disabled_at
+          description: The date at which the team was disabled.
 
       tests:
         - dbt_utils.expression_is_true:

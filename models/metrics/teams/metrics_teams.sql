@@ -13,6 +13,7 @@ teams as (
         created_at
  
     from {{ ref('teams') }}
+    where is_disabled = false
 ),
 
 {% set min_date %}

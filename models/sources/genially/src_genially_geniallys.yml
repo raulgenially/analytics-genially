@@ -57,6 +57,12 @@ models:
           tests:
             - not_null
 
+        - name: is_disabled
+          description: Indicates whether the genially has been disabled in the context of Teams.
+            When a Team is disabled, so do all geniallys within the team.
+          tests:
+            - not_null 
+
         - name: is_private
           description: Whether the genially can be indexed by search engines.
           tests:
@@ -127,3 +133,6 @@ models:
 
         - name: deleted_at
           description: This refers to the date at which the user moves the Genially to the recycle bin.
+
+        - name: disabled_at
+          description: The date at which the genially is disabled because the team is disabled.
