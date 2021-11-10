@@ -22,3 +22,8 @@ models:
 
         - name: space_id
           description: The space in which the genially is created.
+
+        - name: created_at
+          description: Creation date of the team template.
+          tests:
+            - not_null

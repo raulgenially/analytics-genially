@@ -14,17 +14,7 @@ team_members as (
     select * from {{ ref('stg_team_members') }}
 ),
 
-team_members_users as (
-    select
-        team_members.team_member_id,
-        team_members.user_id
-
-    from team_members
-    inner join users
-        on team_members.user_id = users.user_id
-),
-
-collaboratives_joined as (
+final as (
     select
         collaboratives.collaborative_id,
 
@@ -41,7 +31,7 @@ collaboratives_joined as (
         owners.is_social_profile_active as is_owner_social_profile_active,
 
         collaboratives.genially_id,
-        if(collaboration_type = 1, users.user_id, team_members_users.user_id) as user_id,
+        if(collaboration_type = 1, users.user_id, team_members.user_id) as user_id,
         collaboratives.user_owner_id,
         collaboratives.team_id as collaborative_team_id,
         geniallys.team_id as genially_team_id,
@@ -56,17 +46,9 @@ collaboratives_joined as (
         on collaboratives.user_owner_id = owners.user_id
     left join users
         on collaboratives.user_id = users.user_id
-    left join team_members_users -- Collaboratives user id is linked to team members when collaboration type is 4 (see https://github.com/Genially/scrum-genially/issues/7287)
-        on collaboratives.user_id = team_members_users.team_member_id
+    left join team_members -- Collaboratives user id is linked to team members when collaboration type is 4 (see https://github.com/Genially/scrum-genially/issues/7287)
+        on collaboratives.user_id = team_members.team_member_id
     where collaboratives.user_owner_id = geniallys.user_id       
-),
-
-final as (
-    select 
-        *
-
-    from collaboratives_joined
-    where user_owner_id != user_id -- This also removes null values of user_id
 )
 
 select * from final

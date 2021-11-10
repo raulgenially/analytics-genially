@@ -55,8 +55,10 @@ models:
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
+            You can send an invitation to people who is not registered, so this field is empty.
           tests:
-            - not_null
+            - not_null:
+                where: "collaboration_type = 4"
             - relationships:
                 to: ref('stg_users')
                 field: user_id
