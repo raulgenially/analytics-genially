@@ -13,78 +13,53 @@ social as (
     select * from {{ ref('src_genially_social') }}
 ),
 
-role_sector_mapping as (
-    select * from {{ ref('role_sector_codes_old_to_new') }}
+profiles as (
+    select * from {{ ref('user_profiles') }}
 ),
 
-sector_codes as (
-    select * from {{ ref('sector_codes') }}
+sectors as (
+    select distinct
+        sector_id,
+        sector_name,
+        agg_sector
+    from profiles
 ),
 
-users_new_profiles as (
+base_users as (
     select
-        users.user_id,
-        -- Sector mapping (I'm not using macros here to better understand what's going on)
-        case
-            when users.sector_code < 200 -- This row refers to a user from the old onboarding
-                then
-                    case
-                        when role_sector_mapping.new_sector_id is not null
-                            then role_sector_mapping.new_sector_id
-                        else users.sector_code
-                    end
-            else users.sector_code
-        end as sector_code,
-        case
-            when users.sector_code < 200 -- This row refers to a user from the old onboarding
-                then
-                    case
-                        when role_sector_mapping.new_sector_name is not null
-                            then role_sector_mapping.new_sector_name
-                        else users.sector
-                    end
-            else users.sector
-        end as sector,
-        -- Role mapping (similar to above)
-        case
-            when users.role_code < 100
-                then
-                    case
-                        when role_sector_mapping.new_role_id is not null
-                            then role_sector_mapping.new_role_id
-                        else users.role_code
-                    end
-            else users.role_code
-        end as role_code,
-        case
-            when users.role_code < 100
-                then
-                    case
-                        when role_sector_mapping.new_role_name is not null
-                            then role_sector_mapping.new_role_name
-                        else users.role
-                    end
-            else users.role
-        end as role
+        users.*,
+        sectors.sector_name as sector,
+        sectors.agg_sector as agg_sector,
+        role.role_name as role,
 
     from users
-    left join role_sector_mapping
-        on users.sector_code = role_sector_mapping.old_sector_id
-            and users.role_code = role_sector_mapping.old_role_id
+    left join sectors
+        on sectors.sector_id = users.sector_code
+    left join profiles as role
+        on role.role_id = users.role_code
 ),
 
-users_broad_sector as (
+int_users as (
     select
-        users_new_profiles.user_id,
-        users_new_profiles.sector_code,
-        users_new_profiles.sector,
-        users_new_profiles.role_code,
-        users_new_profiles.role,
-        if(sector_codes.agg_sector is null, '{{ var('not_selected') }}', sector_codes.agg_sector) as broad_sector,
+        users.*,
+        -- Sector mapping
+        ifnull(profiles.new_sector_id, users.sector_code) as final_sector_code,
+        ifnull(
+            ifnull(profiles.new_sector_name, users.sector), '{{ var('not_selected') }}'
+        ) as final_sector,
+        ifnull(
+            ifnull(profiles.agg_sector, users.agg_sector), '{{ var('not_selected') }}'
+        ) as final_broad_sector,
+        -- Role mapping
+        ifnull(profiles.new_role_id, users.role_code) as final_role_code,
+        ifnull(
+            ifnull(profiles.new_role_name, users.role), '{{ var('not_selected') }}'
+        ) as final_role,
 
-    from users_new_profiles
-    left join sector_codes
-        on users_new_profiles.sector_code = sector_codes.sector_id
+    from base_users as users
+    left join profiles
+        on users.sector_code = profiles.sector_id
+            and users.role_code = profiles.role_id
 ),
 
 final as (
@@ -92,12 +67,12 @@ final as (
         users.user_id,
 
         users.subscription_plan as plan,
-        users_broad_sector.sector_code,
-        users_broad_sector.sector,
-        users_broad_sector.broad_sector,
-        users_broad_sector.role_code,
-        users_broad_sector.role,
-        {{ create_broad_role_field('users_broad_sector.role', 'users_broad_sector.broad_sector') }} as broad_role,
+        users.final_sector_code as sector_code,
+        users.final_sector as sector,
+        users.final_broad_sector as broad_sector,
+        users.final_role_code as role_code,
+        users.final_role as role,
+        {{ create_broad_role_field('users.final_role', 'users.final_broad_sector') }} as broad_role,
         users.country,
         users.email,
         users.nickname,
@@ -116,9 +91,7 @@ final as (
         users.registered_at,
         users.last_access_at
 
-    from users
-    inner join users_broad_sector
-        on users.user_id = users_broad_sector.user_id
+    from int_users as users
     left join social
         on users.user_id = social.user_id
 )
