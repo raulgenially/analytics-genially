@@ -1,3 +1,10 @@
+-- We need to materialize this model to avoid resources exceeded error in users model
+{{
+  config(
+    materialized='table'
+  )
+}}
+
 with geniallys as (
     select * from {{ ref('src_genially_geniallys') }}
 ),
@@ -12,6 +19,10 @@ templatecolors as (
 
 inspiration as (
     select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
+),
+
+teams as (
+    select * from {{ ref('src_genially_teams') }}
 ),
 
 total_templates as( --Here we unite all templates and colors variations
@@ -43,6 +54,7 @@ final as (
 
         geniallys.subscription_plan as plan,
         geniallys.name,
+        teams.name as team_name,
         case
             when geniallys.reused_from_id is not null
                 then
@@ -71,6 +83,8 @@ final as (
         geniallys.is_in_recyclebin,
         geniallys.is_logically_deleted,
         geniallys.is_deleted,
+        geniallys.is_disabled,
+        teams.is_disabled as is_team_disabled,
         geniallys.is_private,
         geniallys.is_password_free,
         geniallys.is_in_social_profile,
@@ -83,14 +97,22 @@ final as (
         geniallys.user_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys.team_id,
+        geniallys.space_id,
+        geniallys.team_template_id,
+        geniallys.from_team_template_id,
 
         geniallys.created_at,
         geniallys.modified_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
+        geniallys.disabled_at,
+        teams.created_at as team_created_at
 
     from geniallys
+    left join teams
+        on geniallys.team_id = teams.team_id
     left join total_templates
         on geniallys.from_template_id = total_templates.template_id
     left join inspiration

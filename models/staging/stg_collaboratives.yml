@@ -10,40 +10,40 @@ models:
             - unique
             - not_null
 
+        - name: user_email
+          description: Email of the user taking part of the collaboration.
+
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+
+        - name: name
+          description: Genially name.
+              
         - name: is_published
           description: Whether the genially has been published.
-          tests:
-            - not_null
 
-        - name: is_deleted
-          description: Whether the genially has been deleted.
-          tests:
-            - not_null
+        - name: is_active
+          description: Whether the genially is active at the user dashboard.
 
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile.
-          tests:
-            - not_null
 
         - name: is_visualized_last_90_days
           description: Whether the genially has been visualized within the last 90 days.
-          tests:
-            - not_null
 
         - name: is_visualized_last_60_days
           description: Whether the genially has been visualized within the last 60 days.
-          tests:
-            - not_null
 
         - name: is_visualized_last_30_days
           description: Whether the genially has been visualized within the last 30 days.
-          tests:
-            - not_null
 
         - name: is_owner_social_profile_active
           description: Whether the social profile of the owner is active.
-          tests:
-            - not_null
 
         - name: genially_id
           description: Id of the genially referring to the collaboration.
@@ -57,7 +57,8 @@ models:
           description: Id of a user taking part of the collaboration.
             You can send an invitation to people who is not registered, so this field is empty.
           tests:
-            - not_null
+            - not_null:
+                where: "collaboration_type = 4"
             - relationships:
                 to: ref('stg_users')
                 field: user_id
@@ -69,3 +70,19 @@ models:
             - relationships:
                 to: ref('stg_users')
                 field: user_id
+
+        - name: collaborative_team_id
+          description: Id of the team where the collaboration happens.
+
+        - name: genially_team_id
+          description: Id of the team where the collaboration happens (data coming from stg_geniallys).
+
+        - name: genially_space_id
+          description: Id of the space where the collaboration happens (data coming from stg_geniallys).
+          tests:
+            - relationships:
+                to: ref('stg_team_spaces')
+                field: team_space_id
+
+        - name: created_at
+          description: When the genially was shared with the user id for collaboration.

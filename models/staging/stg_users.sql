@@ -5,7 +5,6 @@
   )
 }}
 
-
 with users as (
     select * from {{ ref('src_genially_users') }}
 ),

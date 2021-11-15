@@ -1,3 +1,3 @@
 {% macro get_collaboration_type_values() %}
-    {{ return([1, 2, 4]) }}
+    {{ return([1, 4]) }}
 {% endmacro %}

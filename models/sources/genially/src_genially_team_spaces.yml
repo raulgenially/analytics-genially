@@ -27,9 +27,17 @@ models:
             - not_null
 
         - name: owner_id
-          description: The user id that created this space.
+          description: The team member id that created this space.
 
         - name: created_at
           description: Date time this space was created.
           tests:
             - not_null
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "owner_id is null"
+            condition: "is_common = true"
+        - dbt_utils.expression_is_true:
+            expression: "owner_id is not null"
+            condition: "is_common = false"

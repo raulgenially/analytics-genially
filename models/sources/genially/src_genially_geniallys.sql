@@ -14,10 +14,11 @@ final as (
         friendlyurl as friendly_url, -- url used for the social view
 
         ifnull(published, false) as is_published,
-        not ifnull(deleted, false) and __hevo__marked_deleted = false as is_active,
+        not ifnull(deleted, false) and __hevo__marked_deleted = false and datedisabled is null as is_active,
         ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) < 30 as is_in_recyclebin,
         ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) >= 30 as is_logically_deleted,
         __hevo__marked_deleted as is_deleted,
+        if(datedisabled is not null, true, false) as is_disabled,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
         case
@@ -48,7 +49,8 @@ final as (
         if(creationtime >= '2016-05-25', creationtime, null) as created_at,
         datepublished as published_at,
         lastview as last_view_at,
-        datedeleted as deleted_at
+        datedeleted as deleted_at,
+        datedisabled as disabled_at
 
     from geniallys
 )

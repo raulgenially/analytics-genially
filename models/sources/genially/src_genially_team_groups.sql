@@ -6,11 +6,11 @@ final as (
     select
         _id as team_group_id,
 
-        {{ array_from_str('members') }} as members,
         name,
         color,
 
         idteam as team_id,
+        {{ array_from_str('members') }} as member_ids,
 
         createdat as created_at
 

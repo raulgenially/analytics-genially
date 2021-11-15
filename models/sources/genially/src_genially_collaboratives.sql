@@ -14,8 +14,6 @@ with collaboratives as (
 
     from {{ source('genially', 'collaborative') }}
     where __hevo__marked_deleted = false
-        and email is not null
-        and iduser != iduserowner
 )
 
 select * from collaboratives

@@ -11,8 +11,9 @@ collaboratives as (
 ),
 
 geniallys_collaboratives as (
-    select
-        distinct genially_id
+    select distinct
+        genially_id,
+        collaboration_type,
 
     from collaboratives
 ),
@@ -23,14 +24,17 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
+        geniallys.team_name,
         geniallys.source,
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
         users.broad_sector as user_broad_sector,
         users.role as user_role,
+        users.broad_role as user_broad_role,
         users.country as user_country,
 
         geniallys.is_published,
@@ -38,6 +42,7 @@ final as (
         geniallys.is_in_recyclebin,
         geniallys.is_logically_deleted,
         geniallys.is_deleted,
+        geniallys.is_disabled,
         geniallys.is_private,
         geniallys.is_password_free,
         geniallys.is_in_social_profile,
@@ -57,12 +62,18 @@ final as (
         geniallys.user_id,
         geniallys.reused_from_id,
         geniallys.from_template_id,
+        geniallys.team_id,
+        geniallys.space_id,
+        geniallys.team_template_id,
+        geniallys.from_team_template_id,
 
         geniallys.modified_at,
         geniallys.created_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
+        geniallys.disabled_at,
+        geniallys.team_created_at
 
     from geniallys
     inner join users

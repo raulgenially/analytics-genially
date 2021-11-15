@@ -23,6 +23,10 @@ users_creations as (
         geniallys.user_id,
         count(geniallys.genially_id) as n_total_creations,
         countif(geniallys.is_active = true) as n_active_creations,
+        countif(
+            geniallys.is_active = true
+            and team_id is null
+        ) as n_active_creations_in_personal_ws,
         countif(geniallys.is_published = true) as n_published_creations,
         countif(
             geniallys.is_active = true
@@ -120,6 +124,8 @@ final as (
 
         coalesce(users_creations.n_total_creations, 0) as n_total_creations,
         coalesce(users_creations.n_active_creations, 0) as n_active_creations,
+        coalesce(users_creations.n_active_creations_in_personal_ws, 0)
+            as n_active_creations_in_personal_ws,
         coalesce(users_creations.n_published_creations, 0) as n_published_creations,
         coalesce(users_collaboratives.n_published_creations_as_collaborator, 0) as n_published_creations_as_collaborator,
         coalesce(users_creations.n_active_published_creations, 0) as n_active_published_creations,

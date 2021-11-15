@@ -30,7 +30,8 @@ models:
             - not_null
 
         - name: space_owner_id
-          description: The user id owning the team space.
+          description: The user id owning the team space. 
+            Since this field cannot be null, the space_id field never refers to the common space.
           tests:
             - not_null
 

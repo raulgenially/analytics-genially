@@ -57,6 +57,12 @@ models:
           tests:
             - not_null
 
+        - name: is_disabled
+          description: Indicates whether the genially has been disabled in the context of Teams.
+            When a Team is disabled, so do all geniallys within the team.
+          tests:
+            - not_null 
+
         - name: is_private
           description: Whether the genially can be indexed by search engines.
           tests:
@@ -91,10 +97,6 @@ models:
           description: Foreign key referring to the user creating the genially.
           tests:
             - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                severity: warn
 
         - name: analytics_id
           description: Foreign key referring to web analytics data.
@@ -130,4 +132,7 @@ models:
           description: Last time the genially was visualized.
 
         - name: deleted_at
-          description: Deletion date.
+          description: This refers to the date at which the user moves the Genially to the recycle bin.
+
+        - name: disabled_at
+          description: The date at which the genially is disabled because the team is disabled.

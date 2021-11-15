@@ -23,7 +23,3 @@ models:
           tests:
             - unique
             - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                severity: warn
