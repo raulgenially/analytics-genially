@@ -9,7 +9,7 @@ models:
             - unique
             - not_null
 
-        - name: plan
+        - name: plan_name
           description: Plan of the team. Each member of the team has the same plan.
 
         - name: name

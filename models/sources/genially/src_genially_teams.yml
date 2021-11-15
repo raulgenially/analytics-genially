@@ -26,7 +26,7 @@ models:
         - name: description
           description: Short description about what team is about.
 
-        - name: team_type
+        - name: plan
           description: "{{ doc('team_type') }}"
           tests:
             - not_null
@@ -34,8 +34,8 @@ models:
                 values: "{{ get_team_type_values() }}"
                 quote: false
 
-        - name: team_type_name
-          description: The equivalent name of the team_type property. Extracted from `team_type_codes.csv`.
+        - name: plan_name
+          description: The equivalent name of the plan property. Extracted from `team_type_codes.csv`.
           tests:
             - not_null
 

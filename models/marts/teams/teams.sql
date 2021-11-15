@@ -35,7 +35,7 @@ final as (
     select 
         teams.team_id, 
 
-        teams.team_type_name as plan,
+        teams.plan_name,
         teams.name,
         teams.seats as n_seats,
         coalesce(spaces_teams.n_spaces, 0) as n_spaces,

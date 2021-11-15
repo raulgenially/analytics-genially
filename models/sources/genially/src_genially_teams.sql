@@ -23,8 +23,8 @@ final as (
         teams.seatsnumber as seats,
         teams.logo,
         teams.description,
-        teams.team_type,
-        team_types.name as team_type_name,
+        teams.team_type as plan,
+        team_types.name as plan_name,
         teams.banner,
         -- brandingsettings extraction
         json_extract_scalar(teams.brandingsettings, '$.SizeWatermark') as branding_size_watermark,
@@ -38,7 +38,7 @@ final as (
         if(datedisabled is not null, true, false) as is_disabled,
 
         teams.creationtime as created_at,
-        datedisabled as disabled_at
+        datedisabled as disabled_at -- TODO check how this field propagates in downstream models.
 
     from teams
     left join team_types
