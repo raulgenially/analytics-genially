@@ -31,6 +31,9 @@ models:
           description: The payer's country.
           tests:
             - not_null
+            - relationships:
+                to: ref('country_codes')
+                field: code
 
         - name: total
           description: Amount of monetary value paid in the currency
