@@ -115,6 +115,7 @@ models:
 
         - name: n_creations_in_social_profile
           description: Total number of creations that have been published in user's social profile at some point.
+            Note that the user's social profile might not be currently active (see is_social_profile_active field).
           tests:
             - not_null
 
@@ -126,6 +127,7 @@ models:
 
         - name: n_active_reusable_creations_in_social_profile
           description: Total number of reusable creations included in the social profile that are active.
+            Note that the user's social profile might not be currently active (see is_social_profile_active field).
           tests:
             - not_null
 
@@ -139,17 +141,17 @@ models:
           tests:
             - not_null
 
-        - name: is_collaborator
+        - name: is_in_collaboration
           description: Whether the user forms part of a collaboration (active or not). The user might be or not the owner.
           tests:
             - not_null
 
-        - name: is_collaborator_of_published_creation
+        - name: is_in_collaboration_of_published_creation
           description: Whether the user forms part of a collaboration (active or not) that has been published at some point. The user might be or not the owner.
           tests:
             - not_null
 
-        - name: is_collaborator_of_creation_in_social_profile
+        - name: is_in_collaboration_of_creation_in_social_profile
           description: Whether the user forms part of a collaboration (active or not) that has been published in owner's social profile at some point. The user might be or not the owner.
             This field can be only true for owners with social profile active.
           tests:
@@ -170,17 +172,17 @@ models:
           tests:
             - not_null
 
-        - name: is_collaborator_of_creation_visualized_last_90_days
+        - name: is_in_collaboration_of_creation_visualized_last_90_days
           description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 90 days.
           tests:
             - not_null
 
-        - name: is_collaborator_of_creation_visualized_last_60_days
+        - name: is_in_collaboration_of_creation_visualized_last_60_days
           description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 60 days.
           tests:
             - not_null
 
-        - name: is_collaborator_of_creation_visualized_last_30_days
+        - name: is_in_collaboration_of_creation_visualized_last_30_days
           description: Whether the user forms part of a collaboration (active or not) that has been visualized within the last 30 days.
           tests:
             - not_null

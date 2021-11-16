@@ -61,12 +61,12 @@ users_creations as (
 users_collaboratives_union as (
     select
         user_owner_id as user_id,
-        max(is_published) as is_collaborator_of_published_creation,
+        max(is_published) as is_in_collaboration_of_published_creation,
         sum(0) as n_published_creations_as_collaborator, -- to prevent double-counting
-        max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
-        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
-        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
-        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
+        max(is_in_social_profile and is_owner_social_profile_active) as is_in_collaboration_of_creation_in_social_profile,
+        max(is_visualized_last_90_days) as is_in_collaboration_of_creation_visualized_last_90_days,
+        max(is_visualized_last_60_days) as is_in_collaboration_of_creation_visualized_last_60_days,
+        max(is_visualized_last_30_days) as is_in_collaboration_of_creation_visualized_last_30_days,
 
     from collaboratives
     group by 1
@@ -75,12 +75,12 @@ users_collaboratives_union as (
 
     select
         user_id,
-        max(is_published) as is_collaborator_of_published_creation,
+        max(is_published) as is_in_collaboration_of_published_creation,
         countif(is_published = true) as n_published_creations_as_collaborator,
-        max(is_in_social_profile and is_owner_social_profile_active) as is_collaborator_of_creation_in_social_profile,
-        max(is_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
-        max(is_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
-        max(is_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
+        max(is_in_social_profile and is_owner_social_profile_active) as is_in_collaboration_of_creation_in_social_profile,
+        max(is_visualized_last_90_days) as is_in_collaboration_of_creation_visualized_last_90_days,
+        max(is_visualized_last_60_days) as is_in_collaboration_of_creation_visualized_last_60_days,
+        max(is_visualized_last_30_days) as is_in_collaboration_of_creation_visualized_last_30_days,
 
     from collaboratives
     group by 1
@@ -89,12 +89,12 @@ users_collaboratives_union as (
 users_collaboratives as (
     select
         user_id,
-        max(is_collaborator_of_published_creation) as is_collaborator_of_published_creation,
+        max(is_in_collaboration_of_published_creation) as is_in_collaboration_of_published_creation,
         sum(n_published_creations_as_collaborator) as n_published_creations_as_collaborator,
-        max(is_collaborator_of_creation_in_social_profile) as is_collaborator_of_creation_in_social_profile,
-        max(is_collaborator_of_creation_visualized_last_90_days) as is_collaborator_of_creation_visualized_last_90_days,
-        max(is_collaborator_of_creation_visualized_last_60_days) as is_collaborator_of_creation_visualized_last_60_days,
-        max(is_collaborator_of_creation_visualized_last_30_days) as is_collaborator_of_creation_visualized_last_30_days,
+        max(is_in_collaboration_of_creation_in_social_profile) as is_in_collaboration_of_creation_in_social_profile,
+        max(is_in_collaboration_of_creation_visualized_last_90_days) as is_in_collaboration_of_creation_visualized_last_90_days,
+        max(is_in_collaboration_of_creation_visualized_last_60_days) as is_in_collaboration_of_creation_visualized_last_60_days,
+        max(is_in_collaboration_of_creation_visualized_last_30_days) as is_in_collaboration_of_creation_visualized_last_30_days,
 
     from users_collaboratives_union
     group by 1
@@ -141,12 +141,12 @@ final as (
         ifnull(has_creation_visualized_last_90_days, false) as has_creation_visualized_last_90_days,
         ifnull(has_creation_visualized_last_60_days, false) as has_creation_visualized_last_60_days,
         ifnull(has_creation_visualized_last_30_days, false) as has_creation_visualized_last_30_days,
-        if(users_collaboratives.user_id is not null, true, false) as is_collaborator,
-        ifnull(is_collaborator_of_published_creation, false) as is_collaborator_of_published_creation,
-        ifnull(is_collaborator_of_creation_in_social_profile, false) as is_collaborator_of_creation_in_social_profile,
-        ifnull(is_collaborator_of_creation_visualized_last_90_days, false) as is_collaborator_of_creation_visualized_last_90_days,
-        ifnull(is_collaborator_of_creation_visualized_last_60_days, false) as is_collaborator_of_creation_visualized_last_60_days,
-        ifnull(is_collaborator_of_creation_visualized_last_30_days, false) as is_collaborator_of_creation_visualized_last_30_days,
+        if(users_collaboratives.user_id is not null, true, false) as is_in_collaboration,
+        ifnull(is_in_collaboration_of_published_creation, false) as is_in_collaboration_of_published_creation,
+        ifnull(is_in_collaboration_of_creation_in_social_profile, false) as is_in_collaboration_of_creation_in_social_profile,
+        ifnull(is_in_collaboration_of_creation_visualized_last_90_days, false) as is_in_collaboration_of_creation_visualized_last_90_days,
+        ifnull(is_in_collaboration_of_creation_visualized_last_60_days, false) as is_in_collaboration_of_creation_visualized_last_60_days,
+        ifnull(is_in_collaboration_of_creation_visualized_last_30_days, false) as is_in_collaboration_of_creation_visualized_last_30_days,
 
         users.registered_at,
         users.last_access_at
