@@ -22,7 +22,6 @@ final as (
         collaboratives.owner_role,
         collaboratives.owner_country,
 
-
         collaboratives.is_active,
         collaboratives.is_published,
         collaboratives.is_in_social_profile,
