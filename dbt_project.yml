@@ -13,6 +13,7 @@ vars:
   # Estimated date at which Teams feat was deployed
   team_feat_start_date: '2021-09-01'
   # Date at wich invoices with the new structure was launched
+  invoice_duration_start_date: '2020-11-01'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'

@@ -33,7 +33,7 @@ final as (
     inner join users
         on members.user_id = users.user_id
     inner join teams
-        on members.team_id = teams.team_id    
+        on members.team_id = teams.team_id
 )
 
 select * from final
