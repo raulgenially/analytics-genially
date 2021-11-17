@@ -7,15 +7,15 @@ with users as (
 final as (
     select
         user_id,
-        is_collaborator_of_published_creation,
+        is_in_collaboration_of_published_creation,
         n_published_creations_as_collaborator,
         n_published_creations,
 
     from users
-    where (is_collaborator_of_published_creation = true
+    where (is_in_collaboration_of_published_creation = true
             and n_published_creations_as_collaborator = 0
             and n_published_creations = 0)
-        or (is_collaborator_of_published_creation = false
+        or (is_in_collaboration_of_published_creation = false
             and n_published_creations_as_collaborator > 0)
 )
 

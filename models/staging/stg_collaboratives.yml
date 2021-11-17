@@ -10,7 +10,7 @@ models:
             - unique
             - not_null
 
-        - name: user_email
+        - name: collaborator_email
           description: Email of the user taking part of the collaboration.
 
         - name: collaboration_type
@@ -23,15 +23,36 @@ models:
 
         - name: name
           description: Genially name.
-              
+
+        - name: owner_plan
+          description: Owner's plan.
+            {{ doc('subscription_codes') }}
+          tests:
+            - not_null
+
+        - name: owner_sector
+          description: Owner's sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: owner_role
+          description: Owner's role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: owner_country
+          description: Owner's country.
+          tests:
+            - not_null
+
+        - name: is_active
+          description: Whether the genially is active.
+
         - name: is_published
           description: Whether the genially has been published.
 
-        - name: is_active
-          description: Whether the genially is active at the user dashboard.
-
         - name: is_in_social_profile
-          description: Whether the genially is shown in user's social profile.
+          description: Whether the genially is shown in owner's social profile.
 
         - name: is_visualized_last_90_days
           description: Whether the genially has been visualized within the last 90 days.
@@ -54,8 +75,8 @@ models:
                 field: genially_id
 
         - name: user_id
-          description: Id of a user taking part of the collaboration.
-            You can send an invitation to people who is not registered, so this field is empty.
+          description: Id of a user taking part of the collaboration, that is, the collaborator.
+            You can send an invitation to people who has not signed up yet, so this field is empty.
           tests:
             - not_null:
                 where: "collaboration_type = 4"

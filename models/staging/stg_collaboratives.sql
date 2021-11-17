@@ -18,12 +18,16 @@ final as (
     select
         collaboratives.collaborative_id,
 
-        collaboratives.user_email,
+        collaboratives.user_email as collaborator_email,
         collaboratives.collaboration_type,
         geniallys.name,
+        owners.plan as owner_plan,
+        owners.sector as owner_sector,
+        owners.role as owner_role,
+        owners.country as owner_country,
 
-        geniallys.is_published,
         geniallys.is_active,
+        geniallys.is_published,
         geniallys.is_in_social_profile,
         geniallys.is_visualized_last_90_days,
         geniallys.is_visualized_last_60_days,
