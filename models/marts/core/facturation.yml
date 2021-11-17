@@ -1,0 +1,130 @@
+version: 2
+
+models:
+    - name: facturation
+      columns:
+        - name: invoice_type
+          description: Invoice type (Invoice or Refund).
+          tests:
+            - not_null
+
+        - name: invoice_number
+          description: Unique and financial id for the invoice.
+          tests:
+            - unique
+            - not_null
+
+        - name: invoiced_at
+          description: Date at the invoice was created.
+          tests:
+            - not_null
+
+        - name: period_end_at
+          description: Date at the paid subscription will end.
+
+        - name: days
+          description: Duration days of the paid subscription.
+          tests:
+
+        - name: quantity
+          description: Number of subscriptions that have been paid.
+          tests:
+
+        - name: product
+          description: Type of purchased plan or service and it recurrency.
+
+        - name: recurrency
+          description: Indicates if is a annual or monthly plan.
+
+        - name: plan
+          description: Type of purchased plan or service and it recurrency.
+
+        - name: subtotal
+          description: Paid ammount after taxes and converted in eur.
+          tests:
+            - not_null
+
+        - name: tax_amount
+          description: Taxes.
+          tests:
+            - not_null
+
+        - name: amount
+          description: Paid ammount before taxes.
+          tests:
+            - not_null
+
+        - name: original_amount
+          description: Total ammount in their original currency.
+          tests:
+            - not_null
+
+        - name: currency
+          description: Original currency of the payment.
+          tests:
+            - not_null
+
+        - name: description
+          description: Invoice's description with all product information.
+          tests:
+            - not_null
+
+        - name: payer_email
+          description: The email of the person paying the invoice.
+          tests:
+            - not_null
+
+        - name: payer_cif
+          description: The tax ID of the payer.
+
+        - name: payer_address
+          description: The payer's address.
+
+        - name: payer_country
+          description: The payer's country.
+
+        - name: payment_platform
+          description: Payment platform used to make the payment. Either Braintree,
+            Paypal or Stripe.
+          tests:
+            - not_null
+
+        - name: eu
+          description: Indicates if the payer resides into European Union (see define_eu_countries.sql).
+          tests:
+            - not_null
+
+        - name: IVA
+          description: Indicates if the payer paid taxes.
+          tests:
+            - not_null
+
+        - name: canal
+          description: Internal accounting number.
+          tests:
+            - not_null
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+          tests:
+            - not_null
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+          tests:
+            - not_null
+
+        - name: user_id
+          description: Id of the user making the payment.
+          tests:
+            - not_null
+
+        - name: payer_name
+          description: The name of the person paying the invoice. It can also be the email.
+
+# No null tests here because we can have invoices from users that are not yet appearing at stg_users due to ETL.
+        - name: role
+          description: Payer role.
+
+        - name: sector
+          description: Payer sector.

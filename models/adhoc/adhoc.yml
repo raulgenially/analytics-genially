@@ -24,3 +24,8 @@ models:
     description: Query to extract metadata from users given an email domain.
       This query is used in the following
       [Google sheet](https://docs.google.com/spreadsheets/d/1pZoQOdSXJjCGHYJzbavhKGcngAEDJtR43Ff0SsTiKyU)
+
+  - name: adhoc_facturation
+    description: Query to extract data and transformations for facturation porposes.
+      This query is used in the following
+      [Google sheet](https://docs.google.com/spreadsheets/d/1Uwb_hI8ufoBEwmAaUK2S2Z8WHDaP3iDipitvwsXCU5I/edit#gid=1440859380)
