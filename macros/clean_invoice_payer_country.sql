@@ -6,8 +6,6 @@
             then 'MX'
         when lower({{ payer_country }}) = 'italy'
             then 'IT'
-        when {{payer_country }} = 'GB'
-            then 'UK'
         when {{payer_country }} = 'C2' -- China code in some platforms
             then 'CN'
         when lower({{ payer_country }}) = 'chile'
