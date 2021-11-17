@@ -41,8 +41,8 @@ final as (
         facturation.plan,
         round(if({{define_eu_countries('payer_country')}}
             and total = total_euro, total/1.21, ifnull(total_euro,total)), 4) as subtotal,
-        round(if({{define_eu_countries('payer_country')}}
-            and total = total_euro, total/1.21, ifnull(total_euro,total)) - ifnull(total_euro,total), 4) as tax_amount,
+        round(ifnull(total_euro,total) - if({{define_eu_countries('payer_country')}}
+            and total = total_euro, total/1.21, ifnull(total_euro,total)), 4) as tax_amount,
         ifnull(total_euro, total) as amount,
         total as original_amount,
         currency,
