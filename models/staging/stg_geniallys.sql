@@ -28,7 +28,7 @@ unique_templates as (
             *,
             row_number() over (partition by template_id) as seqnum
         from templates
-    ) as x
+    )
     where seqnum = 1
 ),
 

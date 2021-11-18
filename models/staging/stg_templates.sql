@@ -15,6 +15,7 @@ main_templates as (
         language,
         tags,
         template_order,
+        -- So that it conforms with color_templates.color column
         default_color as color,
 
         is_hidden,

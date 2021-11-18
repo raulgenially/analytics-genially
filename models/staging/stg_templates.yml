@@ -59,6 +59,9 @@ models:
             color variation, it will include the genially_id attribute from the templatecolors model.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_geniallys')
+                field: genially_id
 
         - name: genially_to_view_id
           description: Id of the actual genially referring to this template when visualized. If we are dealing
@@ -67,3 +70,6 @@ models:
             templatecolors model.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_geniallys')
+                field: genially_id
