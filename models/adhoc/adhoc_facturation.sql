@@ -1,8 +1,8 @@
-with facturation as(
-    select * from {{ ref('facturation') }}
+with billing as(
+    select * from {{ ref('billing') }}
 ),
 
 select
     *
-from facturation
+from billing
 where invoiced_at >= current_date() - 7

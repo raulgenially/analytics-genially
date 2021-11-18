@@ -1,11 +1,11 @@
---This marts is for facturation team purposes.
---It is not following our styling and ordering guide.
+-- This marts is for billing team purposes.
+-- It is not following our styling and ordering guide.
 with invoices as (
-   {{create_facturation_model('src_genially_invoices')}}
+   {{create_billing_model('src_genially_invoices')}}
 ),
 
 refundinvoice as (
-   {{create_facturation_model('src_genially_refund_invoices')}}
+   {{create_billing_model('src_genially_refund_invoices')}}
 ),
 
 licenses as (
@@ -16,7 +16,7 @@ users as (
     select * from {{ ref('stg_users') }}
 ),
 
-facturation as (
+billing as (
     select
         "Sale" as invoice_type,
         *
@@ -38,12 +38,12 @@ final as (
         if(product like '%Team%', '5', quantity) as quantity,
         regexp_replace(product, r'(.*)Team*.', r'\1 Master') as product,
         recurrency,
-        facturation.plan,
+        billing.plan,
         round(if({{define_eu_countries('payer_country')}}
-            and total = total_euro, total/1.21, ifnull(total_euro,total)), 4) as subtotal,
-        round(ifnull(total_euro,total) - if({{define_eu_countries('payer_country')}}
-            and total = total_euro, total/1.21, ifnull(total_euro,total)), 4) as tax_amount,
-        ifnull(total_euro, total) as amount,
+            and currency = 'eur', total/1.21, total_euro), 4) as subtotal,
+        round(total_euro - if({{define_eu_countries('payer_country')}}
+            and currency = 'eur', total/1.21, total_euro), 4) as tax_amount,
+        total_euro as amount,
         total as original_amount,
         currency,
         description,
@@ -53,18 +53,20 @@ final as (
         payer_country,
         payment_platform,
         if({{define_eu_countries('payer_country')}},'Communitary','Extracommunitary') as eu,
-        if({{define_eu_countries('payer_country')}} and total = total_euro,'IVA','No-IVA') as IVA,
+        if({{define_eu_countries('payer_country')}} and currency = 'eur','IVA','No-IVA') as IVA,
         '705' as canal,
-        facturation.transaction_id,
-        facturation.subscription_id,
-        facturation.user_id,
+        billing.transaction_id,
+        billing.subscription_id,
+        billing.user_id,
         payer_name,
         role,
         sector
 
-    from facturation
-    left join licenses on facturation.subscription_id = licenses.subscription_id
-    left join users on facturation.user_id = users.user_id
+    from billing
+    left join licenses
+        on billing.subscription_id = licenses.subscription_id
+    left join users
+        on billing.user_id = users.user_id
 )
 
 select * from final

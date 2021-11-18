@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: facturation
+    - name: billing
       columns:
         - name: invoice_type
           description: Invoice type (Invoice or Refund).
@@ -100,7 +100,7 @@ models:
             - not_null
 
         - name: canal
-          description: Internal accounting number.
+          description: Internal accounting number. Billing team requested this field always = 705.
           tests:
             - not_null
 

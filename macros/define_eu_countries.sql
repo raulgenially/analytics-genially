@@ -1,4 +1,4 @@
---This macro defines what countries are into European Union for facturation purposes
+--This macro defines what countries are into European Union for billing purposes
 {% macro define_eu_countries(country) %}
 
 {{country}} in
