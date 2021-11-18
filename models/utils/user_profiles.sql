@@ -6,6 +6,10 @@ sector_codes as (
     select * from {{ ref('sector_codes') }}
 ),
 
+role_mapping as (
+    select * from {{ ref('role_correspondence') }}
+),
+
 int_user_profile as (
     select
         role_codes.role_id,
@@ -13,6 +17,7 @@ int_user_profile as (
         role_codes.sector_id,
         sector_codes.sector_name,
         sector_codes.agg_sector
+
     from role_codes
     left join sector_codes
         on role_codes.sector_id = sector_codes.sector_id
@@ -20,14 +25,15 @@ int_user_profile as (
 
 role_correspondence as (
     select
-        c.*,
+        role_mapping.*,
         role_codes.role_name as new_role_name,
         role_codes.sector_id as new_sector_id,
         sector_codes.sector_name as new_sector_name,
         sector_codes.agg_sector
-    from {{ ref('role_correspondence') }} as c
+
+    from role_mapping
     left join role_codes
-        on c.new_role_id = role_codes.role_id
+        on role_mapping.new_role_id = role_codes.role_id
     left join sector_codes
         on role_codes.sector_id = sector_codes.sector_id
 ),
@@ -46,8 +52,7 @@ final as (
 
     from int_user_profile
     left join role_correspondence
-        on role_correspondence.role_id = int_user_profile.role_id
+        on int_user_profile.role_id = role_correspondence.old_role_id
 )
-
 
 select * from final

@@ -30,13 +30,13 @@ base_users as (
         users.*,
         sectors.sector_name as sector,
         sectors.agg_sector as agg_sector,
-        role.role_name as role,
+        roles.role_name as role,
 
     from users
     left join sectors
-        on sectors.sector_id = users.sector_code
-    left join profiles as role
-        on role.role_id = users.role_code
+        on users.sector_code = sectors.sector_id
+    left join profiles as roles
+        on users.role_code = roles.role_id
 ),
 
 int_users as (
