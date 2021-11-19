@@ -68,7 +68,7 @@ models:
           description: Indicates whether the team has been disabled.
             It is a logical way to cut off the access to the team to all members.
           tests:
-            - not_null 
+            - not_null
 
         - name: created_at
           description: The date the team was created.
