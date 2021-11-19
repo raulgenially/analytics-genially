@@ -31,17 +31,24 @@ models:
           description: The payer's country.
           tests:
             - not_null
+            - relationships:
+                to: ref('country_codes')
+                field: code
 
         - name: total
           description: Amount of monetary value refunded in the currency
             specified in the currency column.
           tests:
             - not_null
+            - dbt_utils.expression_is_true:
+                expression: '<= 0'
 
         - name: total_euro
           description: The equivalent in € of the amount specified in total.
           tests:
             - not_null
+            - dbt_utils.expression_is_true:
+                expression: '<= 0'
 
         - name: currency
           description: Currency in which the invoice is paid.

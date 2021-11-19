@@ -48,6 +48,10 @@ models:
           description: Country (ISO code).
           tests:
             - not_null
+            - relationships:
+                to: ref('country_codes')
+                field: code
+                where: country != '{{ var('not_selected') }}'
 
         - name: city
           description: City.
