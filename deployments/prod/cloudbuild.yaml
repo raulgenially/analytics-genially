@@ -12,6 +12,13 @@ steps:
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run', '--exclude', 'metrics_creator_activity+']
 
+- name: 'gcr.io/cloud-builders/gcloud'
+  dir: /workspace/deployments/prod
+  entrypoint: 'bash'
+  args: ['-c', './deploy_docs.sh']
+  env:
+  - COMMIT_SHA=$COMMIT_SHA
+
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['test', '--exclude', 'metrics_creator_activity+']
 
