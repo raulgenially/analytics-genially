@@ -20,18 +20,8 @@ models:
         - name: sector_code
           description: Sector code (see data/new_sector_codes.csv and data/old_sector_codes.csv).
 
-        - name: sector
-          description: Sector name (see data/new_sector_codes.csv and data/old_sector_codes.csv).
-          tests:
-            - not_null
-
         - name: role_code
           description: Role code (see data/new_role_codes.csv and data/old_role_codes.csv).
-
-        - name: role
-          description: Role name (see data/new_role_codes.csv and data/old_role_codes.csv).
-          tests:
-            - not_null
 
         - name: username
           description: Username.

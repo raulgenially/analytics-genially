@@ -10,11 +10,7 @@ with geniallys as (
 ),
 
 templates as (
-    select * from {{ ref('src_genially_templates') }}
-),
-
-templatecolors as (
-    select * from {{ ref('stg_templatecolors') }}
+    select * from {{ ref('stg_templates') }}
 ),
 
 inspiration as (
@@ -25,26 +21,64 @@ teams as (
     select * from {{ ref('src_genially_teams') }}
 ),
 
-total_templates as( --Here we unite all templates and colors variations
-    select
-        *
-
+genially_templates as (
+    select distinct
+        genially_id
     from templates
-    union all
-    select
-        *
 
-    from templatecolors
+    union distinct
+
+    select distinct
+        genially_to_view_id as genially_id
+    from templates
 ),
 
-genially_templates as ( --We will use this table to filter out all geniallys that are templates
+base_geniallys as (
     select
-        geniallys.genially_id,
-
+        geniallys.*
     from geniallys
-    inner join total_templates
-        on geniallys.genially_id = total_templates.genially_id
-        or geniallys.genially_id = total_templates.genially_to_view_id --Some geniallys could have various versions
+     -- Remove geniallys that are templates or template colors
+    left join genially_templates
+        on geniallys.genially_id = genially_templates.genially_id
+    where genially_templates.genially_id is null
+),
+
+unique_templates as (
+    select *
+    from (
+        select
+            *,
+            row_number() over (partition by template_id) as seqnum
+        from templates
+    )
+    where seqnum = 1
+),
+
+unique_template_geniallys as (
+    select *
+    from (
+        select
+            *,
+            row_number() over (partition by genially_id) as seqnum
+        from templates
+    )
+    where seqnum = 1
+),
+
+int_geniallys as (
+    select
+        base_geniallys.*,
+        ifnull(unique_templates.template_type, unique_template_geniallys.template_type) as template_type,
+        ifnull(unique_templates.name, unique_template_geniallys.name) as template_name
+
+    from base_geniallys
+    -- Some geniallys.from_template_id point to a genially_id instead of a template_id
+    -- See https://github.com/Genially/scrum-genially/issues/7846#issuecomment-972727124
+    -- Extract template information from either of the matches
+    left join unique_templates
+        on base_geniallys.from_template_id = unique_templates.template_id
+    left join unique_template_geniallys
+        on base_geniallys.from_template_id = unique_template_geniallys.genially_id
 ),
 
 final as (
@@ -74,9 +108,9 @@ final as (
             else
                 'Other'
         end as source,
-        {{ map_genially_category('total_templates.template_type', 'geniallys.genially_type') }} as category,
-        total_templates.template_type,
-        total_templates.name as template_name,
+        {{ map_genially_category('geniallys.template_type', 'geniallys.genially_type') }} as category,
+        geniallys.template_type,
+        geniallys.template_name,
 
         geniallys.is_published,
         geniallys.is_active,
@@ -110,17 +144,11 @@ final as (
         geniallys.disabled_at,
         teams.created_at as team_created_at
 
-    from geniallys
+    from int_geniallys as geniallys
     left join teams
         on geniallys.team_id = teams.team_id
-    left join total_templates
-        on geniallys.from_template_id = total_templates.template_id
     left join inspiration
         on geniallys.reused_from_id = inspiration.genially_id
-     -- Remove geniallys that are templates or template colors
-    left join genially_templates
-        on geniallys.genially_id = genially_templates.genially_id
-    where genially_templates.genially_id is null
 )
 
 select * from final

@@ -2,7 +2,7 @@
 -- Let's move on with this for now because this is not gonna be solved any time soon.
 {{
   config(
-    severity='warn' 
+    severity='warn'
   )
 }}
 
@@ -14,9 +14,7 @@ final as (
     select
         user_id,
         sector_code,
-        sector,
         role_code,
-        role,
         registered_at,
         last_access_at
 
