@@ -24,7 +24,6 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
-        geniallys.team_name,
         geniallys.source,
         geniallys.category,
         geniallys.template_type,
@@ -73,7 +72,6 @@ final as (
         geniallys.last_view_at,
         geniallys.deleted_at,
         geniallys.disabled_at,
-        geniallys.team_created_at
 
     from geniallys
     inner join users

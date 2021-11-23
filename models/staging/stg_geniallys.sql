@@ -17,10 +17,6 @@ inspiration as (
     select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
 ),
 
-teams as (
-    select * from {{ ref('src_genially_teams') }}
-),
-
 genially_templates as (
     select distinct
         genially_id
@@ -88,7 +84,6 @@ final as (
 
         geniallys.subscription_plan as plan,
         geniallys.name,
-        teams.name as team_name,
         case
             when geniallys.reused_from_id is not null
                 then
@@ -118,7 +113,6 @@ final as (
         geniallys.is_logically_deleted,
         geniallys.is_deleted,
         geniallys.is_disabled,
-        teams.is_disabled as is_team_disabled,
         geniallys.is_private,
         geniallys.is_password_free,
         geniallys.is_in_social_profile,
@@ -142,11 +136,8 @@ final as (
         geniallys.last_view_at,
         geniallys.deleted_at,
         geniallys.disabled_at,
-        teams.created_at as team_created_at
 
     from int_geniallys as geniallys
-    left join teams
-        on geniallys.team_id = teams.team_id
     left join inspiration
         on geniallys.reused_from_id = inspiration.genially_id
 )

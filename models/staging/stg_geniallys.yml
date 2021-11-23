@@ -15,12 +15,6 @@ models:
         - name: name
           description: Genially name.
 
-        - name: team_name
-          description: Name of the team this genially belongs to.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
-
         - name: source
           description: Genially source.
           tests:
@@ -65,12 +59,6 @@ models:
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
             When a Team is disabled, so do all geniallys within the team.
-
-        - name: is_team_disabled
-          description: Indicates whether the team itself this genially belongs to is disabled.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
@@ -141,17 +129,7 @@ models:
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
 
-        - name: team_created_at
-          description: The date the team was created.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
-
       tests:
-        - dbt_utils.expression_is_true:
-            expression: "is_disabled = true"
-            condition: "is_team_disabled = true"
-
         - dbt_utils.expression_is_true:
             expression: "category != 'Other'"
             condition: "template_type is not null"
