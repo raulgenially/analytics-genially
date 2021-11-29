@@ -34,7 +34,7 @@ final as (
         if(regexp_contains(data_payer_name, r'\w+'), data_payer_name, null) as payer_name,
         if(regexp_contains(data_payer_cif, r'\w+'), data_payer_cif, null) as payer_cif,
         if(regexp_contains(data_payer_address, r'\w+'), data_payer_address, null) as payer_address,
-        data_payer_country as payer_country,
+        {{ clean_payer_country('data_payer_country') }} as payer_country,
 
     from int_invoices
 )

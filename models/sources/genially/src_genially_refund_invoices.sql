@@ -13,8 +13,8 @@ final as (
         payer_address,
         payer_country,
         -- force all totals to be negative
-        abs(total_float) * -1 as total,
-        abs(total_euro_float) * -1 as total_euro,
+        total_float as total,
+        total_euro_float as total_euro,
         cleaned_currency as currency,
         invoiceid as invoice_number,
         referenceinvoice as reference_invoice_number,

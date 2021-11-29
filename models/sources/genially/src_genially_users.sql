@@ -2,23 +2,13 @@ with users as (
     select * from {{ source('genially', 'users') }}
 ),
 
-sector_codes as (
-    select * from {{ ref('sector_codes') }}
-),
-
-role_codes as (
-    select * from {{ ref('role_codes') }}
-),
-
 final as (
     select
         _id as user_id,
 
         {{ map_subscription_code('typesubscription') }} as subscription_plan,
         newsector as sector_code,
-        {{ extract_user_profile('newsector', 'sector_codes.sector_name') }} as sector,
         newrole as role_code,
-        {{ extract_user_profile('newrole', 'role_codes.role_name') }} as role,
         username,
         nickname,
         lower(email) as email,
@@ -49,10 +39,6 @@ final as (
         timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_created_at,
 
     from users
-    left join sector_codes
-        on users.newsector = sector_codes.sector_id
-    left join role_codes
-        on users.newrole = role_codes.role_id
     where __hevo__marked_deleted = false
         and email is not null
 )
