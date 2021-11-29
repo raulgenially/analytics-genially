@@ -1,5 +1,20 @@
 with users as (
     select * from {{ source('genially', 'users') }}
+    where __hevo__marked_deleted = false
+        and email is not null
+),
+
+int_users as (
+    select
+        *,
+        -- We take dateregister as the true date
+        if(
+            dateregister > lastaccesstime
+            and abs(date_diff(dateregister, lastaccesstime, SECOND)) < 10,
+            dateregister,
+            lastaccesstime
+        ) as synced_lastaccesstime
+    from users
 ),
 
 final as (
@@ -34,13 +49,11 @@ final as (
         -- First valid registration date is 2015-02-23T13:27:13 (as of 2021-07-15)
         if(dateregister >= '2015-02-23', dateregister, null) as registered_at,
         -- First valid last access date is 2016-06-02T17:01:47 (as of 2021-07-15)
-        if(lastaccesstime >= '2016-06-02', lastaccesstime, null) as last_access_at,
+        if(synced_lastaccesstime >= '2016-06-02', synced_lastaccesstime, null) as last_access_at,
         -- emailvalidationtoken extraction
         timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_created_at,
 
-    from users
-    where __hevo__marked_deleted = false
-        and email is not null
+    from int_users
 )
 
 select * from final
