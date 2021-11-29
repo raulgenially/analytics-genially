@@ -10,18 +10,26 @@ with users as (
     select * from {{ ref('stg_users') }}
 ),
 
+user_profiles as (
+    select * from {{ ref('user_profiles') }}
+),
+
 final as (
     select
-        user_id,
-        sector,
-        role,
-        registered_at
+        users.user_id,
+        users.sector_code,
+        users.sector,
+        users.role_code,
+        users.role,
+        users.registered_at,
+        user_profiles.*,
 
     from users
-    where (sector != '{{ var('not_selected') }}'
-            and role != '{{ var('not_selected') }}')
-          and (sector_code < 200
-              or role_code < 100)
+    left join user_profiles
+        on user_profiles.role_id = users.role_code
+
+    where (users.sector_code < 200 and users.role_code < 100)
+          and users.sector_code = user_profiles.sector_id
     order by registered_at desc
 )
 
