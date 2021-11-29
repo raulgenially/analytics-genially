@@ -12,7 +12,7 @@ sources:
               tests:
                 - unique
                 - not_null
-            
+
             - name: __hevo__marked_deleted
               description: Indicates if the genially is deleted in MongoDB
               tests:
@@ -50,7 +50,7 @@ sources:
               tests:
                 - unique
                 - not_null
-            
+
             - name: iduser
               description: Id User of the social profile.
               tests:
@@ -64,7 +64,7 @@ sources:
               tests:
                 - unique
                 - not_null
-            
+
             - name: geniallyid
               description: Id Genially of the inspiration genially.
               tests:
@@ -78,7 +78,7 @@ sources:
               tests:
                 - unique
                 - not_null
-            
+
             - name: idgenially
               description: Id Genially of the template color.
 
@@ -163,4 +163,15 @@ sources:
               description: Primary key for team groups.
               tests:
                 - unique
+                - not_null
+
+    - name: miscellaneous
+      description: Testing data from different sources.
+      database: data-genially
+      tables:
+        - name: logins
+          columns:
+            - name: user_id
+              description: Primary key for users.
+              tests:
                 - not_null
