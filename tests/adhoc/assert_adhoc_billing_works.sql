@@ -1,5 +1,5 @@
-with users as (
+with billing as (
   select * from {{ ref('adhoc_billing') }}
 )
 
-select * from users limit 0
+select * from billing limit 0
