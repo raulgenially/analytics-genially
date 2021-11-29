@@ -36,7 +36,7 @@ final as (
         regexp_extract(description, r'(.*?)\sx') as quantity,
         regexp_extract(description, r'x (.*?) License') as product,
         regexp_extract(description, r'x (.*?)\s') as recurrence,
-        regexp_extract(description, r'\s(.*?) License', 5) as plan,
+        regexp_extract(description, r'\s(.*?) License', 5) as plan
 
     from invoices
 )

@@ -8,17 +8,13 @@ refundinvoice as (
    {{create_billing_model('src_genially_refund_invoices')}}
 ),
 
-licenses as (
-    select * from {{ ref('src_genially_licenses') }}
-),
-
 users as (
     select * from {{ ref('stg_users') }}
 ),
 
 billing as (
     select
-        'Sale' as invoice_type,
+        'Invoice' as invoice_type,
         *
     from invoices
     union all
@@ -42,10 +38,8 @@ final as (
         billing.product,
         billing.recurrence,
         billing.plan,
-        round(if({{define_eu_countries('payer_country')}}
-            and billing.currency = 'eur', billing.total_euro/1.21, billing.total_euro), 4) as subtotal,
-        round(billing.total_euro - if({{define_eu_countries('payer_country')}}
-            and billing.currency = 'eur', billing.total_euro/1.21, billing.total_euro), 4) as tax_amount,
+        round(if({{define_eu_countries('billing.payer_country')}}, billing.total_euro/1.21, billing.total_euro), 4) as subtotal,
+        round(billing.total_euro - if({{define_eu_countries('billing.payer_country')}}, billing.total_euro/1.21, billing.total_euro), 4) as tax_amount,
         billing.total_euro as amount,
         billing.total as original_amount,
         billing.currency,
@@ -59,15 +53,13 @@ final as (
         users.role,
         users.sector,
 
-        if({{define_eu_countries('payer_country')}},'Communitary','Extracommunitary') as eu,
-        if({{define_eu_countries('payer_country')}} and billing.currency = 'eur','IVA','No-IVA') as IVA,
+        if({{define_eu_countries('billing.payer_country')}},'Communitary','Extracommunitary') as eu,
+        if({{define_eu_countries('billing.payer_country')}} and billing.currency = 'eur','IVA','No-IVA') as IVA,
 
         billing.invoiced_at,
-        ifnull(date(licenses.finished_at),  billing.period_end_at) as period_end_at
+        ifnull(billing.period_end_at, if(billing.recurrence like 'Annual', date(billing.invoiced_at) + 360, date(billing.invoiced_at) + 30)) as period_end_at
 
     from billing
-    left join licenses
-        on billing.subscription_id = licenses.subscription_id
     left join users
         on billing.user_id = users.user_id
 )

@@ -18,7 +18,7 @@ models:
           tests:
             - not_null
         - name: invoice_type
-          description: Invoice type (Sale or Refund).
+          description: Invoice type (Invoice or Refund).
           tests:
             - not_null
 
