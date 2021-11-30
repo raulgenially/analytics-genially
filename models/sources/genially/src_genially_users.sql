@@ -4,6 +4,10 @@ with users as (
         and email is not null
 ),
 
+-- There are some cases in which dateregister > lastaccesstime by a few seconds
+-- We assume these cases to be just a sync issue during the auth process.
+-- Here we fix these discrepancies by syncing lastaccesstime to dateregister if
+-- the time difference is behind a certain threshold.
 int_users as (
     select
         *,
