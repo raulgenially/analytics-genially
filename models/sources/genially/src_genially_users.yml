@@ -39,7 +39,7 @@ models:
           tests:
             - not_null
             - relationships:
-                to: ref('country_codes')
+                to: ref('seed_country_codes')
                 field: code
                 where: country != '{{ var('not_selected') }}'
 
