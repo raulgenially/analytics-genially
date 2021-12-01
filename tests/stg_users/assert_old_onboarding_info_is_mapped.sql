@@ -1,27 +1,27 @@
--- We should not see user profiles related to the old onboarding after the mapping (because that is the aim of the mappin :))
--- If so, this is likely to be a consequence of tests/src_genially_users/assert_role_info_is_tied_to_the_expected_sector_info.sql
-{{
-  config(
-    severity='warn' 
-  )
-}}
-
+-- We should not see user profiles related to the old onboarding after the mapping (because that is the aim of the mapping :))
 with users as (
     select * from {{ ref('stg_users') }}
 ),
 
+user_profiles as (
+    select * from {{ ref('user_profiles') }}
+),
+
 final as (
     select
-        user_id,
-        sector,
-        role,
-        registered_at
+        users.user_id,
+        users.sector_code,
+        users.sector,
+        users.role_code,
+        users.role,
+        users.registered_at,
+        user_profiles.*,
 
     from users
-    where (sector != '{{ var('not_selected') }}'
-            and role != '{{ var('not_selected') }}')
-          and (sector_code < 200
-              or role_code < 100)
+    left join user_profiles
+        on users.role_code = user_profiles.role_id
+    where (users.sector_code < 200 and users.role_code < 100)
+          and users.sector_code = user_profiles.sector_id
     order by registered_at desc
 )
 
