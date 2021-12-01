@@ -11,10 +11,6 @@ models:
 
         - name: plan
           description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
 
         - name: name
           description: Genially name.
@@ -42,28 +38,18 @@ models:
 
         - name: is_published
           description: Whether the genially has been published.
-          tests:
-            - not_null
 
         - name: is_active
           description: Whether the genially is active at the user dashboard.
-          tests:
-            - not_null
 
         - name: is_in_recyclebin
           description: Whether the genially has been sent to the Recycle Bin.
-          tests:
-            - not_null
 
         - name: is_logically_deleted
           description: Whether the genially has been deleted from the Recycle Bin.
-          tests:
-            - not_null
 
         - name: is_deleted
           description: Whether the genially has been physically deleted.
-          tests:
-            - not_null
 
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
@@ -74,28 +60,18 @@ models:
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
-          tests:
-            - not_null
 
         - name: is_password_free
           description: Whether the genially has a an access password.
-          tests:
-            - not_null
 
         - name: is_in_social_profile
           description: Whether the genially is shown in user's social profile.
-          tests:
-            - not_null
 
         - name: is_reusable
           description: Whether the genially can be reusable as a template by another user.
-          tests:
-            - not_null
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
-          tests:
-            - not_null
 
         - name: is_visualized_last_90_days
           description: Whether the genially has been visualized within the last 90 days.
@@ -114,8 +90,6 @@ models:
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.
-          tests:
-            - not_null
 
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
@@ -134,11 +108,9 @@ models:
 
         - name: from_team_template_id
           description: Id of the team template used for the creation of the genially.
-      
+
         - name: modified_at
           description: Modification date.
-          tests:
-            - not_null
 
         - name: created_at
           description: Creation date.

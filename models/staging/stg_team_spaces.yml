@@ -30,9 +30,7 @@ models:
 
         - name: team_id
           description: The team id this space belongs to.
-          tests:
-            - not_null
-            
+
         - name: owner_id
           description: The team member id that created this space.
           tests:

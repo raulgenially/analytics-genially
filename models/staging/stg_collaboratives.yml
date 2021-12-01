@@ -15,11 +15,6 @@ models:
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_collaboration_type_values() }}"
-                quote: false
 
         - name: name
           description: Genially name.
