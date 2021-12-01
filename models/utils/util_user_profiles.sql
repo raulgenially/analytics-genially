@@ -1,9 +1,9 @@
 with role_codes as (
-    select * from {{ ref('role_codes') }}
+    select * from {{ ref('util_role_codes') }}
 ),
 
 sector_codes as (
-    select * from {{ ref('sector_codes') }}
+    select * from {{ ref('util_sector_codes') }}
 ),
 
 role_correspondence as (
