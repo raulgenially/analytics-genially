@@ -94,6 +94,11 @@ models:
           description: Last access date.
 
       tests:
-      - dbt_utils.expression_is_true:
-          expression: "last_access_at >= registered_at"
-          condition: "registered_at > '2020-09-11'"
+        - dbt_utils.expression_is_true:
+            expression: "last_access_at >= registered_at"
+            condition: "registered_at > '2020-09-11'"
+
+        - dbt_utils.expression_is_true:
+            expression: "sector_code >= 200 and role_code >= 100"
+            condition: "registered_at > '{{ var('new_onboarding_date') }}'"
+            severity: warn
