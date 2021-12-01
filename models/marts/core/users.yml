@@ -17,17 +17,17 @@ models:
                 values: "{{ get_plan_values() }}"
 
         - name: sector
-          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: broad_sector
-          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: role
-          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
           tests:
             - not_null
 

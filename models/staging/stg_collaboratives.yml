@@ -31,12 +31,12 @@ models:
             - not_null
 
         - name: owner_sector
-          description: Owner's sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Owner's sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: owner_role
-          description: Owner's role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Owner's role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
           tests:
             - not_null
 

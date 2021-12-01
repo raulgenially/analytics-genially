@@ -7,7 +7,7 @@ sector_codes as (
 ),
 
 role_correspondence as (
-    select * from {{ ref('role_correspondence') }}
+    select * from {{ ref('seed_role_correspondence') }}
 ),
 
 int_user_profile as (
