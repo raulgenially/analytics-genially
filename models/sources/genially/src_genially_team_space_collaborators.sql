@@ -3,7 +3,7 @@ with team_space_collaborators as (
 ),
 
 collaborator_codes as (
-    select * from {{ ref('team_space_collaborator_type_codes') }}
+    select * from {{ ref('seed_team_space_collaborator_type_codes') }}
 ),
 
 final as (

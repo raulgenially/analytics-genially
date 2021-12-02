@@ -14,7 +14,7 @@ social as (
 ),
 
 profiles as (
-    select * from {{ ref('user_profiles') }}
+    select * from {{ ref('util_user_profiles') }}
 ),
 
 sectors as (

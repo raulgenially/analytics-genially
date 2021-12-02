@@ -1,6 +1,6 @@
--- The license codes are present in license_codes.csv
+-- The license codes are present in seed_license_codes.csv
 with license_codes as (
-    select * from {{ ref('license_codes') }}
+    select * from {{ ref('seed_license_codes') }}
 ),
 
 licenses as (

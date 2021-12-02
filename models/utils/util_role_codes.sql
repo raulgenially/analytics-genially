@@ -1,5 +1,5 @@
 with new_role_codes as (
-    select * from {{ ref('new_role_codes') }}
+    select * from {{ ref('seed_new_role_codes') }}
 ),
 
 old_role_codes as (
@@ -8,7 +8,7 @@ old_role_codes as (
         concat(role_name, ' (old)') as role_name,
         sector_id
 
-    from {{ ref('old_role_codes') }}
+    from {{ ref('seed_old_role_codes') }}
 ),
 
 final as (

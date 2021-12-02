@@ -35,7 +35,7 @@ models:
                 quote: false
 
         - name: plan_name
-          description: The equivalent name of the plan property. Extracted from `team_type_codes.csv`.
+          description: The equivalent name of the plan property. Extracted from `seed_team_type_codes.csv`.
           tests:
             - not_null
 

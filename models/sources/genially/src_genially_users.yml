@@ -18,10 +18,10 @@ models:
                 values: "{{ get_plan_values() }}"
 
         - name: sector_code
-          description: Sector code (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
 
         - name: role_code
-          description: Role code (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
 
         - name: username
           description: Username.
@@ -39,7 +39,7 @@ models:
           tests:
             - not_null
             - relationships:
-                to: ref('country_codes')
+                to: ref('seed_country_codes')
                 field: code
                 where: country != '{{ var('not_selected') }}'
 
@@ -92,3 +92,8 @@ models:
 
         - name: last_access_at
           description: Last access date.
+
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "last_access_at >= registered_at"
+          condition: "registered_at > '2020-09-11'"
