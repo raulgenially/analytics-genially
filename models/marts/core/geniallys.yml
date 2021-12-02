@@ -216,3 +216,9 @@ models:
 
         - name: team_created_at
           description: The date the team was created.
+
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "genially_plan = user_plan"
+          condition: "is_deleted = false"
+          severity: warn

@@ -27,6 +27,9 @@ models:
             and the degree of feature access to the platform.
           tests:
             - not_null
+            - relationships:
+                to: ref('seed_license_codes')
+                field: license_code
 
         - name: comments
           description: Notes on the license.
@@ -65,7 +68,14 @@ models:
         - name: finished_at
           description: Date time the license finished. This field is filled in once the license
             is canceled (see status field)
+          tests:
+            - not_null:
+                where: "status = 'Canceled' and started_at > timestamp('2020-02-05')"
 
         - name: manual_finished_at
           description: Date time the license will be finished.
             This is set by genially employees to a future date.
+
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "finished_at <= manual_finished_at"
