@@ -134,6 +134,18 @@ models:
                 where: "team_id is not null and is_active = true"
 
       tests:
-      - dbt_utils.expression_is_true:
-          expression: "is_disabled = true"
-          condition: "is_team_disabled = true"
+        - dbt_utils.expression_is_true:
+            expression: "is_disabled = true"
+            condition: "is_team_disabled = true"
+
+        - dbt_utils.expression_is_true:
+            expression: "category != 'Other'"
+            condition: "template_type is not null"
+
+        - dbt_utils.expression_is_true:
+            expression: "is_visualized_last_60_days = true and is_visualized_last_90_days = true"
+            condition: "is_visualized_last_30_days = true"
+
+        - dbt_utils.expression_is_true:
+            expression: "is_visualized_last_90_days = true"
+            condition: "is_visualized_last_60_days = true"

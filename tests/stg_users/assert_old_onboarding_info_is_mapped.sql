@@ -4,7 +4,7 @@ with users as (
 ),
 
 user_profiles as (
-    select * from {{ ref('user_profiles') }}
+    select * from {{ ref('util_user_profiles') }}
 ),
 
 final as (
