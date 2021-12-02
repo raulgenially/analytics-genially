@@ -1,13 +1,13 @@
 with role_codes as (
-    select * from {{ ref('role_codes') }}
+    select * from {{ ref('util_role_codes') }}
 ),
 
 sector_codes as (
-    select * from {{ ref('sector_codes') }}
+    select * from {{ ref('util_sector_codes') }}
 ),
 
 role_correspondence as (
-    select * from {{ ref('role_correspondence') }}
+    select * from {{ ref('seed_role_correspondence') }}
 ),
 
 int_user_profile as (

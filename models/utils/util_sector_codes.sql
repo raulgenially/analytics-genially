@@ -1,5 +1,5 @@
 with new_sector_codes as (
-    select * from {{ ref('new_sector_codes') }}
+    select * from {{ ref('seed_new_sector_codes') }}
 ),
 
 old_sector_codes as (
@@ -8,7 +8,7 @@ old_sector_codes as (
         concat(sector_name, ' (old)') as sector_name,
         agg_sector
 
-    from {{ ref('old_sector_codes') }}
+    from {{ ref('seed_old_sector_codes') }}
 ),
 
 final as (

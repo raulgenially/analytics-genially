@@ -3,7 +3,7 @@ with team_members as (
 ),
 
 role_codes as (
-    select * from {{ ref('team_member_role_codes') }}
+    select * from {{ ref('seed_team_member_role_codes') }}
 ),
 
 final as (

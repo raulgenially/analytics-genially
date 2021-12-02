@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: sector_codes
+    - name: util_sector_codes
       description: Codes used to identify old and new sectors.
       columns:
         - name: sector_id
@@ -17,7 +17,7 @@ models:
         - name: agg_sector
           description: Broad category of the sector (e.g. education, corporate, etc).
 
-    - name: role_codes
+    - name: util_role_codes
       description: Codes used to identify old and new roles.
       columns:
         - name: role_id
@@ -33,7 +33,7 @@ models:
         - name: sector_id
           description: Foreign key to sector_codes.
 
-    - name: user_profiles
+    - name: util_user_profiles
       description: Role-sector pair (both the old and new onboarding) along
         with their correspondence with new role-sector pairs.
       columns:

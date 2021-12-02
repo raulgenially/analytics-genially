@@ -3,7 +3,7 @@ with src_teams as (
 ),
 
 team_types as (
-    select * from {{ ref('team_type_codes') }}
+    select * from {{ ref('seed_team_type_codes') }}
 ),
 
 -- sanitize team_type so that it always has a value
