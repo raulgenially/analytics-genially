@@ -1,0 +1,10 @@
+version: 2
+
+models:
+    - name: src_genially_logins
+      columns:
+        - name: login_id
+          description: Primary key for refunded invoices.
+          tests:
+            - unique
+            - not_null

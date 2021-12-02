@@ -20,9 +20,9 @@ numerator as (
         count(user_id) as n_users
 
     from activity
-    where (previous_status_28d = 'Active' and status_28d = 'Active')
-         or (previous_status_28d = 'New' and status_28d = 'Active')
-         or (previous_status_28d = 'Churned' and status_28d = 'Active')
+    where (previous_status_28d = 'Current' and status_28d = 'Current')
+         or (previous_status_28d = 'New' and status_28d = 'Current')
+         or (previous_status_28d = 'Churned' and status_28d = 'Current')
     {{ dbt_utils.group_by(n=3) }}
 ),
 
@@ -31,7 +31,7 @@ final as (
         denominator.date_day,
         numerator.status_28d,
         numerator.previous_status_28d,
-        numerator.n_users as n_active_returning_users,
+        numerator.n_users as n_current_users,
         denominator.n_users as n_total_users,
         numerator.n_users / denominator.n_users as change_rate
 
