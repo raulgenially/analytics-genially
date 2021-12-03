@@ -23,8 +23,6 @@ user_usage as (
         date(users.registered_at) as first_usage_at
     
     from users
-    --inner join logins
-    --    on users.user_id = logins.user_id
 ),
 
 dates as (
