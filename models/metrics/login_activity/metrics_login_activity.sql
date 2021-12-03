@@ -5,7 +5,7 @@
 {% set month_days_minus = month_days - 1 %}
 
 {% set min_date %}
-    date('2021-01-01')
+    date('2019-01-01')
 {% endset %}
 
 with logins as (
@@ -48,6 +48,7 @@ user_day as (
     cross join dates
     where user_usage.first_usage_at >= {{ min_date }} 
         and dates.date_day >= user_usage.first_usage_at
+        and dates.date_day >= date(2021, 1, 1)
 ),
 
 user_day_traffic as (
