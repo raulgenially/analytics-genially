@@ -5,7 +5,7 @@
 {% set month_days_minus = month_days - 1 %}
 
 {% set min_date %}
-    date('2019-01-01')
+    date('2021-01-01')
 {% endset %}
 
 with logins as (
@@ -19,6 +19,7 @@ users as (
 user_usage as (
     select distinct
         users.user_id,
+        {{ place_main_dimension_fields('users') }}
         date(users.registered_at) as first_usage_at
     
     from users
@@ -38,6 +39,7 @@ dates as (
 user_day as (
     select
         user_usage.user_id,
+        {{ place_main_dimension_fields('user_usage') }}
         user_usage.first_usage_at,
         date(dates.date_day) as date_day,
         date_diff(dates.date_day, user_usage.first_usage_at, day) as n_days_since_first_usage
@@ -51,6 +53,7 @@ user_day as (
 user_day_traffic as (
     select
         user_day.user_id,
+        {{ place_main_dimension_fields('user_day') }}
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
@@ -69,12 +72,13 @@ user_day_traffic as (
         on user_day.user_id = logins.user_id
             and user_day.date_day = date(logins.login_at)
             and logins.login_at is not null
-    {{ dbt_utils.group_by(n=4) }}
+    {{ dbt_utils.group_by(n=11) }}
 ),
 
 user_traffic_rolling_status as (
     select
         user_id,
+        {{ place_main_dimension_fields('user_day_traffic') }}
         first_usage_at,
         date_day,
         n_days_since_first_usage,
@@ -104,6 +108,7 @@ final as (
     select
         {{ dbt_utils.surrogate_key(['user_id', 'date_day']) }} as id,
         user_id,
+        {{ place_main_dimension_fields('user_traffic_rolling_status') }}
         first_usage_at,
         date_day,
         n_days_since_first_usage,

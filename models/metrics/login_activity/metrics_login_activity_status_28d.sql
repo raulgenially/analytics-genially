@@ -5,6 +5,7 @@ with activity as (
 
 final as (
     select
+        -- Dimensions
         date_day,
         case
             when status_28d = 'Current'
@@ -13,22 +14,29 @@ final as (
                 then 'Signups'
             else status_28d
         end as status_28d,
+        {{ place_main_dimension_fields('activity') }}
+
+        -- Metrics
         count(user_id) as n_users
 
     from activity
     where status_28d in ('New', 'Current')
-    group by 1, 2
+    {{ dbt_utils.group_by(n=9) }}
 
     union all
 
     select
+        -- Dimensions
         date_day,
         'Total Active Users' as status_28d,
+        {{ place_main_dimension_fields('activity') }}
+
+        -- Metrics
         count(user_id) as n_users
 
     from activity
     where status_28d in ('New', 'Current')
-    group by 1, 2
+    {{ dbt_utils.group_by(n=9) }}
 )
 
 select * from final
