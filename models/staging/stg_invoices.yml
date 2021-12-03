@@ -1,22 +1,25 @@
 version: 2
 
 models:
-    - name: src_genially_refund_invoices
-      description: Information about refunded invoices.
+    - name: stg_invoices
+      description: Information about invoices and its refunds. This models standarizes and
+        sticks together both invoices and refund invoices.
       columns:
-        - name: invoice_id
-          description: Primary key for refunded invoices.
+        - name: id
+          description: Primary key for stg_invoices. This is a surrogate key
+            from invoice_id and is_refund.
           tests:
             - unique
             - not_null
+
+        - name: invoice_id
+          description: Primary key for invoices.
 
         - name: description
           description: Description of the type of license purchased.
 
         - name: payer_email
           description: The email of the person paying the invoice.
-          tests:
-            - not_null
 
         - name: payer_name
           description: The name of the person paying the invoice. It can also be the email.
@@ -29,72 +32,57 @@ models:
 
         - name: payer_country
           description: The payer's country.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('seed_country_codes')
-                field: code
 
         - name: total
-          description: Amount of monetary value refunded in the currency
+          description: Amount of monetary value paid in the currency
             specified in the currency column.
-          tests:
-            - not_null
-            - dbt_utils.expression_is_true:
-                expression: '<= 0'
 
         - name: total_euro
           description: The equivalent in € of the amount specified in total.
-          tests:
-            - not_null
-            - dbt_utils.expression_is_true:
-                expression: '<= 0'
 
         - name: currency
           description: Currency in which the invoice is paid.
-          tests:
-            - not_null
 
         - name: invoice_number
           description: Unique invoice number.
-          tests:
-            - not_null
-            - unique:
-                where: "invoiced_at > timestamp('2020-01-01')"
-
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_invoices')
-                field: invoice_number
 
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
-          tests:
-            - not_null:
-                where: "invoiced_at > timestamp('2020-01-15')"
+
+        - name: reference_invoice_number
+          description: Invoice number of the invoice we are refunding.
+
+        - name: is_refund
+          description: Whether this invoice is refunding a previous invoice or not.
 
         - name: user_id
           description: Id of the user making the payment.
-          tests:
-            - not_null
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
-          tests:
-            - not_null
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
+
+        - name: refunded_at
+          description: Date time at which this invoice has been refunded.
+
+        - name: originally_invoiced_at
+          description: For refunds, date time at which the invoice we are refunding was invoiced.
+            For regular invoices, same date time as invoiced_at.
           tests:
-            - not_null
+            - not_null:
+                where: "is_refund = true"
+
       tests:
         - dbt_utils.expression_is_true:
-            expression: "total_euro = total"
-            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+            expression: "refunded_at is null"
+            condition: "is_refund = true"
+
+        - dbt_utils.expression_is_true:
+            expression: "reference_invoice_number is null"
+            condition: "is_refund = false"

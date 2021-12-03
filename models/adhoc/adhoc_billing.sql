@@ -1,19 +1,5 @@
 with billing as(
     select * from {{ ref('billing') }}
-),
-
-refunds as (
-    select
-        invoice_number,
-        reference_invoice_number
-    from {{ ref('src_genially_refund_invoices') }}
-),
-
-invoices as (
-    select
-        invoice_number,
-        invoiced_at
-    from {{ ref('src_genially_invoices') }}
 )
 
 select
@@ -48,10 +34,15 @@ select
     billing.payer_name,
     billing.role,
     billing.sector,
-    refunds.reference_invoice_number,
-    format_date('%d/%m/%Y', invoices.invoiced_at) as refund_original_invoice_date
+    billing.reference_invoice_number,
+    format_date(
+        '%d/%m/%Y',
+        if(
+            billing.invoice_type = 'Refund',
+            billing.originally_invoiced_at,
+            null
+        )
+    ) as refund_original_invoice_date
 
 from billing
-left join refunds ON billing.invoice_number = refunds.invoice_number
-left join invoices ON refunds.reference_invoice_number = invoices.invoice_number
 where date(billing.invoiced_at) >= current_date() - 30
