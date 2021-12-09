@@ -121,6 +121,8 @@ models:
 
         - name: modified_at
           description: Modification date.
+          tests:
+            - not_null
 
         - name: created_at
           description: Creation date.

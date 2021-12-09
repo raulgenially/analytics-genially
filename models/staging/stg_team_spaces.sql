@@ -6,10 +6,6 @@ teams as (
     select * from {{ ref('src_genially_teams') }}
 ),
 
-members as (
-    select * from {{ ref('stg_team_members') }}
-),
-
 final as (
     select
         spaces.team_space_id,
@@ -19,7 +15,6 @@ final as (
         spaces.icon,
 
         spaces.is_common,
-        members.is_active as is_owner_active,
 
         spaces.team_id,
         spaces.owner_id,
@@ -30,11 +25,6 @@ final as (
     from spaces
     inner join teams
         on spaces.team_id = teams.team_id
-    left join members
-        on spaces.owner_id = members.team_member_id
-    where (spaces.is_common = false
-            and members.team_member_id is not null)
-        or (spaces.is_common = true)
 )
 
 select * from final
