@@ -1,0 +1,14 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud secrets versions access latest --secret="dbt-prod-profiles" > profiles.yml']
+
+- name: 'fishtownanalytics/dbt:0.21.0'
+  args: ['deps']
+
+- name: 'fishtownanalytics/dbt:0.21.0'
+  args: ['snapshot']
+
+options:
+  env:
+  - 'DBT_PROFILES_DIR=/workspace'
