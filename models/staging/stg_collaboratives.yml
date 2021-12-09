@@ -18,6 +18,8 @@ models:
 
         - name: name
           description: Genially name.
+          tests:
+            - not_null
 
         - name: owner_plan
           description: Owner's plan.
@@ -42,24 +44,38 @@ models:
 
         - name: is_active
           description: Whether the genially is active.
+          tests:
+            - not_null
 
         - name: is_published
           description: Whether the genially has been published.
+          tests:
+            - not_null
 
         - name: is_in_social_profile
           description: Whether the genially is shown in owner's social profile.
+          tests:
+            - not_null
 
         - name: is_visualized_last_90_days
           description: Whether the genially has been visualized within the last 90 days.
+          tests:
+            - not_null
 
         - name: is_visualized_last_60_days
           description: Whether the genially has been visualized within the last 60 days.
+          tests:
+            - not_null
 
         - name: is_visualized_last_30_days
           description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
 
         - name: is_owner_social_profile_active
           description: Whether the social profile of the owner is active.
+          tests:
+            - not_null
 
         - name: genially_id
           description: Id of the genially referring to the collaboration.
@@ -96,6 +112,8 @@ models:
         - name: genially_space_id
           description: Id of the space where the collaboration happens (data coming from stg_geniallys).
           tests:
+            - not_null:
+                where: collaboration_type = 4
             - relationships:
                 to: ref('stg_team_spaces')
                 field: team_space_id
@@ -107,6 +125,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: "collaborative_team_id is null and genially_team_id is null"
             condition: "collaboration_type = 1"
+            severity: warn
 
         - dbt_utils.expression_is_true:
             expression: "collaborative_team_id is not null

@@ -220,5 +220,5 @@ models:
       tests:
       - dbt_utils.expression_is_true:
           expression: "genially_plan = user_plan"
-          condition: "is_deleted = false"
+          condition: "is_active = true"
           severity: warn
