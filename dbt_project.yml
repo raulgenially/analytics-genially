@@ -71,3 +71,8 @@ seeds:
   analytics_genially:
     +tags:
       - seed
+
+snapshots:
+  analytics_genially:
+    +target_project: data-genially
+    +target_dataset: snapshots
