@@ -31,7 +31,6 @@ models:
         - name: user_id
           description: Id of the user that is/was part of the team.
           tests:
-            - not_null
             - relationships:
                 to: ref('stg_users')
                 field: user_id

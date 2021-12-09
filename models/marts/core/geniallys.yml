@@ -221,4 +221,4 @@ models:
       - dbt_utils.expression_is_true:
           expression: "genially_plan = user_plan"
           condition: "is_active = true"
-          severity: warn
+          severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/7972

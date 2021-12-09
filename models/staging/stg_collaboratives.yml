@@ -125,7 +125,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: "collaborative_team_id is null and genially_team_id is null"
             condition: "collaboration_type = 1"
-            severity: warn
+            severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8027
 
         - dbt_utils.expression_is_true:
             expression: "collaborative_team_id is not null
