@@ -12,6 +12,7 @@
     select
         *,
         ifnull(lastaccesstime, dateregister) as updated_at
+
     from {{ source('genially', 'users') }}
     where __hevo__marked_deleted = false
 

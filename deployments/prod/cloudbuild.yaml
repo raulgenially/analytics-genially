@@ -10,6 +10,9 @@ steps:
   args: ['seed']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
+  args: ['snapshot']
+
+- name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run', '--exclude', 'metrics_creator_activity+']
 
 - name: 'gcr.io/cloud-builders/gcloud'

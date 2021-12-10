@@ -6,17 +6,12 @@ spec:
   notification:
     # 3997b276-348f-48c2-9b47-58d31194db89 -> analytics-prod
     # 0ae65eb4-b177-457d-999f-d0268838a380 -> analytics-docs
-    # 90ac2351-e35f-49f6-aa16-ad4a7f917c57 -> analytics-snapshot
     filter: (
         build.build_trigger_id == "3997b276-348f-48c2-9b47-58d31194db89"
         && build.status in [Build.Status.FAILURE, Build.Status.TIMEOUT, Build.Status.SUCCESS]
       )
       || (
         build.build_trigger_id == "0ae65eb4-b177-457d-999f-d0268838a380"
-        && build.status in [Build.Status.FAILURE, Build.Status.TIMEOUT]
-      )
-      || (
-        build.build_trigger_id == "90ac2351-e35f-49f6-aa16-ad4a7f917c57"
         && build.status in [Build.Status.FAILURE, Build.Status.TIMEOUT]
       )
     delivery:
