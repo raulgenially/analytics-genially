@@ -15,6 +15,7 @@ final as (
         spaces.icon,
 
         spaces.is_common,
+        teams.is_disabled as is_team_disabled,
 
         spaces.team_id,
         spaces.owner_id,

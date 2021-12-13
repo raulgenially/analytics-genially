@@ -24,6 +24,11 @@ models:
         - name: is_common
           description: Whether this is the common space of the team.
 
+        - name: is_team_disabled
+          description: Whether the team this space belongs is disabled.
+          tests:
+            - not_null
+
         - name: team_id
           description: The team id this space belongs to.
 

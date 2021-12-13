@@ -3,10 +3,178 @@ version: 2
 models:
     - name: team_geniallys
       description: This model refers to geniallys that are part of a Team.
-        It is a filtered version of the geniallys model (see the corresponding documentation).
+        It is a filtered version of the geniallys model (see the corresponding documentation)
+        along with some team information.
       columns:
+        - name: genially_id
+          description: Primary key for geniallys.
+          tests:
+            - unique
+            - not_null
+
+        - name: genially_plan
+          description:  "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_plan_values() }}"
+
+        - name: name
+          description: Genially name.
+
+        - name: source
+          description: Genially source.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_genially_source_values() }}"
+
+        - name: category
+          description: Genially category.
+          tests:
+            - not_null
+
+        - name: template_type
+          description: Template type that the genially is based on, if any.
+
+        - name: template_name
+          description: Name of the template.
+
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+
+        - name: user_plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+
+        - name: user_sector
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: user_broad_sector
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: user_role
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: user_broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+          tests:
+            - not_null
+
+        - name: user_country
+          description: Country (ISO code).
+          tests:
+            - not_null
+
+        - name: team_name
+          description: Name of the team this genially belongs to.
+          tests:
+            - not_null
+
+        - name: is_published
+          description: Whether the genially has been published.
+          tests:
+            - not_null
+
+        - name: is_active
+          description: Whether the genially is active at the user dashboard.
+          tests:
+            - not_null
+
+        - name: is_in_recyclebin
+          description: Whether the genially has been sent to the Recycle Bin.
+          tests:
+            - not_null
+
+        - name: is_logically_deleted
+          description: Whether the genially has been deleted from the Recycle Bin.
+          tests:
+            - not_null
+
+        - name: is_deleted
+          description: Whether the genially has been physically deleted.
+          tests:
+            - not_null
+
+        - name: is_disabled
+          description: Indicates whether the genially has been disabled in the context of Teams.
+            When a Team is disabled, so do all geniallys within the team.
+
+        - name: is_private
+          description: Whether the genially can be indexed by search engines.
+          tests:
+            - not_null
+
+        - name: is_password_free
+          description: Whether the genially has a an access password.
+          tests:
+            - not_null
+
+        - name: is_in_social_profile
+          description: Whether the genially is shown in user's social profile.
+          tests:
+            - not_null
+
+        - name: is_reusable
+          description: Whether the genially can be reusable as a template by another user.
+          tests:
+            - not_null
+
+        - name: is_inspiration
+          description: Whether the genially is shown in inspiration.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_90_days
+          description: Whether the genially has been visualized within the last 90 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_60_days
+          description: Whether the genially has been visualized within the last 60 days.
+          tests:
+            - not_null
+
+        - name: is_visualized_last_30_days
+          description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
+
+        - name: is_collaborative
+          description: Whether the genially is collaborative.
+          tests:
+            - not_null
+
+        - name: is_created_before_registration
+          description: Whether the genially has been created before registration date.
+
+        - name: user_id
+          description: Foreign key referring to the user creating the genially.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('users')
+                field: user_id
+
+        - name: reused_from_id
+          description: Id of the original genially that this one is based on.
+
+        - name: from_template_id
+          description: Id of the template used for the creation of the genially.
+
         - name: team_id
-          description: Foreign key to teams.
+          description: Id of the team this genially is part of.
           tests:
             - not_null
             - relationships:
@@ -14,9 +182,35 @@ models:
                 field: team_id
 
         - name: space_id
-          description: Foreign key to team spaces.
+          description: Id of the space this genially is part of.
           tests:
             - not_null
             - relationships:
                 to: ref('team_spaces')
                 field: team_space_id
+
+        - name: team_template_id
+          description: Id of the genially as a team template.
+
+        - name: from_team_template_id
+          description: Id of the team template used for the creation of the genially.
+
+        - name: modified_at
+          description: Modification date.
+          tests:
+            - not_null
+
+        - name: created_at
+          description: Creation date.
+
+        - name: published_at
+          description: Publication date.
+
+        - name: last_view_at
+          description: Last time the genially was visualized.
+
+        - name: deleted_at
+          description: This refers to the date at which the user moves the Genially to the recycle bin.
+
+        - name: disabled_at
+          description: The date at which the genially is disabled because the team is disabled.
