@@ -29,6 +29,8 @@ final as (
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys.template_is_premium,
+        geniallys.template_language,
         geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
@@ -66,6 +68,7 @@ final as (
         geniallys.space_id,
         geniallys.team_template_id,
         geniallys.from_team_template_id,
+        geniallys.template_to_view_id,
 
         geniallys.modified_at,
         geniallys.created_at,

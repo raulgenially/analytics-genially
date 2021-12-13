@@ -69,7 +69,10 @@ int_geniallys as (
     select
         base_geniallys.*,
         ifnull(unique_templates.template_type, unique_template_geniallys.template_type) as template_type,
-        ifnull(unique_templates.name, unique_template_geniallys.name) as template_name
+        ifnull(unique_templates.name, unique_template_geniallys.name) as template_name,
+        ifnull(unique_templates.is_premium, unique_template_geniallys.is_premium) as template_is_premium,
+        ifnull(unique_templates.language, unique_template_geniallys.language) as template_language,
+        ifnull(unique_templates.genially_to_view_id, unique_template_geniallys.genially_to_view_id) as template_to_view_id
 
     from base_geniallys
     -- Some geniallys.from_template_id point to a genially_id instead of a template_id
@@ -111,6 +114,8 @@ final as (
         {{ map_genially_category('geniallys.template_type', 'geniallys.genially_type') }} as category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys.template_is_premium,
+        geniallys.template_language,
 
         geniallys.is_published,
         geniallys.is_active,
@@ -135,6 +140,7 @@ final as (
         geniallys.space_id,
         geniallys.team_template_id,
         geniallys.from_team_template_id,
+        geniallys.template_to_view_id,
 
         geniallys.created_at,
         geniallys.modified_at,
