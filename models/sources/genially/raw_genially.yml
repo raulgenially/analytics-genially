@@ -164,14 +164,3 @@ sources:
               tests:
                 - unique
                 - not_null
-
-    - name: miscellaneous
-      description: Testing data from different sources.
-      database: data-genially
-      tables:
-        - name: logins
-          columns:
-            - name: user_id
-              description: Primary key for users.
-              tests:
-                - not_null

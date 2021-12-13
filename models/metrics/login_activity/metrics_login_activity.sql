@@ -9,7 +9,7 @@
 {% endset %}
 
 with logins as (
-    select * from {{ ref('src_genially_logins') }}
+    select * from {{ ref('src_ga_logins') }}
 ),
 
 users as (

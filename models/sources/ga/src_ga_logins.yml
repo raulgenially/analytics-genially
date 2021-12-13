@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: src_genially_logins
+    - name: src_ga_logins
       columns:
         - name: login_id
           description: Primary key for refunded invoices.
