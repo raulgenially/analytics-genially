@@ -7,14 +7,7 @@ users as (
     select * from {{ ref('stg_users') }}
 ),
 
-billing_eu as (
-    select
-        *,
-        {{define_eu_countries('payer_country')}} as is_from_eu_country
-    from invoices
-),
-
-billing as (
+base_billing as (
     select
         *,
         if(is_refund, 'Refund', 'Invoice') as invoice_type,
@@ -28,35 +21,61 @@ billing as (
         regexp_extract(description, r'x (.*?)\s') as recurrence,
         regexp_extract(description, r'\s(.*?) License', 5) as plan,
 
+        {{define_eu_countries('payer_country')}} as is_from_eu_country
+    from invoices
+),
+
+int_billing as (
+    select
+        *,
         -- Apply tax to EU countries
         if(
             is_from_eu_country,
             total_euro / 1.21,
             total_euro
-        ) as total_euro_taxed,
-    from billing_eu
+        ) as total_euro_deducted,
+        if(
+            is_from_eu_country,
+            'Communitary',
+            'Extracommunitary'
+        ) as eu,
+        if(
+            is_from_eu_country,
+            'IVA',
+            'No-IVA'
+        ) as iva,
+
+        ifnull(
+            period_end_at,
+            if(
+                recurrence like 'Annual',
+                date(invoiced_at) + 360,
+                date(invoiced_at) + 30
+            )
+        ) as period_end_at_sanitized
+
+    from base_billing
 ),
 
 final as (
     select
-        billing.transaction_id,
-        billing.subscription_id,
-        billing.user_id,
+        billing.id,
 
         billing.invoice_type,
         billing.invoice_number,
         billing.reference_invoice_number,
-
         date_diff(billing.period_end_at, billing.period_start_at, day) as days,
         billing.quantity,
         billing.product,
         billing.recurrence,
         billing.plan,
-        round(billing.total_euro_taxed, 4) as subtotal,
-        round(billing.total_euro - billing.total_euro_taxed, 4) as tax_amount,
+        round(billing.total_euro_deducted, 4) as subtotal,
+        round(billing.total_euro - billing.total_euro_deducted, 4) as tax_amount,
         billing.total_euro as amount,
         billing.total as original_amount,
         billing.currency,
+        billing.eu,
+        billing.iva,
         billing.description,
         billing.payer_email,
         billing.payer_cif,
@@ -67,29 +86,16 @@ final as (
         users.role,
         users.sector,
 
-        if(
-            billing.is_from_eu_country,
-            'Communitary',
-            'Extracommunitary'
-        ) as eu,
-        if(
-            billing.is_from_eu_country,
-            'IVA',
-            'No-IVA'
-        ) as IVA,
+        billing.user_id,
+        billing.subscription_id,
+        billing.transaction_id,
 
         billing.invoiced_at,
         billing.originally_invoiced_at,
-        ifnull(
-            billing.period_end_at,
-            if(
-                billing.recurrence like 'Annual',
-                date(billing.invoiced_at) + 360,
-                date(billing.invoiced_at) + 30
-            )
-        ) as period_end_at
+        billing.period_start_at,
+        billing.period_end_at_sanitized as period_end_at,
 
-    from billing
+    from int_billing as billing
     left join users
         on billing.user_id = users.user_id
 )

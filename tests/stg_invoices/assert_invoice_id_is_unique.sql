@@ -19,24 +19,22 @@ invoices as (
 dup_refunds as (
     select
         invoice_id as unique_field,
-        count(*) as n_records
+        count(invoice_id) as n_records
 
     from refunds
-    where invoice_id is not null
     group by invoice_id
-    having count(*) > 1
+    having n_records > 1
 ),
 
 -- Check that there are no duplicates among invoices
 dup_invoices as (
     select
         invoice_id as unique_field,
-        count(*) as n_records
+        count(invoice_id) as n_records
 
     from invoices
-    where invoice_id is not null
     group by invoice_id
-    having count(*) > 1
+    having n_records > 1
 ),
 
 final as (

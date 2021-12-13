@@ -49,7 +49,7 @@ invoices_normalized as (
         on invoices.invoice_number = refunds.reference_invoice_number
 ),
 
--- We have several invoices with the same invoice_number
+-- We can have several invoices with the same invoice_number
 unique_invoices as (
    {{ unique_records_by_column(
         'invoices',
@@ -99,7 +99,7 @@ unioned as (
 ),
 
 final as (
-    select 
+    select
         {{ dbt_utils.surrogate_key([
             'invoice_id',
             'is_refund'

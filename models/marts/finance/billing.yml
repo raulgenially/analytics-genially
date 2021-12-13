@@ -3,20 +3,12 @@ version: 2
 models:
     - name: billing
       columns:
-        - name: transaction_id
-          description: Id of the transaction in the payment processing platform.
+        - name: id
+          description: Primary key for this model.
           tests:
+            - unique
             - not_null
 
-        - name: subscription_id
-          description: Id of the subscription in the payment processing platform.
-          tests:
-            - not_null
-
-        - name: user_id
-          description: Id of the user making the payment.
-          tests:
-            - not_null
         - name: invoice_type
           description: Invoice type (Invoice or Refund).
           tests:
@@ -25,8 +17,10 @@ models:
         - name: invoice_number
           description: Unique and financial id for the invoice.
           tests:
-            - unique
             - not_null
+
+        - name: reference_invoice_number
+          description: Invoice number of the invoice we are refunding.
 
         - name: days
           description: Duration days of the paid subscription.
@@ -68,6 +62,16 @@ models:
           tests:
             - not_null
 
+        - name: eu
+          description: Indicates if the payer resides into European Union (see define_eu_countries.sql).
+          tests:
+            - not_null
+
+        - name: iva
+          description: Indicates if the payer paid taxes.
+          tests:
+            - not_null
+
         - name: description
           description: Invoice's description with all product information.
           tests:
@@ -102,29 +106,42 @@ models:
             - not_null:
                 where: "date(invoiced_at) < current_date() -1"
 
-        - name: eu
-          description: Indicates if the payer resides into European Union (see define_eu_countries.sql).
-          tests:
-            - not_null
-
-        - name: IVA
-          description: Indicates if the payer paid taxes.
-          tests:
-            - not_null
-
         - name: sector
           description: Payer sector.
           tests:
             - not_null:
                 where: "date(invoiced_at) < current_date() -1"
 
+        - name: user_id
+          description: Id of the user making the payment.
+          tests:
+            - not_null
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+          tests:
+            - not_null
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+          tests:
+            - not_null
+
         - name: invoiced_at
           description: Date at which the invoice was created.
           tests:
             - not_null
 
+        - name: originally_invoiced_at
+          description: For refunds, date time at which the invoice we are refunding was invoiced.
+            For regular invoices, same date time as invoiced_at.
+          tests:
+            - not_null
+
         - name: period_end_at
           description: Date at which the paid subscription will end.
+          tests:
+            - not_null
 
       tests:
         - dbt_utils.expression_is_true:

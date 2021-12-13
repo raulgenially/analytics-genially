@@ -55,9 +55,16 @@ models:
 
         - name: is_refund
           description: Whether this invoice is refunding a previous invoice or not.
+          tests:
+            - not_null
 
         - name: user_id
           description: Id of the user making the payment.
+          tests:
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                where: invoiced_at > '2018-01-18'
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -75,8 +82,7 @@ models:
           description: For refunds, date time at which the invoice we are refunding was invoiced.
             For regular invoices, same date time as invoiced_at.
           tests:
-            - not_null:
-                where: "is_refund = true"
+            - not_null
 
       tests:
         - dbt_utils.expression_is_true:
