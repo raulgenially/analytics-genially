@@ -11,29 +11,25 @@ models:
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
 
         - name: sector_code
-          description: Sector code (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
 
         - name: sector
-          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: broad_sector
-          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: role_code
-          description: Role code (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
 
         - name: role
-          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
           tests:
             - not_null
 
@@ -44,13 +40,9 @@ models:
 
         - name: country
           description: Country (ISO code).
-          tests:
-            - not_null
 
         - name: email
           description: Email account (same as username).
-          tests:
-            - not_null
 
         - name: nickname
           description: User nickname in genially.
@@ -81,8 +73,6 @@ models:
 
         - name: is_validated
           description: Whether the user has validated their account.
-          tests:
-            - not_null
 
         - name: is_social_profile_active
           description: Whether the user's social profile is active or not.
@@ -94,3 +84,9 @@ models:
 
         - name: last_access_at
           description: Last access date.
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "broad_sector = sector"
+            condition: "broad_sector = '{{ var('not_selected') }}'
+              or sector = '{{ var('not_selected') }}'"

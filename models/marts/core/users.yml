@@ -17,17 +17,17 @@ models:
                 values: "{{ get_plan_values() }}"
 
         - name: sector
-          description: Sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: broad_sector
-          description: Broad categories for sector (see data/new_sector_codes.csv and data/old_sector_codes.csv).
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:
             - not_null
 
         - name: role
-          description: Role (see data/new_role_codes.csv and data/old_role_codes.csv).
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
           tests:
             - not_null
 
@@ -192,3 +192,17 @@ models:
 
         - name: last_access_at
           description: Last access date.
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "country_name = '{{ var('not_selected') }}'"
+            condition: "country = '{{ var('not_selected') }}'"
+
+        - dbt_utils.expression_is_true:
+            expression: "n_active_creations <= n_total_creations"
+
+        - dbt_utils.expression_is_true:
+            expression: "has_creation_visualized_last_30_days = false
+              and has_creation_visualized_last_60_days = false
+              and has_creation_visualized_last_90_days = false"
+            condition: "n_total_creations = 0"

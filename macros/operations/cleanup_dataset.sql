@@ -7,7 +7,7 @@
     {% if execute %}
         {% set current_model_locations={} %}
 
-        {% for node in graph.nodes.values() | selectattr("resource_type", "in", ["model", "seed", "snapshot"])%}
+        {% for node in graph.nodes.values() | selectattr("resource_type", "in", ["model", "seed"])%}
             {% if not node.database in current_model_locations %}
                 {% do current_model_locations.update({node.database: {}}) %}
             {% endif %}

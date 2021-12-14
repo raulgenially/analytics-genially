@@ -10,7 +10,7 @@ with users as (
 ),
 
 role_codes as (
-    select * from {{ ref('role_codes') }}
+    select * from {{ ref('util_role_codes') }}
 ),
 
 final as (

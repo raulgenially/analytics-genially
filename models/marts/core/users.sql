@@ -3,7 +3,7 @@ with users as (
 ),
 
 country_codes as (
-    select * from {{ ref('country_codes') }}
+    select * from {{ ref('seed_country_codes') }}
 ),
 
 geniallys as (
