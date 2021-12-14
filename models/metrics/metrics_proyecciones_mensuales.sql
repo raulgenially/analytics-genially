@@ -54,10 +54,9 @@ signups as (
     cross join dates
     where date(users.registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
         and dates.date_day = date(users.registered_at)
-    group by 1, 2, 3, 4, 5, 6, 7, 8, 9
+    group by 1, 2, 3, 4, 5, 6, 7, 8, 9    
     order by 1
 ),    
-
 
 creations as(
 select 
@@ -155,6 +154,16 @@ uniquecreators as(
     from creators
     group by 1
 ),
+--if a collaboration started before the user is registered, the creation date should be equal to user's registered date:
+totalcreators as (
+    select 
+        uniquecreators.user_id,
+        min (if (date(first_creation_at)< date(users.registered_at),date(users.registered_at),date(first_creation_at))) as first_creation_at
+    from uniquecreators
+    left join users
+        on uniquecreators.user_id= users.user_id
+    group by 1
+),
 
 new_creators as (
     select 
@@ -170,12 +179,12 @@ new_creators as (
     -- Metrics
 	count(distinct users.user_id) as n_new_creators
 	
-from uniquecreators
+from totalcreators
 inner join users 
-	on uniquecreators.user_id = users.user_id 
+	on totalcreators.user_id = users.user_id 
 cross join dates
-where date(uniquecreators.first_creation_at) >= {{ min_date }} 
-    and dates.date_day = date(uniquecreators.first_creation_at)
+where date(totalcreators.first_creation_at) >= {{ min_date }} 
+    and dates.date_day = date(totalcreators.first_creation_at)
     and users.registered_at is not null
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9
     order by 1
@@ -226,13 +235,13 @@ new_creators_registered_same_day as (
     -- Metrics
 	count(distinct users.user_id) as n_new_creators_registered_same_day
 	
-from uniquecreators
+from totalcreators
 inner join users 
-	on uniquecreators.user_id = users.user_id
-    and date(uniquecreators.first_creation_at)=date(users.registered_at) 
+	on totalcreators.user_id = users.user_id
+    and date(totalcreators.first_creation_at)=date(users.registered_at) 
 cross join dates
-where date(uniquecreators.first_creation_at) >= {{ min_date }} 
-    and dates.date_day = date(uniquecreators.first_creation_at)
+where date(totalcreators.first_creation_at) >= {{ min_date }} 
+    and dates.date_day = date(totalcreators.first_creation_at)
     and users.registered_at is not null
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9
     order by 1
@@ -256,7 +265,7 @@ final as(
         coalesce(cast(metrics_2.n_creations as int64),0) as n_creations,
         coalesce(cast(metrics_2.n_new_creators as int64),0) as n_new_creators,        
         coalesce(cast(new_creators_registered_same_day.n_new_creators_registered_same_day as int64),0) as n_new_creators_registered_same_day,
-        coalesce(cast(metrics_2.n_new_creators as int64),0) - coalesce(cast(new_creators_registered_same_day.n_new_creators_registered_same_day as int64),0) as n_new_creators_previously_registered
+        coalesce(cast(metrics_2.n_new_creators as int64),0) - coalesce(cast(new_creators_registered_same_day.n_new_creators_registered_same_day as int64),0) as n_new_creators_previously_registered       
 
     from metrics_2
     full outer join new_creators_registered_same_day
@@ -269,18 +278,60 @@ final as(
             and metrics_2.broad_role = new_creators_registered_same_day.broad_role
             and metrics_2.country = new_creators_registered_same_day.country
             and metrics_2.country_name = new_creators_registered_same_day.country_name
-    order by date_day
+    order by    date_day,
+                plan,
+                subscription,
+                sector,
+                broad_sector,
+                country,
+                country_name
+),
+
+final2 as (
+    select 
+    date_day,
+    plan,
+    subscription,
+    sector,
+    broad_sector,
+    role,
+    broad_role,
+    country,
+    country_name,
+    n_signups,
+    n_creations,
+    n_new_creators,
+    n_new_creators_registered_same_day,
+    n_new_creators_previously_registered,
+    lag(n_signups, {{ week_days }}) over (
+            partition by 
+                plan,
+                subscription,
+                sector,
+                broad_sector,
+                role,
+                broad_role,
+                country,
+                country_name
+            order by 
+                date_day asc
+    ) as n_signups_previous_7d
+
+    from final
 )
 
-select * from final
+select * from final2 where date_day >'2021-11-07'
+--select * from final where date_day='2021-11-15'
+--where n_signups_previous_7d <> 0 and n_signups_previous_7d is not null*/
 
-/*
-select  date_day,
+
+/*select  date_day,
 sum(n_signups) as n_signups,
 sum(n_creations) as n_creations,
 sum(n_new_creators) as n_new_creators,
 sum(n_new_creators_registered_same_day) as n_new_creators_registered_same_day,
-sum(n_new_creators_previously_registered) as n_new_creators_previously_registered
-from final
+sum(n_new_creators_previously_registered) as n_new_creators_previously_registered,
+sum(n_signups_previous_7d) as n_signups_previous_7d
+from final2
 group by 1
 order by 1*/
