@@ -5,7 +5,8 @@
         unique_key='_id',
         strategy='timestamp',
         updated_at='etl_loaded_at',
-        invalidate_hard_deleted=True
+        invalidate_hard_deleted=True,
+        cluster_by='etl_loaded_at'
       )
     }}
 
