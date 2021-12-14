@@ -138,6 +138,11 @@ models:
           tests:
             - not_null
 
+        - name: period_start_at
+          description: Date at which the paid subscription starts.
+          tests:
+            - not_null
+
         - name: period_end_at
           description: Date at which the paid subscription will end.
           tests:

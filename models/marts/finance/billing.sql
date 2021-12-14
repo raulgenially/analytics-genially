@@ -46,6 +46,11 @@ int_billing as (
         ) as iva,
 
         ifnull(
+            period_start_at,
+            date(invoiced_at)
+        ) as period_start_at_sanitized,
+
+        ifnull(
             period_end_at,
             if(
                 recurrence like 'Annual',
@@ -92,7 +97,7 @@ final as (
 
         billing.invoiced_at,
         billing.originally_invoiced_at,
-        billing.period_start_at,
+        billing.period_start_at_sanitized as period_start_at,
         billing.period_end_at_sanitized as period_end_at,
 
     from int_billing as billing

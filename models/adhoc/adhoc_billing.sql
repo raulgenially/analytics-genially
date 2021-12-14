@@ -26,7 +26,7 @@ select
     billing.payer_country,
     if(billing.payment_platform in ('Paypal', 'Braintree'), 'Paypal '||billing.currency, billing.payment_platform) as payment_method,
     billing.eu,
-    billing.IVA,
+    billing.iva as IVA,
     '705' as canal,
     billing.transaction_id,
     billing.subscription_id,

@@ -110,6 +110,8 @@ models:
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
             When a Team is disabled, so do all geniallys within the team.
+          tests:
+            - not_null
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
@@ -158,6 +160,11 @@ models:
 
         - name: is_created_before_registration
           description: Whether the genially has been created before registration date.
+
+        - name: is_team_disabled
+          description: Whether the team this genially belongs to is disabled
+          tests:
+            - not_null
 
         - name: user_id
           description: Foreign key referring to the user creating the genially.
@@ -214,3 +221,12 @@ models:
 
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
+
+        - name: team_created_at
+          description: The date at which the team this genially belongs to was created.
+          tests:
+            - not_null
+
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "is_disabled = is_team_disabled"
