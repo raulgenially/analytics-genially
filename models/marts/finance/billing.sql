@@ -53,7 +53,7 @@ int_billing as (
         ifnull(
             period_end_at,
             if(
-                recurrence like 'Month',
+                recurrence like '%Month%',
                 date(invoiced_at) + 30,
                 date(invoiced_at) + 360
             )
