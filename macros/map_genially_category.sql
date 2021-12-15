@@ -20,8 +20,6 @@
             then 'Personal Branding'
         when {{ template_type }} in ('template-headers', 'template-post-h', 'template-post-s', 'template-post-v', 'template-interactive-cards')
             then 'Social'
-        when {{ template_type }} = 'template-hidden'
-            then 'Template Hidden'
         when {{ genially_type }} = 17
             then 'Blank Creation'
         when {{ genially_type }} = 27
