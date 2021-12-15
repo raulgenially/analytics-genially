@@ -14,6 +14,8 @@ models:
           description: Template type.
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_template_type_values() }}"
 
         - name: subcategory
           description: Template subcategory.
@@ -56,7 +58,7 @@ models:
           description: Id of the actual genially referring to this template.
           tests:
             - not_null
-           
+
         - name: genially_to_view_id
           description: Id of the actual genially referring to this template when visualized.
           tests:
