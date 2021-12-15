@@ -17,7 +17,7 @@ users as (
 ),
 
 user_usage as (
-    select distinct
+    select
         users.user_id,
         {{ place_main_dimension_fields('users') }}
         date(users.registered_at) as first_usage_at
@@ -56,7 +56,7 @@ user_day_traffic as (
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
-        max(logins.user_id is not null) as is_active,
+        max(user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
