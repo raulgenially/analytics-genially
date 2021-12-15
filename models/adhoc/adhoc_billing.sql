@@ -10,7 +10,7 @@ select
     format_date('%d/%m/%Y', billing.invoiced_at) as invoiced_date,
     format_date('%d/%m/%Y', billing.period_end_at) as invoice_end_date,
     days,
-    if(billing.product like '%Team%', '5', quantity) as quantity,
+    if(billing.product like '%Team%', '5', cast(quantity as string)) as quantity,
     regexp_replace(billing.product, r'(.*)Team*.', r'\1 Master') as product,
     billing.recurrence,
     billing.plan,

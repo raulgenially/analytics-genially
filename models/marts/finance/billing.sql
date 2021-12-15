@@ -53,9 +53,9 @@ int_billing as (
         ifnull(
             period_end_at,
             if(
-                recurrence like 'Annual',
-                date(invoiced_at) + 360,
-                date(invoiced_at) + 30
+                recurrence like 'Month',
+                date(invoiced_at) + 30,
+                date(invoiced_at) + 360
             )
         ) as period_end_at_sanitized
 
@@ -69,8 +69,15 @@ final as (
         billing.invoice_type,
         billing.invoice_number,
         billing.reference_invoice_number,
-        date_diff(billing.period_end_at, billing.period_start_at, day) as days,
-        billing.quantity,
+        date_diff(
+            billing.period_end_at_sanitized,
+            billing.period_start_at_sanitized,
+            day
+        ) as days,
+        ifnull(
+            cast(billing.quantity as int64),
+            1
+        ) as quantity,
         billing.product,
         billing.recurrence,
         billing.plan,

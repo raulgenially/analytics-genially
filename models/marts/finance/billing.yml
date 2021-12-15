@@ -27,6 +27,8 @@ models:
 
         - name: quantity
           description: Number of subscriptions that have been paid.
+          tests:
+            - not_null
 
         - name: product
           description: Type of purchased plan or service and it recurrence.
