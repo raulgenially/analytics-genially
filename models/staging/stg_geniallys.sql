@@ -70,7 +70,7 @@ int_geniallys as (
         base_geniallys.*,
         ifnull(unique_templates.template_type, unique_template_geniallys.template_type) as template_type,
         ifnull(unique_templates.name, unique_template_geniallys.name) as template_name,
-        ifnull(unique_templates.is_premium, unique_template_geniallys.is_premium) as template_is_premium,
+        ifnull(unique_templates.is_premium, unique_template_geniallys.is_premium) as is_from_premium_template,
         ifnull(unique_templates.language, unique_template_geniallys.language) as template_language,
         ifnull(unique_templates.genially_to_view_id, unique_template_geniallys.genially_to_view_id) as template_to_view_id
 
@@ -114,9 +114,9 @@ final as (
         {{ map_genially_category('geniallys.template_type', 'geniallys.genially_type') }} as category,
         geniallys.template_type,
         geniallys.template_name,
-        geniallys.template_is_premium,
         geniallys.template_language,
 
+        geniallys.is_from_premium_template,
         geniallys.is_published,
         geniallys.is_active,
         geniallys.is_in_recyclebin,

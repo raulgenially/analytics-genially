@@ -29,7 +29,6 @@ final as (
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
-        geniallys.template_is_premium,
         geniallys.template_language,
         geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
@@ -39,6 +38,7 @@ final as (
         users.broad_role as user_broad_role,
         users.country as user_country,
 
+        geniallys.is_from_premium_template,
         geniallys.is_published,
         geniallys.is_active,
         geniallys.is_in_recyclebin,

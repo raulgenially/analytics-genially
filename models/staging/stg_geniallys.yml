@@ -38,6 +38,8 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: template_name
@@ -45,14 +47,8 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
-                severity: warn
-
-        - name: template_is_premium
-          description: Whether the template is premium.
-            Premium templates can only be used in premium plans.
-          tests:
-            - not_null:
-                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: template_language
@@ -60,6 +56,18 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
+
+        - name: is_from_premium_template
+          description: Whether the template is premium.
+            Premium templates can only be used in premium plans.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: is_published
@@ -146,6 +154,8 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: modified_at
