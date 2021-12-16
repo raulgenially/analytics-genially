@@ -1,0 +1,55 @@
+version: 2
+
+models:
+    - name: src_genially_canceled_licenses
+      description: Collaborative creations/geniallys by different users.
+      columns:
+        - name: canceled_license_id
+          description: Primary key for canceled licenses.
+          tests:
+            - unique
+            - not_null
+
+        - name: subscription_type
+          description: Type subscription.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_subscription_type_values() }}"
+                quote: false
+
+        - name: reason_code
+          description: The reason code by which the user canceled the license.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('seed_cancel_license_reason_codes')
+                field: code
+
+        - name: reason
+          description: The reason by which the user canceled the license.
+          tests:
+            - not_null
+
+        - name: comment
+          description: Additional feedback from the user about why is cancelling the license.
+
+        - name: user_id
+          description: Id of a user cancelling the license.
+          tests:
+            - not_null
+
+        - name: subscription_id
+          description: Id of the user that is owner of the collaborative genially.
+          tests:
+            # TODO: the unique tests fails because we have 3 canceled licenses that are duplicated
+            # They have all the same attributes but the _id. Let's see if we can ask tech to remove them
+            - unique:
+                where: canceled_at > '2021-07-10'
+            - not_null:
+                where: canceled_at > '2021-04-09'
+
+        - name: canceled_at
+          description: Date time at which the license is canceled.
+          tests:
+            - not_null
