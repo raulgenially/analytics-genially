@@ -231,13 +231,13 @@ models:
         - name: from_team_template_id
           description: Id of the team template used for the creation of the genially.
 
+        - name: created_at
+          description: Creation date.
+
         - name: modified_at
           description: Modification date.
           tests:
             - not_null
-
-        - name: created_at
-          description: Creation date.
 
         - name: published_at
           description: Publication date.

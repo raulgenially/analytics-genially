@@ -158,11 +158,11 @@ models:
                 # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
-        - name: modified_at
-          description: Modification date.
-
         - name: created_at
           description: Creation date.
+
+        - name: modified_at
+          description: Modification date.
 
         - name: published_at
           description: Publication date.

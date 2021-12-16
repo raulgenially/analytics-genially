@@ -70,8 +70,8 @@ final as (
         geniallys.from_team_template_id,
         geniallys.template_to_view_id,
 
-        geniallys.modified_at,
         geniallys.created_at,
+        geniallys.modified_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
