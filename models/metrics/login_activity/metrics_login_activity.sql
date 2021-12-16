@@ -117,6 +117,10 @@ final as (
         status_7d,
         n_days_active_28d,
         status_28d,
+        lag(status, 1) over (
+            partition by user_id
+            order by n_days_since_first_usage asc
+        ) as previous_status,
         lag(status_7d, {{ week_days }}) over (
             partition by user_id
             order by n_days_since_first_usage asc

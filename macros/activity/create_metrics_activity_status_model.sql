@@ -1,12 +1,7 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
-{% macro create_activity_status_model(status) %}
+{% macro create_metrics_activity_status_model(activity, status) %}
 
-with activity as (
-    select * from {{ ref('metrics_login_activity') }}
-
-),
-
-final as (
+with final as (
     select
         -- Dimensions
         date_day,
@@ -22,7 +17,7 @@ final as (
         -- Metrics
         count(user_id) as n_users
 
-    from activity
+    from {{ activity }}
     where {{ status }} in ('New', 'Current')
     {{ dbt_utils.group_by(n=9) }}
 
@@ -37,7 +32,7 @@ final as (
         -- Metrics
         count(user_id) as n_users
 
-    from activity
+    from {{ activity }}
     where {{ status }} in ('New', 'Current')
     {{ dbt_utils.group_by(n=9) }}
 )

@@ -1,5 +1,10 @@
-with final as (
-    {{ create_activity_status_model('status_28d') }}
+with activity as (
+    select * from {{ ref('metrics_login_activity') }}
+
+),
+
+final as (
+    {{ create_metrics_activity_status_model('activity', 'status_28d') }}
 )
 
 select * from final
