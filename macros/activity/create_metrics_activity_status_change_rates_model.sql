@@ -6,13 +6,14 @@ with denominator as (
         -- Dimensions
         date_day,
         previous_{{ status }},
+        {{ place_main_dimension_fields('activity') }}
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    group by 1, 2
+    {{ dbt_utils.group_by(n=9) }}
 ),
 
 numerator as (
@@ -21,13 +22,14 @@ numerator as (
         date_day,
         previous_{{ status }},
         {{ status }},
+        {{ place_main_dimension_fields('activity') }}
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=3) }}
+    {{ dbt_utils.group_by(n=10) }}
 ),
 
 final as (
@@ -36,6 +38,7 @@ final as (
         denominator.date_day,
         denominator.previous_{{ status }},
         numerator.{{ status }},
+        {{ place_main_dimension_fields('denominator') }}
         case
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
                 then 'Activation'
@@ -59,6 +62,13 @@ final as (
     left join numerator
         on denominator.date_day = numerator.date_day
             and denominator.previous_{{ status }} = numerator.previous_{{ status }}
+            and denominator.plan = numerator.plan
+            and denominator.sector = numerator.sector
+            and denominator.broad_sector = numerator.broad_sector
+            and denominator.role = numerator.role
+            and denominator.broad_role = numerator.broad_role
+            and denominator.country = numerator.country
+            and denominator.country_name = numerator.country_name
     order by 1 asc
 )
 
