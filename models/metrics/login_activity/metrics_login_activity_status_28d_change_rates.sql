@@ -3,7 +3,7 @@ with activity as (
 ),
 
 final as (
-    {{ create_metrics_activity_status_model('activity', 'status_7d') }}
+    {{ create_metrics_activity_status_change_rates_model('activity', 'status_28d') }}
 )
 
 select * from final
