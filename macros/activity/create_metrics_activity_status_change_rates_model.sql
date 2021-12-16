@@ -69,7 +69,6 @@ final as (
             and denominator.broad_role = numerator.broad_role
             and denominator.country = numerator.country
             and denominator.country_name = numerator.country_name
-    order by 1 asc
 )
 
 select * from final

@@ -15,7 +15,6 @@ final as (
 
     from activity
     {{ dbt_utils.group_by(n=8) }}
-    order by 1 asc
 )
 
 select * from final
