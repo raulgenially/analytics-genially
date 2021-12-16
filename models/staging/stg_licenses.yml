@@ -1,0 +1,73 @@
+version: 2
+
+models:
+    - name: stg_licenses
+      description: Information about the licenses the users purchase and its
+        metadata when they have been canceled
+      columns:
+        - name: license_id
+          description: Primary key for licenses.
+          tests:
+            - unique
+            - not_null
+
+        - name: status
+          description: The status of the subscription,
+            either Finished, Pending or Canceled.
+            **Finished** means the license has been paid and it is active.
+            **Pending** means the license has an outstanding payment.
+            **Canceled** means the user has canceled the subscription.
+
+        - name: license_type
+          description: Identifier of the type of license.
+            This describes whether the license has a monthly or annual payment
+            and the degree of feature access to the platform.
+
+        - name: comments
+          description: Notes on the license.
+
+        - name: user_ip
+          description: Ip address from which the user purchased the license.
+
+        - name: canceled_reason_code
+          description: The reason code by which the user canceled the license
+
+        - name: canceled_reason
+          description: The reason by which the user canceled the license
+          tests:
+            - not_null:
+                where: canceled_reason_code is not null
+
+        - name: canceled_comment
+          description: Additional feedback from the user about why is cancelling the license.
+
+        - name: user_id
+          description: Id of the User purchasing the license.
+
+        - name: payer_id
+          description: Id of the user in the payment processing platform
+            used (e.g. Stripe or Braintree).
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+            Each recurrent payment will have a different transaction_id.
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+
+        - name: started_at
+          description: Date time the license starts.
+
+        - name: finished_at
+          description: Date time the license finished. This field is filled in once the license
+            is canceled (see status field)
+
+        - name: manual_finished_at
+          description: Date time the license will be finished.
+            This is set by genially employees to a future date.
+
+        - name: canceled_at
+          description: Date time at which the license is canceled.
+          tests:
+            - not_null:
+                where: canceled_reason_code is not null
