@@ -106,13 +106,13 @@ models:
           description: Payer role.
           tests:
             - not_null:
-                where: "date(invoiced_at) < current_date() -1"
+                where: "date(invoiced_at) < current_date()"
 
         - name: sector
           description: Payer sector.
           tests:
             - not_null:
-                where: "date(invoiced_at) < current_date() -1"
+                where: "date(invoiced_at) < current_date()"
 
         - name: user_id
           description: Id of the user making the payment.
