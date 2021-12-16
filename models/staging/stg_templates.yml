@@ -62,9 +62,6 @@ models:
             - relationships:
                 to: ref('src_genially_geniallys')
                 field: genially_id
-                # TODO https://github.com/Genially/scrum-genially/issues/7862
-                # remove this when affected templates are deleted
-                severity: warn
 
         - name: genially_to_view_id
           description: Id of the actual genially referring to this template when visualized. If we are dealing
@@ -76,6 +73,3 @@ models:
             - relationships:
                 to: ref('src_genially_geniallys')
                 field: genially_id
-                # TODO https://github.com/Genially/scrum-genially/issues/7862
-                # remove this when affected templates are deleted
-                severity: warn
