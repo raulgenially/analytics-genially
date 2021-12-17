@@ -1,4 +1,5 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
+-- Compute change rates between stages. For example: activation (new -> current), retention (current -> current), etc.
 {% macro create_metrics_activity_status_change_rates_model(activity, status) %}
 
 with denominator as (
@@ -43,7 +44,7 @@ final as (
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
                 then 'Activation'
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Churned'
-                then 'Churn'
+                then 'Inactivation'
             when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Current'
                 then 'Retention'
             when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Churned'
@@ -51,12 +52,12 @@ final as (
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
                 then 'Resurrection'
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Churned'
-                then 'Churn'
+                then 'Dozing'
         end as transition_type,
 
         -- Metrics
-        denominator.n_users as n_total_users_previous_{{ status }},
-        numerator.n_users as n_passing_users_{{ status }}
+        denominator.n_users as n_initial_users,
+        numerator.n_users as n_passing_users
 
     from denominator
     left join numerator

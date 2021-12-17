@@ -1,4 +1,5 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
+-- Calculate the number of active users (active users = signups + current users)
 {% macro create_metrics_activity_status_model(activity, status) %}
 
 with final as (
