@@ -1,19 +1,5 @@
 with billing as(
     select * from {{ ref('billing') }}
-),
-
-refunds as (
-    select
-        invoice_number,
-        reference_invoice_number
-    from {{ ref('src_genially_refund_invoices') }}
-),
-
-invoices as (
-    select
-        invoice_number,
-        invoiced_at
-    from {{ ref('src_genially_invoices') }}
 )
 
 select
@@ -24,7 +10,7 @@ select
     format_date('%d/%m/%Y', billing.invoiced_at) as invoiced_date,
     format_date('%d/%m/%Y', billing.period_end_at) as invoice_end_date,
     days,
-    if(billing.product like '%Team%', '5', quantity) as quantity,
+    if(billing.product like '%Team%', '5', cast(quantity as string)) as quantity,
     regexp_replace(billing.product, r'(.*)Team*.', r'\1 Master') as product,
     billing.recurrence,
     billing.plan,
@@ -40,7 +26,7 @@ select
     billing.payer_country,
     if(billing.payment_platform in ('Paypal', 'Braintree'), 'Paypal '||billing.currency, billing.payment_platform) as payment_method,
     billing.eu,
-    billing.IVA,
+    billing.iva as IVA,
     '705' as canal,
     billing.transaction_id,
     billing.subscription_id,
@@ -48,10 +34,15 @@ select
     billing.payer_name,
     billing.role,
     billing.sector,
-    refunds.reference_invoice_number,
-    format_date('%d/%m/%Y', invoices.invoiced_at) as refund_original_invoice_date
+    billing.reference_invoice_number,
+    format_date(
+        '%d/%m/%Y',
+        if(
+            billing.invoice_type = 'Refund',
+            billing.originally_invoiced_at,
+            null
+        )
+    ) as refund_original_invoice_date
 
 from billing
-left join refunds ON billing.invoice_number = refunds.invoice_number
-left join invoices ON refunds.reference_invoice_number = invoices.invoice_number
 where date(billing.invoiced_at) >= current_date() - 30

@@ -34,7 +34,6 @@ models:
             - relationships:
                 to: ref('seed_country_codes')
                 field: code
-                severity: 'warn' #TODO: remove this once all pending invoices have been fixed
 
         - name: total
           description: Amount of monetary value paid in the currency

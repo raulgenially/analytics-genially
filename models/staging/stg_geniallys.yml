@@ -15,12 +15,6 @@ models:
         - name: name
           description: Genially name.
 
-        - name: team_name
-          description: Name of the team this genially belongs to.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
-
         - name: source
           description: Genially source.
           tests:
@@ -38,6 +32,8 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: template_name
@@ -45,6 +41,27 @@ models:
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
+
+        - name: template_language
+          description: Language of the template.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
+
+        - name: is_from_premium_template
+          description: Whether the template is premium.
+            Premium templates can only be used in premium plans.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
         - name: is_published
@@ -65,12 +82,6 @@ models:
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
             When a Team is disabled, so do all geniallys within the team.
-
-        - name: is_team_disabled
-          description: Indicates whether the team itself this genially belongs to is disabled.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
 
         - name: is_private
           description: Whether the genially can be indexed by search engines.
@@ -123,11 +134,23 @@ models:
         - name: from_team_template_id
           description: Id of the team template used for the creation of the genially.
 
-        - name: modified_at
-          description: Modification date.
+        - name: template_to_view_id
+          description: Id of the actual genially referring to this template when visualized. If we are dealing
+            with the main template this will include the genially_id_to_view_id from the template model. If we
+            are dealing with a color variation, it will include the genially_id_to_view_id attribute from the
+            templatecolors model.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
 
         - name: created_at
           description: Creation date.
+
+        - name: modified_at
+          description: Modification date.
 
         - name: published_at
           description: Publication date.
@@ -141,17 +164,7 @@ models:
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
 
-        - name: team_created_at
-          description: The date the team was created.
-          tests:
-            - not_null:
-                where: "team_id is not null and is_active = true"
-
       tests:
-        - dbt_utils.expression_is_true:
-            expression: "is_disabled = true"
-            condition: "is_team_disabled = true"
-
         - dbt_utils.expression_is_true:
             expression: "category != 'Other'"
             condition: "template_type is not null"

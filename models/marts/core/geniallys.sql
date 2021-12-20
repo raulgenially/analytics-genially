@@ -24,11 +24,11 @@ final as (
 
         geniallys.plan as genially_plan,
         geniallys.name,
-        geniallys.team_name,
         geniallys.source,
         geniallys.category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys.template_language,
         geniallys_collaboratives.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
@@ -37,6 +37,7 @@ final as (
         users.broad_role as user_broad_role,
         users.country as user_country,
 
+        geniallys.is_from_premium_template,
         geniallys.is_published,
         geniallys.is_active,
         geniallys.is_in_recyclebin,
@@ -66,14 +67,14 @@ final as (
         geniallys.space_id,
         geniallys.team_template_id,
         geniallys.from_team_template_id,
+        geniallys.template_to_view_id,
 
-        geniallys.modified_at,
         geniallys.created_at,
+        geniallys.modified_at,
         geniallys.published_at,
         geniallys.last_view_at,
         geniallys.deleted_at,
         geniallys.disabled_at,
-        geniallys.team_created_at
 
     from geniallys
     inner join users

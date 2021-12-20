@@ -12,7 +12,6 @@ final as (
         payer_cif,
         payer_address,
         payer_country,
-        -- force all totals to be negative
         total_float as total,
         total_euro_float as total_euro,
         cleaned_currency as currency,

@@ -19,9 +19,6 @@ models:
         - name: name
           description: Genially name.
 
-        - name: team_name
-          description: Name of the team this genially belongs to.
-
         - name: source
           description: Genially source.
           tests:
@@ -39,6 +36,21 @@ models:
 
         - name: template_name
           description: Name of the template.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
+
+        - name: template_language
+          description: Language of the template.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"
@@ -76,6 +88,16 @@ models:
           description: Country (ISO code).
           tests:
             - not_null
+
+        - name: is_from_premium_template
+          description: Whether the template is premium.
+            Premium templates can only be used in premium plans.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
 
         - name: is_published
           description: Whether the genially has been published.
@@ -168,6 +190,18 @@ models:
         - name: from_template_id
           description: Id of the template used for the creation of the genially.
 
+        - name: template_to_view_id
+          description: Id of the actual genially referring to this template when visualized. If we are dealing
+            with the main template this will include the genially_id_to_view_id from the template model. If we
+            are dealing with a color variation, it will include the genially_id_to_view_id attribute from the
+            templatecolors model.
+          tests:
+            - not_null:
+                where: from_template_id is not null and is_active = true
+                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
+                # We have geniallys with id_from_template of non-existent templates.
+                severity: warn
+
         - name: team_id
           description: Id of the team this genially is part of.
           tests:
@@ -194,13 +228,13 @@ models:
         - name: from_team_template_id
           description: Id of the team template used for the creation of the genially.
 
+        - name: created_at
+          description: Creation date.
+
         - name: modified_at
           description: Modification date.
           tests:
             - not_null
-
-        - name: created_at
-          description: Creation date.
 
         - name: published_at
           description: Publication date.
@@ -213,9 +247,6 @@ models:
 
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
-
-        - name: team_created_at
-          description: The date the team was created.
 
       tests:
       - dbt_utils.expression_is_true:

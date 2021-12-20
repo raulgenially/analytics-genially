@@ -17,10 +17,6 @@ inspiration as (
     select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
 ),
 
-teams as (
-    select * from {{ ref('src_genially_teams') }}
-),
-
 genially_templates as (
     select distinct
         genially_id
@@ -69,7 +65,10 @@ int_geniallys as (
     select
         base_geniallys.*,
         ifnull(unique_templates.template_type, unique_template_geniallys.template_type) as template_type,
-        ifnull(unique_templates.name, unique_template_geniallys.name) as template_name
+        ifnull(unique_templates.name, unique_template_geniallys.name) as template_name,
+        ifnull(unique_templates.is_premium, unique_template_geniallys.is_premium) as is_from_premium_template,
+        ifnull(unique_templates.language, unique_template_geniallys.language) as template_language,
+        ifnull(unique_templates.genially_to_view_id, unique_template_geniallys.genially_to_view_id) as template_to_view_id
 
     from base_geniallys
     -- Some geniallys.from_template_id point to a genially_id instead of a template_id
@@ -88,7 +87,6 @@ final as (
 
         geniallys.subscription_plan as plan,
         geniallys.name,
-        teams.name as team_name,
         case
             when geniallys.reused_from_id is not null
                 then
@@ -111,14 +109,15 @@ final as (
         {{ map_genially_category('geniallys.template_type', 'geniallys.genially_type') }} as category,
         geniallys.template_type,
         geniallys.template_name,
+        geniallys.template_language,
 
+        geniallys.is_from_premium_template,
         geniallys.is_published,
         geniallys.is_active,
         geniallys.is_in_recyclebin,
         geniallys.is_logically_deleted,
         geniallys.is_deleted,
         geniallys.is_disabled,
-        teams.is_disabled as is_team_disabled,
         geniallys.is_private,
         geniallys.is_password_free,
         geniallys.is_in_social_profile,
@@ -135,6 +134,7 @@ final as (
         geniallys.space_id,
         geniallys.team_template_id,
         geniallys.from_team_template_id,
+        geniallys.template_to_view_id,
 
         geniallys.created_at,
         geniallys.modified_at,
@@ -142,11 +142,8 @@ final as (
         geniallys.last_view_at,
         geniallys.deleted_at,
         geniallys.disabled_at,
-        teams.created_at as team_created_at
 
     from int_geniallys as geniallys
-    left join teams
-        on geniallys.team_id = teams.team_id
     left join inspiration
         on geniallys.reused_from_id = inspiration.genially_id
 )
