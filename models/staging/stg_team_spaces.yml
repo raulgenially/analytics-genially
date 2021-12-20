@@ -33,6 +33,7 @@ models:
             - relationships:
                 to: ref('stg_team_members')
                 field: team_member_id
+                severity: warn # TODO: review when we address the team data model refactor
 
         - name: created_at
           description: Date time this space was created.
