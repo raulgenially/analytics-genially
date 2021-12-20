@@ -1,0 +1,5 @@
+version: 2
+
+models:
+    - name: metrics_login_activity_status_7d
+      description: This model is exactly the same as the one described in `metrics_login_activity_status`, but referring to weekly active users instead.

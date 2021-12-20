@@ -5,9 +5,9 @@ models:
       description: Model describing the activity based on logins.
         A user is considered to be active whether they log in to Genially within a specific interval of time. 
         Depending on how long the interval is considered, we can distinguish among,
-          Daily activity users, active user consiering a specific day.
-          Weekly active users, active user considering the last 7 days.
-          Monthly active users, active user considering the last 28 days.
+          Daily active users, activity based on a single day.
+          Weekly active users, activity based on the last 7 days.
+          Monthly active users, activity based on the last 28 days.
         In turn we can differentiate among different types of user,
           A New user is a user who is in their first interval of using the product.
           A Current user is a user who used the product in the previous interval and the current interval.
@@ -93,7 +93,7 @@ models:
             - not_null
 
         - name: status
-          description: Whether the user is New, Churned or Current as a daily active user.
+          description: Whether the user is New, Current or Churned as a daily active user.
           tests:
             - not_null
             - accepted_values:
@@ -105,7 +105,7 @@ models:
             - not_null
 
         - name: status_7d
-          description: Whether the user is New, Churned or Current as a weekly active user.
+          description: Whether the user is New, Current or Churned as a weekly active user.
           tests:
             - not_null
             - accepted_values:
@@ -117,7 +117,7 @@ models:
             - not_null
           
         - name: status_28d
-          description: Whether the user is New, Churned or Current as a monthly active user.
+          description: Whether the user is New, Current or Churned as a monthly active user.
           tests:
             - not_null
             - accepted_values:
@@ -125,12 +125,21 @@ models:
 
         - name: previous_status
           description: Previous status of the user as a daily active user.
+          tests:
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
 
         - name: previous_status_7d
           description: Previous status of the user as a weekly active user.
+          tests:
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
 
         - name: previous_status_28d
           description: Previous status of the user as a monthly active user.
+          tests:
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
 
       tests:
       - dbt_utils.expression_is_true:

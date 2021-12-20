@@ -1,0 +1,78 @@
+version: 2
+
+models:
+    - name: metrics_login_activity_stickiness
+      columns:
+        - name: date_day
+          description: The particular day where user's activity is described.
+          tests:
+            - not_null
+
+        - name: plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_plan_values() }}"
+
+        - name: sector
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: broad_sector
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: role
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+          tests:
+            - not_null
+
+        - name: country
+          description: Country (ISO code).
+          tests:
+            - not_null
+
+        - name: country_name
+          description: Full name of the country.
+          tests:
+            - not_null
+        
+        - name: device
+          description: Device through which the user signed up.
+          tests:
+            - not_null
+
+        - name: acquisition_channel
+          description: Acquisition channel.
+          tests:
+            - not_null
+
+        - name: n_daily_active_users
+          description: Number of daily active users.
+          tests:
+            - not_null
+
+        - name: n_weekly_active_users
+          description: Number of weekly active users.
+          tests:
+            - not_null
+
+        - name: n_monthly_active_users
+          description: Number of daily active users.
+          tests:
+            - not_null
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "n_daily_active_users <= n_weekly_active_users"
+
+        - dbt_utils.expression_is_true:
+            expression: "n_weekly_active_users <= n_monthly_active_users"
