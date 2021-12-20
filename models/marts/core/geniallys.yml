@@ -19,9 +19,6 @@ models:
         - name: name
           description: Genially name.
 
-        - name: team_name
-          description: Name of the team this genially belongs to.
-
         - name: source
           description: Genially source.
           tests:
@@ -250,9 +247,6 @@ models:
 
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
-
-        - name: team_created_at
-          description: The date the team was created.
 
       tests:
       - dbt_utils.expression_is_true:
