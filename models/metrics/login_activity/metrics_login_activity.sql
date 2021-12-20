@@ -12,6 +12,10 @@ with logins as (
     select * from {{ ref('src_ga_logins') }}
 ),
 
+ga_signups as (
+    select * from {{ ref('src_ga_signups') }}
+),
+
 users as (
     select * from {{ ref('users') }}
 ),
@@ -19,10 +23,14 @@ users as (
 user_usage as (
     select
         users.user_id,
-        {{ place_main_dimension_fields('users') }}
+        {{ place_main_dimension_fields('users') }},
+        coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
+        coalesce(ga_signups.acquisition_channel, '{{ var('unknown') }}') as acquisition_channel,
         date(users.registered_at) as first_usage_at
     
     from users
+    left join ga_signups
+        on users.user_id = ga_signups.user_id
 ),
 
 dates as (
@@ -37,7 +45,9 @@ dates as (
 user_day as (
     select
         user_usage.user_id,
-        {{ place_main_dimension_fields('user_usage') }}
+        {{ place_main_dimension_fields('user_usage') }},
+        user_usage.device,
+        user_usage.acquisition_channel,
         user_usage.first_usage_at,
         date(dates.date_day) as date_day,
         date_diff(dates.date_day, user_usage.first_usage_at, day) as n_days_since_first_usage
@@ -52,7 +62,9 @@ user_day as (
 user_day_traffic as (
     select
         user_day.user_id,
-        {{ place_main_dimension_fields('user_day') }}
+        {{ place_main_dimension_fields('user_day') }},
+        user_day.device,
+        user_day.acquisition_channel,
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
@@ -71,13 +83,15 @@ user_day_traffic as (
         on user_day.user_id = logins.user_id
             and user_day.date_day = date(logins.login_at)
             and logins.login_at is not null
-    {{ dbt_utils.group_by(n=11) }}
+    {{ dbt_utils.group_by(n=13) }}
 ),
 
 user_traffic_rolling_status as (
     select
         user_id,
-        {{ place_main_dimension_fields('user_day_traffic') }}
+        {{ place_main_dimension_fields('user_day_traffic') }},
+        device,
+        acquisition_channel,
         first_usage_at,
         date_day,
         n_days_since_first_usage,
@@ -107,7 +121,9 @@ final as (
     select
         {{ dbt_utils.surrogate_key(['user_id', 'date_day']) }} as id,
         user_id,
-        {{ place_main_dimension_fields('user_traffic_rolling_status') }}
+        {{ place_main_dimension_fields('user_traffic_rolling_status') }},
+        device,
+        acquisition_channel,
         first_usage_at,
         date_day,
         n_days_since_first_usage,

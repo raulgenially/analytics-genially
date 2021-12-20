@@ -13,14 +13,16 @@ with final as (
                 then 'Signups'
             else {{ status }}
         end as {{ status }},
-        {{ place_main_dimension_fields('activity') }}
+        {{ place_main_dimension_fields('activity') }},
+        device,
+        acquisition_channel,
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where {{ status }} in ('New', 'Current')
-    {{ dbt_utils.group_by(n=9) }}
+    {{ dbt_utils.group_by(n=11) }}
 
     union all
 
@@ -28,14 +30,16 @@ with final as (
         -- Dimensions
         date_day,
         'Total Active Users' as {{ status }},
-        {{ place_main_dimension_fields('activity') }}
+        {{ place_main_dimension_fields('activity') }},
+        device,
+        acquisition_channel,
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where {{ status }} in ('New', 'Current')
-    {{ dbt_utils.group_by(n=9) }}
+    {{ dbt_utils.group_by(n=11) }}
 )
 
 select * from final

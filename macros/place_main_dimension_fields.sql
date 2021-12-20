@@ -5,5 +5,5 @@
     {{ table }}.role,
     {{ table }}.broad_role,
     {{ table }}.country,
-    {{ table }}.country_name,
+    {{ table }}.country_name
 {% endmacro %}

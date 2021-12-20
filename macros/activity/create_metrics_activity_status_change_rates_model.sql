@@ -7,14 +7,16 @@ with denominator as (
         -- Dimensions
         date_day,
         previous_{{ status }},
-        {{ place_main_dimension_fields('activity') }}
+        {{ place_main_dimension_fields('activity') }},
+        device,
+        acquisition_channel,
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=9) }}
+    {{ dbt_utils.group_by(n=11) }}
 ),
 
 numerator as (
@@ -23,14 +25,16 @@ numerator as (
         date_day,
         previous_{{ status }},
         {{ status }},
-        {{ place_main_dimension_fields('activity') }}
+        {{ place_main_dimension_fields('activity') }},
+        device,
+        acquisition_channel,
 
         -- Metrics
         count(user_id) as n_users
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=10) }}
+    {{ dbt_utils.group_by(n=12) }}
 ),
 
 final as (
@@ -39,7 +43,9 @@ final as (
         denominator.date_day,
         denominator.previous_{{ status }},
         numerator.{{ status }},
-        {{ place_main_dimension_fields('denominator') }}
+        {{ place_main_dimension_fields('denominator') }},
+        denominator.device,
+        denominator.acquisition_channel,
         case
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
                 then 'Activation'
@@ -52,7 +58,7 @@ final as (
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
                 then 'Resurrection'
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Churned'
-                then 'Dozing'
+                then 'Hibernation'
         end as transition_type,
 
         -- Metrics
@@ -70,6 +76,8 @@ final as (
             and denominator.broad_role = numerator.broad_role
             and denominator.country = numerator.country
             and denominator.country_name = numerator.country_name
+            and denominator.device = numerator.device
+            and denominator.acquisition_channel = numerator.acquisition_channel
 )
 
 select * from final

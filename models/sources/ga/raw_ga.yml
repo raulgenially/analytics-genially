@@ -11,3 +11,11 @@ sources:
               description: Primary key for users.
               tests:
                 - not_null
+
+        - name: ga4_signups
+          columns:
+            - name: user_id
+              description: Primary key for users.
+              tests:
+                - unique
+                - not_null
