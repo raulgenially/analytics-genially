@@ -1,0 +1,146 @@
+version: 2
+
+models:
+    - name: metrics_login_activity
+      description: Model describing the activity based on logins.
+        A user is considered to be active whether they log in to Genially within a specific interval of time. 
+        Depending on how long the interval is considered, we can distinguish among,
+          Daily activity users, active user consiering a specific day.
+          Weekly active users, active user considering the last 7 days.
+          Monthly active users, active user considering the last 28 days.
+        In turn we can differentiate among different types of user,
+          A New user is a user who is in their first interval of using the product.
+          A Current user is a user who used the product in the previous interval and the current interval.
+          A Churned user is a user who were once actively using the product and then became inactive.
+        Thus, active users = new users + current users.  
+      columns:
+        - name: id
+          description: Primary key. Created from user_id and date_day fields.
+          tests:
+            - unique
+            - not_null
+
+        - name: user_id
+          description: The user id whose activity is described on date_day.
+          tests:
+            - not_null
+
+        - name: plan
+          description: "{{ doc('subscription_codes') }}"
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_plan_values() }}"
+
+        - name: sector
+          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: broad_sector
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: role
+          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+          tests:
+            - not_null
+
+        - name: broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+          tests:
+            - not_null
+
+        - name: country
+          description: Country (ISO code).
+          tests:
+            - not_null
+
+        - name: country_name
+          description: Full name of the country.
+          tests:
+            - not_null
+        
+        - name: device
+          description: Device through which the user signed up.
+          tests:
+            - not_null
+
+        - name: acquisition_channel
+          description: Acquisition channel.
+          tests:
+            - not_null
+
+        - name: first_usage_at
+          description: The date the user initiated their activity for the first time.
+          tests:
+            - not_null
+
+        - name: date_day
+          description: The particular day where user's activity is described.
+          tests:
+            - not_null
+
+        - name: n_days_since_first_usage
+          description: The number of days since the user initiated their activity for the first time.
+          tests:
+            - not_null
+
+        - name: is_active
+          description: Whether or not the user is active as a daily active user.
+          tests:
+            - not_null
+
+        - name: status
+          description: Whether the user is New, Churned or Current as a daily active user.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
+
+        - name: n_days_active_7d
+          description: Number of days the user is active as a weekly active user.
+          tests:
+            - not_null
+
+        - name: status_7d
+          description: Whether the user is New, Churned or Current as a weekly active user.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
+
+        - name: n_days_active_28d
+          description: Number of days the user is active as a monthly active user.
+          tests:
+            - not_null
+          
+        - name: status_28d
+          description: Whether the user is New, Churned or Current as a monthly active user.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
+
+        - name: previous_status
+          description: Previous status of the user as a daily active user.
+
+        - name: previous_status_7d
+          description: Previous status of the user as a weekly active user.
+
+        - name: previous_status_28d
+          description: Previous status of the user as a monthly active user.
+
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "is_active = true"
+          condition: "status = 'New' or status = 'Current'"
+
+      - dbt_utils.expression_is_true:
+          expression: "status = 'Churned' and status_7d = 'Churned'"
+          condition: "status_28d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "status = 'Churned'"
+          condition: "status_7d = 'Churned'"

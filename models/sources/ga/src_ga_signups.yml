@@ -1,10 +1,10 @@
 version: 2
 
 models:
-    - name: src_ga_logins
+    - name: src_ga_signups
       columns:
-        - name: login_id
-          description: Primary key for logins.
+        - name: user_id
+          description: Primary key signups
           tests:
             - unique
             - not_null
