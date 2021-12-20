@@ -54,9 +54,9 @@ user_day as (
 
     from user_usage
     cross join dates
-    where user_usage.first_usage_at >= {{ min_date }} 
+    where user_usage.first_usage_at >= {{ min_date }} -- Retain signups from min_date
         and dates.date_day >= user_usage.first_usage_at
-        and dates.date_day >= date(2021, 1, 1)
+        and dates.date_day >= date(2021, 1, 1) -- To reduce computational burden since login events were instrumented in February 2021
 ),
 
 user_day_traffic as (
