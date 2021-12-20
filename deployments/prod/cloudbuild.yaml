@@ -13,7 +13,7 @@ steps:
   args: ['snapshot']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['run']
+  args: ['run', '--exclude', 'metrics_login_activity+']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   dir: /workspace/deployments/prod
@@ -23,7 +23,7 @@ steps:
   - COMMIT_SHA=$COMMIT_SHA
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['test']
+  args: ['test', '--exclude', 'metrics_login_activity+']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run-operation', 'cleanup_dataset']
