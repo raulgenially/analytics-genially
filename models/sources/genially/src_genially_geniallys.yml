@@ -13,13 +13,6 @@ models:
         - name: genially_type
           description: Type of genially.
 
-        - name: subscription_plan
-          description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
-
         - name: name
           description: Genially name.
 

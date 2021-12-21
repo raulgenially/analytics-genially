@@ -7,7 +7,6 @@ final as (
         _id as genially_id,
 
         typegenially as genially_type,
-        {{ map_subscription_code('typesubscription') }} as subscription_plan,
         name,
         tags,
         description,

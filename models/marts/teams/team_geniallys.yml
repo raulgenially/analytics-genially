@@ -12,13 +12,6 @@ models:
             - unique
             - not_null
 
-        - name: genially_plan
-          description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
-
         - name: name
           description: Genially name.
 
