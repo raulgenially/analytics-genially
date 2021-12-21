@@ -18,8 +18,8 @@ models:
             **Pending** -> the license is created but has not been paid for yet.
             **Active** -> the license has been paid and it is active.
             **Churn** -> the license is active but the user has canceled the license.
-            **Finished** -> the license reached the EOF organically.
-            **Canceled** -> the license reached the EOF because the user canceled the subscription.
+            **Finished** -> the license reached the EOL organically.
+            **Canceled** -> the license reached the EOL because the user canceled the subscription.
           tests:
             - not_null
 
@@ -80,7 +80,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: finished_at is null or date(finished_at) >= current_date()
             condition: status = "Active"
-            # TODO: There is one license that reached the EOF but it is not in a "Canceled status"
+            # TODO: There is one license that reached the EOL but it is not in a "Canceled status"
             severity: warn
 
         - dbt_utils.expression_is_true:

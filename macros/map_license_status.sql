@@ -10,17 +10,17 @@
                     when {{ canceled_code }} is null
                         -- License paid and not canceled
                         then 'Active'
-                    -- License paid and canceled before it has reached EOF
+                    -- License paid and canceled before it has reached EOL
                     else 'Churn'
                 end
         when {{ license_status }} = 'Canceled'
-            -- License has reached EOF
+            -- License has reached EOL
             then
                 case
                     when {{ canceled_code }} is null
-                        -- License has reached EOF organically
+                        -- License has reached EOL organically
                         then 'Finished'
-                    -- License has reached EOF because the
+                    -- License has reached EOL because the
                     -- user canceled the subscription
                     else 'Canceled'
                 end
