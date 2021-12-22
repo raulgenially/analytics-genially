@@ -4,6 +4,10 @@ with users as (
         and email is not null
 ),
 
+plans as (
+    select * from {{ ref('seed_plan') }}
+),
+
 -- There are some cases in which dateregister > lastaccesstime by a few seconds
 -- We assume these cases to be just a sync issue during the auth process.
 -- Here we fix these discrepancies by syncing lastaccesstime to dateregister if
@@ -25,7 +29,7 @@ final as (
     select
         _id as user_id,
 
-        {{ map_subscription_code('typesubscription') }} as subscription_plan,
+        plans.plan as subscription_plan,
         newsector as sector_code,
         newrole as role_code,
         username,
@@ -58,6 +62,8 @@ final as (
         timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_created_at,
 
     from int_users
+    left join plans
+        on int_users.typesubscription=plans.code
 )
 
 select * from final
