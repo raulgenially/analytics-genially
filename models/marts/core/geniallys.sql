@@ -22,7 +22,6 @@ final as (
     select
         geniallys.genially_id,
 
-        geniallys.plan as genially_plan,
         geniallys.name,
         geniallys.source,
         geniallys.category,
