@@ -16,7 +16,6 @@ final as (
     select
         geniallys.genially_id,
 
-        geniallys.genially_plan,
         geniallys.name,
         geniallys.source,
         geniallys.category,

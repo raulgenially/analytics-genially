@@ -9,9 +9,6 @@ models:
             - unique
             - not_null
 
-        - name: plan
-          description:  "{{ doc('subscription_codes') }}"
-
         - name: name
           description: Genially name.
 

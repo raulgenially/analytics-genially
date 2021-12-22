@@ -9,13 +9,6 @@ models:
             - unique
             - not_null
 
-        - name: genially_plan
-          description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
-
         - name: name
           description: Genially name.
 
@@ -247,9 +240,3 @@ models:
 
         - name: disabled_at
           description: The date at which the genially is disabled because the team is disabled.
-
-      tests:
-      - dbt_utils.expression_is_true:
-          expression: "genially_plan = user_plan"
-          condition: "is_active = true"
-          severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/7972

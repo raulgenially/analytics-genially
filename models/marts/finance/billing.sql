@@ -14,8 +14,10 @@ base_billing as (
 
         --Invoices description has the same structure: 1 x Annual Student License Genial.ly (31 OCT 2021 - 31 OCT 2022)
         --We can extract all the next fields below this with regexps
-        parse_date('%d %b %Y', regexp_extract(description, r'\((.*?)\-')) as period_start_at,
-        parse_date('%d %b %Y', regexp_extract(description, r'\- (.*?)\)')) as period_end_at,
+        -- TODO: remove safe.parse_date when the record causing
+        -- problem (invoice_number=2021151505) is in a correct state
+        safe.parse_date('%d %b %Y', regexp_extract(description, r'\((.*?)\-')) as period_start_at,
+        safe.parse_date('%d %b %Y', regexp_extract(description, r'\- (.*?)\)')) as period_end_at,
         regexp_extract(description, r'(.*?)\sx') as quantity,
         regexp_extract(description, r'x (.*?) License') as product,
         regexp_extract(description, r'x (.*?)\s') as recurrence,
