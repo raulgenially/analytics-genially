@@ -14,7 +14,7 @@ sources:
                 - not_null
 
             - name: __hevo__marked_deleted
-              description: Indicates if the genially is deleted in MongoDB
+              description: Indicates if the genially is deleted in MongoDB.
               tests:
                 - not_null
 
@@ -43,7 +43,7 @@ sources:
                 - not_null
 
         - name: social
-          description: Users Social Profiles information
+          description: Users Social Profiles information.
           columns:
             - name: _id
               description: Primary key for social profiles.
@@ -81,9 +81,11 @@ sources:
 
             - name: idgenially
               description: Id Genially of the template color.
+              tests:
+                - not_null
 
         - name: license
-          description: Information about the licenses the users purchase
+          description: Information about the licenses the users purchase.
           columns:
             - name: _id
               description: Primary key for licenses.
@@ -101,7 +103,7 @@ sources:
                 - not_null
 
         - name: invoice
-          description: Information about invoices
+          description: Information about invoices.
           columns:
             - name: _id
               description: Primary key for invoices.

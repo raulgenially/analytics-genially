@@ -48,7 +48,7 @@ One of the following values:
 
 {% docs team_space_collaborator_type %}
 
-The type of id that we are dealing with in `collaborator_id`
+The type of id that we are dealing with in `collaborator_id`.
 
 One of the following values:
 
@@ -62,7 +62,7 @@ One of the following values:
 
 {% docs team_member_role %}
 
-Permission level of the member in the team
+Permission level of the member in the team.
 
 One of the following values:
 
