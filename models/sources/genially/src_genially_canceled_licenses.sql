@@ -1,4 +1,4 @@
-with src_canceled_licences as (
+with canceled_licenses as (
     select * from {{ source('genially', 'canceledlicense') }}
     where __hevo__marked_deleted = false
 ),
@@ -7,26 +7,27 @@ cancel_codes as (
     select * from {{ ref('seed_cancel_license_reason_codes') }}
 ),
 
-canceled_licenses as (
+final as (
     select
-        src_canceled_licences._id as canceled_license_id,
+        canceled_licenses._id as canceled_license_id,
 
-        src_canceled_licences.typesubscription as subscription_type,
-        cast(src_canceled_licences.optionselected as int64) as reason_code,
+        canceled_licenses.typesubscription as subscription_code,
+        {{ map_subscription_code('canceled_licenses.typesubscription') }} as subscription_plan,
+        cast(canceled_licenses.optionselected as int64) as reason_code,
         cancel_codes.name as reason,
-        if(src_canceled_licences.comment = '',
+        if(canceled_licenses.comment = '',
             null,
-            src_canceled_licences.comment
+            canceled_licenses.comment
         ) as comment,
 
-        src_canceled_licences.iduser as user_id,
-        src_canceled_licences.idsubscription as subscription_id,
+        canceled_licenses.iduser as user_id,
+        canceled_licenses.idsubscription as subscription_id,
 
-        src_canceled_licences.canceldate as canceled_at
+        canceled_licenses.canceldate as canceled_at
 
-    from src_canceled_licences
+    from canceled_licenses
     left join cancel_codes
-        on cast(src_canceled_licences.optionselected as int64) = cancel_codes.code
+        on cast(canceled_licenses.optionselected as int64) = cancel_codes.code
 )
 
-select * from canceled_licenses
+select * from final

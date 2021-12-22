@@ -86,7 +86,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: canceled_reason_code is not null
               and (finished_at is null or date(finished_at) >= current_date())
-            condition: status = "Churn"
+            condition: status = "Canceled"
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_reason_code is null
@@ -94,4 +94,4 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: canceled_reason_code is not null and finished_at is not null
-            condition: status = "Canceled"
+            condition: status = "Churn"

@@ -2,7 +2,7 @@ version: 2
 
 models:
     - name: src_genially_canceled_licenses
-      description: Collaborative creations/geniallys by different users.
+      description: Collection of canceled licenses along with the canceling reason.
       columns:
         - name: canceled_license_id
           description: Primary key for canceled licenses.
@@ -10,13 +10,21 @@ models:
             - unique
             - not_null
 
-        - name: subscription_type
-          description: Type subscription.
+        - name: subscription_code
+          description: The numerical code of the plan the canceled license has.
           tests:
             - not_null
             - accepted_values:
                 values: "{{ get_subscription_type_values() }}"
                 quote: false
+
+        - name: subscription_plan
+          description: The plan the canceled subscription has (Master, Pro, Student, etc).
+            Mapped from subscription_code.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_plan_values() }}"
 
         - name: reason_code
           description: The reason code by which the user canceled the license.
@@ -27,7 +35,7 @@ models:
                 field: code
 
         - name: reason
-          description: The reason by which the user canceled the license.
+          description: The reason the user canceled the license.
           tests:
             - not_null
 
@@ -38,14 +46,19 @@ models:
           description: Id of a user cancelling the license.
           tests:
             - not_null
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                severity: warn
 
         - name: subscription_id
-          description: Id of the user that is owner of the collaborative genially.
+          description: Id of the subscription in the payment processing platform.
+            All payments regarding this license will reference this subscription_id.
           tests:
             # TODO: the unique tests fails because we have 3 canceled licenses that are duplicated
             # They have all the same attributes but the _id. Let's see if we can ask tech to remove them
             - unique:
-                where: canceled_at > '2021-07-10'
+                severity: warn
             - not_null:
                 where: canceled_at > '2021-04-09'
 
