@@ -243,152 +243,137 @@ metrics4 as (
         and metrics3.country_name = new_creators_registered_same_day.country_name
 ),
 
-metrics_proyecciones_mensuales as (
+final as (
     select 
         *,
         -- lags n_signups
         lag(n_signups, {{ week_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_signups_previous_7d,
         lag(n_signups, {{ month_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_signups_previous_28d,
         lag(n_signups, {{ year_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_signups_previous_364d,
         -- lags n_creations
         lag(n_creations, {{ week_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_creations_previous_7d,
         lag(n_creations, {{ month_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_creations_previous_28d,
         lag(n_creations, {{ year_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_creations_previous_364d,
         -- lag n_new_creators
         lag(n_new_creators, {{ week_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previous_7d,
         lag(n_new_creators, {{ month_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previous_28d,
         lag(n_new_creators, {{ year_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previous_364d,
         -- lag n_new_creators_registered_same_day
         lag(n_new_creators_registered_same_day, {{ week_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_registered_same_day_previous_7d,
         lag(n_new_creators_registered_same_day, {{ month_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_registered_same_day_previous_28d,
         lag(n_new_creators_registered_same_day, {{ year_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_registered_same_day_previous_364d,
         -- lag n_new_creators_previously_registered
         lag(n_new_creators_previously_registered, {{ week_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previously_registered_previous_7d,
         lag(n_new_creators_previously_registered, {{ month_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previously_registered_previous_28d,
         lag(n_new_creators_previously_registered, {{ year_days }}) over (
-                partition by 
-                    plan,
-                    subscription,
-                    country,
-                    country_name
-                order by 
-                    date_day asc
+            partition by 
+                plan,
+                subscription,
+                country,
+                country_name
+            order by date_day asc
         ) as n_new_creators_previously_registered_previous_364d
 
     from metrics4
     order by date_day, plan, subscription, country, country_name
 )
 
-select * from metrics_proyecciones_mensuales
+select * from final
