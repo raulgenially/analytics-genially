@@ -2,12 +2,17 @@ with geniallys as (
     select * from {{ source('genially', 'geniallys') }}
 ),
 
+plans as (
+    select * from {{ ref('seed_plan') }}
+),
+
+
 final as (
     select
         _id as genially_id,
 
         typegenially as genially_type,
-        {{ map_subscription_code('typesubscription') }} as subscription_plan,
+        plans.plan as subscription_plan,
         name,
         tags,
         description,
@@ -53,6 +58,8 @@ final as (
         datedisabled as disabled_at
 
     from geniallys
+    left join plans
+        on geniallys.typesubscription=plans.code
 )
 
 select * from final
