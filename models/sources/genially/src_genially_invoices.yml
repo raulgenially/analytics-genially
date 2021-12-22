@@ -50,6 +50,25 @@ models:
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 
+        - name: tax_rate
+          description: The percentage at which the invoice is taxed.
+          tests:
+            - not_null:
+                where: date(invoiced_at) > '2021-12-21'
+            - dbt_utils.expression_is_true:
+                expression: ">= 0"
+
+        - name: tax_key
+          description: Tax Idetification key.
+            **NOSUJ** -> No tax.
+            **INTRA_21** -> Intracommunitary invoice.
+            **IVA_ES_21** -> 21% taxed invoice
+          tests:
+            - not_null:
+                where: date(invoiced_at) > '2021-12-21'
+            - accepted_values:
+                values: "{{ get_tax_key_values() }}"
+
         - name: currency
           description: Currency in which the invoice is paid.
           tests:
@@ -68,6 +87,12 @@ models:
           tests:
             - not_null:
                 where: "invoiced_at > timestamp('2020-08-15')"
+
+        - name: is_valid_euvat_number
+          description: Indicates if 'payer_cif' is validated as Intracomunitary.
+          tests:
+            - not_null:
+                where: date(invoiced_at) > '2021-12-21'
 
         - name: user_id
           description: Id of the user making the payment.
@@ -90,3 +115,5 @@ models:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
             condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+            expression: "tax_rate = 21"
+            condition: "tax_key = 'IVA_ES_21'"
