@@ -29,12 +29,15 @@ invoices_normalized as (
         invoices.payer_country,
         invoices.total,
         invoices.total_euro,
+        invoices.tax_rate,
+        invoices.tax_key,
         invoices.currency,
         invoices.invoice_number,
         invoices.payment_platform,
         cast(null as string) as reference_invoice_number,
 
         false as is_refund,
+        invoices.is_valid_euvat_number,
 
         invoices.user_id,
         invoices.subscription_id,
@@ -72,12 +75,15 @@ refunds_normalized as (
         refunds.payer_country,
         refunds.total,
         refunds.total_euro,
+        ifnull(invoices.tax_rate, 0) as tax_rate,
+        invoices.tax_key,
         refunds.currency,
         refunds.invoice_number,
         refunds.payment_platform,
         refunds.reference_invoice_number,
 
         true as is_refund,
+        refunds.is_valid_euvat_number,
 
         refunds.user_id,
         refunds.subscription_id,

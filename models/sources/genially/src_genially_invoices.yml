@@ -68,6 +68,7 @@ models:
                 where: date(invoiced_at) > '2021-12-21'
             - accepted_values:
                 values: "{{ get_tax_key_values() }}"
+                where: date(invoiced_at) > '2021-12-21'
 
         - name: currency
           description: Currency in which the invoice is paid.
@@ -115,5 +116,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
             condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+
+        - dbt_utils.expression_is_true:
             expression: "tax_rate = 21"
             condition: "tax_key = 'IVA_ES_21'"

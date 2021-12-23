@@ -30,10 +30,10 @@ base_billing as (
 int_billing as (
     select
         *,
-        -- Apply tax to EU countries
+        -- Apply taxes
         if(
-            is_from_eu_country,
-            total_euro / 1.21,
+            tax_rate > 0,
+            total_euro / tax_rate,
             total_euro
         ) as total_euro_deducted,
         if(
@@ -85,6 +85,8 @@ final as (
         billing.plan,
         round(billing.total_euro_deducted, 4) as subtotal,
         round(billing.total_euro - billing.total_euro_deducted, 4) as tax_amount,
+        billing.tax_rate,
+        billing.tax_key,
         billing.total_euro as amount,
         billing.total as original_amount,
         billing.currency,
@@ -99,6 +101,8 @@ final as (
         billing.payer_name,
         users.role,
         users.sector,
+
+        billing.is_valid_euvat_number,
 
         billing.user_id,
         billing.subscription_id,

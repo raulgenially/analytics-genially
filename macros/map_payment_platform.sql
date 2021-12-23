@@ -9,7 +9,7 @@
             -- example: PP-D-100420477
             or length({{ realtransactionid }}) = 17
             -- example: 1HA94865MS471004N
-            then 'Paypal'
+            then 'PayPal'
         when length({{ realtransactionid }}) = 8
             -- example: 1hsbxwj5
             then 'Braintree'
