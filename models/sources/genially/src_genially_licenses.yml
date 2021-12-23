@@ -54,14 +54,14 @@ models:
           tests:
             - not_null:
                 where: "license_id not in ('61716017b692c60dbaaf952c', '61714d9f98f5a60d43efe33a')"
-            - dbt_utils.unique_where:
+            - unique:
                 where: "started_at >= '2020-06-24'"
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
           tests:
             - not_null
-            - dbt_utils.unique_where:
+            - unique:
                 where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
 
         - name: started_at
@@ -83,17 +83,30 @@ models:
 
       - dbt_utils.expression_is_true:
           expression: "date(finished_at) <= current_date()" # This only happens to licenses created manually in admin.
-          severity: warn
+          condition: "manual_finished_at is null"
 
       - dbt_utils.expression_is_true:
           expression: "finished_at is null"
-          condition: "status = 'Finished'" # Can I only use this field to determine if a license is active? Not really.
-          severity: warn
+          condition: "status = 'Finished' and manual_finished_at is null and started_at >= '2020-06-05'" # Can I only use this field to determine if a license is active?
 
       - dbt_utils.expression_is_true:
           expression: "date_diff(current_date(), date(started_at), day) < 2 and finished_at is null" # Pending licenses should be removed after 24h if payment is not confirmed.
-          condition: "status = 'Pending'" # Can I trust this field?
+          condition: "status = 'Pending' and manual_finished_at is null" # Can I trust this field?
 
       - dbt_utils.expression_is_true:
           expression: "finished_at is not null" # Using this schema test here to group together all tests related to status
           condition: "status = 'Canceled' and started_at >= '2020-02-05'" # Ok, let's be pragmatic here as well.
+
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - status
+            - license_type
+            - comments
+            - user_ip
+            - user_id
+            - payer_id
+            - transaction_id
+            - subscription_id
+            - started_at
+            - finished_at
+            - manual_finished_at

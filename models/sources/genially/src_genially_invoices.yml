@@ -104,11 +104,16 @@ models:
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
+            There can be more than one invoice associated with a subscription.
           tests:
             - not_null
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+            This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
+          tests:
+            - not_null:
+                where: "invoiced_at >= '2020-01-01'"
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
@@ -117,8 +122,26 @@ models:
       tests:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
-            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+            condition: "currency = 'eur'"
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
             condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+
+        - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+              - description
+              - payer_email
+              - payer_name
+              - payer_cif
+              - payer_address
+              - payer_country
+              - total
+              - total_euro
+              - currency
+              - invoice_number
+              - payment_platform
+              - user_id
+              - subscription_id
+              - transaction_id
+              - invoiced_at
