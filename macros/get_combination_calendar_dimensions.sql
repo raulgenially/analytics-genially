@@ -29,7 +29,6 @@ dates_plan as (
 
     from dates 
     cross join plans
-    order by 1,2,3
 ),
 
 reference_table as (
@@ -42,9 +41,7 @@ reference_table as (
 
     from dates_plan 
     cross join country_codes
-    order by 1,2,3,4,5
 )
-
 
 select * from reference_table
 

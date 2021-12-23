@@ -51,7 +51,7 @@ final as (
         datedeleted as deleted_at,
         datedisabled as disabled_at
 
-    from geniallys    
+    from geniallys
 )
 
 select * from final
