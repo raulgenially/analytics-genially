@@ -13,13 +13,13 @@ models:
 
         - name: status
           description: The status of the subscription,
-            either Pending, Active, Churn, Finished or Canceled.
+            either Pending, Active, Canceled, Active Churn or Passive Churn.
 
             **Pending** -> the license is created but has not been paid for yet.
             **Active** -> the license has been paid and it is active.
-            **Churn** -> the license is active but the user has canceled the license.
-            **Finished** -> the license reached the EOL organically.
-            **Canceled** -> the license reached the EOL because the user canceled the subscription.
+            **Canceled** -> the license is active but the user has canceled the license.
+            **Passive Churn** -> the license reached the EOL organically.
+            **Active Churn** -> the license reached the EOL because the user canceled the subscription.
           tests:
             - not_null
 
@@ -90,8 +90,8 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_reason_code is null
-            condition: status = "Finished" and started_at > "2020-02-05"
+            condition: status = "Passive Churn" and started_at > "2020-02-05"
 
         - dbt_utils.expression_is_true:
             expression: canceled_reason_code is not null and finished_at is not null
-            condition: status = "Churn"
+            condition: status = "Active Churn"

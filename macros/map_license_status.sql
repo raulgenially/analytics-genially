@@ -17,10 +17,10 @@
             then if(
                 {{ canceled_code }} is null,
                 -- License has reached EOL organically
-                'Finished',
+                'Passive Churn',
                 -- License has reached EOL because the
                 -- user canceled the subscription
-                'Churn'
+                'Active Churn'
             )
     end
 {% endmacro %}
