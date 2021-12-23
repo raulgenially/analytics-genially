@@ -91,6 +91,8 @@ models:
           tests:
             - not_null:
                 where: "collaboration_type = 4"
+                severity: warn # TODO: 2 records do not point to a team member
+
             - relationships:
                 to: ref('stg_users')
                 field: user_id

@@ -25,6 +25,7 @@ final as (
     left join role_codes
         on users.role_code = role_codes.role_id
     where users.sector_code != role_codes.sector_id
+        and users.registered_at > '{{ var('new_onboarding_date') }}'
     order by registered_at desc
 )
 

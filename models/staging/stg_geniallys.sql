@@ -85,7 +85,6 @@ final as (
         --- Genially fields
         geniallys.genially_id,
 
-        geniallys.subscription_plan as plan,
         geniallys.name,
         case
             when geniallys.reused_from_id is not null
