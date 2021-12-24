@@ -1,10 +1,4 @@
 -- The user sector should match with the expected sector
-{{
-  config(
-    severity='warn'
-  )
-}}
-
 with users as (
     select * from {{ ref('src_genially_users') }}
 ),
