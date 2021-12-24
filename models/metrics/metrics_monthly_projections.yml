@@ -104,4 +104,3 @@ models:
           
         - name: n_new_creators_previously_registered_previous_364d
           description: Numbers of users who their first creation 364 days ago and not registered 364 days ago
-          
