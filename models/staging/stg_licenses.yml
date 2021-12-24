@@ -48,6 +48,11 @@ models:
 
         - name: user_id
           description: Id of the User purchasing the license.
+          tests:
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                severity: warn
 
         - name: payer_id
           description: Id of the user in the payment processing platform
