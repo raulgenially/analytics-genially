@@ -249,131 +249,26 @@ final as (
     select 
         *,
         -- lags n_signups
-        lag(n_signups, {{ week_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_signups_previous_7d,
-        lag(n_signups, {{ month_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_signups_previous_28d,
-        lag(n_signups, {{ year_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_signups_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_signups', week_days) }} as n_signups_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_signups', month_days) }} as n_signups_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_signups', year_days) }} as n_signups_previous_364d,
         -- lags n_creations
-        lag(n_creations, {{ week_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_creations_previous_7d,
-        lag(n_creations, {{ month_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_creations_previous_28d,
-        lag(n_creations, {{ year_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_creations_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_creations', week_days) }} as n_creations_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_creations', month_days) }} as n_creations_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_creations', year_days) }} as n_creations_previous_364d,
         -- lag n_new_creators
-        lag(n_new_creators, {{ week_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previous_7d,
-        lag(n_new_creators, {{ month_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previous_28d,
-        lag(n_new_creators, {{ year_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators', week_days) }} as n_new_creators_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators', month_days) }} as n_new_creators_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators', year_days) }} as n_new_creators_previous_364d,
         -- lag n_new_creators_registered_same_day
-        lag(n_new_creators_registered_same_day, {{ week_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_registered_same_day_previous_7d,
-        lag(n_new_creators_registered_same_day, {{ month_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_registered_same_day_previous_28d,
-        lag(n_new_creators_registered_same_day, {{ year_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_registered_same_day_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', week_days) }} as n_new_creators_registered_same_day_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', month_days) }} as n_new_creators_registered_same_day_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', year_days) }} as n_new_creators_registered_same_day_previous_364d,
         -- lag n_new_creators_previously_registered
-        lag(n_new_creators_previously_registered, {{ week_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previously_registered_previous_7d,
-        lag(n_new_creators_previously_registered, {{ month_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previously_registered_previous_28d,
-        lag(n_new_creators_previously_registered, {{ year_days }}) over (
-            partition by 
-                plan,
-                subscription,
-                country,
-                country_name
-            order by date_day asc
-        ) as n_new_creators_previously_registered_previous_364d
-
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }} as n_new_creators_previously_registered_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }} as n_new_creators_previously_registered_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }} as n_new_creators_previously_registered_previous_364d,
+        
     from metrics4
 )
 
