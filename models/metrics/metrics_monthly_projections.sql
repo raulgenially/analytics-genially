@@ -39,7 +39,7 @@ signups as (
         count(user_id) as n_signups
     from users
     where date(users.registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
-    group by {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=5) }}
 ),
 
 --reference_signups
@@ -78,7 +78,7 @@ creations as(
     left join country_codes
             on geniallys.user_country = country_codes.code
     where date(created_at) >= {{ min_date }}    
-    group by {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics2 as (
@@ -176,7 +176,7 @@ new_creators as (
         on totalcreators.user_id = users.user_id 
     where date(totalcreators.first_creation_at) >= {{ min_date }} 
         and users.registered_at is not null
-    group by {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics3 as (
@@ -218,7 +218,7 @@ new_creators_registered_same_day as (
         and date(totalcreators.first_creation_at) = date(users.registered_at) 
     where date(totalcreators.first_creation_at) >= {{ min_date }}     
         and users.registered_at is not null
-    group by {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics4 as (

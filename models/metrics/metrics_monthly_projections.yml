@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: monthly_projections_metrics
+    - name: metrics_monthly_projections
       description: Model containing metrics related to proyecciones mensuales sheet based on calendar days. 
         It has been included these metrics and their value at 7, 8 and 364 previous days.
         This model has been built using a reference table (macro get_combination_calendar_dimensions) with all posible combinations of the dimensions.
