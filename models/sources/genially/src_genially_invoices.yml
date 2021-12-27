@@ -119,6 +119,7 @@ models:
           description: Date time at which the invoice was emitted.
           tests:
             - not_null
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"

@@ -114,16 +114,40 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+          tests:
+            - not_null:
+                where: "invoiced_at >= '2020-01-16'"
+            - unique
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
           tests:
             - not_null
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
-            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+            condition: "currency = 'eur' and invoice_id != '5d1a01fe5c9817273eebfd98'"
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
             condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+
+        - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+              - description
+              - payer_email
+              - payer_name
+              - payer_cif
+              - payer_address
+              - payer_country
+              - total
+              - total_euro
+              - currency
+              - invoice_number
+              - reference_invoice_number
+              - payment_platform
+              - user_id
+              - subscription_id
+              - transaction_id
+              - invoiced_at
