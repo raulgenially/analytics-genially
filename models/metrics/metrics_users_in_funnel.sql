@@ -7,7 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        {{ create_subscription_field('plan') }} as subscription,
+        subscription,
         sector,
         broad_sector,
         role,

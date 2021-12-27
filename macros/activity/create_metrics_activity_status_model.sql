@@ -22,7 +22,7 @@ with final as (
 
     from {{ activity }}
     where {{ status }} in ('New', 'Current')
-    {{ dbt_utils.group_by(n=11) }}
+    {{ dbt_utils.group_by(n=12) }}
 
     union all
 
@@ -39,7 +39,7 @@ with final as (
 
     from {{ activity }}
     where {{ status }} in ('New', 'Current')
-    {{ dbt_utils.group_by(n=11) }}
+    {{ dbt_utils.group_by(n=12) }}
 )
 
 select * from final

@@ -4,8 +4,14 @@
 {% set month_days = 28 %}
 {% set month_days_minus = month_days - 1 %}
 
-{% set min_date %}
+{% set min_date_signups %}
     date('2019-01-01')
+{% endset %}
+
+-- To reduce computational burden since login events were instrumented in February 2021
+-- TODO We will need to change this once we have a better idea how we are going to productize logins
+{% set min_date_logins %} 
+    date('2021-01-01')
 {% endset %}
 
 with logins as (
@@ -27,7 +33,7 @@ user_usage as (
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
         coalesce(ga_signups.acquisition_channel, '{{ var('unknown') }}') as acquisition_channel,
         date(users.registered_at) as first_usage_at
-    
+
     from users
     left join ga_signups
         on users.user_id = ga_signups.user_id
@@ -36,7 +42,7 @@ user_usage as (
 dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date=min_date,
+        start_date=min_date_signups,
         end_date="current_date()"
        )
     }}
@@ -54,9 +60,9 @@ user_day as (
 
     from user_usage
     cross join dates
-    where user_usage.first_usage_at >= {{ min_date }} -- Retain signups from min_date
+    where user_usage.first_usage_at >= {{ min_date_signups }} 
         and dates.date_day >= user_usage.first_usage_at
-        and dates.date_day >= date(2021, 1, 1) -- To reduce computational burden since login events were instrumented in February 2021
+        and dates.date_day >= {{ min_date_logins }}
 ),
 
 user_day_traffic as (
@@ -83,7 +89,7 @@ user_day_traffic as (
         on user_day.user_id = logins.user_id
             and user_day.date_day = date(logins.login_at)
             and logins.login_at is not null
-    {{ dbt_utils.group_by(n=13) }}
+    {{ dbt_utils.group_by(n=14) }}
 ),
 
 user_traffic_rolling_status as (

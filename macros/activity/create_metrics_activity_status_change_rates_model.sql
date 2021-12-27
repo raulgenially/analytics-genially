@@ -16,7 +16,7 @@ with denominator as (
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=11) }}
+    {{ dbt_utils.group_by(n=12) }}
 ),
 
 numerator as (
@@ -34,7 +34,7 @@ numerator as (
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=12) }}
+    {{ dbt_utils.group_by(n=13) }}
 ),
 
 final as (
@@ -70,6 +70,7 @@ final as (
         on denominator.date_day = numerator.date_day
             and denominator.previous_{{ status }} = numerator.previous_{{ status }}
             and denominator.plan = numerator.plan
+            and denominator.subscription = numerator.subscription
             and denominator.sector = numerator.sector
             and denominator.broad_sector = numerator.broad_sector
             and denominator.role = numerator.role

@@ -17,7 +17,7 @@ final as (
         countif(status_28d in ('New', 'Current')) as n_monthly_active_users
 
     from activity
-    {{ dbt_utils.group_by(n=10) }}
+    {{ dbt_utils.group_by(n=11) }}
 )
 
 select * from final
