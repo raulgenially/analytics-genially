@@ -1,7 +1,7 @@
 {% macro create_subscription_field(plan) %}
     case
         when {{ plan }} is null
-            then 'Unknown'
+            then '{{ var('unknown') }}'
         when {{ plan }} = 'Free'
             then 'Free'
         else 'Premium' 
