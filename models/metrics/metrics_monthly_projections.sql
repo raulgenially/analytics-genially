@@ -2,7 +2,6 @@
 {% set month_days = 28 %}
 {% set year_days = 364 %}
 
-
 {% set min_date %}
     date('2020-01-01')
 {% endset %}
@@ -37,6 +36,7 @@ signups as (
         users.country_name,
         -- Metrics
         count(user_id) as n_signups
+
     from users
     where date(users.registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
     {{ dbt_utils.group_by(n=5) }}
@@ -52,7 +52,7 @@ metrics1 as (
         reference_table.country,
         reference_table.country_name,
         --Metrics
-        coalesce(signups.n_signups,0) as n_signups
+        coalesce(signups.n_signups, 0) as n_signups
 
     from reference_table
     left join signups
@@ -69,14 +69,12 @@ creations as(
         date(created_at) as created_at,
         geniallys.user_plan,
         {{ create_subscription_field('geniallys.user_plan') }} as user_subscription,
-        ifnull(geniallys.user_country, '{{ var('not_selected') }}') as user_country,
-        ifnull(country_codes.name, '{{ var('not_selected') }}') as user_country_name,
+        geniallys.user_country,
+        geniallys.user_country_name,
         -- Metrics
         count(distinct geniallys.genially_id) as n_creations
     
     from geniallys
-    left join country_codes
-            on geniallys.user_country = country_codes.code
     where date(created_at) >= {{ min_date }}    
     {{ dbt_utils.group_by(n=5) }}
 ),
@@ -132,7 +130,8 @@ creators as (
 
     select 
         user_id,
-        first_creation_at 
+        first_creation_at
+
     from creators_usersfromcollaboratives
 ),
 
@@ -144,26 +143,26 @@ uniquecreators as(
     from creators
     group by 1
 ),
---if a collaboration started before the user is registered, the creation date should be equal to user's registered date:
+--if a collaboration or a genially started before the user is registered, the creation date should be equal to user's registered date:
+
 totalcreators as (
     select 
         uniquecreators.user_id,
-        min (if (
-                date(first_creation_at) < date(users.registered_at),
-                date(users.registered_at),
-                date(first_creation_at)
-            )
+        if (
+            date(uniquecreators.first_creation_at) < date(users.registered_at),
+            date(users.registered_at),
+            date(uniquecreators.first_creation_at)
         ) as first_creation_at
     from uniquecreators
+
     left join users
         on uniquecreators.user_id = users.user_id
-    group by 1
 ),
 
 new_creators as (
     select 
         --Dimensions
-        date(first_creation_at) as first_creation_at,    
+        date(totalcreators.first_creation_at) as first_creation_at,    
         users.plan,
         {{ create_subscription_field('users.plan') }} as subscription,
         users.country,
@@ -172,7 +171,7 @@ new_creators as (
         count(distinct users.user_id) as n_new_creators
 
     from totalcreators
-    inner join users 
+    left join users 
         on totalcreators.user_id = users.user_id 
     where date(totalcreators.first_creation_at) >= {{ min_date }} 
         and users.registered_at is not null
@@ -190,7 +189,7 @@ metrics3 as (
         --Metrics
         metrics2.n_signups,
         metrics2.n_creations,
-        coalesce(new_creators.n_new_creators,0) as n_new_creators
+        coalesce(new_creators.n_new_creators, 0) as n_new_creators
 
     from metrics2
     left join new_creators
@@ -213,11 +212,10 @@ new_creators_registered_same_day as (
         count(distinct users.user_id) as n_new_creators_registered_same_day
 
     from totalcreators
-    inner join users 
+    left join users 
         on totalcreators.user_id = users.user_id
         and date(totalcreators.first_creation_at) = date(users.registered_at) 
     where date(totalcreators.first_creation_at) >= {{ min_date }}     
-        and users.registered_at is not null
     {{ dbt_utils.group_by(n=5) }}
 ),
 

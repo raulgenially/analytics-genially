@@ -63,7 +63,7 @@ final as (
 
     from int_users
     left join plans
-        on int_users.typesubscription=plans.code
+        on int_users.typesubscription = plans.code
 )
 
 select * from final

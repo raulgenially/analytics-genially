@@ -19,7 +19,7 @@ models:
                 values: "{{ get_plan_values() }}"
 
         - name: subscription
-          description: Type of subscription, Free or Premium
+          description: Type of subscription, Free or Premium.
           tests:
             - not_null
             - accepted_values:
@@ -36,71 +36,71 @@ models:
             - not_null
 
         - name: n_signups
-          description: Numbers of users registered at date_day
+          description: Numbers of users registered at date_day.
           tests:
             - not_null
         
         - name: n_creations
-          description: Numbers of geniallys created at date_day
+          description: Numbers of geniallys created at date_day.
           tests:
             - not_null
 
         - name: n_new_creators
-          description: Numbers of users who their first creation at date_day
+          description: Numbers of users whose first creation at date_day.
           tests:
             - not_null
 
         - name: n_new_creators_registered_same_day
-          description: Numbers of users who their first creation at date_day and registered at date_day
+          description: Numbers of users whose first creation at date_day and registered at date_day.
           tests:
             - not_null
 
         - name: n_new_creators_previously_registered
-          description: Numbers of users who their first creation at date_day and not registered at date_day
+          description: Numbers of users whose first creation at date_day and not registered at date_day.
           tests:
             - not_null
 
         - name: n_signups_previous_7d
-          description: Numbers of users registered 7 days ago
+          description: Numbers of users registered 7 days ago.
  
         - name: n_signups_previous_28d
-          description: Numbers of users registered 28 days ago
+          description: Numbers of users registered 28 days ago.
           
         - name: n_signups_previous_364d
-          description: Numbers of users registered 364 days ago
+          description: Numbers of users registered 364 days ago.
           
         - name: n_creations_previous_7d
-          description: Numbers of geniallys created 7 days ago
+          description: Numbers of geniallys created 7 days ago.
           
         - name: n_creations_previous_28d
-          description: Numbers of geniallys created 28 days ago
+          description: Numbers of geniallys created 28 days ago.
         
         - name: n_creations_previous_364d
-          description: Numbers of geniallys created 364 days ago
+          description: Numbers of geniallys created 364 days ago.
         
         - name: n_new_creators_previous_7d
-          description: Numbers of users who their first creation 7 days ago
+          description: Numbers of users who their first creation 7 days ago.
           
         - name: n_new_creators_previous_28d
-          description: Numbers of users who their first creation 28 days ago
+          description: Numbers of users who their first creation 28 days ago.
           
         - name: n_new_creators_previous_364d
-          description: Numbers of users who their first creation 364 days ago
+          description: Numbers of users who their first creation 364 days ago.
           
         - name: n_new_creators_registered_same_day_previous_7d
-          description: Numbers of users who their first creation 7 days ago and registered 7 days ago
+          description: Numbers of users who their first creation 7 days ago and registered 7 days ago.
           
         - name: n_new_creators_registered_same_day_previous_28d
-          description: Numbers of users who their first creation 28 days ago and registered 28 days ago
+          description: Numbers of users who their first creation 28 days ago and registered 28 days ago.
           
         - name: n_new_creators_registered_same_day_previous_364d
-          description: Numbers of users who their first creation 364 days ago and registered 364 days ago
+          description: Numbers of users who their first creation 364 days ago and registered 364 days ago.
           
         - name: n_new_creators_previously_registered_previous_7d
-          description: Numbers of users who their first creation 7 days ago and not registered 7 days ago
+          description: Numbers of users who their first creation 7 days ago and not registered 7 days ago.
           
         - name: n_new_creators_previously_registered_previous_28d
-          description: Numbers of users who their first creation 28 days ago and not registered 28 days ago
+          description: Numbers of users who their first creation 28 days ago and not registered 28 days ago.
           
         - name: n_new_creators_previously_registered_previous_364d
-          description: Numbers of users who their first creation 364 days ago and not registered 364 days ago
+          description: Numbers of users who their first creation 364 days ago and not registered 364 days ago.
