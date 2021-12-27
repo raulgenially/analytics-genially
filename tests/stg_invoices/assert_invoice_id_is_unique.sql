@@ -17,24 +17,12 @@ invoices as (
 
 -- Check that there are no duplicates among refunds
 dup_refunds as (
-    select
-        invoice_id as unique_field,
-        count(invoice_id) as n_records
-
-    from refunds
-    group by invoice_id
-    having n_records > 1
+    {{ get_duplicated_records('refunds', 'invoice_id') }}
 ),
 
 -- Check that there are no duplicates among invoices
 dup_invoices as (
-    select
-        invoice_id as unique_field,
-        count(invoice_id) as n_records
-
-    from invoices
-    group by invoice_id
-    having n_records > 1
+    {{ get_duplicated_records('invoices', 'invoice_id') }}
 ),
 
 final as (
