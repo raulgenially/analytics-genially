@@ -45,19 +45,21 @@ models:
           tests:
             - not_null:
                 where: date(invoiced_at) > '2021-12-21'
+            - relationships:
+                to: ref('seed_taxkey_taxrate')
+                field: tax_rate
+                where: date(invoiced_at) > '2021-12-21'
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 
         - name: tax_key
           description: Tax Idetification key.
-            **NOSUJ** -> No tax.
-            **INTRA_21** -> Intracommunitary invoice.
-            **IVA_ES_21** -> 21% taxed invoice
           tests:
             - not_null:
                 where: date(invoiced_at) > '2021-12-21'
-            - accepted_values:
-                values: "{{ get_tax_key_values() }}"
+            - relationships:
+                to: ref('seed_taxkey_taxrate')
+                field: tax_key
                 where: date(invoiced_at) > '2021-12-21'
 
         - name: currency

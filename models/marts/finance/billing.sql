@@ -33,7 +33,7 @@ int_billing as (
         -- Apply taxes
         if(
             tax_rate > 0,
-            total_euro / tax_rate,
+            total_euro / (1 + tax_rate/100),
             total_euro
         ) as total_euro_deducted,
         if(
