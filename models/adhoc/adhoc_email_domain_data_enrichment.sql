@@ -10,6 +10,7 @@ final as (
     from user_data
     -- The text after @ will be replaced by input from the user
     where email like '%@parisdescartes.fr'
+    order by email
 )
 
 select * from final
