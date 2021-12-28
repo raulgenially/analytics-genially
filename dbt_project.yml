@@ -14,6 +14,8 @@ vars:
   team_feat_start_date: '2021-09-01'
   # Date at wich invoices with the new structure was launched
   invoice_duration_start_date: '2020-11-01'
+  # Date at wich invoices with the new taxes fields was launched
+  invoice_tax_start_date: '2021-12-21'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'

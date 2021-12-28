@@ -24,10 +24,7 @@ int_invoices as (
         trim(json_extract_scalar(data, '$.Country')) as data_payer_country,
         cast(trim(json_extract_scalar(data, '$.IsValidEuVatNumber')) as bool) as is_valid_euvat_number,
         cast(trim(json_extract_scalar(data, '$.TaxRate')) as int64) as tax_rate,
-        trim(json_extract_scalar(data, '$.TaxKey')) as tax_key,
-
-
-
+        trim(json_extract_scalar(data, '$.TaxKey')) as tax_key
 
     from invoices
 ),

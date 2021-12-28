@@ -1,11 +1,6 @@
 --Invoices and Refund Invoices has tax fields to calculate taxes.
 --Tax charges depends of the payer country and other fiscal rules.
 --The tax possibilities are given by finance team by a list (seed_taxkey_taxrates.csv)
-{{
-  config(
-    severity='warn'
-  )
-}}
 
 with taxes as (
     select * from {{ ref('seed_taxkey_taxrate') }}

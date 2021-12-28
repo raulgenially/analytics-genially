@@ -25,9 +25,9 @@ select
     billing.payer_address as fiscal_adress,
     billing.payer_country as fiscal_country,
     billing.payer_email,
-    billing.tax_key as tax_code,
-    billing.tax_rate as tax_rate,
-    billing.is_valid_euvat_number as is_valid_euvat_number,
+    billing.tax_key
+    billing.tax_rate
+    billing.is_valid_euvat_number,
     if(billing.payment_platform in ('PayPal', 'Braintree'), 'PayPal '||upper(billing.currency), billing.payment_platform) as payment_method,
     billing.eu,
     billing.iva as IVA,

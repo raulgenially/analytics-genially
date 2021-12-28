@@ -42,25 +42,9 @@ models:
 
         - name: tax_rate
           description: The percentage at which the invoice is taxed.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '2021-12-21'
-            - relationships:
-                to: ref('seed_taxkey_taxrate')
-                field: tax_rate
-                where: date(invoiced_at) > '2021-12-21'
-            - dbt_utils.expression_is_true:
-                expression: ">= 0"
 
         - name: tax_key
           description: Tax Idetification key.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '2021-12-21'
-            - relationships:
-                to: ref('seed_taxkey_taxrate')
-                field: tax_key
-                where: date(invoiced_at) > '2021-12-21'
 
         - name: currency
           description: Currency in which the invoice is paid.
@@ -82,9 +66,6 @@ models:
 
         - name: is_valid_euvat_number
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '2021-12-21'
 
         - name: user_id
           description: Id of the user making the payment.
@@ -120,8 +101,3 @@ models:
         - dbt_utils.expression_is_true:
             expression: "reference_invoice_number is null"
             condition: "is_refund = false"
-
-        - dbt_utils.expression_is_true:
-            severity: warn
-            expression: "is_valid_euvat_number = true"
-            condition: "tax_key = 'INTRA_21'"
