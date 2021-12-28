@@ -81,7 +81,7 @@ models:
           description: Country (ISO code).
           tests:
             - not_null
-        
+
         - name: user_country_name
           description: Full name of the country.
           tests:

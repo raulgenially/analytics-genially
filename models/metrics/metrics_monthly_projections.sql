@@ -27,7 +27,7 @@ collaboratives as (
 ),
 
 signups as (
-    select 
+    select
         -- Dimensions
         date(users.registered_at) as registered_at,
         users.plan,
@@ -44,7 +44,7 @@ signups as (
 
 --reference_signups
 metrics1 as (
-    select 
+    select
         --Dimensions
         reference_table.date_day,
         reference_table.plan,
@@ -64,7 +64,7 @@ metrics1 as (
 ),
 
 creations as(
-    select 
+    select
         -- Dimensions
         date(created_at) as created_at,
         geniallys.user_plan,
@@ -73,14 +73,14 @@ creations as(
         geniallys.user_country_name,
         -- Metrics
         count(distinct geniallys.genially_id) as n_creations
-    
+
     from geniallys
-    where date(created_at) >= {{ min_date }}    
+    where date(created_at) >= {{ min_date }}
     {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics2 as (
-    select 
+    select
         --Dimensions
         metrics1.date_day,
         metrics1.plan,
@@ -104,7 +104,7 @@ creators_usersfromgeniallys as (
     select
         user_id,
         min(created_at) as first_creation_at
-    
+
     from geniallys
     group by 1
 ),
@@ -113,7 +113,7 @@ creators_usersfromcollaboratives as (
     select
         user_id,
         min(created_at) as first_creation_at
-    
+
     from collaboratives
     where user_id is not null
     group by 1
@@ -124,11 +124,11 @@ creators as (
         user_id,
         first_creation_at
 
-    from creators_usersfromgeniallys 
+    from creators_usersfromgeniallys
 
-    union all 
+    union all
 
-    select 
+    select
         user_id,
         first_creation_at
 
@@ -136,7 +136,7 @@ creators as (
 ),
 
 uniquecreators as(
-    select 
+    select
         user_id,
         min(first_creation_at) as first_creation_at,
 
@@ -146,7 +146,7 @@ uniquecreators as(
 --if a collaboration or a genially started before the user is registered, the creation date should be equal to user's registered date:
 
 totalcreators as (
-    select 
+    select
         uniquecreators.user_id,
         if (
             date(uniquecreators.first_creation_at) < date(users.registered_at),
@@ -160,9 +160,9 @@ totalcreators as (
 ),
 
 new_creators as (
-    select 
+    select
         --Dimensions
-        date(totalcreators.first_creation_at) as first_creation_at,    
+        date(totalcreators.first_creation_at) as first_creation_at,
         users.plan,
         {{ create_subscription_field('users.plan') }} as subscription,
         users.country,
@@ -171,15 +171,15 @@ new_creators as (
         count(distinct users.user_id) as n_new_creators
 
     from totalcreators
-    left join users 
-        on totalcreators.user_id = users.user_id 
-    where date(totalcreators.first_creation_at) >= {{ min_date }} 
+    left join users
+        on totalcreators.user_id = users.user_id
+    where date(totalcreators.first_creation_at) >= {{ min_date }}
         and users.registered_at is not null
     {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics3 as (
-    select 
+    select
         --Dimensions
         metrics2.date_day,
         metrics2.plan,
@@ -202,25 +202,25 @@ metrics3 as (
 
 new_creators_registered_same_day as (
     select
-        --Dimensions 
-        date(first_creation_at) as first_creation_at,    
+        --Dimensions
+        date(first_creation_at) as first_creation_at,
         users.plan,
-        {{ create_subscription_field('users.plan') }} as subscription,        
+        {{ create_subscription_field('users.plan') }} as subscription,
         users.country,
         users.country_name,
         -- Metrics
         count(distinct users.user_id) as n_new_creators_registered_same_day
 
     from totalcreators
-    left join users 
+    left join users
         on totalcreators.user_id = users.user_id
-        and date(totalcreators.first_creation_at) = date(users.registered_at) 
-    where date(totalcreators.first_creation_at) >= {{ min_date }}     
+        and date(totalcreators.first_creation_at) = date(users.registered_at)
+    where date(totalcreators.first_creation_at) >= {{ min_date }}
     {{ dbt_utils.group_by(n=5) }}
 ),
 
 metrics4 as (
-    select 
+    select
         --Dimensions
         metrics3.date_day,
         metrics3.plan,
@@ -244,7 +244,7 @@ metrics4 as (
 ),
 
 final as (
-    select 
+    select
         *,
         -- lags n_signups
         {{ get_lag_dimension_monthly_projections('n_signups', week_days) }} as n_signups_previous_7d,
@@ -266,7 +266,7 @@ final as (
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }} as n_new_creators_previously_registered_previous_7d,
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }} as n_new_creators_previously_registered_previous_28d,
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }} as n_new_creators_previously_registered_previous_364d,
-        
+
     from metrics4
 )
 
