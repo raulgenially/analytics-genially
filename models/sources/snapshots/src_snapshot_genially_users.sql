@@ -1,5 +1,10 @@
 with users as (
-    {{ create_base_user_model(model='snapshot_genially_users') }}
+    {{
+        create_base_user_model(
+            source_name='snapshots',
+            source_table='snapshot_genially_users'
+        )
+    }}
 ),
 
 final as (

@@ -1,13 +1,12 @@
-{% macro create_base_user_model(model=null, src=null) %}
+{% macro create_base_user_model(source_name=null, source_table=null) %}
 
 with users as (
-    select * from
-    {% if src %}
-        {{ source('genially', src) }}
+    select * from {{ source(source_name, source_table) }}
+    {% if source_name == 'snapshots' %}
+        where email is not null
+    {% else %}
         where __hevo__marked_deleted = false
             and email is not null
-    {% else %}
-        {{ ref(model) }}
     {% endif %}
 ),
 

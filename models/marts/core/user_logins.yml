@@ -1,13 +1,13 @@
 version: 2
 
 models:
-    - name: stg_logins
+    - name: user_logins
       description: Records of when a user accessed genially.
         At most we will have 1 record per user per day.
       columns:
-        - name: id
+        - name: login_id
           description: Primary key of this model.
-            It is a surrogate key composed by user_id and login_at
+            It is a surrogate key composed by user_id and login_at.
           tests:
             - unique
             - not_null
@@ -22,7 +22,7 @@ models:
           tests:
             - not_null
 
-        - name: first_login_at
+        - name: first_touch_at
           description: The first record we have of the user logging in.
           tests:
             - not_null

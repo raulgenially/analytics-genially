@@ -36,6 +36,8 @@ models:
 
         - name: email
           description: Email account (same as username).
+          tests:
+            - not_null
 
         - name: country
           description: Country (ISO code).
@@ -77,6 +79,8 @@ models:
 
         - name: version
           description: The number of this state. Versions start from 1 onwards.
+          tests:
+            - not_null
 
         - name: is_validated
           description: Whether the user has validated their email.
@@ -100,9 +104,6 @@ models:
         - name: email_validation_created_at
           description: Date the validation email was sent.
 
-        - name: email_validation_created_at
-          description: Date the validation email was sent.
-
         - name: state_valid_from
           description: Date from which this state is active.
           tests:
@@ -110,6 +111,6 @@ models:
 
         - name: state_valid_to
           description: Date where this state is superseded by a new one, except
-            the curently active state which has a fictional date far into the future.
+            the currently active state which has a fictional date far into the future.
           tests:
             - not_null

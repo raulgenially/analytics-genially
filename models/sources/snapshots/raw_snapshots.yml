@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: snapshots
+    description: Type 2 data from different sources.
+    database: data-genially
+    tables:
+      - name: snapshot_genially_users
+        columns:
+          - name: dbt_scd_id
+            description: Primary key for user records.
+            tests:
+              - unique
+              - not_null

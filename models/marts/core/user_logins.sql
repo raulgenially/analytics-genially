@@ -22,7 +22,8 @@ logins as (
 
 logins_numbered as (
     select
-        *,
+        user_id,
+        date(logins.last_access_at) as login_at,
         row_number() over (
             partition by user_id
             order by last_access_at
@@ -31,10 +32,10 @@ logins_numbered as (
     from logins
 ),
 
-first_login as (
+first_touch as (
     select
         user_id,
-        last_access_at as first_login_at
+        login_at as first_touch_at
 
     from logins_numbered
     where login_day = 1
@@ -44,18 +45,18 @@ final as (
     select
         {{ dbt_utils.surrogate_key([
             'logins.user_id',
-            'logins.last_access_at'
+            'logins.login_at'
            ])
-        }} as id,
+        }} as login_id,
 
         logins.user_id,
 
-        date(logins.last_access_at) as login_at,
-        date(first_login.first_login_at) as first_login_at
+        logins.login_at,
+        first_touch.first_touch_at as first_touch_at
 
-    from logins
-    left join first_login
-        on logins.user_id = first_login.user_id
+    from logins_numbered as logins
+    left join first_touch
+        on logins.user_id = first_touch.user_id
 )
 
 select * from final

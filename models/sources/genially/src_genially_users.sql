@@ -1,5 +1,5 @@
 with users as (
-    {{ create_base_user_model(src='users') }}
+    {{ create_base_user_model(source_name='genially', source_table='users') }}
 ),
 
 final as (
