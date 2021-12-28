@@ -18,10 +18,6 @@ users as (
     select * from {{ ref('users') }}
 ),
 
-country_codes as (
-    select * from {{ ref('seed_country_codes') }}
-),
-
 collaboratives as (
     select * from {{ ref('collaboratives') }}
 ),
