@@ -19,14 +19,13 @@ select
     replace(cast(billing.amount as string), '.',',') as total,
     replace(cast(billing.original_amount as string), '.',',') as original_total,
     billing.currency as original_currency,
-    {# billing.description, #}
     billing.payer_name as fiscal_name,
     billing.payer_cif as tax_id,
     billing.payer_address as fiscal_adress,
     billing.payer_country as fiscal_country,
     billing.payer_email,
-    billing.tax_key
-    billing.tax_rate
+    billing.tax_key,
+    billing.tax_rate,
     billing.is_valid_euvat_number,
     if(billing.payment_platform in ('PayPal', 'Braintree'), 'PayPal '||upper(billing.currency), billing.payment_platform) as payment_method,
     billing.eu,

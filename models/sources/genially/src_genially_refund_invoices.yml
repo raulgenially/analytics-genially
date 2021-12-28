@@ -128,5 +128,5 @@ models:
             condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
 
         - dbt_utils.expression_is_true:
-            expression: "payer_cif is not null"
-            condition: "is_valid_euvat_number is not null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+            expression: "is_valid_euvat_number is not true"
+            condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
