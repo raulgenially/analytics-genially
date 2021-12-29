@@ -1,7 +1,7 @@
-{% macro create_base_user_model(source_name=null, source_table=null) %}
+{% macro create_base_user_model(source_dataset=null, source_table=null) %}
 
 with users as (
-    select * from {{ source(source_name, source_table) }}
+    select * from {{ source(source_dataset, source_table) }}
     {% if source_name == 'snapshots' %}
         where email is not null
     {% else %}
