@@ -10,33 +10,11 @@ models:
             - unique
             - not_null
 
-        - name: collaborator_email
+        - name: user_email
           description: Email of the user taking part of the collaboration.
-
-        - name: collaborator_plan
-          description: Collaborator's plan.
-            {{ doc('subscription_codes') }}
           tests:
             - not_null:
-                where: "user_id is not null"
-
-        - name: collaborator_sector
-          description: Collaborator's sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null:
-                where: "user_id is not null"
-
-        - name: collaborator_role
-          description: Collaborator's role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null:
-                where: "user_id is not null"
-
-        - name: collaborator_country
-          description: Collaborator's country.
-          tests:
-            - not_null:
-                where: "user_id is not null"
+                where: "collaboration_type = 1"
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"
@@ -46,67 +24,24 @@ models:
                 values: "{{ get_collaboration_type_values() }}"
                 quote: false
 
-        - name: name
-          description: Genially name.
-
-        - name: owner_plan
-          description: Owner's plan.
-            {{ doc('subscription_codes') }}
-
-        - name: owner_sector
-          description: Owner's sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-
-        - name: owner_role
-          description: Owner's role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-
-        - name: owner_country
-          description: Owner's country.
-
-        - name: is_active
-          description: Whether the genially is active.
-
-        - name: is_published
-          description: Whether the genially has been published.
-
-        - name: is_in_social_profile
-          description: Whether the genially is shown in owner's social profile.
-
-        - name: is_visualized_last_90_days
-          description: Whether the genially has been visualized within the last 90 days.
-
-        - name: is_visualized_last_60_days
-          description: Whether the genially has been visualized within the last 60 days.
-
-        - name: is_visualized_last_30_days
-          description: Whether the genially has been visualized within the last 30 days.
-
-        - name: is_collaborator_social_profile_active
-          description: Whether the social profile of the collaborator is active.
-          tests:
-            - not_null:
-                where: "user_id is not null"
-
-        - name: is_owner_social_profile_active
-          description: Whether the social profile of the owner is active.
-
         - name: genially_id
           description: Id of the genially referring to the collaboration.
           tests:
             - not_null
             - relationships:
-                to: ref('geniallys')
+                # TODO: point to mart model https://github.com/Genially/scrum-genially/issues/8259
+                to: ref('src_genially_geniallys')
                 field: genially_id
 
         - name: user_id
           description: Id of a user taking part of the collaboration, that is, the collaborator.
             You can send an invitation to people who has not signed up yet, so this field is empty.
           tests:
-            - not_null:
-                where: "collaboration_type = 4"
-                severity: warn # TODO: 2 records do not point to a team member
             - relationships:
                 to: ref('users')
                 field: user_id
+                where: collaboration_type = 1
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
@@ -124,15 +59,6 @@ models:
             - relationships:
                 to: ref('teams')
                 field: team_id
-
-        - name: space_id
-          description: Id of the space where the collaboration happens.
-          tests:
-            - not_null:
-                where: "collaboration_type = 4"
-            - relationships:
-                to: ref('team_spaces')
-                field: team_space_id
 
         - name: created_at
           description: When the genially was shared with the user id for collaboration.

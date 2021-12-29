@@ -17,6 +17,14 @@ inspiration as (
     select distinct(genially_id) from {{ ref('src_genially_inspiration') }}
 ),
 
+collaboratives as (
+    select distinct
+        genially_id,
+        collaboration_type
+
+    from {{ ref('int_stg_cleaned_collaboratives') }}
+),
+
 genially_templates as (
     select distinct
         genially_id
@@ -109,6 +117,7 @@ final as (
         geniallys.template_type,
         geniallys.template_name,
         geniallys.template_language,
+        collaboratives.collaboration_type,
 
         geniallys.is_from_premium_template,
         geniallys.is_published,
@@ -125,6 +134,11 @@ final as (
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 90) }} as is_visualized_last_90_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 60) }} as is_visualized_last_60_days,
         {{ create_visualization_period_field_for_creation('geniallys.last_view_at', 30) }} as is_visualized_last_30_days,
+        if(
+            collaboratives.genially_id is not null,
+            true,
+            false
+        ) as is_collaborative,
 
         geniallys.user_id,
         geniallys.reused_from_id,
@@ -145,6 +159,8 @@ final as (
     from int_geniallys as geniallys
     left join inspiration
         on geniallys.reused_from_id = inspiration.genially_id
+    left join collaboratives
+        on geniallys.genially_id = collaboratives.genially_id
 )
 
 select * from final

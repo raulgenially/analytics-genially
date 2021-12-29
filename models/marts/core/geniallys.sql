@@ -6,20 +6,8 @@ users as (
     select * from {{ ref('stg_users') }}
 ),
 
-collaboratives as (
-    select * from {{ ref('stg_collaboratives') }}
-),
-
 country_codes as (
     select * from {{ ref('seed_country_codes') }}
-),
-
-geniallys_collaboratives as (
-    select distinct
-        genially_id,
-        collaboration_type,
-
-    from collaboratives
 ),
 
 final as (
@@ -32,7 +20,7 @@ final as (
         geniallys.template_type,
         geniallys.template_name,
         geniallys.template_language,
-        geniallys_collaboratives.collaboration_type,
+        geniallys.collaboration_type,
         users.plan as user_plan,
         users.sector as user_sector,
         users.broad_sector as user_broad_sector,
@@ -56,7 +44,7 @@ final as (
         geniallys.is_visualized_last_90_days,
         geniallys.is_visualized_last_60_days,
         geniallys.is_visualized_last_30_days,
-        if(geniallys_collaboratives.genially_id is not null, true, false) as is_collaborative,
+        geniallys.is_collaborative,
         -- In some cases creation date < registration date
         case
             when geniallys.created_at is null or users.registered_at is null
@@ -83,8 +71,6 @@ final as (
     from geniallys
     inner join users
         on geniallys.user_id = users.user_id
-    left join geniallys_collaboratives
-        on geniallys.genially_id = geniallys_collaboratives.genially_id
     left join country_codes
         on users.country = country_codes.code
 )
