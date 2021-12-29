@@ -40,6 +40,12 @@ models:
         - name: total_euro
           description: The equivalent in € of the amount specified in total.
 
+        - name: tax_rate
+          description: The percentage at which the invoice is taxed.
+
+        - name: tax_key
+          description: Tax Idetification key.
+
         - name: currency
           description: Currency in which the invoice is paid.
 
@@ -57,6 +63,9 @@ models:
           description: Whether this invoice is refunding a previous invoice or not.
           tests:
             - not_null
+
+        - name: is_valid_euvat_number
+          description: Indicates if 'payer_cif' is validated as Intracomunitary.
 
         - name: user_id
           description: Id of the user making the payment.

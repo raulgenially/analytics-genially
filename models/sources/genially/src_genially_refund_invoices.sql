@@ -14,10 +14,14 @@ final as (
         payer_country,
         total_float as total,
         total_euro_float as total_euro,
+        tax_rate,
+        tax_key,
         cleaned_currency as currency,
         invoiceid as invoice_number,
         referenceinvoice as reference_invoice_number,
         payment_platform,
+
+        is_valid_euvat_number,
 
         iduser as user_id,
         transactionid as subscription_id,
