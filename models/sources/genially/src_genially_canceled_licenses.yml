@@ -54,6 +54,7 @@ models:
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
             All payments regarding this license will reference this subscription_id.
+            Importantly to note that on April 9, 2021 the development team migrated the endpoint to a new API.
           tests:
             - unique
             - not_null:
@@ -75,3 +76,4 @@ models:
             - user_id
             - subscription_id
             - canceled_at
+          where: "canceled_at >= '2021-02-22'"
