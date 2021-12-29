@@ -20,7 +20,7 @@ final as (
     from invoices
     left join taxes
         on invoices.tax_key = taxes.tax_key
-    where invoiced_at > {{var('invoice_tax_start_date')}}
+    where invoiced_at > '{{var('invoice_tax_start_date')}}'
     and invoices.tax_rate != taxes.tax_rate
 )
 

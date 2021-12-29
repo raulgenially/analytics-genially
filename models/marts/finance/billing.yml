@@ -53,11 +53,11 @@ models:
           description: The percentage at which the invoice is taxed.
           tests:
             - not_null:
-                where: date(invoiced_at) > '2021-12-21'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
             - relationships:
                 to: ref('seed_taxkey_taxrate')
                 field: tax_rate
-                where: date(invoiced_at) > '2021-12-21'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 
@@ -65,11 +65,11 @@ models:
           description: Tax Idetification key.
           tests:
             - not_null:
-                where: date(invoiced_at) > '2021-12-21'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
             - relationships:
                 to: ref('seed_taxkey_taxrate')
                 field: tax_key
-                where: date(invoiced_at) > '2021-12-21'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
         - name: amount
           description: Paid amount before taxes.
@@ -140,7 +140,7 @@ models:
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
           tests:
             - not_null:
-                where: date(invoiced_at) > '2021-12-21'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
         - name: user_id
           description: Id of the user making the payment.
