@@ -25,16 +25,16 @@ collaboratives as (
 signups as (
     select
         -- Dimensions
-        date(users.registered_at) as registered_at,
-        users.plan,
-        {{ create_subscription_field('users.plan') }} as subscription,
-        users.country,
-        users.country_name,
+        date(registered_at) as registered_at,
+        plan,
+        {{ create_subscription_field('plan') }} as subscription,
+        country,
+        country_name,
         -- Metrics
         count(user_id) as n_signups
 
     from users
-    where date(users.registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
+    where date(registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
     {{ dbt_utils.group_by(n=5) }}
 ),
 
@@ -63,12 +63,12 @@ creations as(
     select
         -- Dimensions
         date(created_at) as created_at,
-        geniallys.user_plan,
-        {{ create_subscription_field('geniallys.user_plan') }} as user_subscription,
-        geniallys.user_country,
-        geniallys.user_country_name,
+        user_plan,
+        {{ create_subscription_field('user_plan') }} as user_subscription,
+        user_country,
+        user_country_name,
         -- Metrics
-        count(distinct geniallys.genially_id) as n_creations
+        count(genially_id) as n_creations
 
     from geniallys
     where date(created_at) >= {{ min_date }}
@@ -85,7 +85,7 @@ metrics2 as (
         metrics1.country_name,
         --Metrics
         metrics1.n_signups,
-        coalesce(creations.n_creations,0) as n_creations
+        coalesce(creations.n_creations, 0) as n_creations
 
     from metrics1
     left join creations
@@ -149,8 +149,8 @@ totalcreators as (
             date(users.registered_at),
             date(uniquecreators.first_creation_at)
         ) as first_creation_at
-    from uniquecreators
 
+    from uniquecreators
     left join users
         on uniquecreators.user_id = users.user_id
 ),
@@ -205,7 +205,7 @@ new_creators_registered_same_day as (
         users.country,
         users.country_name,
         -- Metrics
-        count(distinct users.user_id) as n_new_creators_registered_same_day
+        count(users.user_id) as n_new_creators_registered_same_day
 
     from totalcreators
     left join users
