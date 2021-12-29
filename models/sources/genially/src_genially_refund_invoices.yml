@@ -109,7 +109,6 @@ models:
             - relationships:
                 to: ref('src_genially_users')
                 field: user_id
-                severity: warn
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -135,7 +134,7 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
-            condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+            condition: "payer_cif is null"
 
         - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
