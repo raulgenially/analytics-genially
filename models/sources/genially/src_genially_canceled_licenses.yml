@@ -47,7 +47,7 @@ models:
           tests:
             - not_null
             - relationships:
-                to: ref('stg_users')
+                to: ref('src_genially_users')
                 field: user_id
                 severity: warn
 
@@ -55,14 +55,23 @@ models:
           description: Id of the subscription in the payment processing platform.
             All payments regarding this license will reference this subscription_id.
           tests:
-            # TODO: the unique tests fails because we have 3 canceled licenses that are duplicated
-            # They have all the same attributes but the _id. Let's see if we can ask tech to remove them
-            - unique:
-                severity: warn
+            - unique
             - not_null:
-                where: canceled_at > '2021-04-09'
+                where: canceled_at >= '2021-04-09'
 
         - name: canceled_at
           description: Date time at which the license is canceled.
           tests:
             - not_null
+
+      tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - subscription_code
+            - subscription_plan
+            - reason_code
+            - reason
+            - comment
+            - user_id
+            - subscription_id
+            - canceled_at

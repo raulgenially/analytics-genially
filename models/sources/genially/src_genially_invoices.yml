@@ -101,6 +101,10 @@ models:
           description: Id of the user making the payment.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
+                severity: warn
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
