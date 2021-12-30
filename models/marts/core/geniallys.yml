@@ -82,6 +82,11 @@ models:
           tests:
             - not_null
 
+        - name: user_country_name
+          description: Full name of the country.
+          tests:
+            - not_null
+
         - name: is_from_premium_template
           description: Whether the template is premium.
             Premium templates can only be used in premium plans.
