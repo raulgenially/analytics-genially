@@ -7,7 +7,7 @@ final as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        {{ create_subscription_field('plan') }} as subscription,
+        subscription,
         sector,
         broad_sector,
         role,
@@ -24,7 +24,7 @@ final as (
 
     from users
     where date(registered_at) >= date(2019, 1, 1) and date(registered_at) < current_date() 
-    group by 1, 2, 3, 4, 5, 6, 7, 8, 9
+    {{ dbt_utils.group_by(n=9) }}
     order by registered_at asc
 )
 

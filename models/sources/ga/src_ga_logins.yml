@@ -1,0 +1,10 @@
+version: 2
+
+models:
+    - name: src_ga_logins
+      columns:
+        - name: login_id
+          description: Primary key for logins.
+          tests:
+            - unique
+            - not_null

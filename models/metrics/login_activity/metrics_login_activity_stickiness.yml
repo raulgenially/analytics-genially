@@ -1,11 +1,10 @@
 version: 2
 
-models:  
-    - name: metrics_users_in_funnel
-      description: Model containing number of users for different stages of the funnel.
+models:
+    - name: metrics_login_activity_stickiness
       columns:
-        - name: registered_at
-          description: Registration date
+        - name: date_day
+          description: The particular day where user's activity is described.
           tests:
             - not_null
 
@@ -52,28 +51,35 @@ models:
           description: Full name of the country.
           tests:
             - not_null
-
-        - name: n_signups
-          description: Total number of signups.
+        
+        - name: device
+          description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: n_creators
-          description: Total number of creators.
+        - name: acquisition_channel
+          description: Acquisition channel.
           tests:
             - not_null
 
-        - name: n_publishers
-          description: Total number of publishers.
+        - name: n_daily_active_users
+          description: Number of daily active users.
           tests:
             - not_null
 
-        - name: n_recurrent_publishers
-          description: Total number of recurrent publishers.
+        - name: n_weekly_active_users
+          description: Number of weekly active users.
           tests:
             - not_null
 
-        - name: n_heavy_publishers
-          description: Total number of heavy publishers.
+        - name: n_monthly_active_users
+          description: Number of daily active users.
           tests:
             - not_null
+
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "n_daily_active_users <= n_weekly_active_users"
+
+        - dbt_utils.expression_is_true:
+            expression: "n_weekly_active_users <= n_monthly_active_users"

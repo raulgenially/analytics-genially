@@ -1,13 +1,20 @@
 version: 2
 
-models:  
-    - name: metrics_users_in_funnel
-      description: Model containing number of users for different stages of the funnel.
+models:
+    - name: metrics_login_activity_status
+      description: This model computes the number of daily active users segmented by different dimensions.
       columns:
-        - name: registered_at
-          description: Registration date
+        - name: date_day
+          description: The particular day where user's activity is described.
           tests:
             - not_null
+
+        - name: status
+          description: Status.
+          tests:
+            - not_null
+            - accepted_values:
+                values: ['Current Users', 'Signups', 'Total Active Users']
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
@@ -52,28 +59,18 @@ models:
           description: Full name of the country.
           tests:
             - not_null
-
-        - name: n_signups
-          description: Total number of signups.
+        
+        - name: device
+          description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: n_creators
-          description: Total number of creators.
+        - name: acquisition_channel
+          description: Acquisition channel.
           tests:
             - not_null
 
-        - name: n_publishers
-          description: Total number of publishers.
-          tests:
-            - not_null
-
-        - name: n_recurrent_publishers
-          description: Total number of recurrent publishers.
-          tests:
-            - not_null
-
-        - name: n_heavy_publishers
-          description: Total number of heavy publishers.
+        - name: n_users
+          description: Number of users determined by the field `status`.
           tests:
             - not_null

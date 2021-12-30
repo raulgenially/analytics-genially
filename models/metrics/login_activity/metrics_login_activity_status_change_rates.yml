@@ -1,13 +1,27 @@
 version: 2
 
-models:  
-    - name: metrics_users_in_funnel
-      description: Model containing number of users for different stages of the funnel.
+models:
+    - name: metrics_login_activity_status_change_rates
+      description: This model computes the change rates of daily active users.
       columns:
-        - name: registered_at
-          description: Registration date
+        - name: date_day
+          description: The particular day where user's activity is described.
           tests:
             - not_null
+
+        - name: previous_status
+          description: Previous status of the user.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
+
+        - name: status
+          description: Whether the user is New, Current or Churned.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
@@ -52,28 +66,35 @@ models:
           description: Full name of the country.
           tests:
             - not_null
-
-        - name: n_signups
-          description: Total number of signups.
+        
+        - name: device
+          description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: n_creators
-          description: Total number of creators.
+        - name: acquisition_channel
+          description: Acquisition channel.
           tests:
             - not_null
 
-        - name: n_publishers
-          description: Total number of publishers.
+        - name: transition_type
+          description: It describes how a user transitions throughout the different stages.
+            For example, activation refers to users transitioning from New to Current status.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_transition_categories() }}"
+
+        - name: n_initial_users
+          description: Number of users in previous status.
           tests:
             - not_null
 
-        - name: n_recurrent_publishers
-          description: Total number of recurrent publishers.
+        - name: n_passing_users
+          description: Number of users transitioning from previous status to status.
           tests:
             - not_null
 
-        - name: n_heavy_publishers
-          description: Total number of heavy publishers.
-          tests:
-            - not_null
+      tests:
+      - dbt_utils.expression_is_true:
+          expression: "n_passing_users <= n_initial_users"

@@ -1,0 +1,10 @@
+version: 2
+
+models:
+    - name: src_ga_signups
+      columns:
+        - name: user_id
+          description: Primary key signups
+          tests:
+            - unique
+            - not_null
