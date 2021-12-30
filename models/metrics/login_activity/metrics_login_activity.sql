@@ -5,7 +5,7 @@
 {% set month_days_minus = month_days - 1 %}
 
 {% set min_date_signups %}
-    date('2019-01-01')
+    date('2015-01-01')
 {% endset %}
 
 -- To reduce computational burden since login events were instrumented in February 2021

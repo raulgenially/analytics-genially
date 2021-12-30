@@ -23,6 +23,13 @@ models:
             - accepted_values:
                 values: "{{ get_plan_values() }}"
 
+        - name: subscription
+          description: Type of subscription, Free or Premium.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_subscription_values() }}"
+
         - name: sector
           description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
           tests:

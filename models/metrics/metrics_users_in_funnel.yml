@@ -21,7 +21,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['Free', 'Premium']
+                values: "{{ get_subscription_values() }}"
 
         - name: sector
           description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
