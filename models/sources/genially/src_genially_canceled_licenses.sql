@@ -7,12 +7,16 @@ cancel_codes as (
     select * from {{ ref('seed_cancel_license_reason_codes') }}
 ),
 
+subscription_plans as (
+    select * from {{ ref('seed_plan') }}
+),
+
 final as (
     select
         canceled_licenses._id as canceled_license_id,
 
         canceled_licenses.typesubscription as subscription_code,
-        {{ map_subscription_code('canceled_licenses.typesubscription') }} as subscription_plan,
+        subscription_plans.plan as subscription_plan,
         cast(canceled_licenses.optionselected as int64) as reason_code,
         cancel_codes.name as reason,
         if(canceled_licenses.comment = '',
@@ -28,6 +32,8 @@ final as (
     from canceled_licenses
     left join cancel_codes
         on cast(canceled_licenses.optionselected as int64) = cancel_codes.code
+    left join subscription_plans
+        on canceled_licenses.typesubscription = subscription_plans.code
 )
 
 select * from final
