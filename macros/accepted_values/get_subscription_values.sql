@@ -1,3 +1,3 @@
 {% macro get_subscription_values() %}
-    {{ return([Free, Premium]) }}
+    {{ return(['Free', 'Premium']) }}
 {% endmacro %}
