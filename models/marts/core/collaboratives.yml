@@ -29,7 +29,9 @@ models:
           tests:
             - not_null
             - relationships:
-                # TODO: point to mart model https://github.com/Genially/scrum-genially/issues/8259
+                # Some collaboratives point to geniallys that are templates
+                # so we cannot point to the mart model because we filter them out
+                # Which in turn takes me to believe that we should not filter them out
                 to: ref('src_genially_geniallys')
                 field: genially_id
 
@@ -40,8 +42,6 @@ models:
             - relationships:
                 to: ref('users')
                 field: user_id
-                where: collaboration_type = 1
-                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.

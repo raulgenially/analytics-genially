@@ -31,7 +31,6 @@ models:
             - relationships:
                 to: ref('src_genially_geniallys')
                 field: genially_id
-                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
@@ -41,12 +40,10 @@ models:
                 to: ref('src_genially_team_members')
                 field: team_member_id
                 where: collaboration_type = 4
-                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
             - relationships:
                 to: ref('src_genially_users')
                 field: user_id
                 where: collaboration_type = 1
-                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.
