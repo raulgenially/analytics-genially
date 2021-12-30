@@ -10,6 +10,10 @@ collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
 ),
 
+country_codes as (
+    select * from {{ ref('seed_country_codes') }}
+),
+
 geniallys_collaboratives as (
     select distinct
         genially_id,
@@ -35,6 +39,7 @@ final as (
         users.role as user_role,
         users.broad_role as user_broad_role,
         users.country as user_country,
+        ifnull(country_codes.name, '{{ var('not_selected') }}') as user_country_name,
 
         geniallys.is_from_premium_template,
         geniallys.is_published,
@@ -80,6 +85,8 @@ final as (
         on geniallys.user_id = users.user_id
     left join geniallys_collaboratives
         on geniallys.genially_id = geniallys_collaboratives.genially_id
+    left join country_codes
+        on users.country = country_codes.code
 )
 
 select * from final

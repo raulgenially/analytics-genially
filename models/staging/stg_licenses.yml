@@ -1,0 +1,102 @@
+version: 2
+
+models:
+    - name: stg_licenses
+      description: Information about the licenses the users purchase and its
+        metadata when they have been canceled
+      columns:
+        - name: license_id
+          description: Primary key for licenses.
+          tests:
+            - unique
+            - not_null
+
+        - name: status
+          description: The status of the subscription,
+            either Pending, Active, Canceled, Active Churn or Passive Churn.
+
+            **Pending** -> the license is created but has not been paid for yet.
+            **Active** -> the license has been paid and it is active.
+            **Canceled** -> the license is active but the user has canceled the license.
+            **Passive Churn** -> the license reached the EOL organically.
+            **Active Churn** -> the license reached the EOL because the user canceled the subscription.
+          tests:
+            - not_null
+
+        - name: license_type
+          description: Identifier of the type of license.
+            This describes whether the license has a monthly or annual payment
+            and the degree of feature access to the platform.
+
+        - name: comments
+          description: Notes on the license.
+
+        - name: user_ip
+          description: Ip address from which the user purchased the license.
+
+        - name: canceled_reason_code
+          description: The reason code by which the user canceled the license
+
+        - name: canceled_reason
+          description: The reason by which the user canceled the license
+          tests:
+            - not_null:
+                where: canceled_reason_code is not null
+
+        - name: canceled_comment
+          description: Additional feedback from the user about why is cancelling the license.
+
+        - name: user_id
+          description: Id of the User purchasing the license.
+          tests:
+            - relationships:
+                to: ref('stg_users')
+                field: user_id
+                severity: warn
+
+        - name: payer_id
+          description: Id of the user in the payment processing platform
+            used (e.g. Stripe or Braintree).
+
+        - name: transaction_id
+          description: Id of the transaction in the payment processing platform.
+            Each recurrent payment will have a different transaction_id.
+
+        - name: subscription_id
+          description: Id of the subscription in the payment processing platform.
+
+        - name: started_at
+          description: Date time the license starts.
+
+        - name: finished_at
+          description: Date time the license finished. This field is filled in once the license
+            is canceled (see status field)
+
+        - name: manual_finished_at
+          description: Date time the license will be finished.
+            This is set by genially employees to a future date.
+
+        - name: canceled_at
+          description: Date time at which the license is canceled.
+          tests:
+            - not_null:
+                where: canceled_reason_code is not null
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: finished_at is null or date(finished_at) >= current_date()
+            condition: status = "Active"
+            # TODO: There is one license that reached the EOL but it is not in a "Canceled status"
+            severity: warn
+
+        - dbt_utils.expression_is_true:
+            expression: canceled_reason_code is not null
+              and (finished_at is null or date(finished_at) >= current_date())
+            condition: status = "Canceled"
+
+        - dbt_utils.expression_is_true:
+            expression: finished_at is not null and canceled_reason_code is null
+            condition: status = "Passive Churn" and started_at > "2020-02-05"
+
+        - dbt_utils.expression_is_true:
+            expression: canceled_reason_code is not null and finished_at is not null
+            condition: status = "Active Churn"

@@ -91,6 +91,15 @@ sources:
                 - unique
                 - not_null
 
+        - name: canceledlicense
+          description: Information about canceled licenses.
+          columns:
+            - name: _id
+              description: Primary key for licenses.
+              tests:
+                - unique
+                - not_null
+
         - name: invoice
           description: Information about invoices
           columns:

@@ -14,6 +14,7 @@ final as (
             "antonio@genially.com",
             "raul@genial.ly"
         )
+    order by email
 )
 
 select * from final
