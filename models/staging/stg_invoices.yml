@@ -69,11 +69,6 @@ models:
 
         - name: user_id
           description: Id of the user making the payment.
-          tests:
-            - relationships:
-                to: ref('stg_users')
-                field: user_id
-                where: invoiced_at > '2018-01-18'
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.

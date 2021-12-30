@@ -3,7 +3,7 @@ version: 2
 models:
     - name: stg_licenses
       description: Information about the licenses the users purchase and its
-        metadata when they have been canceled
+        metadata when they have been canceled.
       columns:
         - name: license_id
           description: Primary key for licenses.
@@ -13,13 +13,13 @@ models:
 
         - name: status
           description: The status of the subscription,
-            either Pending, Active, Canceled, Active Churn or Passive Churn.
+            either Pending, Active, Canceled, Passive Churn or Proactive Churn.
 
             **Pending** -> the license is created but has not been paid for yet.
             **Active** -> the license has been paid and it is active.
-            **Canceled** -> the license is active but the user has canceled the license.
-            **Passive Churn** -> the license reached the EOL organically.
-            **Active Churn** -> the license reached the EOL because the user canceled the subscription.
+            **Canceled** -> the license is active but the user has canceled the license (it will be a proactive churn in the following billing period).
+            **Passive Churn** -> the license reached the EOL (end of life) because the customer didn't pay the subscription without canceling previously.
+            **Proactive Churn** -> the license reached the EOL because the user canceled the subscription at some point before the next billing period.
           tests:
             - not_null
 
@@ -48,11 +48,6 @@ models:
 
         - name: user_id
           description: Id of the User purchasing the license.
-          tests:
-            - relationships:
-                to: ref('stg_users')
-                field: user_id
-                severity: warn
 
         - name: payer_id
           description: Id of the user in the payment processing platform
@@ -83,20 +78,22 @@ models:
                 where: canceled_reason_code is not null
       tests:
         - dbt_utils.expression_is_true:
-            expression: finished_at is null or date(finished_at) >= current_date()
-            condition: status = "Active"
-            # TODO: There is one license that reached the EOL but it is not in a "Canceled status"
-            severity: warn
+            expression: date_diff(current_date(), date(started_at), day) < 2
+              and finished_at is null and canceled_at is null
+            condition: status = "Pending" and manual_finished_at is null
 
         - dbt_utils.expression_is_true:
-            expression: canceled_reason_code is not null
-              and (finished_at is null or date(finished_at) >= current_date())
-            condition: status = "Canceled"
+            expression: finished_at is null and canceled_at is null
+            condition: status = "Active" and manual_finished_at is null
 
         - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_reason_code is null
-            condition: status = "Passive Churn" and started_at > "2020-02-05"
+            expression: finished_at is null and canceled_at is not null
+            condition: status = "Canceled" and manual_finished_at is null
 
         - dbt_utils.expression_is_true:
-            expression: canceled_reason_code is not null and finished_at is not null
-            condition: status = "Active Churn"
+            expression: finished_at is not null and canceled_at is null
+            condition: status = "Passive Churn" and manual_finished_at is null and started_at >= '2020-02-05'
+
+        - dbt_utils.expression_is_true:
+            expression: finished_at is not null and canceled_at is not null
+            condition: status = "Active Churn" and manual_finished_at is null
