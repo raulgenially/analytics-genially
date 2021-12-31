@@ -115,7 +115,8 @@ models:
         - name: invoice_number_id
           description: Unique invoice number.
           tests:
-            - unique
+            - unique:
+               where: "invoiced_at >= '2019-02-18'"
             - not_null
 
         - name: invoiced_at

@@ -110,7 +110,8 @@ models:
         - name: invoice_number_id
           description: Unique invoice number.
           tests:
-            - unique
+            - unique:
+                where: "invoiced_at >= '2018-07-05'"
             - not_null
 
         - name: reference_invoice_number_id
