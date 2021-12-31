@@ -3,7 +3,8 @@ version: 2
 models:
     - name: src_genially_licenses
       description: Information about the licenses the users purchase.
-        There are many issues (shit) related to this table. Let's try to be pragmatic and pay only special attention on the newest licenses.
+        There are many issues (shit) related to this table. 
+        Let's try to be pragmatic and pay only special attention to the newest licenses.
       columns:
         - name: license_id
           description: Primary key for licenses.
@@ -24,7 +25,7 @@ models:
 
         - name: license_type
           description: Identifier of the type of license.
-            This describes whether the license has a monthly or annual payment
+            This describes whether the license has a monthly or annual payment.
             and the degree of feature access to the platform.
           tests:
             - not_null
@@ -57,17 +58,20 @@ models:
           description: Id of the transaction in the payment processing platform.
             This refers to the first payment associated with the subscription. This field is not very relevant here, though.
           tests:
-            - not_null:
-                where: "license_id not in ('61716017b692c60dbaaf952c', '61714d9f98f5a60d43efe33a')"
             - unique:
                 where: "started_at >= '2020-06-24'"
+            - not_null:
+                where: "license_id not in ('61716017b692c60dbaaf952c', '61714d9f98f5a60d43efe33a')"
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
           tests:
-            - not_null
             - unique:
                 where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
+            - not_null
+            - relationships:
+                to: ref('src_genially_invoices')
+                field: subscription_id
 
         - name: started_at
           description: Date time the license starts.

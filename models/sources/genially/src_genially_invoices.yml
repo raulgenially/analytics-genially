@@ -77,19 +77,12 @@ models:
           tests:
             - not_null
 
-        - name: invoice_number
-          description: Unique invoice number.
-          tests:
-            - not_null
-            - unique:
-                where: "invoiced_at > timestamp('2020-01-01')"
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
           tests:
             - not_null:
-                where: "invoiced_at > timestamp('2020-08-15')"
+                where: "invoiced_at >= '2020-08-15'"
 
         - name: is_valid_euvat_number
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
@@ -104,7 +97,7 @@ models:
             - relationships:
                 to: ref('src_genially_users')
                 field: user_id
-                where: invoiced_at > '2018-01-18'
+                where: invoiced_at >= '2018-01-18'
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -117,7 +110,13 @@ models:
             This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
           tests:
             - not_null:
-                where: "invoiced_at >= '2020-01-01'"
+                where: "invoiced_at >= '2019-12-31'"
+
+        - name: invoice_number_id
+          description: Unique invoice number.
+          tests:
+            - unique
+            - not_null
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
@@ -143,10 +142,13 @@ models:
               - payer_country
               - total
               - total_euro
+              - tax_rate
+              - tax_key
               - currency
-              - invoice_number
               - payment_platform
+              - is_valid_euvat_number
               - user_id
               - subscription_id
               - transaction_id
+              - invoice_number_id
               - invoiced_at

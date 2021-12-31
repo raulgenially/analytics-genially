@@ -17,8 +17,6 @@ final as (
         tax_rate,
         tax_key,
         cleaned_currency as currency,
-        invoiceid as invoice_number,
-        referenceinvoice as reference_invoice_number,
         payment_platform,
 
         is_valid_euvat_number,
@@ -26,6 +24,8 @@ final as (
         iduser as user_id,
         transactionid as subscription_id,
         realtransactionid as transaction_id,
+        invoiceid as invoice_number_id,
+        referenceinvoice as reference_invoice_number_id,
 
         dateinvoce as invoiced_at,
 
