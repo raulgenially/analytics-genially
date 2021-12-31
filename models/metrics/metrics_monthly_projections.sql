@@ -6,6 +6,10 @@
     date('2020-01-01')
 {% endset %}
 
+{% set snapshot_users_start_date %}
+    date('2021-12-20')
+{% endset %}
+
 with reference_table as (
     {{ get_combination_calendar_dimensions(min_date) }}
 ),
@@ -20,6 +24,10 @@ users as (
 
 collaboratives as (
     select * from {{ ref('collaboratives') }}
+),
+
+user_logins as (
+    select * from {{ref('user_logins')}}
 ),
 
 signups as (
@@ -238,6 +246,67 @@ metrics4 as (
         and metrics3.country = new_creators_registered_same_day.country
         and metrics3.country_name = new_creators_registered_same_day.country_name
 ),
+ 
+user_logins_profile as (
+    select 
+    user_logins.user_id,
+    date(user_logins.login_at) as login_at,
+
+    users.plan,
+    users.subscription,
+    users.country,
+    users.country_name
+
+    from user_logins
+    left join users
+        on user_logins.user_id = users.user_id
+    where date(login_at) >= {{ min_date }}
+),
+
+total_visitors as (
+    select
+        --Dimensions
+        login_at,
+        plan,
+        subscription,
+        country,
+        country_name,
+        --Metrics
+        count(user_id) as n_total_visitors
+
+    from user_logins_profile
+    {{ dbt_utils.group_by(n=5) }}
+),
+
+metrics5 as (
+        select
+        --Dimensions
+        metrics4.date_day,
+        metrics4.plan,
+        metrics4.subscription,
+        metrics4.country,
+        metrics4.country_name,
+        --Metrics
+        metrics4.n_signups,
+        metrics4.n_creations,
+        metrics4.n_new_creators,
+        metrics4.n_new_creators_registered_same_day,
+        metrics4.n_new_creators_previously_registered,
+        case 
+            when metrics4.date_day < {{ snapshot_users_start_date }}
+                then coalesce(total_visitors.n_total_visitors, null)
+            else coalesce(total_visitors.n_total_visitors, 0)
+        end as n_total_visitors,
+       
+    from metrics4
+    left join total_visitors
+        on metrics4.date_day = total_visitors.login_at
+        and metrics4.plan = total_visitors.plan
+        and metrics4.subscription = total_visitors.subscription
+        and metrics4.country = total_visitors.country
+        and metrics4.country_name = total_visitors.country_name
+
+),
 
 final as (
     select
@@ -262,8 +331,12 @@ final as (
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }} as n_new_creators_previously_registered_previous_7d,
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }} as n_new_creators_previously_registered_previous_28d,
         {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }} as n_new_creators_previously_registered_previous_364d,
+        --lag n_total_visitors
+        {{ get_lag_dimension_monthly_projections('n_total_visitors', week_days) }} as n_total_visitors_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_total_visitors', month_days) }} as n_total_visitors_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_total_visitors', year_days) }} as n_total_visitors_previous_364d,        
 
-    from metrics4
+    from metrics5
 )
 
 select * from final
