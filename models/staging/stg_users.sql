@@ -74,6 +74,7 @@ final as (
         users.final_role as role,
         {{ create_broad_role_field('users.final_role', 'users.final_broad_sector') }} as broad_role,
         users.country,
+        users.country_name,
         users.email,
         users.nickname,
         users.language,

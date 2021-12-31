@@ -19,6 +19,7 @@ final as (
         nickname,
         email_lower as email,
         country_code as country,
+        country_name,
         city,
         logins,
         language,
