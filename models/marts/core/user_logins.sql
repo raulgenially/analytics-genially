@@ -6,7 +6,7 @@ with user_history as (
 
     from {{ ref('src_snapshot_genially_users') }}
     -- We started tracking changes on this date
-    where last_access_at >= '2021-12-20'
+    where last_access_at >= '{{ var('snapshot_users_start_date') }}'
 ),
 
 -- In case we have several records for

@@ -20,6 +20,8 @@ vars:
   invoice_tax_start_date: '2021-12-21'
   # Date used in snapshots to represent entities that are currently active
   the_distant_future: '3000-01-01'
+  # Date we started tracking user state history
+  snapshot_users_start_date: '2021-12-20'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'

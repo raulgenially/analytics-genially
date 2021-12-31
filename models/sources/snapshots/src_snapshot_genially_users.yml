@@ -3,7 +3,7 @@ version: 2
 models:
     - name: src_snapshot_genially_users
       description: Historic states of genially users.
-        Tracking started on 2021-12-20.
+        Tracking started on {{ var('snapshot_users_start_date') }}.
       columns:
         - name: id
           description: Primary key for the user state.
