@@ -10,7 +10,7 @@ refunds as (
 unique_refunds as (
    {{ unique_records_by_column(
         'refunds',
-        'reference_invoice_number',
+        'reference_invoice_number_id',
         order_by='invoiced_at',
         dir='asc',
       )
@@ -32,9 +32,7 @@ invoices_normalized as (
         invoices.tax_rate,
         invoices.tax_key,
         invoices.currency,
-        invoices.invoice_number,
         invoices.payment_platform,
-        cast(null as string) as reference_invoice_number,
 
         false as is_refund,
         invoices.is_valid_euvat_number,
@@ -42,6 +40,8 @@ invoices_normalized as (
         invoices.user_id,
         invoices.subscription_id,
         invoices.transaction_id,
+        invoices.invoice_number_id,
+        cast(null as string) as reference_invoice_number_id,
 
         invoices.invoiced_at,
         refunds.invoiced_at as refunded_at,
@@ -49,14 +49,14 @@ invoices_normalized as (
 
     from invoices
     left join unique_refunds as refunds
-        on invoices.invoice_number = refunds.reference_invoice_number
+        on invoices.invoice_number_id = refunds.reference_invoice_number_id
 ),
 
 -- We can have several invoices with the same invoice_number
 unique_invoices as (
    {{ unique_records_by_column(
         'invoices',
-        'invoice_number',
+        'invoice_number_id',
         order_by='invoiced_at',
         dir='asc',
       )
@@ -78,9 +78,7 @@ refunds_normalized as (
         refunds.tax_rate,
         refunds.tax_key,
         refunds.currency,
-        refunds.invoice_number,
         refunds.payment_platform,
-        refunds.reference_invoice_number,
 
         true as is_refund,
         refunds.is_valid_euvat_number,
@@ -88,6 +86,8 @@ refunds_normalized as (
         refunds.user_id,
         refunds.subscription_id,
         refunds.transaction_id,
+        refunds.invoice_number_id,
+        refunds.reference_invoice_number_id,
 
         refunds.invoiced_at,
         cast(null as timestamp) as refunded_at,
@@ -95,7 +95,7 @@ refunds_normalized as (
 
     from refunds
     left join unique_invoices as invoices
-        on refunds.reference_invoice_number = invoices.invoice_number
+        on refunds.reference_invoice_number_id = invoices.invoice_number_id
 ),
 
 unioned as (

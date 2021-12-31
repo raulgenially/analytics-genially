@@ -49,15 +49,9 @@ models:
         - name: currency
           description: Currency in which the invoice is paid.
 
-        - name: invoice_number
-          description: Unique invoice number.
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
-
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
 
         - name: is_refund
           description: Whether this invoice is refunding a previous invoice or not.
@@ -75,6 +69,12 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+
+        - name: invoice_number_id
+          description: Unique invoice number.
+
+        - name: reference_invoice_number_id
+          description: Invoice number of the invoice we are refunding.
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
@@ -94,5 +94,5 @@ models:
             condition: "is_refund = true"
 
         - dbt_utils.expression_is_true:
-            expression: "reference_invoice_number is null"
+            expression: "reference_invoice_number_id is null"
             condition: "is_refund = false"
