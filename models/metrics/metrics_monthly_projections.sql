@@ -246,16 +246,16 @@ metrics4 as (
         and metrics3.country = new_creators_registered_same_day.country
         and metrics3.country_name = new_creators_registered_same_day.country_name
 ),
- 
-user_logins_profile as (
-    select 
-    user_logins.user_id,
-    date(user_logins.login_at) as login_at,
 
-    users.plan,
-    users.subscription,
-    users.country,
-    users.country_name
+user_logins_profile as (
+    select
+        user_logins.user_id,
+        date(user_logins.login_at) as login_at,
+
+        users.plan,
+        users.subscription,
+        users.country,
+        users.country_name
 
     from user_logins
     left join users
@@ -279,7 +279,7 @@ total_visitors as (
 ),
 
 metrics5 as (
-        select
+    select
         --Dimensions
         metrics4.date_day,
         metrics4.plan,
@@ -292,12 +292,12 @@ metrics5 as (
         metrics4.n_new_creators,
         metrics4.n_new_creators_registered_same_day,
         metrics4.n_new_creators_previously_registered,
-        case 
+        case
             when metrics4.date_day < {{ snapshot_users_start_date }}
                 then coalesce(total_visitors.n_total_visitors, null)
             else coalesce(total_visitors.n_total_visitors, 0)
         end as n_total_visitors,
-       
+
     from metrics4
     left join total_visitors
         on metrics4.date_day = total_visitors.login_at
@@ -334,7 +334,7 @@ final as (
         --lag n_total_visitors
         {{ get_lag_dimension_monthly_projections('n_total_visitors', week_days) }} as n_total_visitors_previous_7d,
         {{ get_lag_dimension_monthly_projections('n_total_visitors', month_days) }} as n_total_visitors_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_total_visitors', year_days) }} as n_total_visitors_previous_364d,        
+        {{ get_lag_dimension_monthly_projections('n_total_visitors', year_days) }} as n_total_visitors_previous_364d,
 
     from metrics5
 )
