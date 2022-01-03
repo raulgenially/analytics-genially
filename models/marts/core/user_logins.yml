@@ -3,7 +3,8 @@ version: 2
 models:
     - name: user_logins
       description: Records of when a user accessed genially.
-        At most we will have 1 record per user per day.
+        At most we will have 1 record per user per day. These records
+        started being recorded on {{ var('snapshot_users_start_date') }}.
       columns:
         - name: login_id
           description: Primary key of this model.
