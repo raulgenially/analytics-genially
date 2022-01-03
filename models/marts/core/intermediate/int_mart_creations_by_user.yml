@@ -1,0 +1,37 @@
+version: 2
+
+models:
+    - name: int_mart_creations_by_user
+      description: Intermediate model to aggregate information from geniallys and collaboratives by user.
+      columns:
+        - name: user_id
+          description: The user ID to which these aggregates belong to.
+          tests:
+            - unique
+            - not_null
+
+        - name: n_total_creations
+          description: Total number of creations (including those that have been removed).
+          tests:
+            - not_null
+
+        - name: n_active_creations
+          description: Total number of active creations, that is, creations that have not been removed.
+          tests:
+            - not_null
+
+        - name: n_published_creations
+          description: Total number of published creations, that is, creations that have not been removed.
+          tests:
+            - not_null
+
+        - name: n_published_creations_as_collaborator
+          description: Total number of collaborative published creations (including those that have been removed)
+            where the user is not the owner.
+          tests:
+            - not_null
+
+        - name: is_collaborator
+          description: Whether the user forms part of a collaboration (active or not).
+          tests:
+            - not_null

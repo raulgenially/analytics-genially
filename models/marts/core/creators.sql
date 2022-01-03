@@ -10,7 +10,7 @@ with users as (
 
 final as (
     select * from users
-    where {{ define_creator() }}
+    where is_creator = true
 )
 
 select * from final
