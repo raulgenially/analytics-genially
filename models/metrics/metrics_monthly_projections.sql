@@ -6,10 +6,6 @@
     date('2020-01-01')
 {% endset %}
 
-{% set snapshot_users_start_date %}
-    date('2021-12-20')
-{% endset %}
-
 with reference_table as (
     {{ get_combination_calendar_dimensions(min_date) }}
 ),
@@ -27,7 +23,7 @@ collaboratives as (
 ),
 
 user_logins as (
-    select * from {{ref('user_logins')}}
+    select * from {{ ref('user_logins') }}
 ),
 
 signups as (
@@ -250,7 +246,7 @@ metrics4 as (
 user_logins_profile as (
     select
         user_logins.user_id,
-        date(user_logins.login_at) as login_at,
+        user_logins.login_at,
 
         users.plan,
         users.subscription,
@@ -260,7 +256,7 @@ user_logins_profile as (
     from user_logins
     left join users
         on user_logins.user_id = users.user_id
-    where date(login_at) >= {{ min_date }}
+    where login_at >= {{ min_date }}
 ),
 
 total_visitors as (
@@ -293,7 +289,7 @@ metrics5 as (
         metrics4.n_new_creators_registered_same_day,
         metrics4.n_new_creators_previously_registered,
         case
-            when metrics4.date_day < {{ snapshot_users_start_date }}
+            when metrics4.date_day < '{{ var('snapshot_users_start_date') }}'
                 then coalesce(total_visitors.n_total_visitors, null)
             else coalesce(total_visitors.n_total_visitors, 0)
         end as n_total_visitors,
