@@ -290,7 +290,7 @@ metrics5 as (
         metrics4.n_new_creators_previously_registered,
         case
             when metrics4.date_day < '{{ var('snapshot_users_start_date') }}'
-                then coalesce(total_visitors.n_total_visitors, null)
+                then null
             else coalesce(total_visitors.n_total_visitors, 0)
         end as n_total_visitors,
 
