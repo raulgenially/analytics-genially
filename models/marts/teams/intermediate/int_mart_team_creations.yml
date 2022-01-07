@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_mart_team_creations
+    description: Intermediate model to aggregate creations by team, space and user_id.
+      To be used in team models.
+    columns:
+      - name: user_id
+        description: The user ID to which these aggregates belong to.
+        tests:
+          - not_null
+
+      - name: space_id
+        description: The team space ID to which these aggregates belong to.
+        tests:
+          - not_null
+
+      - name: team_id
+        description: The team ID to which these aggregates belong to.
+        tests:
+          - not_null
+
+      - name: n_active_creations
+        description: Total number of active creations.
+        tests:
+          - not_null

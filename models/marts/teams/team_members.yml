@@ -24,29 +24,9 @@ models:
           tests:
             - not_null
 
-        - name: n_active_creations_in_personal_ws
-          description: Number of active creations that the user has in their personal ws.
-          tests:
-            - not_null
-
         - name: is_active
           description: Indicates whether the team member is active.
             That is, they have confirmed their participation in the team and have not been deleted.
-          tests:
-            - not_null
-
-        - name: is_owner_of_some_space
-          description: Indicates whether the member is owner of some space.
-          tests:
-            - not_null
-
-        - name: has_spaces_other_than_common
-          description: Indicates whether the member is part of some space other than the common space.
-          tests:
-            - not_null
-
-        - name: has_created_in_personal_ws
-          description: Indicates whether the member has created in personal workspace since they joined the team.
           tests:
             - not_null
 
@@ -76,6 +56,3 @@ models:
         - name: created_at
           description: Date at which the team member is registered in the production database.
             In other words, date at which the team member is invited to join in.
-
-        - name: team_created_at
-          description: The date the team was created.
