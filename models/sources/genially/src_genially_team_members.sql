@@ -15,7 +15,10 @@ final as (
         role_codes.name as member_role_name,
 
         -- See https://github.com/Genially/scrum-genially/issues/7607 
-        if(team_members.confirmedat is not null and team_members.deletedat is null, true, false) as is_active, 
+        (
+            team_members.confirmedat is not null
+            and team_members.deletedat is null
+        ) as is_active,
 
         team_members.iduser as user_id,
         team_members.idteam as team_id,

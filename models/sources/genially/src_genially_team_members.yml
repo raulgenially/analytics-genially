@@ -39,6 +39,9 @@ models:
           tests:
             - not_null:
                 where: "confirmed_at is not null"
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
 
         - name: team_id
           description: The team id this user belongs to.

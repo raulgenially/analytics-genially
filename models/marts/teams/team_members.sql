@@ -1,5 +1,5 @@
 with members as (
-    select * from {{ ref('stg_team_members') }}
+    select * from {{ ref('src_genially_team_members') }}
 ),
 
 spaces as (
@@ -65,7 +65,6 @@ final as (
 
         members.email,
         members.member_role_name as role,
-        members.team_name,
         coalesce(members_geniallys.n_active_creations, 0) as n_active_creations,
         coalesce(
             members_geniallys.n_active_creations_in_personal_ws,
@@ -83,7 +82,6 @@ final as (
         members.confirmed_at,
         members.deleted_at,
         members.created_at,
-        members.team_created_at
     
     from members
     left join members_owners

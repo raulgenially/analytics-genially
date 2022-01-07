@@ -53,7 +53,8 @@ models:
         - name: user_id
           description: Id of the user.
           tests:
-            - not_null
+            - not_null:
+                where: is_active = true
             - relationships:
                 to: ref('users')
                 field: user_id
