@@ -3,7 +3,7 @@ with members as (
 ),
 
 spaces as (
-    select * from {{ ref('stg_team_spaces') }}
+    select * from {{ ref('src_genially_team_spaces') }}
 ),
 
 team_space_collaborators as (
