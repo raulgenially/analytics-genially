@@ -24,7 +24,7 @@ logins as (
 logins_numbered as (
     select
         user_id,
-        date(logins.last_access_at) as login_at,
+        logins.last_access_at as login_at,
         row_number() over (
             partition by user_id
             order by last_access_at
