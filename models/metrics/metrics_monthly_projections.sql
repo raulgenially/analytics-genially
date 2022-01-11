@@ -246,7 +246,7 @@ metrics4 as (
 user_logins_profile as (
     select
         user_logins.user_id,
-        user_logins.login_at,
+        date(user_logins.login_at) as login_at,
 
         users.plan,
         users.subscription,
@@ -256,7 +256,7 @@ user_logins_profile as (
     from user_logins
     left join users
         on user_logins.user_id = users.user_id
-    where login_at >= {{ min_date }}
+    where date(login_at) >= {{ min_date }}
 ),
 
 total_visitors as (
