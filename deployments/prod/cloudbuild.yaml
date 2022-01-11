@@ -13,7 +13,10 @@ steps:
   args: ['snapshot']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['run', '--exclude', 'metrics_login_activity+']
+  entrypoint: 'bash'
+  args: ['-c', 'dbt run $${RUN_COMMAND}']
+  env:
+    - RUN_COMMAND=$_RUN_COMMAND
 
 - name: 'gcr.io/cloud-builders/gcloud'
   dir: /workspace/deployments/prod
@@ -32,3 +35,5 @@ timeout: 1800s # 30 min
 options:
   env:
   - 'DBT_PROFILES_DIR=/workspace'
+substitutions:
+  _RUN_COMMAND: --exclude metrics_login_activity+
