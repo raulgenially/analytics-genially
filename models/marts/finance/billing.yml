@@ -13,39 +13,43 @@ models:
           description: Invoice type (Invoice or Refund).
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_invoice_type_values() }}"
 
-        - name: invoice_number
-          description: Unique and financial id for the invoice.
+        - name: description
+          description: Invoice's description with all product information.
           tests:
             - not_null
 
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
-
-        - name: days
-          description: Duration days of the paid subscription.
-
-        - name: quantity
-          description: Number of subscriptions that have been paid.
+        - name: payer_email
+          description: The email of the person paying the invoice.
           tests:
             - not_null
 
-        - name: product
-          description: Type of purchased plan or service and it recurrence.
+        - name: payer_name
+          description: The name of the person paying the invoice. It can also be the email.
 
-        - name: recurrence
-          description: Indicates if is a annual or monthly plan.
+        - name: payer_cif
+          description: The tax ID of the payer.
 
-        - name: plan
-          description: Type of purchased plan or service.
+        - name: payer_address
+          description: The payer's address.
 
-        - name: subtotal
-          description: Paid amount after taxes and converted in eur.
+        - name: payer_country
+          description: The payer's country.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('seed_country_codes')
+                field: code
+
+        - name: original_amount
+          description: Total amount in their original currency.
           tests:
             - not_null
 
-        - name: tax_amount
-          description: Taxes.
+        - name: amount_euro
+          description: The equivalent in € of the amount specified in original amount.
           tests:
             - not_null
 
@@ -71,23 +75,23 @@ models:
                 field: tax_key
                 where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
-        - name: amount
-          description: Paid amount before taxes.
-          tests:
-            - not_null
-
-        - name: original_amount
-          description: Total amount in their original currency.
-          tests:
-            - not_null
-
         - name: currency
           description: Original currency of the payment.
           tests:
             - not_null
 
+        - name: subtotal
+          description: Paid amount after taxes and converted in eur.
+          tests:
+            - not_null
+
+        - name: tax_amount
+          description: Taxes in eur.
+          tests:
+            - not_null
+
         - name: eu
-          description: Indicates if the payer resides into European Union (see define_eu_countries.sql).
+          description: Indicates if the payer resides into European Union (see countries defined in seed_taxkey_taxrate.csv).
           tests:
             - not_null
 
@@ -96,33 +100,33 @@ models:
           tests:
             - not_null
 
-        - name: description
-          description: Invoice's description with all product information.
-          tests:
-            - not_null
-
-        - name: payer_email
-          description: The email of the person paying the invoice.
-          tests:
-            - not_null
-
-        - name: payer_cif
-          description: The tax ID of the payer.
-
-        - name: payer_address
-          description: The payer's address.
-
-        - name: payer_country
-          description: The payer's country.
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
           tests:
             - not_null
 
-        - name: payer_name
-          description: The name of the person paying the invoice. It can also be the email.
+        - name: days
+          description: Duration days of the paid subscription.
+          test:
+            - dbt_utils.expression_is_true:
+                  expression: "> 0"
+
+        - name: quantity
+          description: Number of subscriptions that have been paid.
+          tests:
+            - not_null
+
+        - name: product
+          description: Type of purchased plan or service and its recurrence.
+
+        - name: recurrence
+          description: Indicates if is a annual or monthly plan.
+          tests:
+
+        - name: plan
+          description: Type of purchased plan or service.
+          tests:
 
         - name: role
           description: Payer role.
@@ -146,16 +150,34 @@ models:
           description: Id of the user making the payment.
           tests:
             - not_null
+            - relationships:
+                to: ref('users')
+                field: user_id
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
+            There can be more than one invoice associated with a subscription.
           tests:
             - not_null
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+            This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
           tests:
             - not_null
+
+        - name: invoice_number_id
+          description: Unique and financial id for the invoice.
+          tests:
+            - unique
+            - not_null
+
+        - name: reference_invoice_number_id
+          description: Invoice number of the invoice we are refunding.
+          tests:
+            - relationships:
+                to: ref('billing')
+                field: invoice_number_id
 
         - name: invoiced_at
           description: Date at which the invoice was created.
@@ -177,8 +199,11 @@ models:
           description: Date at which the paid subscription will end.
           tests:
             - not_null
-
       tests:
         - dbt_utils.expression_is_true:
-            expression: "amount = original_amount"
+            expression: "amount_euro = original_amount"
             condition: "currency = 'eur'"
+
+        - dbt_utils.expression_is_true:
+            expression: "is_valid_euvat_number is not true"
+            condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"

@@ -20,7 +20,7 @@ final as (
     from licenses
     inner join invoices
         on licenses.subscription_id = invoices.subscription_id
-    where licenses.user_id != invoices.user_id
+    where licenses.user_id is distinct from invoices.user_id
 
 )
 

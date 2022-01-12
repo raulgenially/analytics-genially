@@ -7,6 +7,18 @@ users as (
     select * from {{ ref('stg_users') }}
 ),
 
+taxkey_taxrate as (
+    select * from {{ ref('seed_taxkey_taxrate') }}
+),
+
+eu_countries as (
+    select
+        substr(tax_key, 5, 2) as eu_country
+
+    from taxkey_taxrate
+    where tax_rate > 0
+),
+
 base_billing as (
     select
         *,
@@ -21,8 +33,11 @@ base_billing as (
         regexp_extract(description, r'x (.*?)\s') as recurrence,
         regexp_extract(description, r'\s(.*?) License', 5) as plan,
 
-        {{define_eu_countries('payer_country')}} as is_from_eu_country
+        if(eu_countries.eu_country is not null, true, false) as is_from_eu_country
+
     from invoices
+    left join eu_countries
+        on invoices.payer_country = eu_countries.eu_country
 ),
 
 int_billing as (
@@ -71,8 +86,22 @@ final as (
         billing.id,
 
         billing.invoice_type,
-        billing.invoice_number,
-        billing.reference_invoice_number,
+        billing.description,
+        billing.payer_email,
+        billing.payer_name,
+        billing.payer_cif,
+        billing.payer_address,
+        billing.payer_country,
+        billing.total as original_amount,
+        billing.total_euro as amount_euro,
+        billing.tax_rate,
+        billing.tax_key,
+        billing.currency,
+        round(billing.total_euro_deducted, 4) as subtotal,
+        round(billing.total_euro - billing.total_euro_deducted, 4) as tax_amount,
+        billing.eu,
+        billing.iva,
+        billing.payment_platform,
         date_diff(
             billing.period_end_at_sanitized,
             billing.period_start_at_sanitized,
@@ -85,22 +114,6 @@ final as (
         billing.product,
         billing.recurrence,
         billing.plan,
-        round(billing.total_euro_deducted, 4) as subtotal,
-        round(billing.total_euro - billing.total_euro_deducted, 4) as tax_amount,
-        billing.tax_rate,
-        billing.tax_key,
-        billing.total_euro as amount,
-        billing.total as original_amount,
-        billing.currency,
-        billing.eu,
-        billing.iva,
-        billing.description,
-        billing.payer_email,
-        billing.payer_cif,
-        billing.payer_address,
-        billing.payer_country,
-        billing.payment_platform,
-        billing.payer_name,
         users.role,
         users.sector,
 
@@ -109,6 +122,8 @@ final as (
         billing.user_id,
         billing.subscription_id,
         billing.transaction_id,
+        billing.invoice_number_id,
+        billing.reference_invoice_number_id,
 
         billing.invoiced_at,
         billing.originally_invoiced_at,
