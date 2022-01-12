@@ -122,11 +122,9 @@ models:
 
         - name: recurrence
           description: Indicates if is a annual or monthly plan.
-          tests:
 
         - name: plan
           description: Type of purchased plan or service.
-          tests:
 
         - name: role
           description: Payer role.
