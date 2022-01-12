@@ -6,7 +6,7 @@ select
     billing.invoice_type as type,
     if(description like '%License%', 'Subscription', 'One Time') as mrr,
     format_date('%m', billing.invoiced_at) as month,
-    if(billing.invoice_type = 'Refund', 'RE'||billing.invoice_number, billing.invoice_number) as invoice_number,
+    if(billing.invoice_type = 'Refund', 'RE'||billing.invoice_number_id, billing.invoice_number_id) as invoice_number_id,
     format_date('%d/%m/%Y', billing.invoiced_at) as invoiced_date,
     format_date('%d/%m/%Y', billing.period_end_at) as invoice_end_date,
     days,
@@ -16,7 +16,7 @@ select
     billing.plan,
     replace(cast(billing.subtotal as string), '.',',') as subtotal,
     replace(cast(billing.tax_amount as string), '.',',') as tax_amount,
-    replace(cast(billing.amount as string), '.',',') as total,
+    replace(cast(billing.amount_euro as string), '.',',') as total,
     replace(cast(billing.original_amount as string), '.',',') as original_total,
     billing.currency as original_currency,
     billing.payer_name as fiscal_name,
@@ -36,7 +36,7 @@ select
     billing.subscription_id,
     billing.role,
     billing.sector,
-    billing.reference_invoice_number,
+    billing.reference_invoice_number_id,
     format_date(
         '%d/%m/%Y',
         if(
