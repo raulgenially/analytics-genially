@@ -26,8 +26,3 @@ sources:
     tables:
       - name: events
         identifier: events_*
-        columns:
-          - name: user_id
-            description: Primary key for users.
-            tests:
-              - not_null

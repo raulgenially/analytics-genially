@@ -26,7 +26,7 @@ models:
           tests:
             - not_null
 
-        - name: registered_at
-          description: The date time ath which the user performed the signup.
+        - name: event_at
+          description: The date time ath which the event was registered.
           tests:
             - not_null

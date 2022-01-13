@@ -1,13 +1,27 @@
+{{
+    config(
+        cluster_by='user_id'
+    )
+}}
+
 with raw_events as (
-    select * from {{ ref('src_ga4_events') }}
-    where event_name = 'sign_up'
-        and user_id is not null
+    {{
+        ga4_events_source(
+            start_date='2021-02-23',
+            event='sign_up'
+        )
+    }}
+),
+
+valid_events as (
+    select * from raw_events
+    where user_id is not null
 ),
 
 unique_events as (
     {{
         unique_records_by_column(
-            cte='raw_events',
+            cte='valid_events',
             unique_column='user_id',
             order_by='event_at',
             dir='asc',
@@ -19,17 +33,17 @@ final as (
     select
         user_id,
 
-        device.category as device,
-        ifnull(traffic_source.source, '{{ var('unknown') }}') as source,
+        device_category as device,
+        ifnull(traffic_source, '{{ var('unknown') }}') as source,
         case
-            when traffic_source.medium = '(none)'
+            when traffic_source_medium = '(none)'
                 then 'direct'
-            when traffic_source.medium is null
+            when traffic_source_medium is null
                 then '{{ var('unknown') }}'
-            else traffic_source.medium
+            else traffic_source_medium
         end as acquisition_channel,
 
-        event_at as registered_at,
+        event_at
 
     from unique_events
 )
