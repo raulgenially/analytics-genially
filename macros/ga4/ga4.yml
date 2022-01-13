@@ -37,11 +37,6 @@ macros:
         type: string (Format YYYY-MM-DD)
         description: The start date of the data we want to query.
 
-      - name: end_date
-        type: string (Format YYYY-MM-DD)
-        description: The end date of the range of data we want to query.
-          This date is exclusive and will default to the current date if not given.
-
       - name: event
         type: string
         description: The name of the event we want to query. This parameter is optional.

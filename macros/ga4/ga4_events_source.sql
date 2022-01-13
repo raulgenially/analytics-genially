@@ -1,12 +1,15 @@
-{% macro ga4_events_source(start_date, end_date=null, event=null) %}
+{% macro ga4_events_source(start_date, event=null) %}
     with events as (
         select * from {{ source('analytics_261787761', 'events') }}
-        where _table_suffix >= format_date('%Y%m%d', date('{{ start_date }}'))
-        {% if end_date != null %}
-            and _table_suffix < format_date('%Y%m%d', date('{{ end_date }}'))
-        {% else %}
+        where _table_suffix >= format_date('%Y%m%d',
+            -- Limit the data in dev environments
+            {% if target.name == 'prod' %}
+                date('{{ start_date }}')
+            {% else %}
+                date_sub(current_date(), interval 10 day)
+            {% endif %}
+            )
             and _table_suffix < format_date('%Y%m%d', current_date())
-        {% endif %}
         {% if event != null %}
             and event_name = '{{ event }}'
         {% endif %}
