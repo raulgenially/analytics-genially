@@ -10,16 +10,12 @@ geniallys as (
 creations as (
     select
         user_id,
-        countif(
-            is_active = true
-        ) as geniallys_at_social_profile,
-        countif(
-            is_active = true
-            and is_reusable
-        ) as reusable_geniallys_at_social_profile
+        count(genially_id) as geniallys_at_social_profile,
+        countif(is_reusable) as reusable_geniallys_at_social_profile
 
     from geniallys
     where is_in_social_profile = true
+        and is_active = true
     group by 1
 ),
 
