@@ -10,12 +10,6 @@ models:
             - unique
             - not_null
 
-        - name: user_email
-          description: Email of the user taking part of the collaboration.
-          tests:
-            - not_null:
-                where: "collaboration_type = 1"
-
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"
           tests:
@@ -46,6 +40,7 @@ models:
                 to: ref('src_genially_users')
                 field: user_id
                 where: collaboration_type = 1
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
 
         - name: user_owner_id
           description: Id of the user that is owner of the collaborative genially.

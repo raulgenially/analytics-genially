@@ -13,7 +13,6 @@ final as (
     select
         collaboratives.collaborative_id,
 
-        collaboratives.user_email,
         collaboratives.collaboration_type,
 
         collaboratives.genially_id,
