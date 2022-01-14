@@ -13,6 +13,10 @@ invoices as (
 refunds as (
     select * from source
     where is_refund = true
+        -- This has been a special case where two refunds have been emitted
+        -- with different value and same transaction_id.
+        -- It should not happen moving forward
+        and invoice_id not in ('6165c7b4055acc0de25640b0', '61c8c3b0b2a4cd0f878ffe13')
 ),
 
 dup_invoices as (

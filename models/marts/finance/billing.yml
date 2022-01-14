@@ -172,10 +172,6 @@ models:
 
         - name: reference_invoice_number_id
           description: Invoice number of the invoice we are refunding.
-          tests:
-            - relationships:
-                to: ref('billing')
-                field: invoice_number_id
 
         - name: invoiced_at
           description: Date at which the invoice was created.
