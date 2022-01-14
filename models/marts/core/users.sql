@@ -14,10 +14,6 @@ collaboratives as (
     select * from {{ ref('stg_collaboratives') }}
 ),
 
-collaborative_geniallys as (
-    select distinct genially_id from collaboratives
-),
-
 users_creations as (
     select
         geniallys.user_id,
@@ -40,7 +36,7 @@ users_creations as (
         countif(
             geniallys.is_active = true
             and geniallys.is_published = true
-            and collaborative_geniallys.genially_id is not null -- Check if the genially is collaborative.
+            and geniallys.is_collaborative
         ) as n_active_collaborative_published_creations,
         countif(
             geniallys.is_active = true
@@ -53,9 +49,27 @@ users_creations as (
         max(geniallys.is_visualized_last_30_days) as has_creation_visualized_last_30_days
 
     from geniallys
-    left join collaborative_geniallys
-        on geniallys.genially_id = collaborative_geniallys.genially_id
     group by 1
+),
+
+collaboratives_w_geniallys as (
+    select
+        collaboratives.user_owner_id,
+        collaboratives.user_id,
+
+        geniallys.is_published,
+        geniallys.is_in_social_profile,
+        geniallys.is_visualized_last_90_days,
+        geniallys.is_visualized_last_60_days,
+        geniallys.is_visualized_last_30_days,
+
+        users.is_social_profile_active as is_owner_social_profile_active
+
+    from collaboratives
+    left join geniallys
+        on collaboratives.genially_id = geniallys.genially_id
+    left join users
+        on collaboratives.user_owner_id = users.user_id
 ),
 
 users_collaboratives_union as (
@@ -68,7 +82,7 @@ users_collaboratives_union as (
         max(is_visualized_last_60_days) as is_in_collaboration_of_creation_visualized_last_60_days,
         max(is_visualized_last_30_days) as is_in_collaboration_of_creation_visualized_last_30_days,
 
-    from collaboratives
+    from collaboratives_w_geniallys
     group by 1
 
     union all
@@ -82,7 +96,7 @@ users_collaboratives_union as (
         max(is_visualized_last_60_days) as is_in_collaboration_of_creation_visualized_last_60_days,
         max(is_visualized_last_30_days) as is_in_collaboration_of_creation_visualized_last_30_days,
 
-    from collaboratives
+    from collaboratives_w_geniallys
     group by 1
 ),
 
