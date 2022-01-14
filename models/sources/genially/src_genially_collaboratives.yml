@@ -36,6 +36,8 @@ models:
           description: Id of a user taking part of the collaboration.
             You can send an invitation to people who is not registered, so this field is empty.
           tests:
+            - not_null:
+                where: collaboration_type = 4
             - relationships:
                 to: ref('src_genially_team_members')
                 field: team_member_id

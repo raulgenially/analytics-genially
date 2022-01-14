@@ -6,6 +6,7 @@
         severity='warn'
     )
 }}
+
 with collaboratives as (
     select * from {{ ref('src_genially_collaboratives') }}
 ),
