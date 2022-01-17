@@ -21,7 +21,7 @@ models:
             - not_null
 
         - name: n_published_creations
-          description: Total number of published creations, that is, creations that have not been removed.
+          description: Total number of published creations (including those that have been removed).
           tests:
             - not_null
 

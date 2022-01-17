@@ -1,3 +1,7 @@
+{%- set min_date -%}
+    date(2019, 1, 1)
+{%- endset -%}
+
 with users as (
     select * from {{ ref('users') }}
 ),
@@ -23,7 +27,7 @@ final as (
         countif(is_heavy_publisher = true) as n_heavy_publishers
 
     from users
-    where date(registered_at) >= date(2019, 1, 1)
+    where date(registered_at) >= {{ min_date }}
         and date(registered_at) < current_date()
     {{ dbt_utils.group_by(n=9) }}
     order by registered_at asc

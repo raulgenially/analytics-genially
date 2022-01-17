@@ -22,8 +22,10 @@ base_users as (
     select
         *,
         {{ clean_country_code('country') }} as country_code_raw,
+
     from users
 ),
+
 -- There are some cases in which dateregister > lastaccesstime by a few seconds
 -- We assume these cases to be just a sync issue during the auth process.
 -- Here we fix these discrepancies by syncing lastaccesstime to dateregister if

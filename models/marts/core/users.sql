@@ -28,7 +28,6 @@ final as (
         users.instagram_account,
         users.linkedin_account,
         users.social_profile_name,
-
         coalesce(creations.n_total_creations, 0) as n_total_creations,
         coalesce(creations.n_active_creations, 0) as n_active_creations,
 
