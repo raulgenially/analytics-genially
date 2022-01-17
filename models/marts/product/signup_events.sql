@@ -1,13 +1,18 @@
 {{
     config(
+        materialized='incremental',
         cluster_by='user_id'
     )
 }}
 
+{% set tracking_date = '2021-02-23'%}
+{% set yesterday = modules.datetime.date.today() - modules.datetime.timedelta(days=1) %}
+{% set start_date = yesterday.strftime('%Y-%m-%d') if is_incremental() else tracking_date %}
+
 with raw_events as (
     {{
         ga4_events_source(
-            start_date='2021-02-23',
+            start_date=start_date,
             event='sign_up'
         )
     }}
@@ -16,6 +21,10 @@ with raw_events as (
 valid_events as (
     select * from raw_events
     where user_id is not null
+    {% if is_incremental() %}
+        and user_id not in (select user_id from {{ this }})
+    {% endif %}
+
 ),
 
 unique_events as (
