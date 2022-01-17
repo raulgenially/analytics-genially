@@ -140,7 +140,7 @@ sources:
                 See https://github.com/Genially/scrum-genially/issues/7607
               tests:
                 - not_null:
-                    where: "__hevo__loaded_at > 1634605270447"
+                    where: __hevo__loaded_at > 1634605270447 and __hevo__marked_deleted = false
 
         - name: teamspace
           columns:
