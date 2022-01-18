@@ -6,7 +6,7 @@
             {% if target.name == 'prod' %}
                 date('{{ start_date }}')
             {% else %}
-                date_sub(current_date(), interval 10 day)
+                date_sub(current_date(), interval 2 day)
             {% endif %}
             )
             and _table_suffix < format_date('%Y%m%d', current_date())
@@ -15,26 +15,8 @@
         {% endif %}
     ),
 
-    numbered_events as (
-        select
-            *,
-            row_number() over(
-                partition by user_pseudo_id, event_timestamp, event_name
-            ) as n_event
-        from events
-    ),
-
     final as (
         select
-            {{
-                dbt_utils.surrogate_key([
-                    'event_name',
-                    'user_pseudo_id',
-                    'event_timestamp',
-                    'n_event'
-                ])
-            }} as id,
-
             event_name,
             -- event_params
             {{ ga4_param("event_params", "page_location", "string") }},
@@ -45,9 +27,6 @@
             {{ ga4_param("event_params", "data_tgm1", "string") }},
             {{ ga4_param("event_params", "data_tgm2", "string") }},
             {{ ga4_param("event_params", "data_tgm3", "string") }},
-            {{ ga4_param("event_params", "currency", "string") }},
-            {{ ga4_param("event_params", "affiliation", "string") }},
-            {{ ga4_param("event_params", "coupon", "string") }},
             -- user_properties
             {{ ga4_param("user_properties", "user_type", "string") }},
             {{ ga4_param("user_properties", "user_sector", "int") }},
@@ -76,6 +55,9 @@
             traffic_source.source as traffic_source,
             -- ecommerce
             ecommerce.transaction_id,
+            {{ ga4_param("event_params", "currency", "string") }},
+            {{ ga4_param("event_params", "affiliation", "string") }},
+            {{ ga4_param("event_params", "coupon", "string") }},
             -- items
             items[safe_offset(0)].item_id,
             items[safe_offset(0)].item_name,
@@ -89,7 +71,7 @@
             timestamp_micros(event_timestamp) as event_at,
             timestamp_micros(user_first_touch_timestamp) as first_touch_at,
 
-        from numbered_events
+        from events
     )
 
     select * from final

@@ -4,9 +4,9 @@ macros:
   - name: ga4_param
     description: Extract a parameter with the specified key as column.
     arguments:
-      - name: record
+      - name: field
         type: string
-        description: The name of the record we have to extract the parameter from.
+        description: The name of the field we have to extract the parameter from.
 
       - name: key
         type: string
