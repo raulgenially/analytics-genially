@@ -1,10 +1,12 @@
 -- To ensure that recurrent_publishers is a subset of publishers (there are no recurrent_publishers out of publishers)
 with publishers as (
-  select * from {{ ref('publishers') }}
+    select * from {{ ref('users') }}
+    where is_publisher = true
 ),
 
 recurrent_publishers as (
-    select * from {{ ref('recurrent_publishers') }}
+    select * from {{ ref('users') }}
+    where is_recurrent_publisher = true
 ),
 
 final as (

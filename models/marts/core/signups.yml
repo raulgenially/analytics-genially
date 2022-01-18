@@ -1,6 +1,0 @@
-version: 2
-
-models:
-  - name: signups
-    description: This model is just a view of users model to be exposed to the rest of the company. 
-      The goal is to differentiate between a signup (person that has created an account in Genially) and a creator (person that has initiated a creation and, therefore, has already consumed the tool).

@@ -1,10 +1,12 @@
 -- To ensure that publishers is a subset of creators (there are no publishers out of creators)
 with creators as (
-  select * from {{ ref('creators') }}
+    select * from {{ ref('users') }}
+    where is_creator = true
 ),
 
 publishers as (
-    select * from {{ ref('publishers') }}
+    select * from {{ ref('users') }}
+    where is_publisher = true
 ),
 
 final as (
