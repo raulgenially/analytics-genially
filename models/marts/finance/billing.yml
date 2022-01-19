@@ -138,9 +138,6 @@ models:
 
         - name: is_valid_euvat_number
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
         - name: user_id
           description: Id of the user making the payment.
