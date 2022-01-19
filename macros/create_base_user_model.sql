@@ -14,6 +14,18 @@ subscription_plans as (
     select * from {{ ref('seed_plan') }}
 ),
 
+country_codes as (
+    select * from {{ ref('seed_country_codes') }}
+),
+
+base_users as (
+    select
+        *,
+        {{ clean_country_code('country') }} as country_code_raw,
+
+    from users
+),
+
 -- There are some cases in which dateregister > lastaccesstime by a few seconds
 -- We assume these cases to be just a sync issue during the auth process.
 -- Here we fix these discrepancies by syncing lastaccesstime to dateregister if
@@ -21,14 +33,22 @@ subscription_plans as (
 int_users as (
     select
         *,
+        ifnull(users.country_code_raw, '{{ var('not_selected') }}') as country_code,
+        ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
+        subscription_plans.plan as subscription_plan,
         -- We take dateregister as the true date
         if(
-            dateregister > lastaccesstime
-            and abs(date_diff(dateregister, lastaccesstime, SECOND)) < 10,
-            dateregister,
-            lastaccesstime
+            users.dateregister > users.lastaccesstime
+            and abs(date_diff(users.dateregister, users.lastaccesstime, SECOND)) < 10,
+            users.dateregister,
+            users.lastaccesstime
         ) as synced_lastaccesstime,
-    from users
+
+    from base_users as users
+    left join country_codes
+        on users.country_code_raw = country_codes.code
+    left join subscription_plans
+        on users.typesubscription = subscription_plans.code
 ),
 
 final as (
@@ -36,11 +56,9 @@ final as (
         *,
         _id as user_id,
 
-        subscription_plans.plan as subscription_plan,
         newsector as sector_code,
         newrole as role_code,
         lower(email) as email_lower,
-        {{ clean_country_code('country') }} as country_code,
         -- socialmedia extraction
         json_extract_scalar(socialmedia, '$.facebook') as facebook_account,
         json_extract_scalar(socialmedia, '$.twitter') as twitter_account,
@@ -63,9 +81,6 @@ final as (
         timestamp_millis(cast(json_extract_scalar(emailvalidationtoken, '$.CreatedAt') as int64)) as email_validation_created_at,
 
     from int_users
-    left join subscription_plans
-        on int_users.typesubscription = subscription_plans.code
-
 )
 
 select * from final

@@ -1,5 +1,5 @@
 with signups as (
-    select * from {{ ref('signups') }}
+    select * from {{ ref('users') }}
 ),
 
 base as (

@@ -7,7 +7,7 @@
         when {{ country_code }} = 'ISRAEL'
             then 'IL'
         when {{ country_code }} = '' or {{ country_code }} is null
-            then '{{ var('not_selected') }}'
+            then null
         else trim({{ country_code }})
     end
 {% endmacro %}

@@ -41,6 +41,9 @@ models:
         - name: country
           description: Country (ISO code).
 
+        - name: country_name
+          description: Name of the country correspondent to the ISO code.
+
         - name: email
           description: Email account (same as username).
 

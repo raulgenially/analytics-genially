@@ -14,10 +14,6 @@ geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
-users as (
-    select * from {{ ref('users') }}
-),
-
 -- Extract members that are owners of some space
 members_owners as (
     select distinct owner_id from spaces
@@ -33,12 +29,18 @@ members_have_spaces as (
 members_geniallys as (
     select
         members.team_member_id,
-        countif(geniallys.is_active = true) as n_active_creations
+        countif(
+            geniallys.is_active = true
+            and geniallys.team_id = members.team_id
+        ) as n_active_creations,
+        countif(
+            geniallys.is_active = true
+            and geniallys.team_id is null
+        ) as n_active_creations_in_personal_ws
 
     from members
     inner join geniallys
         on members.user_id = geniallys.user_id
-            and members.team_id = geniallys.team_id
     group by 1
 ),
 
@@ -65,7 +67,10 @@ final as (
         members.member_role_name as role,
         members.team_name,
         coalesce(members_geniallys.n_active_creations, 0) as n_active_creations,
-        users.n_active_creations_in_personal_ws,
+        coalesce(
+            members_geniallys.n_active_creations_in_personal_ws,
+            0
+        ) as n_active_creations_in_personal_ws,
 
         members.is_active,
         if(members_owners.owner_id is not null, true, false) as is_owner_of_some_space,
@@ -89,8 +94,6 @@ final as (
         on members.team_member_id = members_geniallys.team_member_id
     left join members_geniallys_personal_ws
         on members.team_member_id = members_geniallys_personal_ws.team_member_id
-    left join users
-        on members.user_id = users.user_id
 )
 
 select * from final
