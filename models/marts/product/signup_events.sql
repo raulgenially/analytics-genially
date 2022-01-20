@@ -5,9 +5,9 @@
     )
 }}
 
-{% set tracking_date = '2021-02-23'%}
-{% set yesterday = modules.datetime.date.today() - modules.datetime.timedelta(days=1) %}
-{% set start_date = yesterday.strftime('%Y-%m-%d') if is_incremental() else tracking_date %}
+{% set tracking_date = '2021-11-01'%}
+{% set two_days_ago = modules.datetime.date.today() - modules.datetime.timedelta(days=2) %}
+{% set start_date = two_days_ago.strftime('%Y-%m-%d') if is_incremental() else tracking_date %}
 
 with raw_events as (
     {{

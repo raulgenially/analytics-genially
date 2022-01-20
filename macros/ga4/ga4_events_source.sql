@@ -6,10 +6,10 @@
             {% if target.name == 'prod' %}
                 date('{{ start_date }}')
             {% else %}
-                date_sub(current_date(), interval 2 day)
+                date_sub(current_date(), interval 3 day)
             {% endif %}
             )
-            and _table_suffix < format_date('%Y%m%d', current_date())
+            and _table_suffix < format_date('%Y%m%d', date_sub(current_date(), interval 1 day))
         {% if event != null %}
             and event_name = '{{ event }}'
         {% endif %}
