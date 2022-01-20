@@ -10,7 +10,7 @@ creations as (
 member_creations as (
     select
         members.team_member_id,
-        sum(n_active_creations) as n_active_creations,
+        sum(creations.n_active_creations) as n_active_creations,
 
     from members
     inner join creations
