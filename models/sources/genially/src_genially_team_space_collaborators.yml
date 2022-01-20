@@ -28,9 +28,13 @@ models:
           description: The team space id the collaborating entity is collaborating in.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_team_spaces')
+                field: team_space_id
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8452
 
         - name: space_owner_id
-          description: The user id owning the team space. 
+          description: The user id owning the team space.
             Since this field cannot be null, the space_id field never refers to the common space.
           tests:
             - not_null
@@ -39,12 +43,26 @@ models:
           description: The team id the space belongs to.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_teams')
+                field: team_id
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8452
 
         - name: collaborator_id
           description: Id of the collaborating entity (e.g. team member or team group).
             See `collaborator_type`.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_team_members')
+                field: team_member_id
+                where: collaborator_type = 4
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8452
+            - relationships:
+                to: ref('src_genially_team_groups')
+                field: team_group_id
+                where: collaborator_type = 2
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8452
 
         - name: created_at
           description: Date time this record was created.

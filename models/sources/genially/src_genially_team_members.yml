@@ -38,7 +38,7 @@ models:
           description: Id of the user that is/was part of the team.
           tests:
             - not_null:
-                where: "confirmed_at is not null"
+                where: is_active = true
             - relationships:
                 to: ref('src_genially_users')
                 field: user_id
@@ -47,6 +47,9 @@ models:
           description: The team id this user belongs to.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_teams')
+                field: team_id
 
         - name: confirmed_at
           description: The time the user accepted the invitation to the team.
