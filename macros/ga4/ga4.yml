@@ -21,26 +21,6 @@ macros:
         type: string
         description: The name we want to give to the resulting column.
 
-  - name: ga4_events_source
-    description: Creates a cte that unnests and renames a lot of fields
-      from the raw ga4 sharded events tables. The purpose of this macro
-      is to serve as the "source" layer for ga4 events. The fields offered by
-      the cte are a subset of the ones documented
-      [here](https://support.google.com/analytics/answer/7029846).
-
-
-      We don't create a source model because otherwise we would be querying all
-      tables all the time. With this macro we can heavily restrict the data we
-      query by specifying a start and end date.
-    arguments:
-      - name: start_date
-        type: string (Format YYYY-MM-DD)
-        description: The start date of the data we want to query.
-
-      - name: event
-        type: string
-        description: The name of the event we want to query. This parameter is optional.
-
   - name: map_default_ga4_channel_grouping
     description: Case-when statement that groups events into the default channel groups of GA4.
       When an event cannot be assigned into any group, we assign them the Other group.

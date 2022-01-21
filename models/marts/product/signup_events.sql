@@ -10,19 +10,16 @@
 {% set start_date = two_days_ago.strftime('%Y-%m-%d') if is_incremental() else tracking_date %}
 
 with raw_events as (
-    {{
-        ga4_events_source(
-            start_date=start_date,
-            event='sign_up'
-        )
-    }}
+    select * from {{ ref('src_ga4_events') }}
+    where event_name = 'sign_up'
+        and user_id is not null
+        and {{ sharded_date_range(start_date) }}
 ),
 
 valid_events as (
     select * from raw_events
-    where user_id is not null
     {% if is_incremental() %}
-        and user_id not in (select user_id from {{ this }})
+        where user_id not in (select user_id from {{ this }})
     {% endif %}
 
 ),
