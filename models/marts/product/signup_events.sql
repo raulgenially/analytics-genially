@@ -44,13 +44,13 @@ final as (
 
         device_category as device,
         ifnull(traffic_source, '{{ var('unknown') }}') as source,
-        case
-            when traffic_source_medium = '(none)'
-                then 'direct'
-            when traffic_source_medium is null
-                then '{{ var('unknown') }}'
-            else traffic_source_medium
-        end as acquisition_channel,
+        {{
+            map_default_ga4_channel_grouping(
+                'traffic_source',
+                'traffic_source_medium',
+                'traffic_source_name'
+            )
+        }} as channel,
 
         event_at
 

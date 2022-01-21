@@ -22,7 +22,7 @@ models:
           tests:
             - not_null
 
-        - name: acquisition_channel
+        - name: channel
           description: Name of the channel (paid search, organic, email, etc)
             that first acquired the user.
           tests:

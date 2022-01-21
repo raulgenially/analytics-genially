@@ -40,3 +40,21 @@ macros:
       - name: event
         type: string
         description: The name of the event we want to query. This parameter is optional.
+
+  - name: map_default_ga4_channel_grouping
+    description: Case-when statement that groups events into the default channel groups of GA4.
+      When an event cannot be assigned into any group, we assign them the Other group.
+      Most of this case-when statement has been extrated from
+      [here](https://stacktonic.com/article/google-analytics-4-and-big-query-create-custom-channel-groupings-in-a-reusable-sql-function).
+    arguments:
+      - name: tsource
+        type: string
+        description: The field name corresponding to traffic_source.source of a GA4 event.
+
+      - name: tmedium
+        type: string
+        description: The field name corresponding to traffic_source.medium of a GA4 event.
+
+      - name: tcampaign
+        type: string
+        description: The field name corresponding to traffic_source.name of a GA4 event.
