@@ -1,7 +1,6 @@
 {{
     config(
-        materialized='incremental',
-        cluster_by='user_id'
+        materialized='incremental'
     )
 }}
 
