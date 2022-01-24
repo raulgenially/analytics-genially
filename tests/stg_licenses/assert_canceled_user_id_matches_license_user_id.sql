@@ -1,4 +1,11 @@
 -- The canceling user should be the same that purchased the license
+-- TODO: https://github.com/Genially/scrum-genially/issues/8421
+{{
+    config(
+        severity="warn",
+    )
+}}
+
 with licenses as (
     select * from {{ ref('stg_licenses') }}
 ),
