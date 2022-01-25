@@ -1,0 +1,143 @@
+version: 2
+
+models:
+  - name: src_ga4_events
+    description: Events from Google Analytics 4.
+    columns:
+      - name: event_name
+        description: The name of the event.
+
+      - name: page_location
+        description: The page url when the event was generated.
+
+      - name: page_title
+        description: The page title when the event was generated.
+
+      - name: page_referrer
+        description: The page the user came from when the event was generated.
+
+      - name: loading_time
+        description: Seconds it takes the editor or collaborative panel to load.
+
+      - name: n_connected_users
+        description: Number of actors simultaneously connected in a collaborative genially.
+
+      - name: data_tgm1
+        description: Data slot 1. Each event populates this field with something relevant to the event.
+
+      - name: data_tgm2
+        description: Data slot 2. Each event populates this field with something relevant to the event.
+
+      - name: data_tgm3
+        description: Data slot 3. Each event populates this field with something relevant to the event.
+
+      - name: user_type
+        description: The type of plan the user has currently.
+
+      - name: user_sector
+        description: The user sector code.
+
+      - name: user_role
+        description: The user role code.
+
+      - name: device_category
+        description: The device category (mobile, tablet, desktop).
+
+      - name: mobile_brand_name
+        description: The device brand name.
+
+      - name: mobile_model_name
+        description: The device model name.
+
+      - name: mobile_marketing_name
+        description: The device marketing name.
+
+      - name: operating_system
+        description: The operating system of the device.
+
+      - name: operating_system_version
+        description: The OS version.
+
+      - name: language
+        description: The OS language.
+
+      - name: browser
+        description: The browser in which the user viewed content.
+
+      - name: browser_version
+        description: The version of the browser in which the user viewed content.
+
+      - name: hostname
+        description: The hostname associated with the logged event.
+
+      - name: continent
+        description: The continent from which events were reported, based on IP address.
+
+      - name: country
+        description: The country from which events were reported, based on IP address.
+
+      - name: region
+        description: The region from which events were reported, based on IP address.
+
+      - name: city
+        description: The city from which events were reported, based on IP address.
+
+      - name: sub_continent
+        description: The subcontinent from which events were reported, based on IP address.
+
+      - name: metro_area
+        description: The metro from which events were reported, based on IP address.
+
+      - name: traffic_source_name
+        description: Name of the marketing campaign that first acquired the user.
+          This field is not populated in intraday tables.
+
+      - name: traffic_source_medium
+        description: Name of the medium (paid search, organic search, email, etc.) that first acquired the user.
+          This field is not populated in intraday tables.
+
+      - name: traffic_source
+        description: Name of the network that first acquired the user.
+          This field is not populated in intraday tables.
+
+      - name: transaction_id
+        description: The transaction ID of the ecommerce transaction.
+
+      - name: currency
+        description: Purchasing currency.
+
+      - name: affiliation
+        description: Payment platform.
+
+      - name: coupon
+        description: Discount coupon code.
+
+      - name: item_id
+        description: The ID of the item.
+
+      - name: item_name
+        description: The name of the item.
+
+      - name: item_brand
+        description: The brand of the item.
+
+      - name: item_category
+        description: The category of the item.
+
+      - name: item_price
+        description: The price of the item in local currency.
+
+      - name: table_suffix
+        description: The daily shard this event belongs to. Format YYYYMMDD.
+
+      - name: user_id
+        description: The user ID set via the setUserId API.
+
+      - name: user_pseudo_id
+        description: The pseudonymous ID (e.g., app instance ID) for the user.
+
+      - name: event_at
+        description: The time (in microseconds, UTC) at which the event was logged on the client.
+
+      - name: first_touch_at
+        description: The time (in microseconds) at which the user first opened the app or visited the site.

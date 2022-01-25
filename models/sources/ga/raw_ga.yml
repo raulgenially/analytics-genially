@@ -1,21 +1,28 @@
 version: 2
 
 sources:
-    - name: miscellaneous
-      description: Testing data from different sources.
-      database: data-genially
-      tables:
-        - name: logins
-          columns:
-            - name: user_id
-              description: Primary key for users.
-              tests:
-                - not_null
+  - name: miscellaneous
+    description: Testing data from different sources.
+    database: data-genially
+    tables:
+      - name: logins
+        columns:
+          - name: user_id
+            description: Primary key for users.
+            tests:
+              - not_null
 
-        - name: ga4_signups
-          columns:
-            - name: user_id
-              description: Primary key for users.
-              tests:
-                - unique
-                - not_null
+      - name: ga4_signups
+        columns:
+          - name: user_id
+            description: Primary key for users.
+            tests:
+              - unique
+              - not_null
+
+  - name: analytics_261787761
+    description: Event data from Google Analytics 4
+    database: data-genially
+    tables:
+      - name: events
+        identifier: events_*
