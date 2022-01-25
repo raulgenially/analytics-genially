@@ -27,7 +27,7 @@ final as (
         members.member_role_name as role,
         coalesce(member_creations.n_active_creations, 0) as n_active_creations,
 
-        members.is_active,
+        members.is_part_of_the_team,
 
         members.user_id,
         members.team_id,

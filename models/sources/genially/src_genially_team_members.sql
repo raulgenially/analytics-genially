@@ -18,7 +18,7 @@ final as (
         (
             team_members.confirmedat is not null
             and team_members.deletedat is null
-        ) as is_active,
+        ) as is_part_of_the_team,
 
         team_members.iduser as user_id,
         team_members.idteam as team_id,

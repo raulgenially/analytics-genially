@@ -4,7 +4,7 @@ with teams as (
 
 members as (
     select * from {{ ref('src_genially_team_members') }}
-    where is_active = true
+    where is_part_of_the_team = true
 ),
 
 spaces as (
