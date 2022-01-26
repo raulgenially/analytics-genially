@@ -23,7 +23,7 @@ user_usage as (
         users.user_id,
         {{ place_main_dimension_fields('users') }},
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
-        coalesce(ga_signups.channel, '{{ var('unknown') }}') as acquisition_channel,
+        coalesce(ga_signups.channel, '{{ var('unknown') }}') as channel,
         date(users.registered_at) as registered_at
 
     from users
@@ -36,7 +36,7 @@ user_usage_traffic as (
         user_usage.user_id,
         {{ place_main_dimension_fields('user_usage') }},
         user_usage.device,
-        user_usage.acquisition_channel,
+        user_usage.channel,
         user_usage.registered_at,
         logins.login_at,
         date_diff(date(logins.login_at), (user_usage.registered_at), day) as n_days_since_first_usage
@@ -52,7 +52,7 @@ final as (
         user_id,
         {{ place_main_dimension_fields('user_usage_traffic') }},
         device,
-        acquisition_channel,
+        channel,
         registered_at,
         login_at,
         n_days_since_first_usage
