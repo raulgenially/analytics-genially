@@ -10,16 +10,16 @@
 
 -- To reduce computational burden since login events were instrumented in February 2021
 -- TODO We will need to change this once we have a better idea how we are going to productize logins
-{% set min_date_logins %} 
+{% set min_date_logins %}
     date('2021-01-01')
 {% endset %}
 
 with logins as (
-    select * from {{ ref('src_ga_logins') }}
+    select * from {{ ref('user_logins') }}
 ),
 
 ga_signups as (
-    select * from {{ ref('src_ga_signups') }}
+    select * from {{ ref('signup_events') }}
 ),
 
 users as (
@@ -60,7 +60,7 @@ user_day as (
 
     from user_usage
     cross join dates
-    where user_usage.first_usage_at >= {{ min_date_signups }} 
+    where user_usage.first_usage_at >= {{ min_date_signups }}
         and dates.date_day >= user_usage.first_usage_at
         and dates.date_day >= {{ min_date_logins }}
 ),
