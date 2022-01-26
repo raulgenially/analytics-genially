@@ -21,14 +21,8 @@ models:
         - name: n_spaces
           description: Number of spaces in the team.
 
-        - name: n_spaces_with_active_creations
-          description: Number of spaces with, at least, an active creation. 
-
         - name: n_members
           description: Number of members in the team.
-
-        - name: n_space_owners
-          description: Number of members in the team that are owners of some space.
 
         - name: n_active_creations
           description: Number of active creations in the team.
@@ -58,7 +52,3 @@ models:
       tests:
         - dbt_utils.expression_is_true:
             expression: "n_members <= n_seats"
-        - dbt_utils.expression_is_true:
-            expression: "n_spaces_with_active_creations <= n_spaces"
-        - dbt_utils.expression_is_true:
-            expression: "n_space_owners <= n_members"

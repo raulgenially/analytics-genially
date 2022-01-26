@@ -25,9 +25,18 @@ models:
           description: The team id this space belongs to.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_teams')
+                field: team_id
 
         - name: owner_id
           description: The team member id that created this space.
+          tests:
+            - not_null:
+                where: "is_common = false"
+            - relationships:
+                to: ref('src_genially_team_members')
+                field: team_member_id
 
         - name: created_at
           description: Date time this space was created.
