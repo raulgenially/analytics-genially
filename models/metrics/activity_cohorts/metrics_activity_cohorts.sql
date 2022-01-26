@@ -11,7 +11,7 @@ with logins as (
 ),
 
 ga_signups as (
-    select * from {{ ref('src_ga_signups') }}
+    select * from {{ ref('signup_events') }}
 ),
 
 users as (
@@ -23,8 +23,8 @@ user_usage as (
         users.user_id,
         {{ place_main_dimension_fields('users') }},
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
-        coalesce(ga_signups.acquisition_channel, '{{ var('unknown') }}') as acquisition_channel,
-        date(users.registered_at) as first_usage_at
+        coalesce(ga_signups.channel, '{{ var('unknown') }}') as acquisition_channel,
+        date(users.registered_at) as registered_at
 
     from users
     left join ga_signups
@@ -37,9 +37,9 @@ user_usage_traffic as (
         {{ place_main_dimension_fields('user_usage') }},
         user_usage.device,
         user_usage.acquisition_channel,
-        user_usage.first_usage_at,
+        user_usage.registered_at,
         logins.login_at,
-        date_diff(date(logins.login_at), (user_usage.first_usage_at), day) as n_days_since_first_usage
+        date_diff(date(logins.login_at), (user_usage.registered_at), day) as n_days_since_first_usage
 
     from user_usage
     left join logins
@@ -53,7 +53,7 @@ final as (
         {{ place_main_dimension_fields('user_usage_traffic') }},
         device,
         acquisition_channel,
-        first_usage_at,
+        registered_at,
         login_at,
         n_days_since_first_usage
 
