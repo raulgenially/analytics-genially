@@ -219,6 +219,7 @@ models:
                 to: ref('team_spaces')
                 field: team_space_id
                 from_condition: is_active = true
+                severity: warn
 
         - name: team_template_id
           description: Id of the genially as a team template.

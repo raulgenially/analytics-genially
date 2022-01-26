@@ -1,0 +1,22 @@
+version: 2
+
+macros:
+  - name: sharded_date_range
+    description: Returns the build statement to restrict a sharded table between a start and an end date.
+      The start date is specified as an argument while the end date
+      is set to current_date() - 1 day. This is to ensure the source table has complete
+      data on that day. By default, start date is ignored on dev environments and is set
+      to current_date() - limit_days_on_dev.
+    arguments:
+      - name: start_date
+        type: string (Format YYYY-MM-DD)
+        description: The start date of the range. Ignored on dev environments if limit_data_on_dev is True.
+
+      - name: limit_data_on_dev
+        type: boolean (Default True)
+        description: Whether to limit the date range on dev environments.
+
+      - name: limit_days_on_dev
+        type: string (Default 3)
+        description: The number of days of data to consider on dev environments.
+          Only used if limit_data_on_dev is True.

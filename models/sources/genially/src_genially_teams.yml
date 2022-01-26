@@ -55,9 +55,12 @@ models:
           description: Web where the watermark should take you.
 
         - name: owner_id
-          description: Member id that created the team.
+          description: User id that created the team.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
 
         - name: is_configured
           description: Whether the team has been customized (banner, logo, etc).

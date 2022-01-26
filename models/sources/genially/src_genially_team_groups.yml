@@ -22,6 +22,9 @@ models:
           description: The team this group belongs to.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_teams')
+                field: team_id
 
         - name: member_ids
           description: List of member ids forming part of this team group.

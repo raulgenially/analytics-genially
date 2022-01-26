@@ -1,5 +1,7 @@
 with geniallys as (
-    select * from {{ ref('team_geniallys') }}
+    select * from {{ ref('geniallys') }}
+    where space_id is not null
+        and is_active = true
 ),
 
 team_spaces as (
@@ -7,11 +9,11 @@ team_spaces as (
 ),
 
 teams as (
-    select 
+    select
         team_id,
         name,
         created_at
- 
+
     from {{ ref('teams') }}
     where is_disabled = false
 ),
@@ -26,8 +28,8 @@ teams as (
 -- However, we'll filter out by creation date later for computational performance (see final CTE)
 date_spine as (
     {{ dbt_utils.date_spine(
-        datepart="day", 
-        start_date=min_date, 
+        datepart="day",
+        start_date=min_date,
         end_date="current_date()"
        )
     }}
@@ -45,20 +47,20 @@ spine as (
 ),
 
 geniallys_by_creation_date as (
-    select 
+    select
         -- Dimensions
         date(created_at) as created_at,
         team_id,
 
         -- Metrics
-        countif(is_active = true) as n_active_creations,
+        count(genially_id) as n_active_creations,
 
     from geniallys
     group by 1, 2
 ),
 
 spaces_by_creation_date as (
-    select 
+    select
         -- Dimensions
         date(created_at) as created_at,
         team_id,
@@ -101,9 +103,9 @@ metrics_joined_cumsum as (
 ),
 
 final as (
-    select 
+    select
         *
-    
+
     from metrics_joined_cumsum
     where date_day >= '{{ var('team_feat_start_date') }}'
     order by date_day asc

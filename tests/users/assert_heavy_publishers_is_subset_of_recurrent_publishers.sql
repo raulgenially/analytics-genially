@@ -1,10 +1,12 @@
 -- To ensure that heavy_publishers is a subset of recurrent_publishers (there are no heavy_publishers out of recurrent_publishers)
 with recurrent_publishers as (
-  select * from {{ ref('recurrent_publishers') }}
+    select * from {{ ref('users') }}
+    where is_recurrent_publisher = true
 ),
 
 heavy_publishers as (
-    select * from {{ ref('heavy_publishers') }}
+    select * from {{ ref('users') }}
+    where is_heavy_publisher = true
 ),
 
 final as (

@@ -1,0 +1,40 @@
+version: 2
+
+macros:
+  - name: ga4_param
+    description: Extract a parameter with the specified key as column.
+    arguments:
+      - name: field
+        type: string
+        description: The name of the field we have to extract the parameter from.
+
+      - name: key
+        type: string
+        description: The name of the parameter we want to extract.
+
+      - name: key_type
+        type: string
+        description: The type of the parameter we want to extract.
+          Either string, int, float
+
+      - name: alias
+        type: string
+        description: The name we want to give to the resulting column.
+
+  - name: map_default_ga4_channel_grouping
+    description: Case-when statement that groups events into the default channel groups of GA4.
+      When an event cannot be assigned into any group, we assign them the Other group.
+      Most of this case-when statement has been extrated from
+      [here](https://stacktonic.com/article/google-analytics-4-and-big-query-create-custom-channel-groupings-in-a-reusable-sql-function).
+    arguments:
+      - name: tsource
+        type: string
+        description: The field name corresponding to traffic_source.source of a GA4 event.
+
+      - name: tmedium
+        type: string
+        description: The field name corresponding to traffic_source.medium of a GA4 event.
+
+      - name: tcampaign
+        type: string
+        description: The field name corresponding to traffic_source.name of a GA4 event.

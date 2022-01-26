@@ -28,9 +28,9 @@ models:
           tests:
             - not_null
 
-        - name: is_active
-          description: Indicates whether the team member is active.
-            That is, they have confirmed their participation in the team and have not been deleted.
+        - name: is_part_of_the_team
+          description: Indicates whether the team member has confirmed his participation
+            in the team and has not been deleted.
           tests:
             - not_null
 
@@ -38,12 +38,18 @@ models:
           description: Id of the user that is/was part of the team.
           tests:
             - not_null:
-                where: "confirmed_at is not null"
+                where: is_part_of_the_team = true
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
 
         - name: team_id
           description: The team id this user belongs to.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_teams')
+                field: team_id
 
         - name: confirmed_at
           description: The time the user accepted the invitation to the team.

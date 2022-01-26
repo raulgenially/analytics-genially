@@ -1,3 +1,4 @@
 {% macro define_creator(min_creations=1) %}
-    n_total_creations >= {{ min_creations }} or is_in_collaboration = true
+    creations.n_total_creations >= {{ min_creations }}
+    or creations.is_collaborator = true
 {% endmacro %}
