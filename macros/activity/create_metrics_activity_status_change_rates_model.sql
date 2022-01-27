@@ -49,16 +49,10 @@ final as (
         case
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
                 then 'Activation'
-            when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Churned'
-                then 'Inactivation'
             when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Current'
                 then 'Retention'
-            when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Churned'
-                then 'Churn'
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
                 then 'Resurrection'
-            when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Churned'
-                then 'Hibernation'
         end as transition_type,
 
         -- Metrics
