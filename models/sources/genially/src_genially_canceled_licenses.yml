@@ -49,6 +49,7 @@ models:
             - relationships:
                 to: ref('src_genially_users')
                 field: user_id
+                severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8370
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -59,7 +60,7 @@ models:
             - not_null:
                 where: canceled_at >= '2021-04-09'
             - relationships:
-                to: ref('src_genially_invoices')
+                to: ref('src_genially_licenses')
                 field: subscription_id
 
         - name: canceled_at

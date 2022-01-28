@@ -1,4 +1,10 @@
 -- The user id in licenses and invoices should match
+-- TODO: https://github.com/Genially/scrum-genially/issues/8586
+{{
+    config(
+        severity="warn",
+    )
+}}
 with licenses as (
     select * from {{ ref('stg_licenses') }}
 ),
