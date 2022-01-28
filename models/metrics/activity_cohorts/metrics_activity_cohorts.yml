@@ -2,6 +2,6 @@ version: 2
 
 models:
     - name: metrics_activity_cohort
-      description: Model wich cross users with their logins based on the users table's snaspshots.
-        Also, is enriched with sign up device, campaig, medium and source from Google Analytics.
+      description: A model which crosses users with their logins based on the users table's snaspshots.
+        Also, is enriched with sign up device and default channel grouping from Google Analytics.
         This model is used to calculate logins cohorts.
