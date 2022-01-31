@@ -15,7 +15,7 @@ with final as (
         end as {{ status }},
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -32,7 +32,7 @@ with final as (
         'Total Active Users' as {{ status }},
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         count(user_id) as n_users

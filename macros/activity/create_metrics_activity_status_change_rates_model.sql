@@ -9,7 +9,7 @@ with denominator as (
         previous_{{ status }},
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -27,7 +27,7 @@ numerator as (
         {{ status }},
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -45,20 +45,14 @@ final as (
         numerator.{{ status }},
         {{ place_main_dimension_fields('denominator') }},
         denominator.device,
-        denominator.acquisition_channel,
+        denominator.channel,
         case
             when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
                 then 'Activation'
-            when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Churned'
-                then 'Inactivation'
             when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Current'
                 then 'Retention'
-            when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Churned'
-                then 'Churn'
             when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
                 then 'Resurrection'
-            when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Churned'
-                then 'Hibernation'
         end as transition_type,
 
         -- Metrics
@@ -78,7 +72,7 @@ final as (
             and denominator.country = numerator.country
             and denominator.country_name = numerator.country_name
             and denominator.device = numerator.device
-            and denominator.acquisition_channel = numerator.acquisition_channel
+            and denominator.channel = numerator.channel
 )
 
 select * from final
