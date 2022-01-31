@@ -1,15 +1,18 @@
 {% set week_days = 7 %}
 {% set month_days = 28 %}
-{% set year_days = 364 %}
 
-{% set min_date %}
+{% set min_date_for_computations %}
     date('2021-12-20')
+{% endset %}
+
+{% set start_date_of_analysis %}
+    date('2021-12-27')
 {% endset %}
 
 with dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date=min_date,
+        start_date=min_date_for_computations,
         end_date="current_date()"
         )
     }}
@@ -132,7 +135,8 @@ final as (
         n_weekly_logins_previous_7d
 
     from transformed_dates
-    where day_of_week = 7 -- Sampling
+    where date_day >= {{ start_date_of_analysis }}
+        and day_of_week = 7 -- Sampling
 )
 
 select * from final
