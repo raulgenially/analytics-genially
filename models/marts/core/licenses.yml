@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: stg_licenses
+    - name: licenses
       description: Information about the licenses the users purchase and its
         metadata when they have been canceled.
       columns:
@@ -64,25 +64,3 @@ models:
 
         - name: canceled_at
           description: Date time at which the license is canceled.
-
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: date_diff(current_date(), date(started_at), day) < 2
-              and finished_at is null and canceled_at is null
-            condition: status = "Pending" and manual_finished_at is null
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is null
-            condition: status = "Active" and manual_finished_at is null
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is not null
-            condition: status = "Canceled" and manual_finished_at is null
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is null
-            condition: status = "Passive Churn" and manual_finished_at is null and started_at >= '2020-02-05'
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is not null
-            condition: status = "Active Churn" and manual_finished_at is null

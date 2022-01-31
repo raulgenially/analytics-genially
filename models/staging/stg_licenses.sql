@@ -18,9 +18,6 @@ final as (
         licenses.license_type,
         licenses.comments,
         licenses.user_ip,
-        canceled_licenses.reason_code as canceled_reason_code,
-        canceled_licenses.reason as canceled_reason,
-        canceled_licenses.comment as canceled_comment,
 
         licenses.user_id,
         licenses.payer_id,
