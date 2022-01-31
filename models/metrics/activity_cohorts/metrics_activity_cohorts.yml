@@ -67,7 +67,7 @@ models:
             - not_null
 
         - name: registered_at
-          description: The date at user signed up.<
+          description: The date at user signed up.
 
         - name: login_at
           description: The date the user logged in.
