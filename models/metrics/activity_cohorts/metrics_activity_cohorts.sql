@@ -31,7 +31,7 @@ user_usage as (
         on users.user_id = ga_signups.user_id
 ),
 
-user_usage_traffic as (
+final as (
     select
         user_usage.user_id,
         {{ place_main_dimension_fields('user_usage') }},
@@ -45,19 +45,6 @@ user_usage_traffic as (
     left join logins
         on user_usage.user_id = logins.user_id
         and logins.login_at is not null
-),
-
-final as (
-    select
-        user_id,
-        {{ place_main_dimension_fields('user_usage_traffic') }},
-        signup_device,
-        signup_channel,
-        registered_at,
-        login_at,
-        n_days_since_first_usage
-
-    from user_usage_traffic
 )
 
 select * from final
