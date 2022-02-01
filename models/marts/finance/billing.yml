@@ -9,17 +9,24 @@ models:
             - unique
             - not_null
 
-        - name: invoice_type
-          description: Invoice type (Invoice or Refund).
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_invoice_type_values() }}"
-
         - name: description
           description: Invoice's description with all product information.
           tests:
             - not_null
+
+        - name: quantity
+          description: Number of subscriptions that have been paid.
+          tests:
+            - not_null
+
+        - name: product
+          description: Type of purchased plan or service and its recurrence.
+
+        - name: recurrence
+          description: Indicates if is a annual or monthly plan.
+
+        - name: plan
+          description: Type of purchased plan or service.
 
         - name: payer_email
           description: The email of the person paying the invoice.
@@ -43,13 +50,18 @@ models:
                 to: ref('seed_country_codes')
                 field: code
 
-        - name: original_amount
+        - name: total
           description: Total amount in their original currency.
           tests:
             - not_null
 
-        - name: amount_euro
-          description: The equivalent in € of the amount specified in original amount.
+        - name: currency
+          description: Original currency of the payment.
+          tests:
+            - not_null
+
+        - name: total_euro
+          description: The equivalent in € of the amount specified in total.
           tests:
             - not_null
 
@@ -75,12 +87,7 @@ models:
                 field: tax_key
                 where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
-        - name: currency
-          description: Original currency of the payment.
-          tests:
-            - not_null
-
-        - name: subtotal
+        - name: total_euro_deducted
           description: Paid amount after taxes and converted in eur.
           tests:
             - not_null
@@ -90,59 +97,40 @@ models:
           tests:
             - not_null
 
-        - name: eu
-          description: Indicates if the payer resides into European Union (see countries defined in seed_taxkey_taxrate.csv).
-          tests:
-            - not_null
-
-        - name: iva
-          description: Indicates if the payer paid taxes.
-          tests:
-            - not_null
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
           tests:
-            - not_null
-
-        - name: days
-          description: Duration days of the paid subscription.
-          test:
-            - dbt_utils.expression_is_true:
-                  expression: "> 0"
-
-        - name: quantity
-          description: Number of subscriptions that have been paid.
-          tests:
-            - not_null
-
-        - name: product
-          description: Type of purchased plan or service and its recurrence.
-
-        - name: recurrence
-          description: Indicates if is a annual or monthly plan.
-
-        - name: plan
-          description: Type of purchased plan or service.
+            - not_null:
+                where: "invoiced_at >= '2020-08-15'"
 
         - name: role
           description: Payer role.
           tests:
             - not_null:
-                where: "date(invoiced_at) < current_date()"
+                where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
 
         - name: sector
           description: Payer sector.
           tests:
             - not_null:
-                where: "date(invoiced_at) < current_date()"
+                where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
+
+        - name: is_refund
+          description: Whether this invoice is refunding a previous invoice or not.
+          tests:
+            - not_null
 
         - name: is_valid_euvat_number
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
           tests:
             - not_null:
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}' and invoice_type = 'Invoice'
+                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}' and is_refund = false
+
+        - name: is_from_eu_country
+          description: Indicates if the payment is from within the EU.
+          tests:
+            - not_null
 
         - name: user_id
           description: Id of the user making the payment.
@@ -151,6 +139,7 @@ models:
             - relationships:
                 to: ref('users')
                 field: user_id
+                where: invoiced_at >= '2018-01-18'
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -162,12 +151,14 @@ models:
           description: Id of the transaction in the payment processing platform.
             This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
           tests:
-            - not_null
+            - not_null:
+                where: "invoiced_at >= '2020-01-16'"
 
         - name: invoice_number_id
           description: Unique and financial id for the invoice.
           tests:
-            - unique
+            - unique:
+                where: "invoiced_at >= '2019-02-18'"
             - not_null
 
         - name: reference_invoice_number_id
@@ -177,6 +168,9 @@ models:
           description: Date at which the invoice was created.
           tests:
             - not_null
+
+        - name: refunded_at
+          description: For invoices, date time at which the invoice was refunded.
 
         - name: originally_invoiced_at
           description: For refunds, date time at which the invoice we are refunding was invoiced.
@@ -193,11 +187,12 @@ models:
           description: Date at which the paid subscription will end.
           tests:
             - not_null
+
       tests:
         - dbt_utils.expression_is_true:
-            expression: "amount_euro = original_amount"
-            condition: "currency = 'eur'"
+            expression: "total_euro = total"
+            condition: "currency = 'eur' and invoice_id != '5d1a01fe5c9817273eebfd98'"
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
-            condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+            condition: "payer_cif is null and invoiced_at > '{{ var('invoice_tax_start_date') }}'"

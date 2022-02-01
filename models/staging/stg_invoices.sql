@@ -22,6 +22,10 @@ invoices_normalized as (
         invoices.invoice_id,
 
         invoices.description,
+        invoices.quantity,
+        invoices.product,
+        invoices.recurrence,
+        invoices.plan,
         invoices.payer_email,
         invoices.payer_name,
         invoices.payer_cif,
@@ -46,6 +50,8 @@ invoices_normalized as (
         invoices.invoiced_at,
         refunds.invoiced_at as refunded_at,
         invoices.invoiced_at as originally_invoiced_at,
+        invoices.period_start_at,
+        invoices.period_end_at,
 
     from invoices
     left join unique_refunds as refunds
@@ -68,6 +74,10 @@ refunds_normalized as (
         refunds.invoice_id,
 
         refunds.description,
+        refunds.quantity,
+        refunds.product,
+        refunds.recurrence,
+        refunds.plan,
         refunds.payer_email,
         refunds.payer_name,
         refunds.payer_cif,
@@ -92,6 +102,8 @@ refunds_normalized as (
         refunds.invoiced_at,
         cast(null as timestamp) as refunded_at,
         invoices.invoiced_at as originally_invoiced_at,
+        refunds.period_start_at,
+        refunds.period_end_at,
 
     from refunds
     left join unique_invoices as invoices

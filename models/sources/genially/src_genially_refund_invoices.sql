@@ -1,5 +1,5 @@
 with invoices as (
-    {{ create_base_invoice_model('refundinvoice') }}
+    {{ create_base_invoice_model('refundinvoice', invoiced_at_field='dateinvoce') }}
 ),
 
 final as (
@@ -7,6 +7,10 @@ final as (
         _id as invoice_id,
 
         description,
+        quantity,
+        product,
+        recurrence,
+        plan,
         payeremail as payer_email,
         payer_name,
         payer_cif,
@@ -27,7 +31,9 @@ final as (
         invoiceid as invoice_number_id,
         referenceinvoice as reference_invoice_number_id,
 
-        dateinvoce as invoiced_at,
+        invoiced_at,
+        period_start_at,
+        period_end_at,
 
     from invoices
 )

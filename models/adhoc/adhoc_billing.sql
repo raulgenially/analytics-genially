@@ -3,21 +3,21 @@ with billing as(
 )
 
 select
-    billing.invoice_type as type,
+    if(is_refund, 'Refund', 'Invoice') as type,
     if(description like '%License%', 'Subscription', 'One Time') as mrr,
     format_date('%m', billing.invoiced_at) as month,
-    if(billing.invoice_type = 'Refund', 'RE'||billing.invoice_number_id, billing.invoice_number_id) as invoice_number_id,
+    if(billing.is_refund, 'RE'||billing.invoice_number_id, billing.invoice_number_id) as invoice_number_id,
     format_date('%d/%m/%Y', billing.invoiced_at) as invoiced_date,
     format_date('%d/%m/%Y', billing.period_end_at) as invoice_end_date,
-    days,
+    date_diff(billing.period_end_at, billing.period_start_at, day) as days,
     if(billing.product like '%Team%', '5', cast(quantity as string)) as quantity,
     regexp_replace(billing.product, r'(.*)Team*.', r'\1 Master') as product,
     billing.recurrence,
     billing.plan,
-    replace(cast(billing.subtotal as string), '.',',') as subtotal,
+    replace(cast(billing.total_euro_deducted as string), '.',',') as subtotal,
     replace(cast(billing.tax_amount as string), '.',',') as tax_amount,
-    replace(cast(billing.amount_euro as string), '.',',') as total,
-    replace(cast(billing.original_amount as string), '.',',') as original_total,
+    replace(cast(billing.total_euro as string), '.',',') as total,
+    replace(cast(billing.total as string), '.',',') as original_total,
     billing.currency as original_currency,
     billing.payer_name as fiscal_name,
     billing.payer_cif as tax_id,
@@ -28,8 +28,16 @@ select
     billing.tax_rate,
     billing.is_valid_euvat_number,
     if(billing.payment_platform in ('PayPal', 'Braintree'), 'PayPal '||upper(billing.currency), billing.payment_platform) as payment_method,
-    billing.eu,
-    billing.iva as IVA,
+    if(
+        billing.is_from_eu_country,
+        'Communitary',
+        'Extracommunitary'
+    ) as eu,
+    if(
+        billing.is_from_eu_country,
+        'IVA',
+        'No-IVA'
+    ) as IVA,
     '705' as canal,
     billing.user_id,
     billing.transaction_id,
@@ -40,7 +48,7 @@ select
     format_date(
         '%d/%m/%Y',
         if(
-            billing.invoice_type = 'Refund',
+            billing.is_refund,
             billing.originally_invoiced_at,
             null
         )

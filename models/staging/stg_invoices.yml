@@ -18,6 +18,22 @@ models:
         - name: description
           description: Description of the type of license purchased.
 
+        - name: quantity
+          description: Number of licenses purchased.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: product
+          description: Type of product purchased with this invoice.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: recurrence
+          description: Whether this invoice is paying a monthly or annual subscription.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: plan
+          description: Type of plan this is invoice is purchasing.
+            This is extracted with a regexp from the description. Not reliable.
+
         - name: payer_email
           description: The email of the person paying the invoice.
 
@@ -87,6 +103,12 @@ models:
             For regular invoices, same date time as invoiced_at.
           tests:
             - not_null
+
+        - name: period_start_at
+          description: Date at which the paid subscription starts.
+
+        - name: period_end_at
+          description: Date at which the paid subscription will end.
 
       tests:
         - dbt_utils.expression_is_true:
