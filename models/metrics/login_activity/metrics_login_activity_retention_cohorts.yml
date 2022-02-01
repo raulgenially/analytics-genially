@@ -51,13 +51,13 @@ models:
           description: Full name of the country.
           tests:
             - not_null
-        
+
         - name: device
           description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: acquisition_channel
+        - name: channel
           description: Acquisition channel.
           tests:
             - not_null

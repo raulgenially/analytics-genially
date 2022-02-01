@@ -8,7 +8,7 @@ final as (
         n_days_since_first_usage,
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         count(user_id) as n_total_users,

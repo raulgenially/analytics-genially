@@ -8,7 +8,7 @@ final as (
         date_day,
         {{ place_main_dimension_fields('activity') }},
         device,
-        acquisition_channel,
+        channel,
 
         -- Metrics
         countif(is_active) as n_daily_active_users,

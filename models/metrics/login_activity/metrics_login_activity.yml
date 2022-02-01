@@ -3,7 +3,7 @@ version: 2
 models:
     - name: metrics_login_activity
       description: Model describing the activity based on logins.
-        A user is considered to be active whether they log in to Genially within a specific interval of time. 
+        A user is considered to be active whether they log in to Genially within a specific interval of time.
         Depending on how long the interval is considered, we can distinguish among,
           Daily active users, activity based on a single day.
           Weekly active users, activity based on the last 7 days.
@@ -12,7 +12,7 @@ models:
           A New user is a user who is in their first interval of using the product.
           A Current user is a user who used the product in the previous interval and the current interval.
           A Churned user is a user who were once actively using the product and then became inactive.
-        Thus, active users = new users + current users.  
+        Thus, active users = new users + current users.
       columns:
         - name: id
           description: Primary key. Created from user_id and date_day fields.
@@ -68,13 +68,13 @@ models:
           description: Full name of the country.
           tests:
             - not_null
-        
+
         - name: device
           description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: acquisition_channel
+        - name: channel
           description: Acquisition channel.
           tests:
             - not_null
@@ -122,7 +122,7 @@ models:
           description: Number of days the user is active as a monthly active user.
           tests:
             - not_null
-          
+
         - name: status_28d
           description: Whether the user is New, Current or Churned as a monthly active user.
           tests:

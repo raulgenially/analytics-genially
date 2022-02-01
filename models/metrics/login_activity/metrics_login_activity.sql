@@ -10,16 +10,16 @@
 
 -- To reduce computational burden since login events were instrumented in February 2021
 -- TODO We will need to change this once we have a better idea how we are going to productize logins
-{% set min_date_logins %} 
+{% set min_date_logins %}
     date('2021-01-01')
 {% endset %}
 
 with logins as (
-    select * from {{ ref('src_ga_logins') }}
+    select * from {{ ref('user_logins') }}
 ),
 
 ga_signups as (
-    select * from {{ ref('src_ga_signups') }}
+    select * from {{ ref('signup_events') }}
 ),
 
 users as (
@@ -31,7 +31,7 @@ user_usage as (
         users.user_id,
         {{ place_main_dimension_fields('users') }},
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
-        coalesce(ga_signups.acquisition_channel, '{{ var('unknown') }}') as acquisition_channel,
+        coalesce(ga_signups.channel, '{{ var('unknown') }}') as channel,
         date(users.registered_at) as first_usage_at
 
     from users
@@ -53,14 +53,14 @@ user_day as (
         user_usage.user_id,
         {{ place_main_dimension_fields('user_usage') }},
         user_usage.device,
-        user_usage.acquisition_channel,
+        user_usage.channel,
         user_usage.first_usage_at,
         date(dates.date_day) as date_day,
         date_diff(dates.date_day, user_usage.first_usage_at, day) as n_days_since_first_usage
 
     from user_usage
     cross join dates
-    where user_usage.first_usage_at >= {{ min_date_signups }} 
+    where user_usage.first_usage_at >= {{ min_date_signups }}
         and dates.date_day >= user_usage.first_usage_at
         and dates.date_day >= {{ min_date_logins }}
 ),
@@ -70,7 +70,7 @@ user_day_traffic as (
         user_day.user_id,
         {{ place_main_dimension_fields('user_day') }},
         user_day.device,
-        user_day.acquisition_channel,
+        user_day.channel,
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
@@ -97,7 +97,7 @@ user_traffic_rolling_status as (
         user_id,
         {{ place_main_dimension_fields('user_day_traffic') }},
         device,
-        acquisition_channel,
+        channel,
         first_usage_at,
         date_day,
         n_days_since_first_usage,
@@ -129,7 +129,7 @@ final as (
         user_id,
         {{ place_main_dimension_fields('user_traffic_rolling_status') }},
         device,
-        acquisition_channel,
+        channel,
         first_usage_at,
         date_day,
         n_days_since_first_usage,
