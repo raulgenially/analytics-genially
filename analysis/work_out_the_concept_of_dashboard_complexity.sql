@@ -1,3 +1,15 @@
+-- With this analysis we want to put into practice the concept of dashboard complexity.
+-- When developing a dashboard for any team, we should keep in mind this.
+-- The complexity of a dashbord will depend on 5 main factors:
+-- 1 - Number of metrics.
+-- 2 - Number of dimensions (not only at the modeling stage, but also when including filters in the dashboard).
+-- 3 - Granularity: indicates how often I observe the metrics (daily, weekly, monthly, etc.) and the temporal filter included in the dashboard.
+-- 4 - Time Period: the window size used for computing the metrics (one data point, last 7 data points, last 28 data points, etc.).
+-- 5 - Period-over-period comparisons: refers to comparisons with previous periods (last day, last week, last month, last year, etc.).
+-- Additionally, we should clearly assess whether the metrics of the specific dashboard are aligned with the OKRs.
+
+-- In this particular case, we are testing the concept of logins.
+
 {% set week_days = 7 %}
 {% set month_days = 28 %}
 
@@ -159,9 +171,10 @@ final as (
 )
 
 -- And this is our result:
--- Metrics: Number of Logins
--- Dimensions: Plan
--- Granularity: Weekly
--- Time Period: Weekly --> Weekly Logins
+-- 1 - Metrics: Number of Logins
+-- 2 - Dimensions: Plan
+-- 3 - Granularity: Weekly
+-- 4 - Time Period: Weekly --> Weekly Logins
+-- 5 - Period-over-period comparisons: previous 7 days
 
 select * from final
