@@ -5,10 +5,12 @@
     date('2021-12-20')
 {% endset %}
 
+-- Use this to constraint the final CTE.
 {% set start_date_of_analysis %}
     date('2021-12-27')
 {% endset %}
 
+-- Spine with daily granularity. Later we can sample to observe data points every week or month.
 with dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
@@ -18,7 +20,7 @@ with dates as (
     }}
 ),
 
--- Dimensions: Plan
+-- For this example I am using a single dimension: Plan.
 plans as (
     select * from {{ ref('seed_plan') }}
 ),
@@ -32,7 +34,8 @@ dates_plan as (
     cross join plans
 ),
 
--- Period Time, lookup table to select whatever period time you like
+-- Period Time, lookup table to select whatever period time (window size) you like.
+-- The period time tells you how many data points prior to the date of interest you are using for metric calculation.
 periods as (
     select
         '01' as period_id, -- Daily (e.g., daily active users)
@@ -66,11 +69,11 @@ periods as (
     from dates_plan
 ),
 
+-- Now let's select the metric of interest, in this case Logins.
 users as (
     select * from {{ ref('users') }}
 ),
 
--- Metric: logins
 logins as (
     select
         user_id,
@@ -86,27 +89,48 @@ logins_users as (
         users.plan
 
     from logins
-    left join users
+    inner join users -- Inner join for this analysis (we have logins of former users).
         on logins.user_id = users.user_id
 ),
+
+-- So far this is the situation:
+-- Metrics: Number of Logins
+-- Dimensions: Plan
+-- Granularity: Daily
+-- Next we are selecting a weekly time period --> Weekly Logins
 
 -- Weekly logins
 metric as (
     select
         periods.date_day,
         periods.plan,
-        count(distinct user_id) as n_weekly_logins
+        -- The metric at date_day tells you the number of logins in the last 7 days (including logins at date_day)
+        count(distinct logins.user_id) as n_weekly_logins -- Weekly Logins. 
 
     from periods
     left join logins_users as logins
         on logins.login_at <= periods.period_end
             and logins.login_at > period_start
             and periods.plan = logins.plan
-    where period_id = '07'
+    where period_id = '07' -- The id for selecting weekly time period.
     group by 1, 2
 ),
 
--- Now let's work out the granularity
+-- Period-over-period comparison. I want to compare the metric with previous 7 days.
+metric_lagged as (
+    select
+        *,
+        lag(n_weekly_logins, {{ week_days }}) over (
+            partition by
+                plan
+            order by date_day asc
+        ) n_weekly_logins_previous_7d
+
+    from metric
+),
+
+-- So far we have considered a daily granularity, but it's straightforward to sample your data to change this.
+-- Let's create some useful fields first.
 transformed_dates as (
     select   
         *,
@@ -116,17 +140,12 @@ transformed_dates as (
                 date_trunc(date_day, isoweek),
                 plan
             order by date_day asc
-        ) as day_of_week,
-        lag(n_weekly_logins, 7) over (
-            partition by
-                plan
-            order by date_day asc
-        ) n_weekly_logins_previous_7d
+        ) as day_of_week
 
-    from metric
+    from metric_lagged
 ),
 
--- I want weekly granularity. Therefore, I want weekly logins observed every week
+-- I want weekly granularity. Therefore, I want Weekly Logins observed every week.
 final as (
     select
         date_week,
@@ -138,5 +157,11 @@ final as (
     where date_day >= {{ start_date_of_analysis }}
         and day_of_week = 7 -- Sampling
 )
+
+-- And this is our result:
+-- Metrics: Number of Logins
+-- Dimensions: Plan
+-- Granularity: Weekly
+-- Time Period: Weekly --> Weekly Logins
 
 select * from final
