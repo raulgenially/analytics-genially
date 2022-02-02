@@ -117,7 +117,7 @@ metric as (
         periods.date_day,
         periods.plan,
         -- The metric at date_day tells you the number of logins in the last 7 days (including logins at date_day)
-        count(distinct logins.user_id) as n_weekly_logins -- Weekly Logins. 
+        count(distinct logins.user_id) as n_weekly_logins -- Weekly Logins.
 
     from periods
     left join logins_users as logins
@@ -144,11 +144,11 @@ metric_lagged as (
 -- So far we have considered a daily granularity, but it's straightforward to sample your data to change this.
 -- Let's create some useful fields first.
 transformed_dates as (
-    select   
+    select
         *,
         date_trunc(date_day, isoweek) as date_week,
         row_number () over (
-            partition by 
+            partition by
                 date_trunc(date_day, isoweek),
                 plan
             order by date_day asc
