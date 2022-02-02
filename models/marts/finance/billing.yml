@@ -9,6 +9,11 @@ models:
             - unique
             - not_null
 
+        - name: invoice_id
+          description: Invoice's identifier in the source DB.
+          tests:
+            - not_null
+
         - name: description
           description: Invoice's description with all product information.
           tests:

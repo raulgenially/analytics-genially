@@ -13,7 +13,7 @@ models:
             - not_null
 
         - name: invoice_id
-          description: Primary key for invoices.
+          description: Invoice's identifier in the source DB.
 
         - name: description
           description: Description of the type of license purchased.

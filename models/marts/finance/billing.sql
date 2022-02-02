@@ -35,12 +35,13 @@ int_billing as (
         -- Apply taxes
         if(
             tax_rate > 0,
-            total_euro / (1 + tax_rate/100),
+            total_euro / (1 + tax_rate / 100),
             --Old logic to maintain retro-compatibility
             if(
                 is_from_eu_country,
                 total_euro / 1.21,
-                total_euro)
+                total_euro
+            )
         ) as total_euro_deducted,
 
     from base_billing
