@@ -69,7 +69,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: date_diff(current_date(), date(started_at), day) < 2
               and finished_at is null and canceled_at is null
-            condition: status = "Pending" and manual_finished_at is null
+            condition: status = "Pending"
 
         - dbt_utils.expression_is_true:
             expression: finished_at is null and canceled_at is null
@@ -81,8 +81,8 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_at is null
-            condition: status = "Passive Churn" and manual_finished_at is null and started_at >= '2020-02-05'
+            condition: status = "Passive Churn" and started_at >= '2020-02-05'
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_at is not null
-            condition: status = "Active Churn" and manual_finished_at is null
+            condition: status = "Active Churn"
