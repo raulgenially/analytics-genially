@@ -20,7 +20,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_team_member_roles() }}"
+                values: "{{ get_team_member_role_values() }}"
                 quote: false
 
         - name: member_role_name
