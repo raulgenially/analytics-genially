@@ -20,15 +20,21 @@ models:
             - not_null
 
         - name: quantity
-          description: Number of subscriptions that have been paid.
+          description: Number of licenses purchased.
+            This is extracted with a regexp from the description. Not reliable.
           tests:
             - not_null
 
         - name: product
-          description: Type of purchased plan or service and its recurrence.
+          description: Type of product purchased with this invoice.
+            This is extracted with a regexp from the description. Not reliable.
 
         - name: recurrence
-          description: Indicates if is a annual or monthly plan.
+          description: Whether this invoice is paying a monthly or annual subscription.
+            This is extracted with a regexp from the description. Not reliable.
+          tests:
+            - accepted_values:
+                values: "{{ get_recurrence_values() }}"
 
         - name: plan
           description: Type of purchased plan or service.

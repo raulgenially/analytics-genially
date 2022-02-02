@@ -26,6 +26,9 @@ models:
         - name: recurrence
           description: Whether this invoice is paying a monthly or annual subscription.
             This is extracted with a regexp from the description. Not reliable.
+          tests:
+            - accepted_values:
+                values: "{{ get_recurrence_values() }}"
 
         - name: plan
           description: Type of plan this is invoice is purchasing.
