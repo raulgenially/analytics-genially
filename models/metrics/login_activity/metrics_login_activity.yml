@@ -104,7 +104,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: n_days_active_7d
           description: Number of days the user is active as a weekly active user.
@@ -116,7 +116,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: n_days_active_28d
           description: Number of days the user is active as a monthly active user.
@@ -128,25 +128,25 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: previous_status
           description: Previous status of the user as a daily active user.
           tests:
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: previous_status_7d
           description: Previous status of the user as a weekly active user.
           tests:
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: previous_status_28d
           description: Previous status of the user as a monthly active user.
           tests:
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
       tests:
       - dbt_utils.expression_is_true:

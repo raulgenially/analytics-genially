@@ -15,7 +15,7 @@ monthly_change_rates as (
 ),
 
 final as (
-    select 
+    select
         'Daily' as time_period,
         *
 
@@ -24,7 +24,7 @@ final as (
 
     union all
 
-    select 
+    select
         'Weekly' as time_period,
         *
 
@@ -33,7 +33,7 @@ final as (
 
     union all
 
-    select 
+    select
         'Monthly' as time_period,
         *
 

@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_status_change_rates
+    - name: metrics_login_activity_change_rates
       description: This model computes the change rates of daily active users.
       columns:
         - name: time_period
@@ -21,14 +21,14 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: status
           description: Whether the user is New, Current or Churned.
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_active_user_categories() }}"
+                values: "{{ get_active_user_values() }}"
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
@@ -90,7 +90,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_transition_categories() }}"
+                values: "{{ get_transition_values() }}"
 
         - name: n_initial_users
           description: Number of users in previous status.
