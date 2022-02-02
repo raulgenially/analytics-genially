@@ -68,7 +68,7 @@ models:
           tests:
             - not_null
 
-        - name: n_returning users
+        - name: n_returning_users
           description: Number of returning users.
           tests:
             - not_null
@@ -83,7 +83,7 @@ models:
           tests:
             - not_null
 
-        - name: n_returning users_7d
+        - name: n_returning_users_7d
           description: Number of returning users in the last 7 days.
           tests:
             - not_null
@@ -98,7 +98,7 @@ models:
           tests:
             - not_null
 
-        - name: n_returning users_28d
+        - name: n_returning_users_28d
           description: Number of returning users in the last 28 days.
           tests:
             - not_null
