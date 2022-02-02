@@ -1,20 +1,13 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_status
-      description: This model computes the number of daily active users segmented by different dimensions.
+    - name: metrics_login_activity_active_users
+      description: This model computes the number of daily/weekly/monthly active users segmented by different dimensions.
       columns:
         - name: date_day
           description: The particular day where user's activity is described.
           tests:
             - not_null
-
-        - name: status
-          description: Status.
-          tests:
-            - not_null
-            - accepted_values:
-                values: ['Current Users', 'Signups', 'Total Active Users']
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
@@ -70,7 +63,53 @@ models:
           tests:
             - not_null
 
-        - name: n_users
-          description: Number of users determined by the field `status`.
+        - name: n_signups
+          description: Number of signups or new users.
           tests:
             - not_null
+
+        - name: n_returning users
+          description: Number of returning users.
+          tests:
+            - not_null
+
+        - name: n_daily_active_users
+          description: Number of daily active users or logins.
+          tests:
+            - not_null
+
+        - name: n_signups_7d
+          description: Number of signups or new users in the last 7 days.
+          tests:
+            - not_null
+
+        - name: n_returning users_7d
+          description: Number of returning users in the last 7 days.
+          tests:
+            - not_null
+
+        - name: n_weekly_active_users
+          description: Number of weekly active users or logins in the last 7 days.
+          tests:
+            - not_null
+
+        - name: n_signups_28d
+          description: Number of signups or new users in the last 28 days.
+          tests:
+            - not_null
+
+        - name: n_returning users_28d
+          description: Number of returning users in the last 28 days.
+          tests:
+            - not_null
+
+        - name: n_monthly_active_users
+          description: Number of monthly active users or logins in the last 28 days.
+          tests:
+            - not_null
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "n_daily_active_users <= n_weekly_active_users"
+
+        - dbt_utils.expression_is_true:
+            expression: "n_weekly_active_users <= n_monthly_active_users"

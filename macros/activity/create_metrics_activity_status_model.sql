@@ -12,7 +12,7 @@ with final as (
             when {{ status }} = 'New'
                 then 'Signups'
             else {{ status }}
-        end as {{ status }},
+        end as status,
         {{ place_main_dimension_fields('activity') }},
         device,
         channel,
