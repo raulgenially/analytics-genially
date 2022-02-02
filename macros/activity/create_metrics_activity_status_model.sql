@@ -29,7 +29,7 @@ with final as (
     select
         -- Dimensions
         date_day,
-        'Total Active Users' as {{ status }},
+        'Total Active Users' as status,
         {{ place_main_dimension_fields('activity') }},
         device,
         channel,

@@ -1,12 +1,34 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_retention_cohorts
+    - name: metrics_login_activity_status_change_rates
+      description: This model computes the change rates of daily active users.
       columns:
-        - name: n_days_since_first_usage
-          description: The number of days since the user initiated their activity for the first time.
+        - name: time_period
+          description: Indicates whether the change rates refer to daily, weekly or monthly active users.
           tests:
             - not_null
+            - accepted_values:
+                values: "{{ get_time_period_values() }}"
+
+        - name: date_day
+          description: The particular day where user's activity is described.
+          tests:
+            - not_null
+
+        - name: previous_status
+          description: Previous status of the user.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
+
+        - name: status
+          description: Whether the user is New, Current or Churned.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_active_user_categories() }}"
 
         - name: plan
           description: "{{ doc('subscription_codes') }}"
@@ -62,32 +84,24 @@ models:
           tests:
             - not_null
 
-        - name: n_total_users
-          description: Total number of users (New + Current + Churned).
+        - name: transition_type
+          description: It describes how a user transitions throughout the different stages.
+            For example, activation refers to users transitioning from New to Current status.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_transition_categories() }}"
+
+        - name: n_initial_users
+          description: Number of users in previous status.
           tests:
             - not_null
 
-        - name: n_daily_active_users
-          description: Number of daily active users.
-          tests:
-            - not_null
-
-        - name: n_weekly_active_users
-          description: Number of weekly active users.
-          tests:
-            - not_null
-
-        - name: n_monthly_active_users
-          description: Number of monthly active users.
+        - name: n_passing_users
+          description: Number of users transitioning from previous status to status.
           tests:
             - not_null
 
       tests:
-        - dbt_utils.expression_is_true:
-            expression: "n_daily_active_users <= n_weekly_active_users"
-
-        - dbt_utils.expression_is_true:
-            expression: "n_weekly_active_users <= n_monthly_active_users"
-
-        - dbt_utils.expression_is_true:
-            expression: "n_monthly_active_users <= n_total_users"
+      - dbt_utils.expression_is_true:
+          expression: "n_passing_users <= n_initial_users"

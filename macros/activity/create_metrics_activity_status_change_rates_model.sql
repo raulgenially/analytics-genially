@@ -6,7 +6,7 @@ with denominator as (
     select
         -- Dimensions
         date_day,
-        previous_{{ status }},
+        previous_status,
         {{ place_main_dimension_fields('activity') }},
         device,
         channel,
@@ -23,8 +23,8 @@ numerator as (
     select
         -- Dimensions
         date_day,
-        previous_{{ status }},
-        {{ status }},
+        previous_status,
+        status,
         {{ place_main_dimension_fields('activity') }},
         device,
         channel,
@@ -41,18 +41,24 @@ final as (
     select
         -- Dimensions
         denominator.date_day,
-        denominator.previous_{{ status }},
-        numerator.{{ status }},
+        denominator.previous_status,
+        numerator.status,
         {{ place_main_dimension_fields('denominator') }},
         denominator.device,
         denominator.channel,
         case
-            when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'New' and numerator.status = 'Current'
                 then 'Activation'
-            when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'New' and numerator.status = 'Churned'
+                then 'Inactivation'
+            when denominator.previous_status = 'Current' and numerator.status = 'Current'
                 then 'Retention'
-            when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'Current' and numerator.status = 'Churned'
+                then 'Churn'
+            when denominator.previous_status = 'Churned' and numerator.status = 'Current'
                 then 'Resurrection'
+            when denominator.previous_status = 'Churned' and numerator.status = 'Churned'
+                then 'Hibernation'
         end as transition_type,
 
         -- Metrics
@@ -62,7 +68,7 @@ final as (
     from denominator
     left join numerator
         on denominator.date_day = numerator.date_day
-            and denominator.previous_{{ status }} = numerator.previous_{{ status }}
+            and denominator.previous_status = numerator.previous_status
             and denominator.plan = numerator.plan
             and denominator.subscription = numerator.subscription
             and denominator.sector = numerator.sector
