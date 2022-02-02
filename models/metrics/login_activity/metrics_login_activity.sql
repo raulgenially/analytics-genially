@@ -1,3 +1,9 @@
+{{
+  config(
+    materialized='view'
+  )
+}}
+
 {% set week_days = 7 %}
 {% set week_days_minus = week_days - 1 %}
 
