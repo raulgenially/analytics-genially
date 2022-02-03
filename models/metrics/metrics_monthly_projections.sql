@@ -26,6 +26,23 @@ user_logins as (
     select * from {{ ref('user_logins') }}
 ),
 
+-- We want to consider the registration date as a login as well.
+logins as (
+    select
+        user_id,
+        date(login_at) as login_at
+
+    from user_logins
+
+    union distinct
+
+    select
+        user_id,
+        date(registered_at) as login_at
+
+    from users
+),
+
 signups as (
     select
         -- Dimensions
@@ -245,18 +262,18 @@ metrics4 as (
 
 user_logins_profile as (
     select
-        user_logins.user_id,
-        date(user_logins.login_at) as login_at,
+        logins.user_id,
+        logins.login_at,
 
         users.plan,
         users.subscription,
         users.country,
         users.country_name
 
-    from user_logins
+    from logins
     left join users
-        on user_logins.user_id = users.user_id
-    where date(login_at) >= {{ min_date }}
+        on logins.user_id = users.user_id
+    where logins.login_at >= {{ min_date }}
 ),
 
 total_visitors as (

@@ -56,7 +56,7 @@ user_day as (
         user_usage.channel,
         user_usage.first_usage_at,
         date(dates.date_day) as date_day,
-        date_diff(dates.date_day, user_usage.first_usage_at, day) as n_days_since_first_usage
+        date_diff(date(dates.date_day), user_usage.first_usage_at, day) as n_days_since_first_usage
 
     from user_usage
     cross join dates

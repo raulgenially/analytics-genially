@@ -93,6 +93,8 @@ models:
           description: The number of days since the user initiated their activity for the first time.
           tests:
             - not_null
+            - dbt_utils.expression_is_true:
+                expression: ">= 0"
 
         - name: is_active
           description: Whether or not the user is active as a daily active user.
