@@ -7,8 +7,8 @@ final as (
         -- Dimensions
         date_day,
         {{ place_main_dimension_fields('activity') }},
-        device,
-        channel,
+        signup_device,
+        signup_channel,
 
         -- Metrics
         countif(status = 'New') as n_signups,

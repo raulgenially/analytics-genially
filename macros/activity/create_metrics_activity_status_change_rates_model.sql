@@ -8,8 +8,8 @@ with denominator as (
         date_day,
         previous_status,
         {{ place_main_dimension_fields('activity') }},
-        device,
-        channel,
+        signup_device,
+        signup_channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -26,8 +26,8 @@ numerator as (
         previous_status,
         status,
         {{ place_main_dimension_fields('activity') }},
-        device,
-        channel,
+        signup_device,
+        signup_channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -44,8 +44,8 @@ final as (
         denominator.previous_status,
         numerator.status,
         {{ place_main_dimension_fields('denominator') }},
-        denominator.device,
-        denominator.channel,
+        denominator.signup_device,
+        denominator.signup_channel,
         case
             when denominator.previous_status = 'New' and numerator.status = 'Current'
                 then 'Activation'
@@ -77,8 +77,8 @@ final as (
             and denominator.broad_role = numerator.broad_role
             and denominator.country = numerator.country
             and denominator.country_name = numerator.country_name
-            and denominator.device = numerator.device
-            and denominator.channel = numerator.channel
+            and denominator.signup_device = numerator.signup_device
+            and denominator.signup_channel = numerator.signup_channel
 )
 
 select * from final

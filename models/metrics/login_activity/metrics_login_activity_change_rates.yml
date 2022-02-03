@@ -74,12 +74,12 @@ models:
           tests:
             - not_null
 
-        - name: device
+        - name: signup_device
           description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: channel
+        - name: signup_channel
           description: Acquisition channel.
           tests:
             - not_null
