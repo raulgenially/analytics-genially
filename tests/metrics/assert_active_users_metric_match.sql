@@ -1,4 +1,11 @@
 -- The number of active users or logins should match among the implicated models.
+-- TODO: https://github.com/Genially/data-team-issues/issues/198
+{{
+    config(
+        severity='warn'
+    )
+}}
+
 with login_activity_active_users as (
     select * from {{ ref('metrics_login_activity_active_users') }}
 ),

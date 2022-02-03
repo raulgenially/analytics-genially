@@ -1,11 +1,11 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_change_rates
-      description: This model computes the change rates of daily active users.
+    - name: metrics_login_activity_conversion_rates
+      description: This model computes the conversion rates of daily active users.
       columns:
         - name: time_period
-          description: Indicates whether the change rates refer to daily, weekly or monthly active users.
+          description: Indicates whether the conversion rates refer to daily, weekly or monthly active users.
           tests:
             - not_null
             - accepted_values:

@@ -1,6 +1,6 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
--- Compute change rates between stages. For example: activation (new -> current), retention (current -> current), etc.
-{% macro create_metrics_activity_status_change_rates_model(activity, status) %}
+-- Compute conversion rates between stages. For example: activation (new -> current), retention (current -> current), etc.
+{% macro create_metrics_activity_status_conversion_rates_model(activity, status) %}
 
 with denominator as (
     select

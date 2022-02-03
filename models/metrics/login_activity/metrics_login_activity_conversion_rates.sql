@@ -3,15 +3,15 @@ with activity as (
 ),
 
 daily_change_rates as (
-    {{ create_metrics_activity_status_change_rates_model('activity', 'status') }}
+    {{ create_metrics_activity_status_conversion_rates_model('activity', 'status') }}
 ),
 
 weekly_change_rates as (
-    {{ create_metrics_activity_status_change_rates_model('activity', 'status_7d') }}
+    {{ create_metrics_activity_status_conversion_rates_model('activity', 'status_7d') }}
 ),
 
 monthly_change_rates as (
-    {{ create_metrics_activity_status_change_rates_model('activity', 'status_28d') }}
+    {{ create_metrics_activity_status_conversion_rates_model('activity', 'status_28d') }}
 ),
 
 final as (
