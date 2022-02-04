@@ -24,7 +24,7 @@ models:
                 values: "{{ get_active_user_values() }}"
 
         - name: status
-          description: Whether the user is New, Current or Churned.
+          description: Whether the user is New, Returning or Churned.
           tests:
             - not_null
             - accepted_values:
@@ -86,7 +86,7 @@ models:
 
         - name: transition_type
           description: It describes how a user transitions throughout the different stages.
-            For example, activation refers to users transitioning from New to Current status.
+            For example, activation refers to users transitioning from New to Returning status.
           tests:
             - not_null
             - accepted_values:

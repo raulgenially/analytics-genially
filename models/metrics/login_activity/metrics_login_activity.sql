@@ -79,7 +79,7 @@ user_day_traffic as (
             when user_day.n_days_since_first_usage > 0 and logins.user_id is null
                 then 'Churned'
             when user_day.n_days_since_first_usage > 0 and logins.user_id is not null
-                then 'Current'
+                then 'Returning'
         end as status
 
     from user_day
@@ -106,14 +106,14 @@ user_traffic_rolling_status as (
                 then 'New'
             when {{ compute_n_days_active(week_days_minus) }} = 0
                 then 'Churned'
-            else 'Current'
+            else 'Returning'
         end as status_7d,
         case
             when n_days_since_first_usage < {{ month_days }}
                 then 'New'
             when {{ compute_n_days_active(month_days_minus) }} = 0
                 then 'Churned'
-            else 'Current'
+            else 'Returning'
         end as status_28d
 
     from user_day_traffic

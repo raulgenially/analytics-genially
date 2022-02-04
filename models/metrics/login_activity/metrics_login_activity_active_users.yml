@@ -4,7 +4,7 @@ models:
     - name: metrics_login_activity_active_users
       description: This model computes the number of daily/weekly/monthly active users segmented by different dimensions.
         Note that an active user is someone who logs into the Genially app.
-        This active user can be a new user (i.e., a signups) or a returning/current user.
+        This active user can be a new user (i.e., a signups) or a returning user.
       columns:
         - name: date_day
           description: The particular day where user's activity is described.

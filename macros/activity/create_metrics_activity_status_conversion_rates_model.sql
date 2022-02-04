@@ -1,5 +1,5 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
--- Compute conversion rates between stages. For example: activation (new -> current), retention (current -> current), etc.
+-- Compute conversion rates between stages. For example: activation (new -> returning), retention (returning -> returning), etc.
 {% macro create_metrics_activity_status_conversion_rates_model(activity, status) %}
 
 with denominator as (
@@ -47,15 +47,15 @@ final as (
         denominator.signup_device,
         denominator.signup_channel,
         case
-            when denominator.previous_status = 'New' and numerator.status = 'Current'
+            when denominator.previous_status = 'New' and numerator.status = 'Returning'
                 then 'Activation'
             when denominator.previous_status = 'New' and numerator.status = 'Churned'
                 then 'Inactivation'
-            when denominator.previous_status = 'Current' and numerator.status = 'Current'
+            when denominator.previous_status = 'Returning' and numerator.status = 'Returning'
                 then 'Retention'
-            when denominator.previous_status = 'Current' and numerator.status = 'Churned'
+            when denominator.previous_status = 'Returning' and numerator.status = 'Churned'
                 then 'Churn'
-            when denominator.previous_status = 'Churned' and numerator.status = 'Current'
+            when denominator.previous_status = 'Churned' and numerator.status = 'Returning'
                 then 'Resurrection'
             when denominator.previous_status = 'Churned' and numerator.status = 'Churned'
                 then 'Hibernation'
