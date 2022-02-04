@@ -16,6 +16,8 @@ final as (
            )
         }} as status,
         licenses.license_type,
+        licenses.recurrence,
+        licenses.plan,
         licenses.comments,
         licenses.user_ip,
 

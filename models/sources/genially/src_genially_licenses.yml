@@ -33,6 +33,20 @@ models:
                 to: ref('seed_license_codes')
                 field: license_code
 
+        - name: recurrence
+          description: whether the license has a monthly or annual payment
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_license_recurrence_values() }}"
+
+        - name: plan
+          description: The degree of feature access to the platform.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_license_plan_values() }}"
+
         - name: comments
           description: Notes on the license.
 

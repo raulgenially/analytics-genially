@@ -8,6 +8,8 @@ final as (
 
         status,
         typelicense as license_type,
+        regexp_extract(typelicense, r'^\w+_(ANNUAL|MONTH)$') as recurrence,
+        regexp_extract(typelicense, r'^(\w+)_(?:ANNUAL|MONTH)$') as plan,
         comments,
         ipuser as user_ip,
 

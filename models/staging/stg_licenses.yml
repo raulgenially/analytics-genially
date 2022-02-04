@@ -31,6 +31,12 @@ models:
             This describes whether the license has a monthly or annual payment
             and the degree of feature access to the platform.
 
+        - name: recurrence
+          description: whether the license has a monthly or annual payment
+
+        - name: plan
+          description: The degree of feature access to the platform.
+
         - name: comments
           description: Notes on the license.
 
