@@ -6,6 +6,10 @@
     )
 }}
 
+{% set testing_date %}
+    date('2021-12-20')
+{% endset %}
+
 with login_activity_active_users as (
     select * from {{ ref('metrics_login_activity_active_users') }}
 ),
@@ -16,30 +20,20 @@ monthly_projections as (
 
 active_users as (
     select
-        date_day,
-        plan,
-        country,
+        -- Note that we're summing up non-unique users,
+        -- but it doen't matter for testing purposes. 
         sum(n_daily_active_users) as n_daily_active_users
 
     from login_activity_active_users
-    where date_day = '2022-01-25'
-        and plan = 'Free'
-        and country = 'FR'
-    {{ dbt_utils.group_by(n=3) }}
+    where date_day >= {{ testing_date }}
 ),
 
 logins as (
     select
-        date_day,
-        plan,
-        country,
         sum(n_total_visitors) as n_logins
 
     from monthly_projections
-    where date_day = '2022-01-25'
-        and plan = 'Free'
-        and country = 'FR'
-    {{ dbt_utils.group_by(n=3) }}
+    where date_day >= {{ testing_date }}
 ),
 
 final as (
