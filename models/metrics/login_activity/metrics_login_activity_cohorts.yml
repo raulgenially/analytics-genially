@@ -4,7 +4,7 @@ models:
     - name: metrics_login_activity_cohorts
       description: A model which crosses users with their logins based on the users table's snaspshots.
         Also, is enriched with sign up device and default channel grouping from Google Analytics.
-        This model is used to calculate logins cohorts.
+        This model is used to calculate activity cohorts.
 
       columns:
         - name: user_id
