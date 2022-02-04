@@ -1,3 +1,3 @@
 {% macro get_active_user_values() %}
-    {{ return(['New', 'Current', 'Churned']) }}
+    {{ return(['New', 'Returning', 'Churned']) }}
 {% endmacro %}

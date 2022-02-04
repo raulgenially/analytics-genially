@@ -21,7 +21,7 @@ monthly_projections as (
 active_users as (
     select
         -- Note that we're summing up non-unique users,
-        -- but it doen't matter for testing purposes. 
+        -- but it doesn't matter for testing purposes. 
         sum(n_daily_active_users) as n_daily_active_users
 
     from login_activity_active_users
