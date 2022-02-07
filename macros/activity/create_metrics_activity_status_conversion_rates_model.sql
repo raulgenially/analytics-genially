@@ -1,15 +1,15 @@
 -- This macro is intended to be used in activity-related models, across various status (daily, weekly/7 days and monthly/28 days)
--- Compute change rates between stages. For example: activation (new -> current), retention (current -> current), etc.
-{% macro create_metrics_activity_status_change_rates_model(activity, status) %}
+-- Compute conversion rates between stages. For example: activation (new -> returning), retention (returning -> returning), etc.
+{% macro create_metrics_activity_status_conversion_rates_model(activity, status) %}
 
 with denominator as (
     select
         -- Dimensions
         date_day,
-        previous_{{ status }},
+        previous_status,
         {{ place_main_dimension_fields('activity') }},
-        device,
-        channel,
+        signup_device,
+        signup_channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -23,11 +23,11 @@ numerator as (
     select
         -- Dimensions
         date_day,
-        previous_{{ status }},
-        {{ status }},
+        previous_status,
+        status,
         {{ place_main_dimension_fields('activity') }},
-        device,
-        channel,
+        signup_device,
+        signup_channel,
 
         -- Metrics
         count(user_id) as n_users
@@ -41,18 +41,24 @@ final as (
     select
         -- Dimensions
         denominator.date_day,
-        denominator.previous_{{ status }},
-        numerator.{{ status }},
+        denominator.previous_status,
+        numerator.status,
         {{ place_main_dimension_fields('denominator') }},
-        denominator.device,
-        denominator.channel,
+        denominator.signup_device,
+        denominator.signup_channel,
         case
-            when denominator.previous_{{ status }} = 'New' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'New' and numerator.status = 'Returning'
                 then 'Activation'
-            when denominator.previous_{{ status }} = 'Current' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'New' and numerator.status = 'Churned'
+                then 'Inactivation'
+            when denominator.previous_status = 'Returning' and numerator.status = 'Returning'
                 then 'Retention'
-            when denominator.previous_{{ status }} = 'Churned' and numerator.{{ status }} = 'Current'
+            when denominator.previous_status = 'Returning' and numerator.status = 'Churned'
+                then 'Churn'
+            when denominator.previous_status = 'Churned' and numerator.status = 'Returning'
                 then 'Resurrection'
+            when denominator.previous_status = 'Churned' and numerator.status = 'Churned'
+                then 'Hibernation'
         end as transition_type,
 
         -- Metrics
@@ -62,7 +68,7 @@ final as (
     from denominator
     left join numerator
         on denominator.date_day = numerator.date_day
-            and denominator.previous_{{ status }} = numerator.previous_{{ status }}
+            and denominator.previous_status = numerator.previous_status
             and denominator.plan = numerator.plan
             and denominator.subscription = numerator.subscription
             and denominator.sector = numerator.sector
@@ -71,8 +77,8 @@ final as (
             and denominator.broad_role = numerator.broad_role
             and denominator.country = numerator.country
             and denominator.country_name = numerator.country_name
-            and denominator.device = numerator.device
-            and denominator.channel = numerator.channel
+            and denominator.signup_device = numerator.signup_device
+            and denominator.signup_channel = numerator.signup_channel
 )
 
 select * from final

@@ -1,10 +1,13 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_retention_cohorts
+    - name: metrics_login_activity_active_users
+      description: This model computes the number of daily/weekly/monthly active users segmented by different dimensions.
+        Note that an active user is someone who logs into the Genially app.
+        This active user can be a new user (i.e., a signups) or a returning user.
       columns:
-        - name: n_days_since_first_usage
-          description: The number of days since the user initiated their activity for the first time.
+        - name: date_day
+          description: The particular day where user's activity is described.
           tests:
             - not_null
 
@@ -52,18 +55,23 @@ models:
           tests:
             - not_null
 
-        - name: device
+        - name: signup_device
           description: Device through which the user signed up.
           tests:
             - not_null
 
-        - name: channel
+        - name: signup_channel
           description: Acquisition channel.
           tests:
             - not_null
 
-        - name: n_total_users
-          description: Total number of users (New + Current + Churned).
+        - name: n_signups
+          description: Number of signups or new users.
+          tests:
+            - not_null
+
+        - name: n_returning_users
+          description: Number of returning users.
           tests:
             - not_null
 
@@ -72,22 +80,38 @@ models:
           tests:
             - not_null
 
+        - name: n_signups_7d
+          description: Number of signups or new users in the last 7 days.
+          tests:
+            - not_null
+
+        - name: n_returning_users_7d
+          description: Number of returning users in the last 7 days.
+          tests:
+            - not_null
+
         - name: n_weekly_active_users
-          description: Number of weekly active users.
+          description: Number of weekly active users in the last 7 days.
+          tests:
+            - not_null
+
+        - name: n_signups_28d
+          description: Number of signups or new users in the last 28 days.
+          tests:
+            - not_null
+
+        - name: n_returning_users_28d
+          description: Number of returning users in the last 28 days.
           tests:
             - not_null
 
         - name: n_monthly_active_users
-          description: Number of monthly active users.
+          description: Number of monthly active users in the last 28 days.
           tests:
             - not_null
-
       tests:
         - dbt_utils.expression_is_true:
             expression: "n_daily_active_users <= n_weekly_active_users"
 
         - dbt_utils.expression_is_true:
             expression: "n_weekly_active_users <= n_monthly_active_users"
-
-        - dbt_utils.expression_is_true:
-            expression: "n_monthly_active_users <= n_total_users"

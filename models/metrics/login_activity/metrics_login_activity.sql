@@ -1,29 +1,38 @@
+{{
+  config(
+    materialized='view'
+  )
+}}
+
 {% set week_days = 7 %}
 {% set week_days_minus = week_days - 1 %}
 
 {% set month_days = 28 %}
 {% set month_days_minus = month_days - 1 %}
 
-{% set min_date_signups %}
-    date('2015-01-01')
-{% endset %}
-
--- To reduce computational burden since login events were instrumented in February 2021
--- TODO We will need to change this once we have a better idea how we are going to productize logins
 {% set min_date_logins %}
-    date('2021-01-01')
+    date('2021-12-20')
 {% endset %}
 
 with logins as (
     select * from {{ ref('user_logins') }}
 ),
 
+users as (
+    select * from {{ ref('users') }}
+),
+
 ga_signups as (
     select * from {{ ref('signup_events') }}
 ),
 
-users as (
-    select * from {{ ref('users') }}
+dates as (
+    {{ dbt_utils.date_spine(
+        datepart="day",
+        start_date=min_date_logins,
+        end_date="current_date()"
+       )
+    }}
 ),
 
 user_usage as (
@@ -39,15 +48,6 @@ user_usage as (
         on users.user_id = ga_signups.user_id
 ),
 
-dates as (
-    {{ dbt_utils.date_spine(
-        datepart="day",
-        start_date=min_date_signups,
-        end_date="current_date()"
-       )
-    }}
-),
-
 user_day as (
     select
         user_usage.user_id,
@@ -60,9 +60,7 @@ user_day as (
 
     from user_usage
     cross join dates
-    where user_usage.first_usage_at >= {{ min_date_signups }}
-        and dates.date_day >= user_usage.first_usage_at
-        and dates.date_day >= {{ min_date_logins }}
+    where dates.date_day >= user_usage.first_usage_at
 ),
 
 user_day_traffic as (
@@ -74,22 +72,20 @@ user_day_traffic as (
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
-        max(user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
+        (user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
-            when user_day.n_days_since_first_usage > 0 and max(logins.user_id is not null) = false
+            when user_day.n_days_since_first_usage > 0 and logins.user_id is null
                 then 'Churned'
-            when user_day.n_days_since_first_usage > 0 and max(logins.user_id is not null) = true
-                then 'Current'
+            when user_day.n_days_since_first_usage > 0 and logins.user_id is not null
+                then 'Returning'
         end as status
 
     from user_day
     left join logins
         on user_day.user_id = logins.user_id
             and user_day.date_day = date(logins.login_at)
-            and logins.login_at is not null
-    {{ dbt_utils.group_by(n=14) }}
 ),
 
 user_traffic_rolling_status as (
@@ -110,14 +106,14 @@ user_traffic_rolling_status as (
                 then 'New'
             when {{ compute_n_days_active(week_days_minus) }} = 0
                 then 'Churned'
-            else 'Current'
+            else 'Returning'
         end as status_7d,
         case
             when n_days_since_first_usage < {{ month_days }}
                 then 'New'
             when {{ compute_n_days_active(month_days_minus) }} = 0
                 then 'Churned'
-            else 'Current'
+            else 'Returning'
         end as status_28d
 
     from user_day_traffic
@@ -128,8 +124,8 @@ final as (
         {{ dbt_utils.surrogate_key(['user_id', 'date_day']) }} as id,
         user_id,
         {{ place_main_dimension_fields('user_traffic_rolling_status') }},
-        device,
-        channel,
+        device as signup_device,
+        channel as signup_channel,
         first_usage_at,
         date_day,
         n_days_since_first_usage,

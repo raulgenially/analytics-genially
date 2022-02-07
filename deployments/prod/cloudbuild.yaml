@@ -26,7 +26,7 @@ steps:
   - COMMIT_SHA=$COMMIT_SHA
 
 - name: 'fishtownanalytics/dbt:0.21.0'
-  args: ['test', '--exclude', 'metrics_login_activity+']
+  args: ['test']
 
 - name: 'fishtownanalytics/dbt:0.21.0'
   args: ['run-operation', 'cleanup_dataset']
@@ -36,4 +36,4 @@ options:
   env:
   - 'DBT_PROFILES_DIR=/workspace'
 substitutions:
-  _RUN_COMMAND: --exclude metrics_login_activity+
+  _RUN_COMMAND: ''
