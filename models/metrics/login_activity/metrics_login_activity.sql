@@ -60,7 +60,7 @@ user_day as (
 
     from user_usage
     cross join dates
-    where date(dates.date_day) >= user_usage.first_usage_at
+    where dates.date_day >= user_usage.first_usage_at
 ),
 
 user_day_traffic as (
