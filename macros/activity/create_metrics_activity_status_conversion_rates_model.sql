@@ -6,7 +6,7 @@ with denominator as (
     select
         -- Dimensions
         date_day,
-        previous_status,
+        previous_{{ status }} as previous_status,
         {{ place_main_dimension_fields('activity') }},
         signup_device,
         signup_channel,
@@ -23,8 +23,8 @@ numerator as (
     select
         -- Dimensions
         date_day,
-        previous_status,
-        status,
+        previous_{{ status }} as previous_status,
+        {{ status }} as status,
         {{ place_main_dimension_fields('activity') }},
         signup_device,
         signup_channel,
