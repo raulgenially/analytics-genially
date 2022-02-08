@@ -26,7 +26,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_inspiration_categories() }}"
+                values: "{{ get_inspiration_category_values() }}"
 
         - name: language
           description: Language of the inspiration genially.

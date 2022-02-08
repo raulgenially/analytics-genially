@@ -16,7 +16,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: "{{ get_team_space_collaborator_types() }}"
+                values: "{{ get_team_space_collaborator_type_values() }}"
                 quote: false
 
         - name: collaborator_type_name
