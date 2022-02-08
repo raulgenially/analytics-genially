@@ -70,7 +70,8 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
-            This refers to the first payment associated with the subscription. This field is not very relevant here, though.
+            This refers to the first payment associated with the subscription.
+            This field is not very relevant here, though.
           tests:
             - unique:
                 where: "started_at >= '2020-06-24'"

@@ -50,11 +50,6 @@ models:
           description: Id of the user in the payment processing platform
             used (e.g. Stripe or Braintree).
 
-        - name: transaction_id
-          description: Id of the transaction in the payment processing platform.
-            This refers to the first payment associated with the subscription.
-            This field is not very relevant here, though.
-
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
 

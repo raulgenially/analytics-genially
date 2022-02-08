@@ -23,7 +23,6 @@ final as (
 
         licenses.user_id,
         licenses.payer_id,
-        licenses.transaction_id,
         licenses.subscription_id,
 
         licenses.started_at,
