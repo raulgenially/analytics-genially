@@ -2,6 +2,7 @@ version: 2
 
 models:
     - name: billing
+      description: "{{ doc('billing_description') }}"
       columns:
         - name: id
           description: Primary key for this model.
