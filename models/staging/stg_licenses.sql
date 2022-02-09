@@ -19,7 +19,6 @@ final as (
         licenses.recurrence,
         licenses.plan,
         licenses.comments,
-        licenses.user_ip,
 
         licenses.user_id,
         licenses.payer_id,

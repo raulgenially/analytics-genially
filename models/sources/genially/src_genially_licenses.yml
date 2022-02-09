@@ -52,6 +52,7 @@ models:
 
         - name: user_ip
           description: Ip address from which the user purchased the license.
+            Used for refund disputes.
 
         - name: user_id
           description: Id of the User purchasing the license.
