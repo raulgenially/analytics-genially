@@ -10,7 +10,7 @@ models:
           Monthly active users, activity based on the last 28 days.
         In turn we can differentiate among different types of user,
           A New user (aka Signup) is a user who is in their first interval of using the product.
-          A Returning user is a user who used the product in the previous interval and the current interval.
+          A Returning user is a user who used the product in a previous interval and the current interval.
           A Churned user is a user who were once actively using the product and then became inactive.
         Thus, active users = new users (or signups) + returning users.
       columns:

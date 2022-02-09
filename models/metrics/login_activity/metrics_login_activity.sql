@@ -41,7 +41,8 @@ user_usage as (
         {{ place_main_dimension_fields('users') }},
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
         coalesce(ga_signups.channel, '{{ var('unknown') }}') as channel,
-        date(users.registered_at) as first_usage_at
+        date(users.registered_at) as first_usage_at,
+        date(users.last_access_at) as last_access_at
 
     from users
     left join ga_signups
@@ -61,6 +62,8 @@ user_day as (
     from user_usage
     cross join dates
     where dates.date_day >= user_usage.first_usage_at
+        or (user_usage.first_usage_at is null
+            and user_usage.last_access_at is not null)
 ),
 
 user_day_traffic as (
@@ -76,9 +79,9 @@ user_day_traffic as (
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
-            when user_day.n_days_since_first_usage > 0 and logins.user_id is null
+            when (user_day.n_days_since_first_usage > 0 or user_day.n_days_since_first_usage is null) and logins.user_id is null
                 then 'Churned'
-            when user_day.n_days_since_first_usage > 0 and logins.user_id is not null
+            when (user_day.n_days_since_first_usage > 0 or user_day.n_days_since_first_usage is null) and logins.user_id is not null
                 then 'Returning'
         end as status
 
