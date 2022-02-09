@@ -94,22 +94,18 @@ models:
           description: Date time the license finished.
 
         - name: manual_finished_at
-          description: Finish date time set manually. Keep in mind there is a bug related to this field in admin,
-            what affects the general quality of this table.
+          description: Finish date time set manually. This is an unused, informative field.
 
       tests:
         - dbt_utils.expression_is_true:
             expression: "started_at <= finished_at"
-            condition: "license_id not in ('5d25ccbcfa91b90f8ed7fabd', '5955cb35518eb6141497be4b')" # The newest license dates from 2019.
 
         - dbt_utils.expression_is_true:
             expression: "date(finished_at) <= current_date()"
-            condition: "manual_finished_at is null" # TODO: remove this line when this is fixed by finance
 
         - dbt_utils.expression_is_true:
             expression: "finished_at is null"
-            # TODO: remove the manual_finished_at check when finished_at date is fixed by the finance team
-            condition: "status = 'Finished' and manual_finished_at is null"
+            condition: status = 'Finished'
 
         - dbt_utils.expression_is_true:
             # Pending licenses should be removed after 24h if payment is not confirmed.

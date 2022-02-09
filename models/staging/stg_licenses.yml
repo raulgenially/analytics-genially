@@ -19,8 +19,9 @@ models:
             **Active** -> the license has been paid and it is active.
             **Canceled** -> the license is active but the user has canceled the license
                 (it will be a proactive churn in the following billing period).
-            **Passive Churn** -> the license reached the EOL (end of life) because the
-                customer didn't pay the subscription without canceling previously.
+            **Passive Churn** -> the license reached the EOL (end of life) because either the license has
+              been terminated from our side or because upon renovation, the payment could not be made after
+              several retries.
             **Proactive Churn** -> the license reached the EOL because the user canceled
                 the subscription at some point before the next billing period.
           tests:
@@ -57,11 +58,7 @@ models:
           description: Date time the license starts.
 
         - name: finished_at
-          description:  Date time the license finished - Status field set to Canceled.
-
-        - name: manual_finished_at
-          description: Finish date time set manually - Status field set to Canceled.
-            Keep in mind there is a bug related to this field in admin, what affects the general quality of this table.
+          description: Date time the license is no longer active.
 
         - name: canceled_at
           description: Date time at which the license is canceled.
@@ -74,11 +71,11 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: finished_at is null and canceled_at is null
-            condition: status = "Active" and manual_finished_at is null
+            condition: status = "Active"
 
         - dbt_utils.expression_is_true:
             expression: finished_at is null and canceled_at is not null
-            condition: status = "Canceled" and manual_finished_at is null
+            condition: status = "Canceled"
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_at is null
@@ -86,4 +83,4 @@ models:
 
         - dbt_utils.expression_is_true:
             expression: finished_at is not null and canceled_at is not null
-            condition: status = "Active Churn"
+            condition: status = "Proactive Churn"

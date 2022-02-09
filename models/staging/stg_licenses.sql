@@ -27,7 +27,6 @@ final as (
 
         licenses.started_at,
         licenses.finished_at,
-        licenses.manual_finished_at,
         canceled_licenses.canceled_at
 
     from licenses

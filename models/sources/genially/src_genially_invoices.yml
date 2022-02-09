@@ -31,7 +31,7 @@ models:
                 values: "{{ get_recurrence_values() }}"
 
         - name: plan
-          description: Type of plan this is invoice is purchasing.
+          description: Type of plan this invoice is purchasing.
             This is extracted with a regexp from the description. Not reliable.
 
         - name: payer_email
@@ -138,11 +138,6 @@ models:
           tests:
             - unique:
                where: "invoiced_at >= '2019-02-18'"
-            - not_null
-
-        - name: invoiced_at
-          description: Date time at which the invoice was emitted.
-          tests:
             - not_null
 
         - name: invoiced_at

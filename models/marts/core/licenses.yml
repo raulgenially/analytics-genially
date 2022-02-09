@@ -73,6 +73,10 @@ models:
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
+          tests:
+            - unique:
+                where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
+            - not_null
 
         - name: started_at
           description: Date time the license starts.
@@ -80,11 +84,7 @@ models:
             - not_null
 
         - name: finished_at
-          description:  Date time the license finished - Status field set to Canceled.
-
-        - name: manual_finished_at
-          description: Finish date time set manually - Status field set to Canceled.
-            Keep in mind there is a bug related to this field in admin, what affects the general quality of this table.
+          description: Date time the license is no longer active.
 
         - name: canceled_at
           description: Date time at which the license is canceled.
