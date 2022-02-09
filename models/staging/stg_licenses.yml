@@ -51,6 +51,11 @@ models:
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
 
+        - name: is_active
+          description: Whether the license is currently active (granting premium access) or not.
+          tests:
+            - not_null
+
         - name: started_at
           description: Date time the license starts.
 

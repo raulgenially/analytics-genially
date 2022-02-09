@@ -75,6 +75,11 @@ models:
                 where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
             - not_null
 
+        - name: is_active
+          description: Whether the license is currently active (granting premium access) or not.
+          tests:
+            - not_null
+
         - name: started_at
           description: Date time the license starts.
           tests:
