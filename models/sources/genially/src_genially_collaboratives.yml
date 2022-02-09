@@ -25,6 +25,11 @@ models:
             - relationships:
                 to: ref('src_genially_geniallys')
                 field: genially_id
+                # Sometimes the geniallys and collaboratives collection is not synced
+                # at the same time, having collaboratives from geniallys that are not
+                # present in the other collection. This filter prevents the test from
+                # failing in those cases
+                where: date(created_at) < current_date()
 
         - name: user_id
           description: Id of a user taking part of the collaboration.
