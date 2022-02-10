@@ -1,0 +1,32 @@
+version: 2
+
+seeds:
+  - name: seed_freshdesk_ticket_sources
+    description: Ticket source mapping. Extracted from
+      [here](https://developers.freshdesk.com/v2/docs/data-api/#ticket_details_page_apis)
+    columns:
+      - name: code
+        description: Enum value.
+
+      - name: name
+        description: Name associated.
+
+  - name: seed_freshdesk_ticket_statuses
+    description: Ticket status mapping. Extracted from
+      [here](https://developers.freshdesk.com/v2/docs/data-api/#ticket_details_page_apis)
+    columns:
+      - name: code
+        description: Enum value.
+
+      - name: name
+        description: Name associated.
+
+  - name: seed_freshdesk_ticket_priorities
+    description: Ticket priority mapping. Extracted from
+      [here](https://developers.freshdesk.com/v2/docs/data-api/#ticket_details_page_apis)
+    columns:
+      - name: code
+        description: Enum value.
+
+      - name: name
+        description: Name associated.

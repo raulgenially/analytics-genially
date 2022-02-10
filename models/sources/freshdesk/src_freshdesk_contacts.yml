@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: src_freshdesk_contacts
+    description: Information about the contacts in freshdesk.
+    columns:
+      - name: id
+        description: Primary key for contacts.
+        tests:
+          - unique
+          - not_null
+
+      - name: email
+        description: Primary email address of the contact.
+        tests:
+          - not_null
+
+      - name: language
+        description: Language of the contact.
+
+      - name: user_id
+        description: The ID of the user in the genially app.
+        tests:
+          - relationships:
+              to: ref('src_genially_users')
+              field: user_id
+              # TODO: 21 users are not present in users.
+              # See what's up with this
+              severity: warn
+
+      - name: created_at
+        description: Contact creation timestamp.
+        tests:
+          - not_null
+
+      - name: updated_at
+        description: Contact updated timestamp.
+        tests:
+          - not_null
