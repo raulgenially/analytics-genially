@@ -1,3 +1,8 @@
+--With this analysis, we want to compare differences in total logins metric using backend (last access time) or ga4 as the source.
+--Currently, we have 2 comparisons:
+-- -First comparison: Taking account in ga4 just page views of app.genial.ly and page views of auth.genial.ly of users who didn't finish the onboarding
+-- -The second comparison: Taking account in ga4 all events except experiment_loaded
+
 {% set date %}
     date('2022-02-08')
 {% endset %}
@@ -11,47 +16,66 @@ ga4_events as (
 ),
 
 total_user_login as (
-    select "1" as comparison, count(distinct user_id) as total_user_login
-    from  user_logins
-    WHERE date(login_at) = {{ date }}
+    select
+        "1" as comparison,
+        count(distinct user_id) as total_user_login
+    from user_logins
+    where date(login_at) = {{ date }}
 ),
 
 total_ga4 as (
-    select "1" as comparison, count(distinct user_id) as total_ga4
+    select
+        "1" as comparison,
+        count(distinct user_id) as total_ga4
     from ga4_events
-    where date(event_at) = {{ date }}
-    and event_name='page_view' 
-    and ( hostname = 'app.genial.ly'
-        OR  
-        (hostname = 'auth.genial.ly' 
-            and page_location='https://auth.genial.ly/es/onboarding'
-            and page_referrer='https://app.genial.ly/'))
+    where table_suffix = format_date('%Y%m%d', {{ date }})
+        and event_name = 'page_view'
+        and (hostname = 'app.genial.ly'
+            OR
+            (hostname = 'auth.genial.ly'
+                and page_location='https://auth.genial.ly/es/onboarding'
+                and page_referrer='https://app.genial.ly/'))
 ),
 
 first_comparison as (
-    select user.comparison, total_user_login, total_ga4
+    select
+        user.comparison,
+        total_user_login,
+        total_ga4,
+        (total_user_login - total_ga4) as difference,
+        round((total_user_login / total_ga4)*100 , 2) as variation,
     from total_user_login user
     left join total_ga4 ga4
-    on user.comparison=ga4.comparison
+        on user.comparison=ga4.comparison
 ),
 
 total_user_login_2 as (
-    select "2" as comparison, count(distinct user_id) as total_user_login
-    from  user_logins
-    WHERE date(login_at) = {{ date }}
+    select
+        "2" as comparison,
+        count(distinct user_id) as total_user_login_2
+    from user_logins
+    where date(login_at) = {{ date }}
 ),
 
 total_ga4_2 as (
-    select "2" as comparison, count(distinct user_id) as total_ga4
+    select
+        "2" as comparison,
+        count(distinct user_id) as total_ga4_2
     from ga4_events
-    where date(event_at) = {{ date }}    
+    where table_suffix = format_date('%Y%m%d', {{ date }})
+        and event_name <> 'experiment_loaded'
 ),
 
 second_comparison as (
-    select user.comparison, total_user_login, total_ga4
+    select
+        user.comparison,
+        total_user_login_2,
+        total_ga4_2,
+        (total_user_login_2 - total_ga4_2) as difference,
+        round((total_user_login_2 / total_ga4_2)*100 , 2) as variation,
     from total_user_login_2 user
     left join total_ga4_2 ga4
-    on user.comparison=ga4.comparison
+        on user.comparison=ga4.comparison
 )
 
 select * from first_comparison
