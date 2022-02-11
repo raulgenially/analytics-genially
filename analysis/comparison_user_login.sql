@@ -33,7 +33,7 @@ total_ga4 as (
     where table_suffix = format_date('%Y%m%d', {{ date_to_analyse }})
         and event_name = 'page_view'
         and (hostname = 'app.genial.ly'
-            OR
+            or
             (hostname = 'auth.genial.ly'
                 and page_location = 'https://auth.genial.ly/es/onboarding'
                 and page_referrer = 'https://app.genial.ly/'))
@@ -45,7 +45,7 @@ first_comparison as (
         total_user_login,
         total_ga4,
         (total_user_login - total_ga4) as difference,
-        round(((total_user_login - total_ga4) / total_ga4)*100 , 2) as variation
+        round(((total_user_login - total_ga4) / total_ga4) * 100 , 2) as variation
 
     from total_user_login user
     left join total_ga4 ga4
@@ -77,7 +77,7 @@ second_comparison as (
         total_user_login_2,
         total_ga4_2,
         (total_user_login_2 - total_ga4_2) as difference,
-        round(((total_user_login_2 - total_ga4_2) / total_ga4_2)*100 , 2) as variation
+        round(((total_user_login_2 - total_ga4_2) / total_ga4_2) * 100 , 2) as variation
 
     from total_user_login_2 user
     left join total_ga4_2 ga4
