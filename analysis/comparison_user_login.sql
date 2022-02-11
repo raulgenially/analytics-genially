@@ -4,7 +4,7 @@
 -- -The second comparison: Taking account in ga4 all events except experiment_loaded
 
 {% set date_to_analyse %}
-    date('2022-02-08')
+    date('2022-02-10')
 {% endset %}
 
 with user_logins as (
@@ -68,7 +68,8 @@ total_ga4_2 as (
 
     from ga4_events
     where table_suffix = format_date('%Y%m%d', {{ date_to_analyse }})
-        and event_name <> 'experiment_loaded'
+        and event_name in ('page_view', 'session_start')
+        and hostname = 'app.genial.ly'
 ),
 
 second_comparison as (
