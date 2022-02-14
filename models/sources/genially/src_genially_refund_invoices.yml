@@ -13,6 +13,27 @@ models:
         - name: description
           description: Description of the type of license purchased.
 
+        - name: quantity
+          description: Number of licenses purchased.
+            This is extracted with a regexp from the description. Not reliable.
+          tests:
+            - not_null
+
+        - name: product
+          description: Type of product purchased with this invoice.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: recurrence
+          description: Whether this invoice is paying a monthly or annual subscription.
+            This is extracted with a regexp from the description. Not reliable.
+          tests:
+            - accepted_values:
+                values: "{{ get_recurrence_values() }}"
+
+        - name: plan
+          description: Type of plan this is invoice is purchasing.
+            This is extracted with a regexp from the description. Not reliable.
+
         - name: payer_email
           description: The email of the person paying the invoice.
           tests:
@@ -77,27 +98,12 @@ models:
           tests:
             - not_null
 
-        - name: invoice_number
-          description: Unique invoice number.
-          tests:
-            - not_null
-            - unique:
-                where: "invoiced_at > timestamp('2020-01-01')"
-
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_invoices')
-                field: invoice_number
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
           tests:
             - not_null:
-                where: "invoiced_at > timestamp('2020-01-15')"
+                where: "invoiced_at >= '2020-01-16'"
 
         - name: is_valid_euvat_number
           description: Indicates if 'payer_cif' is validated as Intracomunitary.
@@ -106,6 +112,9 @@ models:
           description: Id of the user making the payment.
           tests:
             - not_null
+            - relationships:
+                to: ref('src_genially_users')
+                field: user_id
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
@@ -114,16 +123,70 @@ models:
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+          tests:
+            - unique:
+                # Very specific case that should not happen going forward
+                where: transaction_id != "ch_3JhwPfBn82mIxvX21HPdaRxt"
+            - not_null:
+                where: "invoiced_at >= '2020-01-16'"
+
+        - name: invoice_number_id
+          description: Unique invoice number.
+          tests:
+            - unique:
+                where: "invoiced_at >= '2018-07-05'"
+            - not_null
+
+        - name: reference_invoice_number_id
+          description: Invoice number of the invoice we are refunding.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('src_genially_invoices')
+                field: invoice_number_id
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
           tests:
             - not_null
+
+        - name: period_start_at
+          description: Date at which the paid subscription starts.
+          tests:
+            - not_null
+
+        - name: period_end_at
+          description: Date at which the paid subscription will end.
+          tests:
+            - not_null
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
-            condition: "currency = 'eur' and invoiced_at > timestamp('2020-01-01')"
+            condition: "currency = 'eur' and invoice_id != '5d1a01fe5c9817273eebfd98'"
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
-            condition: "payer_cif is null and invoiced_at > '{{var('invoice_tax_start_date')}}'"
+            condition: "payer_cif is null"
+
+        - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+              - description
+              - payer_email
+              - payer_name
+              - payer_cif
+              - payer_address
+              - payer_country
+              - total
+              - total_euro
+              - tax_rate
+              - tax_key
+              - currency
+              - payment_platform
+              - is_valid_euvat_number
+              - user_id
+              - subscription_id
+              - transaction_id
+              - invoice_number_id
+              - reference_invoice_number_id
+              - invoiced_at

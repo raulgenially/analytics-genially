@@ -16,7 +16,7 @@ final as (
 
     from refunds
     inner join invoices
-        on refunds.reference_invoice_number = invoices.invoice_number
+        on refunds.reference_invoice_number_id = invoices.invoice_number_id
     where refunds.is_valid_euvat_number is null
         and invoices.invoiced_at > '{{ var('invoice_tax_start_date') }}'
 )

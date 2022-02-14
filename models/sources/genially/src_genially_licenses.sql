@@ -8,6 +8,8 @@ final as (
 
         status,
         typelicense as license_type,
+        regexp_extract(typelicense, r'^\w+_(ANNUAL|MONTH)$') as recurrence,
+        regexp_extract(typelicense, r'^(\w+)_(?:ANNUAL|MONTH)$') as plan,
         comments,
         ipuser as user_ip,
 
@@ -18,7 +20,6 @@ final as (
 
         datestarter as started_at,
         datefinished as finished_at,
-        manualdatefinished as manual_finished_at,
 
     from license
     where __hevo__marked_deleted = false

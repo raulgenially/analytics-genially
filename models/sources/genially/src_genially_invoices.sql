@@ -1,5 +1,5 @@
 with invoices as (
-    {{ create_base_invoice_model('invoice') }}
+    {{ create_base_invoice_model('invoice', invoiced_at_field='dateinvoice') }}
 ),
 
 final as (
@@ -7,6 +7,10 @@ final as (
         _id as invoice_id,
 
         description,
+        quantity,
+        product,
+        recurrence,
+        plan,
         payeremail as payer_email,
         payer_name,
         payer_cif,
@@ -17,7 +21,6 @@ final as (
         tax_rate,
         tax_key,
         cleaned_currency as currency,
-        invoiceid as invoice_number,
         payment_platform,
 
         is_valid_euvat_number,
@@ -25,8 +28,11 @@ final as (
         iduser as user_id,
         transactionid as subscription_id,
         realtransactionid as transaction_id,
+        invoiceid as invoice_number_id,
 
-        dateinvoice as invoiced_at,
+        invoiced_at,
+        period_start_at,
+        period_end_at,
 
     from invoices
 )

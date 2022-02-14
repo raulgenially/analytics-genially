@@ -6,46 +6,44 @@ canceled_licenses as (
     select * from {{ ref('src_genially_canceled_licenses') }}
 ),
 
--- TODO: We have 3 canceled licenses that are duplicated
--- Until they are fixed, we have to do this
-unique_canceled_licenses as (
-   {{ unique_records_by_column(
-        'canceled_licenses',
-        'subscription_id',
-        order_by='canceled_at',
-        dir='asc',
-      )
-   }}
+base_licenses as (
+    select
+        licenses.*,
+        {{
+            map_license_status(
+                'licenses.status',
+                'canceled_licenses.reason_code'
+           )
+        }} as subscription_status,
+        canceled_licenses.canceled_at
+
+    from licenses
+    left join canceled_licenses
+        on licenses.subscription_id = canceled_licenses.subscription_id
 ),
 
 final as (
     select
         licenses.license_id,
 
-        {{ map_license_status(
-            'licenses.status',
-            'canceled_licenses.reason_code'
-           )
-        }} as status,
+        licenses.subscription_status as status,
         licenses.license_type,
+        licenses.recurrence,
+        licenses.plan,
         licenses.comments,
-        licenses.user_ip,
-        canceled_licenses.reason_code as canceled_reason_code,
-        canceled_licenses.reason as canceled_reason,
-        canceled_licenses.comment as canceled_comment,
 
         licenses.user_id,
         licenses.payer_id,
-        licenses.transaction_id,
         licenses.subscription_id,
+
+        licenses.subscription_status in ('Active', 'Canceled') as is_active,
 
         licenses.started_at,
         licenses.finished_at,
-        licenses.manual_finished_at,
-        canceled_licenses.canceled_at
+        licenses.canceled_at
 
-    from licenses
-    left join unique_canceled_licenses as canceled_licenses
+    from base_licenses as licenses
+    left join canceled_licenses
         on licenses.subscription_id = canceled_licenses.subscription_id
 )
 

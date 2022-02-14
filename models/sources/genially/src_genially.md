@@ -48,7 +48,7 @@ One of the following values:
 
 {% docs team_space_collaborator_type %}
 
-The type of id that we are dealing with in `collaborator_id`
+The type of id that we are dealing with in `collaborator_id`.
 
 One of the following values:
 
@@ -62,7 +62,7 @@ One of the following values:
 
 {% docs team_member_role %}
 
-Permission level of the member in the team
+Permission level of the member in the team.
 
 One of the following values:
 
@@ -71,5 +71,19 @@ One of the following values:
 | 1                 | Owner        |
 | 2                 | Admin        |
 | 3                 | Editor       |
+
+{% enddocs %}
+
+{% docs billing_description %}
+
+Information about invoices and its refunds.
+
+Relevant implementation events to take into account in this model:
+
+| date |  event  |
+|-------------------|--------------|
+| 2019-06-12        | `transaction_id` is informed to identify invoices belonging to a `subscription_id` in the payment platform   |
+| 2020-11-01        | The `description` field follows a new naming convention:<br>1 x Annual Student License Genial.ly (08 FEB 2022 - 08 FEB 2023)|
+| 2021-12-21        | Invoices are informed with tax fields: `is_valid_euvat_number`, `tax_rate` and `tax_key` |
 
 {% enddocs %}

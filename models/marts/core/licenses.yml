@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: stg_licenses
+    - name: licenses
       description: Information about the licenses the users purchase and its
         metadata when they have been canceled.
       columns:
@@ -19,9 +19,8 @@ models:
             **Active** -> the license has been paid and it is active.
             **Canceled** -> the license is active but the user has canceled the license
                 (it will be a proactive churn in the following billing period).
-            **Passive Churn** -> the license reached the EOL (end of life) because either the license has
-              been terminated from our side or because upon renovation, the payment could not be made after
-              several retries.
+            **Passive Churn** -> the license reached the EOL (end of life) because the
+                customer didn't pay the subscription without canceling previously.
             **Proactive Churn** -> the license reached the EOL because the user canceled
                 the subscription at some point before the next billing period.
           tests:
@@ -31,25 +30,50 @@ models:
           description: Identifier of the type of license.
             This describes whether the license has a monthly or annual payment
             and the degree of feature access to the platform.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('seed_license_codes')
+                field: license_code
 
         - name: recurrence
           description: whether the license has a monthly or annual payment
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_license_recurrence_values() }}"
 
         - name: plan
           description: The degree of feature access to the platform.
+          tests:
+            - not_null
+            - accepted_values:
+                values: "{{ get_license_plan_values() }}"
 
         - name: comments
           description: Notes on the license.
 
         - name: user_id
           description: Id of the User purchasing the license.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('users')
+                field: user_id
+                where: "started_at >= '2017-07-01'"
 
         - name: payer_id
           description: Id of the user in the payment processing platform
             used (e.g. Stripe or Braintree).
+          tests:
+            - not_null
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
+          tests:
+            - unique:
+                where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
+            - not_null
 
         - name: is_active
           description: Whether the license is currently active (granting premium access) or not.
@@ -58,31 +82,11 @@ models:
 
         - name: started_at
           description: Date time the license starts.
+          tests:
+            - not_null
 
         - name: finished_at
           description: Date time the license is no longer active.
 
         - name: canceled_at
           description: Date time at which the license is canceled.
-
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: date_diff(current_date(), date(started_at), day) < 2
-              and finished_at is null and canceled_at is null
-            condition: status = "Pending"
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is null
-            condition: status = "Active"
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is not null
-            condition: status = "Canceled"
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is null
-            condition: status = "Passive Churn" and started_at >= '2020-02-05'
-
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is not null
-            condition: status = "Proactive Churn"

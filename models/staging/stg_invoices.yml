@@ -13,10 +13,26 @@ models:
             - not_null
 
         - name: invoice_id
-          description: Primary key for invoices.
+          description: Invoice's identifier in the source DB.
 
         - name: description
           description: Description of the type of license purchased.
+
+        - name: quantity
+          description: Number of licenses purchased.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: product
+          description: Type of product purchased with this invoice.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: recurrence
+          description: Whether this invoice is paying a monthly or annual subscription.
+            This is extracted with a regexp from the description. Not reliable.
+
+        - name: plan
+          description: Type of plan this is invoice is purchasing.
+            This is extracted with a regexp from the description. Not reliable.
 
         - name: payer_email
           description: The email of the person paying the invoice.
@@ -49,15 +65,9 @@ models:
         - name: currency
           description: Currency in which the invoice is paid.
 
-        - name: invoice_number
-          description: Unique invoice number.
-
         - name: payment_platform
           description: Payment platform used to make the payment. Either Braintree,
             Paypal or Stripe.
-
-        - name: reference_invoice_number
-          description: Invoice number of the invoice we are refunding.
 
         - name: is_refund
           description: Whether this invoice is refunding a previous invoice or not.
@@ -69,17 +79,18 @@ models:
 
         - name: user_id
           description: Id of the user making the payment.
-          tests:
-            - relationships:
-                to: ref('stg_users')
-                field: user_id
-                where: invoiced_at > '2018-01-18'
 
         - name: subscription_id
           description: Id of the subscription in the payment processing platform.
 
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
+
+        - name: invoice_number_id
+          description: Unique invoice number.
+
+        - name: reference_invoice_number_id
+          description: Invoice number of the invoice we are refunding.
 
         - name: invoiced_at
           description: Date time at which the invoice was emitted.
@@ -93,11 +104,17 @@ models:
           tests:
             - not_null
 
+        - name: period_start_at
+          description: Date at which the paid subscription starts.
+
+        - name: period_end_at
+          description: Date at which the paid subscription will end.
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "refunded_at is null"
             condition: "is_refund = true"
 
         - dbt_utils.expression_is_true:
-            expression: "reference_invoice_number is null"
+            expression: "reference_invoice_number_id is null"
             condition: "is_refund = false"

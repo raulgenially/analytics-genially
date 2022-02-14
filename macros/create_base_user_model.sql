@@ -39,7 +39,7 @@ int_users as (
         -- We take dateregister as the true date
         if(
             users.dateregister > users.lastaccesstime
-            and abs(date_diff(users.dateregister, users.lastaccesstime, SECOND)) < 10,
+                and abs(date_diff(users.dateregister, users.lastaccesstime, SECOND)) < 10,
             users.dateregister,
             users.lastaccesstime
         ) as synced_lastaccesstime,
