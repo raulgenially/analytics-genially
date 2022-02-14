@@ -94,9 +94,6 @@ models:
         - name: finished_at
           description: Date time the license finished.
 
-        - name: manual_finished_at
-          description: Finish date time set manually. This is an unused, informative field.
-
       tests:
         - dbt_utils.expression_is_true:
             expression: "started_at <= finished_at"
@@ -129,4 +126,3 @@ models:
               - subscription_id
               - started_at
               - finished_at
-              - manual_finished_at

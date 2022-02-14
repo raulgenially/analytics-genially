@@ -20,7 +20,6 @@ final as (
 
         datestarter as started_at,
         datefinished as finished_at,
-        manualdatefinished as manual_finished_at,
 
     from license
     where __hevo__marked_deleted = false
