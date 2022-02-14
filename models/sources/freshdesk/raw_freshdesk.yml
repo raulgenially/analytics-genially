@@ -20,3 +20,11 @@ sources:
             tests:
               - unique
               - not_null
+
+      - name: groups
+        columns:
+          - name: id
+            description: Primary key for groups.
+            tests:
+              - unique
+              - not_null
