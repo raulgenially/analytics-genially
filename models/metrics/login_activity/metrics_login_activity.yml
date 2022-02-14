@@ -80,9 +80,8 @@ models:
             - not_null
 
         - name: first_usage_at
-          description: The date the user initiated their activity for the first time.
-          tests:
-            - not_null
+          description: The date the user initiated their activity for the first time (registered_at).
+            Some old users have null or wrong registered_at.
 
         - name: date_day
           description: The particular day where user's activity is described.
@@ -92,7 +91,6 @@ models:
         - name: n_days_since_first_usage
           description: The number of days since the user initiated their activity for the first time.
           tests:
-            - not_null
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 

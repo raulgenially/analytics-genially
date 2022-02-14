@@ -67,9 +67,7 @@ models:
             - not_null
 
         - name: registered_at
-          description: The date at user signed up.
-          tests:
-            - not_null
+          description: The date at user signed up. Some old users have null or wrong registered_at.
 
         - name: login_at
           description: The date the user logged in.
@@ -78,5 +76,3 @@ models:
 
         - name: n_days_since_first_usage
           description: The number of days since the user initiated their activity for the first time.
-          tests:
-            - not_null

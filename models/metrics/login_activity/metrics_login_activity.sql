@@ -62,6 +62,8 @@ user_day as (
     from user_usage
     cross join dates
     where dates.date_day >= user_usage.first_usage_at
+    -- Also adding old users with registered_at = null but with accessing. See #198 for more context
+    -- This users will have n_days_since_first_usage = null
         or (user_usage.first_usage_at is null
             and user_usage.last_access_at is not null)
 ),
@@ -75,7 +77,7 @@ user_day_traffic as (
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
-        (user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
+        ifnull((user_day.n_days_since_first_usage = 0 or logins.user_id is not null), false) as is_active,
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
