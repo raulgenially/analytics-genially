@@ -66,10 +66,10 @@ select
         least(billing.payer_cif, billing.payer_address) is not null
         or total_euro_deducted > 400,
         if(billing.is_refund,
-            'R5',
+            null,
             'F1'),
         if(billing.is_refund,
-            null,
+            'R5',
             'F2')
     ) as SII_invoice_type
 
