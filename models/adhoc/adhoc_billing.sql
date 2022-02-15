@@ -63,7 +63,7 @@ select
             '17'
         ) as SII_vat_regime,
     if(
-        least(billing.payer_cif, billing.payer_address) is not null
+        least(billing.payer_cif, billing.payer_address, billing.payer_name) is not null
         or total_euro_deducted > 400,
         if(billing.is_refund,
             null,
