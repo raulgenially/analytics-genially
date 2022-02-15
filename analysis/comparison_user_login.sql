@@ -8,7 +8,7 @@
 {% endset %}
 
 {% set last_date_to_analyse %}
-    date('2022-02-10')
+    date('2022-02-13')
 {% endset %}
 
 with user_logins as (
@@ -58,7 +58,7 @@ first_comparison as (
 
     from total_user_login user
     left join total_ga4 ga4
-        on user.comparison = ga4.comparison 
+        on user.comparison = ga4.comparison
         and format_date('%Y%m%d', user.date_day) = ga4.date_day
 ),
 
@@ -81,7 +81,6 @@ total_ga4_2 as (
 
     from ga4_events
     where table_suffix between format_date('%Y%m%d', {{ first_date_to_analyse }}) and format_date('%Y%m%d', {{ last_date_to_analyse }})
-        --and event_name in ('page_view', 'session_start')
         and hostname = 'app.genial.ly'
     group by table_suffix
 ),
