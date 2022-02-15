@@ -38,7 +38,8 @@ int_billing as (
             total_euro / (1 + tax_rate / 100),
             --Old logic to maintain retro-compatibility
             if(
-                is_from_eu_country,
+                is_from_eu_country
+                and tax_key <> 'INTRA_21',
                 total_euro / 1.21,
                 total_euro
             )

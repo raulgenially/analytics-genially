@@ -206,8 +206,12 @@ models:
       tests:
         - dbt_utils.expression_is_true:
             expression: "total_euro = total"
-            condition: "currency = 'eur' and invoice_id != '5d1a01fe5c9817273eebfd98'"
+            condition: "currency = 'eur'"
 
         - dbt_utils.expression_is_true:
             expression: "is_valid_euvat_number is not true"
             condition: "payer_cif is null and invoiced_at > '{{ var('invoice_tax_start_date') }}'"
+
+        - dbt_utils.expression_is_true:
+            expression: "tax_amount = 0"
+            condition: "tax_key = 'INTRA_21' and is_valid_euvat_number = true"

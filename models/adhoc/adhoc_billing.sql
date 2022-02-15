@@ -3,8 +3,8 @@ with billing as(
 )
 
 select
-    if(is_refund, 'Refund', 'Invoice') as type,
-    if(description like '%License%', 'Subscription', 'One Time') as mrr,
+    if(billing.is_refund, 'Refund', 'Invoice') as type,
+    if(billing.description like '%License%', 'Subscription', 'One Time') as mrr,
     format_date('%m', billing.invoiced_at) as month,
     if(billing.is_refund, 'RE'||billing.invoice_number_id, billing.invoice_number_id) as invoice_number_id,
     format_date('%d/%m/%Y', billing.invoiced_at) as invoiced_date,
@@ -28,13 +28,17 @@ select
     billing.tax_rate,
     billing.is_valid_euvat_number,
     if(billing.payment_platform in ('PayPal', 'Braintree'), 'PayPal '||upper(billing.currency), billing.payment_platform) as payment_method,
+    case
+        when tax_key = 'INTRA_21'
+        and is_valid_euvat_number
+            then 'Intracommunitary'
+        when is_from_eu_country
+            then 'Communitary'
+        else 'Extracommunitary'
+    end as eu,
     if(
-        billing.is_from_eu_country,
-        'Communitary',
-        'Extracommunitary'
-    ) as eu,
-    if(
-        billing.is_from_eu_country,
+        billing.is_from_eu_country
+        and tax_key <> 'INTRA_21',
         'IVA',
         'No-IVA'
     ) as IVA,
@@ -52,7 +56,22 @@ select
             billing.originally_invoiced_at,
             null
         )
-    ) as refund_original_invoice_date
+    ) as refund_original_invoice_date,
+    if(
+            tax_key in ('INTRA_21', 'IVA_ES_21', 'NOSUJ'),
+            '01',
+            '17'
+        ) as SII_vat_regime,
+    if(
+        least(billing.payer_cif, billing.payer_address) is not null
+        or total_euro_deducted > 400,
+        if(billing.is_refund,
+            'R5',
+            'F1'),
+        if(billing.is_refund,
+            null,
+            'F2')
+    ) as SII_invoice_type
 
 from billing
 where date(billing.invoiced_at) >= current_date() - 30
