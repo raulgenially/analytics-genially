@@ -61,7 +61,7 @@ select
             tax_key in ('INTRA_21', 'IVA_ES_21', 'NOSUJ'),
             '01',
             '17'
-        ) as SII_vat_regime,
+    ) as SII_vat_regime,
     if(
         least(billing.payer_cif, billing.payer_address, billing.payer_name) is not null
         or total_euro_deducted > 400,
