@@ -8,7 +8,7 @@
 {% endset %}
 
 {% set last_date_to_analyse %}
-    date('2022-02-13')
+    date('2022-02-14')
 {% endset %}
 
 with user_logins as (
@@ -27,7 +27,7 @@ total_user_login as (
 
     from user_logins
     where date(login_at) between {{ first_date_to_analyse }} and {{ last_date_to_analyse }}
-    group by date(login_at)
+    group by 1
 ),
 
 total_ga4 as (
@@ -44,20 +44,20 @@ total_ga4 as (
             (hostname = 'auth.genial.ly'
                 and page_location = 'https://auth.genial.ly/es/onboarding'
                 and page_referrer = 'https://app.genial.ly/'))
-    group by table_suffix
+    group by 1
 ),
 
 first_comparison as (
     select
         user.date_day,
         user.comparison,
-        total_user_login,
-        total_ga4,
-        (total_user_login - total_ga4) as difference,
-        round(((total_user_login - total_ga4) / total_ga4) * 100 , 2) as variation
+        user.total_user_login,
+        ga4.total_ga4,
+        (user.total_user_login - ga4.total_ga4) as difference,
+        round(((user.total_user_login - ga4.total_ga4) / ga4.total_ga4) * 100 , 2) as variation
 
-    from total_user_login user
-    left join total_ga4 ga4
+    from total_user_login as user
+    left join total_ga4 as ga4
         on user.comparison = ga4.comparison
         and format_date('%Y%m%d', user.date_day) = ga4.date_day
 ),
@@ -70,7 +70,7 @@ total_user_login_2 as (
 
     from user_logins
     where date(login_at) between {{ first_date_to_analyse }} and {{ last_date_to_analyse }}
-    group by date(login_at)
+    group by 1
 ),
 
 total_ga4_2 as (
@@ -82,20 +82,20 @@ total_ga4_2 as (
     from ga4_events
     where table_suffix between format_date('%Y%m%d', {{ first_date_to_analyse }}) and format_date('%Y%m%d', {{ last_date_to_analyse }})
         and hostname = 'app.genial.ly'
-    group by table_suffix
+    group by 1
 ),
 
 second_comparison as (
     select
         user.date_day,
         user.comparison,
-        total_user_login_2,
-        total_ga4_2,
-        (total_user_login_2 - total_ga4_2) as difference,
-        round(((total_user_login_2 - total_ga4_2) / total_ga4_2) * 100 , 2) as variation
+        user.total_user_login_2,
+        ga4.total_ga4_2,
+        (user.total_user_login_2 - ga4.total_ga4_2) as difference,
+        round(((user.total_user_login_2 - ga4.total_ga4_2) / ga4.total_ga4_2) * 100 , 2) as variation
 
-    from total_user_login_2 user
-    left join total_ga4_2 ga4
+    from total_user_login_2 as user
+    left join total_ga4_2 as ga4
         on user.comparison = ga4.comparison
         and format_date('%Y%m%d', user.date_day) = ga4.date_day
 ),
