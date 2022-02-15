@@ -9,8 +9,6 @@ final as (
         email,
         language,
 
-        custom_fields.iduser as user_id,
-
         created_at,
         updated_at
 

@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: src_freshdesk_contacts
+  - name: stg_cs_contacts
     description: Information about the contacts in freshdesk.
     columns:
       - name: id
@@ -12,18 +12,20 @@ models:
 
       - name: email
         description: Primary email address of the contact.
-        tests:
-          - not_null
 
       - name: language
         description: Language of the contact.
 
+      - name: user_id
+        description: The ID of the user in the genially app.
+        tests:
+          - relationships:
+              to: ref('src_genially_users')
+              field: user_id
+              where: date(created_at) < current_date()
+
       - name: created_at
         description: Contact creation timestamp.
-        tests:
-          - not_null
 
       - name: updated_at
         description: Contact updated timestamp.
-        tests:
-          - not_null

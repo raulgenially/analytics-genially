@@ -1,9 +1,9 @@
 with contacts as (
-    select * from {{ ref('src_freshdesk_contacts') }}
+    select * from {{ ref('stg_cs_contacts') }}
 ),
 
 tickets as (
-    select * from {{ ref('src_freshdesk_tickets') }}
+    select * from {{ ref('stg_cs_tickets') }}
 ),
 
 tickets_count as (
@@ -22,6 +22,8 @@ final as (
         contacts.email,
         contacts.language,
         ifnull(tickets_count.n_tickets, 0) as n_tickets,
+
+        contacts.user_id,
 
         contacts.created_at,
         contacts.updated_at
