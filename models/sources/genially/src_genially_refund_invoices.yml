@@ -124,9 +124,8 @@ models:
         - name: transaction_id
           description: Id of the transaction in the payment processing platform.
           tests:
-            - unique:
-                # Very specific case that should not happen going forward
-                where: transaction_id != "ch_3JhwPfBn82mIxvX21HPdaRxt"
+            # transaction_id should also be unique on specific conditions.
+            # See the assert_transaction_id_is_unique test for more info
             - not_null:
                 where: "invoiced_at >= '2020-01-16'"
 
