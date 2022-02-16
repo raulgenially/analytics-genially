@@ -107,18 +107,20 @@ user_traffic_rolling_status as (
         {{ compute_n_days_active(week_days_minus) }} as n_days_active_7d,
         {{ compute_n_days_active(month_days_minus) }} as n_days_active_28d,
         case
-            when n_days_since_first_usage < {{ week_days }}
-                then 'New'
             when {{ compute_n_days_active(week_days_minus) }} = 0
                 then 'Churned'
-            else 'Returning'
+            when n_days_since_first_usage < {{ week_days }}
+                then 'New'
+            when {{ compute_n_days_active(week_days_minus) }} > 0
+                then 'Returning'
         end as status_7d,
         case
-            when n_days_since_first_usage < {{ month_days }}
-                then 'New'
             when {{ compute_n_days_active(month_days_minus) }} = 0
                 then 'Churned'
-            else 'Returning'
+            when n_days_since_first_usage < {{ month_days }}
+                then 'New'
+            when {{ compute_n_days_active(month_days_minus) }} > 0
+                then 'Returning'
         end as status_28d
 
     from user_day_traffic
