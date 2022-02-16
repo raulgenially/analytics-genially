@@ -102,6 +102,7 @@ models:
         - dbt_utils.expression_is_true:
             expression: "last_access_at >= registered_at"
             condition: "registered_at > '2020-09-11'"
+            severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8756
 
         - dbt_utils.expression_is_true:
             expression: "sector_code >= 200 and role_code >= 100"
