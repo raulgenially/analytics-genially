@@ -16,7 +16,59 @@ models:
           - not_null
 
       - name: language
-        description: Language of the contact.
+        description: Language iso code of the contact.
+        tests:
+          - relationships:
+              to: ref('seed_freshdesk_language_codes')
+              field: code
+
+      - name: language_name
+        description: Language name of the contact.
+
+      - name: plan
+        description: Plan the contact has in genially.
+          This field is populated at the time of the last contact.
+        tests:
+          - not_null:
+              where: user_id is not null
+
+      - name: subscription_period
+        description: The period at which the contact pays the genially subscription.
+          This field is populated at the time of the last contact.
+
+      - name: country
+        description: Country iso code.
+          This field is populated at the time of the last contact.
+        tests:
+          - relationships:
+              to: ref('seed_country_codes')
+              field: code
+
+      - name: country_name
+        description: Country name corresponding to the iso code.
+
+      - name: sector_code
+        description: Sector code the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: role_code
+        description: Role code the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: city
+        description: City the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: n_total_creations
+        description: Number of creations the contact has in genially.
+          This field is populated at the time of the last contact.
+        tests:
+          - not_null:
+              where: user_id is not null
+
+      - name: user_id
+        description: The user ID this contact has in genially.
+          This field is populated at the time of the last contact.
 
       - name: created_at
         description: Contact creation timestamp.
@@ -27,3 +79,21 @@ models:
         description: Contact updated timestamp.
         tests:
           - not_null
+
+      - name: subscription_started_at
+        description: Time at which the subscription started in genially.
+          This field is populated at the time of the last contact.
+
+      - name: last_login_at
+        description: Time of last login in genially.
+          This field is populated at the time of the last contact.
+        tests:
+          - not_null:
+              where: user_id is not null
+
+      - name: registered_at
+        description: Time of registration in genially.
+          This field is populated at the time of the last contact.
+        tests:
+          - not_null:
+              where: user_id is not null

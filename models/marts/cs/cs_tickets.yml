@@ -51,9 +51,6 @@ models:
       - name: group_id
         description: ID of the group to which the ticket has been assigned.
 
-      - name: user_id
-        description: ID of the user the contact creating the ticket has in Genially.
-
       - name: agent_responded_at
         description: Agent response timestamp.
 

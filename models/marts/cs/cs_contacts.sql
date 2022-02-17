@@ -15,22 +15,44 @@ tickets_count as (
     group by 1
 ),
 
-final as (
+base_contacts as (
     select
-        contacts.id,
-
-        contacts.email,
-        contacts.language,
+        contacts.*,
         ifnull(tickets_count.n_tickets, 0) as n_tickets,
-
-        contacts.user_id,
-
-        contacts.created_at,
-        contacts.updated_at
 
     from contacts
     left join tickets_count
         on contacts.id = tickets_count.contact_id
+),
+
+final as (
+    select
+        id,
+
+        email,
+        language,
+        language_name,
+        n_tickets,
+        plan,
+        subscription_period,
+        country,
+        country_name,
+        sector_code,
+        sector,
+        role_code,
+        role,
+        city,
+        n_total_creations,
+
+        user_id,
+
+        created_at,
+        updated_at,
+        subscription_started_at,
+        last_login_at,
+        registered_at
+
+    from base_contacts
 )
 
 select * from final

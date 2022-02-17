@@ -2,38 +2,57 @@ with contacts as (
     select * from {{ ref('src_freshdesk_contacts') }}
 ),
 
-users as (
-    select * from {{ ref('src_genially_users') }}
+profiles as (
+    select * from {{ ref('util_user_profiles') }}
 ),
 
--- The user email is not unique.
--- Take the one that registered first.
-dedup_users as (
-    {{
-        unique_records_by_column(
-            cte='users',
-            unique_column='email',
-            order_by='registered_at',
-            dir='asc',
-        )
-    }}
+sectors as (
+    select distinct
+        sector_id,
+        sector_name,
+    from profiles
+),
+
+base_contacts as (
+    select
+        contacts.*,
+        roles.role_name as role,
+        sectors.sector_name as sector,
+
+    from contacts
+    left join sectors
+        on contacts.sector_code = sectors.sector_id
+    left join profiles as roles
+        on contacts.role_code = roles.role_id
 ),
 
 final as (
     select
-        contacts.id,
+        id,
 
-        contacts.email,
-        contacts.language,
+        email,
+        language,
+        language_name,
+        plan,
+        subscription_period,
+        country,
+        country_name,
+        sector_code,
+        sector,
+        role_code,
+        role,
+        city,
+        n_total_creations,
 
-        users.user_id,
+        user_id,
 
-        contacts.created_at,
-        contacts.updated_at
+        created_at,
+        updated_at,
+        subscription_started_at,
+        last_login_at,
+        registered_at
 
-    from contacts
-    left join dedup_users as users
-        on contacts.email = users.email
+    from base_contacts
 )
 
 select * from final

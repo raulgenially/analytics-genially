@@ -6,7 +6,6 @@ agent_groups as (
     select * from {{ ref('src_freshdesk_groups') }}
 ),
 
-
 base_tickets as (
     select
         tickets.*,
