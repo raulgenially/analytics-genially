@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: user_plan_history
+    description: Records of the plan a user had at a particular point in time.
+    columns:
+      - name: id
+        description: Primary key of this model.
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user id.
+        tests:
+          - not_null
+
+      - name: plan
+        description: The type of plan active.
+        tests:
+          - not_null
+
+      - name: valid_from
+        description: Time at which the plan started being active for the user.
+        tests:
+          - not_null
+
+      - name: valid_to
+        description: Time at which the plan stopped being active for the user.
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: valid_from < valid_to
