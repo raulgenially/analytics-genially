@@ -42,7 +42,6 @@ user_usage as (
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
         coalesce(ga_signups.channel, '{{ var('unknown') }}') as channel,
         date(users.registered_at) as first_usage_at,
-        date(users.last_access_at) as last_access_at
 
     from users
     left join ga_signups
@@ -62,10 +61,6 @@ user_day as (
     from user_usage
     cross join dates
     where dates.date_day >= user_usage.first_usage_at
-    -- Also adding old users with registered_at = null but with accessing. See #198 for more context
-    -- This users will have n_days_since_first_usage = null
-        or (user_usage.first_usage_at is null
-            and user_usage.last_access_at is not null)
 ),
 
 user_day_traffic as (
@@ -81,9 +76,9 @@ user_day_traffic as (
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
-            when (user_day.n_days_since_first_usage > 0 or user_day.n_days_since_first_usage is null) and logins.user_id is null
+            when user_day.n_days_since_first_usage > 0 and logins.user_id is null
                 then 'Churned'
-            when (user_day.n_days_since_first_usage > 0 or user_day.n_days_since_first_usage is null) and logins.user_id is not null
+            when user_day.n_days_since_first_usage > 0 and logins.user_id is not null
                 then 'Returning'
         end as status
 
@@ -104,24 +99,47 @@ user_traffic_rolling_status as (
         n_days_since_first_usage,
         is_active,
         status,
-        {{ compute_n_days_active(week_days_minus) }} as n_days_active_7d,
-        {{ compute_n_days_active(month_days_minus) }} as n_days_active_28d,
-        case
-            when {{ compute_n_days_active(week_days_minus) }} = 0
-                then 'Churned'
-            when n_days_since_first_usage < {{ week_days }}
-                then 'New'
-            when {{ compute_n_days_active(week_days_minus) }} > 0
-                then 'Returning'
-        end as status_7d,
-        case
-            when {{ compute_n_days_active(month_days_minus) }} = 0
-                then 'Churned'
-            when n_days_since_first_usage < {{ month_days }}
-                then 'New'
-            when {{ compute_n_days_active(month_days_minus) }} > 0
-                then 'Returning'
-        end as status_28d
+        -- Compute n_days_active for different status.
+        -- Note we have to leave a temporal margin to get reliable results.
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ week_days_minus }},
+            {{ compute_n_days_active(week_days_minus) }},
+            null
+        ) as n_days_active_7d,
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ month_days_minus }},
+            {{ compute_n_days_active(month_days_minus) }},
+            null
+        ) as n_days_active_28d,
+        -- Now obtain the status, leaving the same temporal margin.
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ week_days_minus }},
+            case
+                when n_days_since_first_usage < {{ week_days }}
+                    then 'New'
+                when {{ compute_n_days_active(week_days_minus) }} = 0
+                    then 'Churned'
+                when {{ compute_n_days_active(week_days_minus) }} > 0
+                    then 'Returning'
+                else
+                    'Unknown'
+            end,
+            null
+        ) as status_7d,
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ month_days_minus }},
+            case
+                when n_days_since_first_usage < {{ month_days }}
+                    then 'New'
+                when {{ compute_n_days_active(month_days_minus) }} = 0
+                    then 'Churned'
+                when {{ compute_n_days_active(month_days_minus) }} > 0
+                    then 'Returning'
+                else
+                    'Unknown'
+            end,
+            null
+         ) as status_28d
 
     from user_day_traffic
 ),

@@ -2,83 +2,30 @@
 -- Compute conversion rates between stages. For example: activation (new -> returning), retention (returning -> returning), etc.
 {% macro create_metrics_activity_status_conversion_rates_model(activity, status) %}
 
-with denominator as (
+with final as (
     select
-        -- Dimensions
+       -- Dimensions
         date_day,
-        previous_{{ status }} as previous_status,
         {{ place_main_dimension_fields('activity') }},
         signup_device,
         signup_channel,
 
-        -- Metrics
-        count(user_id) as n_users
+        -- Transition Type
+        countif({{ status }} = 'Returning' and previous_{{ status }} = 'New') as n_activated_users,
+        countif({{ status }} = 'Churned' and previous_{{ status }} = 'New') as n_inactivated_users,
+        countif({{ status }} = 'Returning' and previous_{{ status }} = 'Returning') as n_retained_users,
+        countif({{ status }} = 'Churned' and previous_{{ status }} = 'Returning') as n_churn_users,
+        countif({{ status }} = 'Returning' and previous_{{ status }} = 'Churned') as n_resurrected_users,
+        countif({{ status }} = 'Churned' and previous_{{ status }} = 'Churned') as n_hibernated_users,
+
+        -- Totals
+        countif(previous_{{ status }} = 'New') as n_previous_new_users,
+        countif(previous_{{ status }} = 'Returning') as n_previous_returnings_users,
+        countif(previous_{{ status }} = 'Churned') as n_previous_churn_users
 
     from {{ activity }}
     where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=12) }}
-),
-
-numerator as (
-    select
-        -- Dimensions
-        date_day,
-        previous_{{ status }} as previous_status,
-        {{ status }} as status,
-        {{ place_main_dimension_fields('activity') }},
-        signup_device,
-        signup_channel,
-
-        -- Metrics
-        count(user_id) as n_users
-
-    from {{ activity }}
-    where previous_{{ status }} is not null
-    {{ dbt_utils.group_by(n=13) }}
-),
-
-final as (
-    select
-        -- Dimensions
-        denominator.date_day,
-        denominator.previous_status,
-        numerator.status,
-        {{ place_main_dimension_fields('denominator') }},
-        denominator.signup_device,
-        denominator.signup_channel,
-        case
-            when denominator.previous_status = 'New' and numerator.status = 'Returning'
-                then 'Activation'
-            when denominator.previous_status = 'New' and numerator.status = 'Churned'
-                then 'Inactivation'
-            when denominator.previous_status = 'Returning' and numerator.status = 'Returning'
-                then 'Retention'
-            when denominator.previous_status = 'Returning' and numerator.status = 'Churned'
-                then 'Churn'
-            when denominator.previous_status = 'Churned' and numerator.status = 'Returning'
-                then 'Resurrection'
-            when denominator.previous_status = 'Churned' and numerator.status = 'Churned'
-                then 'Hibernation'
-        end as transition_type,
-
-        -- Metrics
-        denominator.n_users as n_initial_users,
-        numerator.n_users as n_passing_users
-
-    from denominator
-    left join numerator
-        on denominator.date_day = numerator.date_day
-            and denominator.previous_status = numerator.previous_status
-            and denominator.plan = numerator.plan
-            and denominator.subscription = numerator.subscription
-            and denominator.sector = numerator.sector
-            and denominator.broad_sector = numerator.broad_sector
-            and denominator.role = numerator.role
-            and denominator.broad_role = numerator.broad_role
-            and denominator.country = numerator.country
-            and denominator.country_name = numerator.country_name
-            and denominator.signup_device = numerator.signup_device
-            and denominator.signup_channel = numerator.signup_channel
+    {{ dbt_utils.group_by(n=11) }}
 )
 
 select * from final

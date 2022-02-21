@@ -80,8 +80,9 @@ models:
             - not_null
 
         - name: first_usage_at
-          description: The date the user initiated their activity for the first time (registered_at).
-            Some old users have null or wrong registered_at.
+          description: The date the user initiated their activity for the first time.
+          tests:
+            - not_null
 
         - name: date_day
           description: The particular day where user's activity is described.
@@ -91,6 +92,7 @@ models:
         - name: n_days_since_first_usage
           description: The number of days since the user initiated their activity for the first time.
           tests:
+            - not_null
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 
@@ -108,25 +110,19 @@ models:
 
         - name: n_days_active_7d
           description: Number of days the user is active considering a weekly time period.
-          tests:
-            - not_null
 
         - name: status_7d
           description: Whether the user is New, Returning or Churned considering a weekly time period.
           tests:
-            - not_null
             - accepted_values:
                 values: "{{ get_active_user_values() }}"
 
         - name: n_days_active_28d
           description: Number of days the user is active considering a monthly time period.
-          tests:
-            - not_null
 
         - name: status_28d
           description: Whether the user is New, Returning or Churned considering a monthly time period.
           tests:
-            - not_null
             - accepted_values:
                 values: "{{ get_active_user_values() }}"
 
@@ -152,6 +148,26 @@ models:
       - dbt_utils.expression_is_true:
           expression: "is_active = true"
           condition: "status = 'New' or status = 'Returning'"
+
+      - dbt_utils.expression_is_true:
+          expression: "is_active = false"
+          condition: "status = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_7d = 0"
+          condition: "status_7d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_7d > 0"
+          condition: "status_7d != 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_28d = 0"
+          condition: "status_28d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_28d > 0"
+          condition: "status_28d != 'Churned'"
 
       - dbt_utils.expression_is_true:
           expression: "status = 'Churned' and status_7d = 'Churned'"
