@@ -27,6 +27,7 @@ final as (
 
         user_id,
         plan,
+        {{ create_subscription_field('plan') }} as subscription,
 
         valid_from,
         ifnull(

@@ -20,6 +20,11 @@ models:
         tests:
           - not_null
 
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+
       - name: valid_from
         description: Time at which the plan started being active for the user.
         tests:
