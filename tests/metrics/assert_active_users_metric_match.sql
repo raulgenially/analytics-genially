@@ -1,5 +1,5 @@
 -- The number of active users or logins should match among the implicated models.
--- TODO: https://github.com/Genially/data-team-issues/issues/198
+-- TODO: https://github.com/Genially/scrum-genially/issues/8732
 {{
     config(
         severity='warn'

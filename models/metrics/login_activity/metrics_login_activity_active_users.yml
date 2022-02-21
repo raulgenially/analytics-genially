@@ -112,6 +112,8 @@ models:
       tests:
         - dbt_utils.expression_is_true:
             expression: "n_daily_active_users <= n_weekly_active_users"
+            condition: "date_day >= '2021-12-27'"
 
         - dbt_utils.expression_is_true:
             expression: "n_weekly_active_users <= n_monthly_active_users"
+            condition: "date_day >= '2022-01-17'"
