@@ -73,8 +73,7 @@ final as (
 
         idanalytics as analytics_id,
 
-        -- First valid registration date is 2015-02-23T13:27:13 (as of 2021-07-15)
-        if(dateregister >= '2015-02-23', dateregister, null) as registered_at,
+        dateregister as registered_at,
         -- First valid last access date is 2016-06-02T17:01:47 (as of 2021-07-15)
         if(synced_lastaccesstime >= '2016-06-02', synced_lastaccesstime, null) as last_access_at,
         -- emailvalidationtoken extraction
