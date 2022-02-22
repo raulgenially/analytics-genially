@@ -16,8 +16,18 @@ sectors as (
 base_contacts as (
     select
         contacts.*,
-        roles.role_name as role,
-        sectors.sector_name as sector,
+        if(
+            contacts.role_code is not null
+                and roles.role_name is null,
+            "{{ var('unknown') }}",
+            roles.role_name
+        ) as role,
+        if(
+            contacts.sector_code is not null
+                and sectors.sector_name is null,
+            "{{ var('unknown') }}",
+            sectors.sector_name
+        ) as sector,
 
     from contacts
     left join sectors

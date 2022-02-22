@@ -31,10 +31,15 @@ models:
         tests:
           - not_null:
               where: user_id is not null
+          - accepted_values:
+              values: "{{ get_freshdesk_contact_plan_values() }}"
 
       - name: subscription_period
         description: The period at which the contact pays the genially subscription.
           This field is populated at the time of the last contact.
+        tests:
+          - accepted_values:
+              values: "{{ get_freshdesk_subscription_period_values() }}"
 
       - name: country
         description: Country iso code.

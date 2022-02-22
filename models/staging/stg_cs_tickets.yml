@@ -54,6 +54,12 @@ models:
       - name: group_id
         description: ID of the group to which the ticket has been assigned.
 
+      - name: created_at
+        description: Ticket creation timestamp.
+
+      - name: updated_at
+        description: Ticket updated timestamp.
+
       - name: agent_responded_at
         description: Agent response timestamp.
 
@@ -68,12 +74,6 @@ models:
 
       - name: resolved_at
         description: Ticket resolution timestamp.
-
-      - name: created_at
-        description: Ticket creation timestamp.
-
-      - name: updated_at
-        description: Ticket updated timestamp.
 
       - name: closed_at
         description: Ticket closed timestamp.

@@ -40,6 +40,9 @@ models:
 
       - name: sector
         description: Sector name corresponding to the sector_code.
+        tests:
+          - not_null:
+              where: sector_code is not null
 
       - name: role_code
         description: Role code the contact has in genially.
@@ -47,6 +50,9 @@ models:
 
       - name: role
         description: Role name corresponding to the role_name.
+        tests:
+          - not_null:
+              where: role_code is not null
 
       - name: city
         description: City the contact has in genially.
