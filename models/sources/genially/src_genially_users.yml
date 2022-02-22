@@ -91,6 +91,8 @@ models:
 
         - name: registered_at
           description: Registration date.
+          tests:
+            - not_null
 
         - name: last_access_at
           description: Last access date.
@@ -100,9 +102,10 @@ models:
 
       tests:
         - dbt_utils.expression_is_true:
-            expression: "last_access_at >= registered_at"
-            condition: "registered_at > '2020-09-11'"
-            severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8756
+            expression: "date(last_access_at) >= date(registered_at)"
+
+        - dbt_utils.expression_is_true:
+            expression: registered_at > '2015-01-28'
 
         - dbt_utils.expression_is_true:
             expression: "sector_code >= 200 and role_code >= 100"
