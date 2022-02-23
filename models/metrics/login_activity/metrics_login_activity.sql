@@ -112,34 +112,8 @@ user_traffic_rolling_status as (
             null
         ) as n_days_active_28d,
         -- Now obtain the status, leaving the same temporal margin.
-        if(
-            date_diff(date_day, {{ min_date_logins }}, day) >= {{ week_days_minus }},
-            case
-                when n_days_since_first_usage < {{ week_days }}
-                    then 'New'
-                when {{ compute_n_days_active(week_days_minus) }} = 0
-                    then 'Churned'
-                when {{ compute_n_days_active(week_days_minus) }} > 0
-                    then 'Returning'
-                else
-                    'Unknown'
-            end,
-            null
-        ) as status_7d,
-        if(
-            date_diff(date_day, {{ min_date_logins }}, day) >= {{ month_days_minus }},
-            case
-                when n_days_since_first_usage < {{ month_days }}
-                    then 'New'
-                when {{ compute_n_days_active(month_days_minus) }} = 0
-                    then 'Churned'
-                when {{ compute_n_days_active(month_days_minus) }} > 0
-                    then 'Returning'
-                else
-                    'Unknown'
-            end,
-            null
-         ) as status_28d
+        {{ determine_activity_status(min_date_logins, week_days, week_days_minus) }} as status_7d,
+        {{ determine_activity_status(min_date_logins, month_days, month_days_minus) }} as status_28d
 
     from user_day_traffic
 ),
