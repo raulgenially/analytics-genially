@@ -45,6 +45,11 @@ models:
           tests:
             - not_null
 
+        - name: country_name
+          description: Name of the country correspondent to the ISO code.
+          tests:
+            - not_null
+
         - name: city
           description: City.
 
