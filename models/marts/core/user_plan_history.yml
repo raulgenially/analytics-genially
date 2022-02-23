@@ -25,16 +25,16 @@ models:
         tests:
           - not_null
 
-      - name: valid_from
+      - name: started_at
         description: Time at which the plan started being active for the user.
         tests:
           - not_null
 
-      - name: valid_to
+      - name: finished_at
         description: Time at which the plan stopped being active for the user.
         tests:
           - not_null
 
     tests:
       - dbt_utils.expression_is_true:
-          expression: valid_from < valid_to
+          expression: started_at < finished_at

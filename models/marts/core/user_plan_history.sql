@@ -3,7 +3,7 @@ with user_history as (
         id,
         user_id,
         subscription_plan as plan,
-        state_valid_from as valid_from,
+        state_valid_from as started_at
 
     from {{ ref('src_snapshot_genially_users') }}
 ),
@@ -14,9 +14,9 @@ compare_next as (
         user_id,
         plan,
         lead(plan) over (
-            partition by user_id order by valid_from asc
+            partition by user_id order by started_at asc
         ) as next_plan,
-        valid_from,
+        started_at
 
     from user_history
 ),
@@ -29,16 +29,16 @@ final as (
         plan,
         {{ create_subscription_field('plan') }} as subscription,
 
-        valid_from,
+        started_at,
         ifnull(
             timestamp_sub(
-                lead(valid_from) over (
-                    partition by user_id order by valid_from asc
+                lead(started_at) over (
+                    partition by user_id order by started_at asc
                 ),
                 interval 1 second
             ),
             timestamp("{{ var('the_distant_future') }}")
-        ) as valid_to,
+        ) as finished_at
 
     from compare_next
     where plan != next_plan
