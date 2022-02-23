@@ -10,7 +10,7 @@ models:
           Monthly active users, activity based on the last 28 days.
         In turn we can differentiate among different types of user,
           A New user (aka Signup) is a user who is in their first interval of using the product.
-          A Returning user is a user who used the product in the previous interval and the current interval.
+          A Returning user is a user who used the product in a previous interval and the current interval.
           A Churned user is a user who were once actively using the product and then became inactive.
         Thus, active users = new users (or signups) + returning users.
       columns:
@@ -110,25 +110,19 @@ models:
 
         - name: n_days_active_7d
           description: Number of days the user is active considering a weekly time period.
-          tests:
-            - not_null
 
         - name: status_7d
           description: Whether the user is New, Returning or Churned considering a weekly time period.
           tests:
-            - not_null
             - accepted_values:
                 values: "{{ get_active_user_values() }}"
 
         - name: n_days_active_28d
           description: Number of days the user is active considering a monthly time period.
-          tests:
-            - not_null
 
         - name: status_28d
           description: Whether the user is New, Returning or Churned considering a monthly time period.
           tests:
-            - not_null
             - accepted_values:
                 values: "{{ get_active_user_values() }}"
 
@@ -154,6 +148,26 @@ models:
       - dbt_utils.expression_is_true:
           expression: "is_active = true"
           condition: "status = 'New' or status = 'Returning'"
+
+      - dbt_utils.expression_is_true:
+          expression: "is_active = false"
+          condition: "status = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_7d = 0"
+          condition: "status_7d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_7d > 0"
+          condition: "status_7d != 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_28d = 0"
+          condition: "status_28d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_days_active_28d > 0"
+          condition: "status_28d != 'Churned'"
 
       - dbt_utils.expression_is_true:
           expression: "status = 'Churned' and status_7d = 'Churned'"

@@ -20,7 +20,6 @@ final as (
         *
 
     from daily_change_rates
-    where transition_type in ('Activation', 'Retention', 'Resurrection')
 
     union all
 
@@ -29,7 +28,6 @@ final as (
         *
 
     from weekly_change_rates
-    where transition_type in ('Activation', 'Retention', 'Resurrection')
 
     union all
 
@@ -38,7 +36,6 @@ final as (
         *
 
     from monthly_change_rates
-    where transition_type in ('Activation', 'Retention', 'Resurrection')
 )
 
 select * from final

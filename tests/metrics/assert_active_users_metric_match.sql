@@ -1,10 +1,4 @@
 -- The number of active users or logins should match among the implicated models.
--- TODO: https://github.com/Genially/data-team-issues/issues/198
-{{
-    config(
-        severity='warn'
-    )
-}}
 
 {% set testing_date %}
     date('2021-12-20')
@@ -21,7 +15,7 @@ monthly_projections as (
 active_users as (
     select
         -- Note that we're summing up non-unique users,
-        -- but it doesn't matter for testing purposes. 
+        -- but it doesn't matter for testing purposes.
         sum(n_daily_active_users) as n_daily_active_users
 
     from login_activity_active_users
