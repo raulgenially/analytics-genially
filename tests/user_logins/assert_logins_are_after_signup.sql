@@ -15,7 +15,6 @@ final as(
     from logins
     left join users
         on logins.user_id = users.user_id
-
     where login_at < registered_at
     group by 1,2
 )

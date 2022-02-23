@@ -1,10 +1,4 @@
 -- The number of active users or logins should match among the implicated models.
--- TODO: https://github.com/Genially/scrum-genially/issues/8756
-{{
-    config(
-        severity='warn'
-    )
-}}
 
 {% set testing_date %}
     date('2021-12-20')

@@ -67,7 +67,7 @@ models:
             - not_null
 
         - name: registered_at
-          description: The date at user signed up. Some old users have null or wrong registered_at.
+          description: The date at user signed up.
           tests:
             - not_null
 
