@@ -60,6 +60,9 @@ models:
           tests:
             - not_null
 
+        - name: n_total_visitors
+          description: Numbers of users that logged in to genially on date_day.
+
         - name: n_signups_previous_7d
           description: Numbers of users registered 7 days ago.
 
@@ -104,3 +107,12 @@ models:
 
         - name: n_new_creators_previously_registered_previous_364d
           description: Numbers of users who their first creation 364 days ago and not registered 364 days ago.
+
+        - name: n_total_visitors_previous_7d
+          description: Number of users that logged in to genially 7 days prior to date_day.
+
+        - name: n_total_visitors_previous_28d
+          description: Number of users that logged in to genially 28 days prior to date_day.
+
+        - name: n_total_visitors_previous_364d
+          description: Number of users that logged in to genially 364 days prior to date_day.

@@ -51,6 +51,13 @@ models:
                 # We have geniallys with id_from_template of non-existent templates.
                 severity: warn
 
+        - name: collaboration_type
+          description: "{{ doc('collaboration_type') }}"
+          tests:
+            - accepted_values:
+                values: "{{ get_collaboration_type_values() }}"
+                quote: false
+
         - name: is_from_premium_template
           description: Whether the template is premium.
             Premium templates can only be used in premium plans.
@@ -107,6 +114,11 @@ models:
 
         - name: is_visualized_last_30_days
           description: Whether the genially has been visualized within the last 30 days.
+          tests:
+            - not_null
+
+        - name: is_collaborative
+          description: Whether the genially is collaborative.
           tests:
             - not_null
 
