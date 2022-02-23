@@ -81,11 +81,11 @@ models:
             - not_null
 
         - name: n_retained_users
-          description: Number of returning users.
+          description: Number of returning users who were also returning in the previous status.
           tests:
             - not_null
 
-        - name: n_churn_users
+        - name: n_churned_users
           description: Number of users who have stopped logging in.
           tests:
             - not_null
@@ -110,7 +110,7 @@ models:
           tests:
             - not_null
 
-        - name: n_previous_churn_users
+        - name: n_previous_churned_users
           description: Total churned users of the previous period.
           tests:
             - not_null
@@ -120,7 +120,7 @@ models:
           expression: "n_activated_users + n_inactivated_users = n_previous_new_users"
 
       - dbt_utils.expression_is_true:
-          expression: "n_retained_users + n_churn_users = n_previous_returnings_users"
+          expression: "n_retained_users + n_churned_users = n_previous_returnings_users"
 
       - dbt_utils.expression_is_true:
-          expression: "n_resurrected_users + n_hibernated_users  = n_previous_churn_users"
+          expression: "n_resurrected_users + n_hibernated_users  = n_previous_churned_users"

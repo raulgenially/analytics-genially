@@ -41,7 +41,7 @@ user_usage as (
         {{ place_main_dimension_fields('users') }},
         coalesce(ga_signups.device, '{{ var('unknown') }}') as device,
         coalesce(ga_signups.channel, '{{ var('unknown') }}') as channel,
-        date(users.registered_at) as first_usage_at,
+        date(users.registered_at) as first_usage_at
 
     from users
     left join ga_signups
@@ -72,7 +72,7 @@ user_day_traffic as (
         user_day.first_usage_at,
         user_day.date_day,
         user_day.n_days_since_first_usage,
-        ifnull((user_day.n_days_since_first_usage = 0 or logins.user_id is not null), false) as is_active,
+        (user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
         case
             when user_day.n_days_since_first_usage = 0
                 then 'New'
