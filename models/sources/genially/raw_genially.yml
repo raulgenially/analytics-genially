@@ -65,11 +65,6 @@ sources:
                 - unique
                 - not_null
 
-            - name: geniallyid
-              description: Id Genially of the inspiration genially.
-              tests:
-                - not_null
-
         - name: templatecolors
           description: Template colors variation (Old Templates).
           columns:
