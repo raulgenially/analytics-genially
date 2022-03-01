@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: src_freshdesk_groups
+    description: Information about the agent groups in freshdesk.
+    columns:
+      - name: id
+        description: Primary key for groups.
+        tests:
+          - unique
+          - not_null
+
+      - name: name
+        description: Name of the group.
+        tests:
+          - not_null
+
+      - name: description
+        description: Description of the group.
+
+      - name: created_at
+        description: Group creation timestamp.
+
+      - name: updated_at
+        description: Group updated timestamp.

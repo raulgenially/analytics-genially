@@ -1,0 +1,11 @@
+version: 2
+
+macros:
+  - name: clean_ticket_emails
+    description: Apply a regex to extract the email address from a list of email-like string values.
+      These values can be either an email address itself (info@genial.ly) or a
+      contact name + email address ("GENIALLY WEB S.L." <premium@genial.ly>)
+    arguments:
+      - name: email_column
+        type: string
+        description: The name of the field we have to extract the emails from.

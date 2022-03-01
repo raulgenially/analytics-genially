@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: support_contacts
+    description: Information about the contacts in freshdesk.
+    columns:
+      - name: id
+        description: Primary key for contacts.
+        tests:
+          - unique
+          - not_null
+
+      - name: email
+        description: Primary email address of the contact.
+
+      - name: language
+        description: Language iso code of the contact.
+
+      - name: language_name
+        description: Language name of the contact.
+
+      - name: n_tickets
+        description: The number of tickets this contact has opened.
+        tests:
+          - not_null
+
+      - name: plan
+        description: Plan the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: subscription_period
+        description: The period at which the contact pays the genially subscription.
+          This field is populated at the time of the last contact.
+
+      - name: country
+        description: Country iso code.
+          This field is populated at the time of the last contact.
+
+      - name: country_name
+        description: Country name corresponding to the iso code.
+
+      - name: sector_code
+        description: Sector code the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: sector
+        description: Sector name corresponding to the sector_code.
+
+      - name: role_code
+        description: Role code the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: role
+        description: Role name corresponding to the role_name.
+
+      - name: city
+        description: City the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: n_total_creations
+        description: Number of creations the contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: user_id
+        # TODO: We have some contacts from users we don't have in the users collection
+        # Let's revisit this once we complete https://github.com/Genially/data-team-issues/issues/171
+        description: The user ID this contact has in genially.
+          This field is populated at the time of the last contact.
+
+      - name: created_at
+        description: Contact creation timestamp.
+
+      - name: updated_at
+        description: Contact updated timestamp.
+
+      - name: subscription_started_at
+        description: Time at which the subscription started in genially.
+          This field is populated at the time of the last contact.
+
+      - name: last_login_at
+        description: Time of last login in genially.
+          This field is populated at the time of the last contact.
+
+      - name: registered_at
+        description: Time of registration in genially.
+          This field is populated at the time of the last contact.

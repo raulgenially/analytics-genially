@@ -1,0 +1,79 @@
+version: 2
+
+models:
+  - name: stg_support_tickets
+    description: Information about the tickets openend in freshdesk.
+    columns:
+      - name: id
+        description: Primary key for tickets.
+        tests:
+          - unique
+          - not_null
+
+      - name: type
+        description: This field categorizes the ticket according to the different kinds
+          of issues our support team deals with.
+
+      - name: source
+        description: The channel through which the ticket was created.
+          This field contains the source value.
+
+      - name: source_label
+        description: This field contains the source text.
+
+      - name: status
+        description: Ticket status value.
+
+      - name: status_label
+        description: Ticket status text.
+
+      - name: priority
+        description: Ticket priority value.
+
+      - name: priority_label
+        description: Ticket priority text.
+
+      - name: to_emails
+        description: Email addresses to which the ticket was originally sent.
+
+      - name: fwd_emails
+        description: Email address(es) added while forwarding a ticket.
+
+      - name: tags
+        description: Tags that have been associated with the ticket.
+
+      - name: group_name
+        description: Name of the group to which the ticket has been assigned.
+        tests:
+          - not_null:
+              where: group_id is not null
+
+      - name: contact_id
+        description: ID of the contact creating the ticket.
+
+      - name: group_id
+        description: ID of the group to which the ticket has been assigned.
+
+      - name: created_at
+        description: Ticket creation timestamp.
+
+      - name: updated_at
+        description: Ticket updated timestamp.
+
+      - name: agent_responded_at
+        description: Agent response timestamp.
+
+      - name: contact_responded_at
+        description: Contact response timestamp.
+
+      - name: first_responded_at
+        description: Agent's first response timestamp.
+
+      - name: reopened_at
+        description: Ticket reopening timestamp.
+
+      - name: resolved_at
+        description: Ticket resolution timestamp.
+
+      - name: closed_at
+        description: Ticket closed timestamp.

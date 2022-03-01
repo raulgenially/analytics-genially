@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: freshdesk
+    description: Customer success contacts and tickets from Freshdesk tool.
+    database: data-genially
+    tables:
+      - name: contacts
+        columns:
+          - name: id
+            description: Primary key for contacts.
+            tests:
+              - unique
+              - not_null
+
+      - name: tickets
+        columns:
+          - name: id
+            description: Primary key for tickets.
+            tests:
+              - unique
+              - not_null
+
+      - name: groups
+        columns:
+          - name: id
+            description: Primary key for groups.
+            tests:
+              - unique
+              - not_null
