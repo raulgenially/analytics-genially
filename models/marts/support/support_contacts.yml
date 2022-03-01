@@ -62,6 +62,8 @@ models:
           This field is populated at the time of the last contact.
 
       - name: user_id
+        # TODO: We have some contacts from users we don't have in the users collection
+        # Let's revisit this once we complete https://github.com/Genially/data-team-issues/issues/171
         description: The user ID this contact has in genially.
           This field is populated at the time of the last contact.
 
