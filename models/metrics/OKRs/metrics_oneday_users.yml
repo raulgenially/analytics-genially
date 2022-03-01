@@ -1,0 +1,26 @@
+version: 2
+
+models:
+    - name: metrics_oneday_users
+      description: This model computes the percentage of signups users who didn't log in
+        during the next 28 days after their registered date over total signups users.
+        Note that an active user is someone who logs into the Genially app.        
+      columns:
+        - name: date_day
+          description: The particular day where user's activity is described.
+          tests:
+            - not_null
+
+        - name: oneday_users
+          description: Number of signups users who didn't log in during the next 28 days after their registered date.
+
+        - name: signup_users
+          description: Number of signup users in the last 28 days.
+        
+        - name: kr
+          description: Percentage of one.
+  
+      tests:
+        - dbt_utils.expression_is_true:
+            expression: "active_users is not null"
+            condition: "date_day <= current_date()"

@@ -37,13 +37,16 @@ oneday_users as (
 final as (
     select 
         dates.date_day as date_day,
-        if(oneday_users.n_signup_users!=0,oneday_users.n_oneday_users/oneday_users.n_signup_users,null) as kr
+        oneday_users.n_oneday_users as oneday_users,
+        oneday_users.n_signup_users as signup_users,
+        if( oneday_users.n_signup_users != 0,
+            oneday_users.n_oneday_users/oneday_users.n_signup_users,
+            null) as kr
 
     from dates
         left join oneday_users
-    on date(oneday_users.date_day)=dates.date_day    
+    on date(oneday_users.date_day) = dates.date_day
+    where dates.date_day >= {{ start_date_of_analysis }}    
 )
-
-select * from final
 
 select * from final
