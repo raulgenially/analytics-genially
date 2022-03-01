@@ -26,7 +26,7 @@ active_users as (
 final as (
     select 
         dates.date_day as date_day,
-        sum(active_users.n_monthly_active_users) as active_users
+        sum(active_users.n_returning_users_28d) as active_users
     
     from dates
     left join active_users
