@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: cs_contacts
+  - name: stg_support_contacts
     description: Information about the contacts in freshdesk.
     columns:
       - name: id
@@ -18,11 +18,6 @@ models:
 
       - name: language_name
         description: Language name of the contact.
-
-      - name: n_tickets
-        description: The number of tickets this contact has opened.
-        tests:
-          - not_null
 
       - name: plan
         description: Plan the contact has in genially.
@@ -45,6 +40,9 @@ models:
 
       - name: sector
         description: Sector name corresponding to the sector_code.
+        tests:
+          - not_null:
+              where: sector_code is not null
 
       - name: role_code
         description: Role code the contact has in genially.
@@ -52,6 +50,9 @@ models:
 
       - name: role
         description: Role name corresponding to the role_name.
+        tests:
+          - not_null:
+              where: role_code is not null
 
       - name: city
         description: City the contact has in genially.

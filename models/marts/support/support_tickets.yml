@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_cs_tickets
+  - name: support_tickets
     description: Information about the tickets openend in freshdesk.
     columns:
       - name: id
@@ -44,9 +44,6 @@ models:
 
       - name: group_name
         description: Name of the group to which the ticket has been assigned.
-        tests:
-          - not_null:
-              where: group_id is not null
 
       - name: contact_id
         description: ID of the contact creating the ticket.

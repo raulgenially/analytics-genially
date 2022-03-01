@@ -12,15 +12,22 @@ languages as (
 
 base_contacts as (
     select
+        *,
+        {{ clean_country_code('custom_fields.country') }} as country_sanitized,
+    from contacts
+),
+
+int_contacts as (
+    select
         contacts.*,
         languages.name as language_name,
         countries.name as country_name
 
-    from contacts
+    from base_contacts as contacts
     left join languages
         on contacts.language = languages.code
     left join countries
-        on contacts.custom_fields.country = countries.code
+        on contacts.country_sanitized = countries.code
 ),
 
 final as (
@@ -30,9 +37,13 @@ final as (
         email,
         language,
         language_name,
-        custom_fields.plan,
+        case
+            when custom_fields.plan = 'EDU TEAM'
+                then 'EDU_TEAM'
+            else custom_fields.plan
+        end as plan,
         custom_fields.periodsubscription as subscription_period,
-        custom_fields.country,
+        country_sanitized as country,
         country_name,
         custom_fields.sector as sector_code,
         custom_fields.role as role_code,
@@ -47,7 +58,7 @@ final as (
         custom_fields.lastloginat as last_login_at,
         custom_fields.registerdate as registered_at,
 
-    from base_contacts
+    from int_contacts
 )
 
 select * from final

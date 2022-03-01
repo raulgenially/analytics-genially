@@ -1,9 +1,9 @@
 with contacts as (
-    select * from {{ ref('stg_cs_contacts') }}
+    select * from {{ ref('stg_support_contacts') }}
 ),
 
 tickets as (
-    select * from {{ ref('stg_cs_tickets') }}
+    select * from {{ ref('stg_support_tickets') }}
 ),
 
 tickets_count as (

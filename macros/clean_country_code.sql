@@ -8,6 +8,6 @@
             then 'IL'
         when {{ country_code }} = '' or {{ country_code }} is null
             then null
-        else trim({{ country_code }})
+        else upper(trim({{ country_code }}))
     end
 {% endmacro %}
