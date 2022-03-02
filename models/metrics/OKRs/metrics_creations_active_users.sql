@@ -3,7 +3,7 @@
 {% endset %}
 
 {% set max_date_for_computations %}
-    date('2022-12-31')
+    date('2023-01-01')
 {% endset %}
 
 {% set start_date_of_analysis %}
