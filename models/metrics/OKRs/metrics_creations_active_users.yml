@@ -2,9 +2,9 @@ version: 2
 
 models:
     - name: metrics_creations_active_users
-      description: This model computes the number of creations created during the last 28 day 
-      and active users as monthly active users, users who logged in during the last 28 days.
-      Note that an active user is someone who logs into the Genially app.
+      description: This model computes the number of creations created during the last 28 day
+       and active users as monthly active users, users who logged in during the last 28 days.
+       Note that an active user is someone who logs into the Genially app.
       columns:
         - name: date_day
           description: The particular day where users' activity is described.
