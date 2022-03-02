@@ -8,7 +8,7 @@ final as (
         'Has logo in team tab' as brand_usage_type,
         team_id,
         name,
-        created_at,      
+        created_at,
         countif(has_logo_in_team_tab = true) as has_usage
 
     from teams
