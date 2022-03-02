@@ -3,7 +3,7 @@ version: 2
 models:
     - name: metrics_active_users
       description: This model computes the number of monthly returning active users for OKRs' purpose.
-        Note that an active user is someone who logs into the Genially app.        
+        Note that an active user is someone who logs into the Genially app.
       columns:
         - name: date_day
           description: The particular day where user's activity is described.
@@ -12,10 +12,3 @@ models:
 
         - name: active_users
           description: Number of monthly returning active users in the last 28 days.
-  
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "active_users is not null"
-            condition: "date_day <= current_date()"
-
-        
