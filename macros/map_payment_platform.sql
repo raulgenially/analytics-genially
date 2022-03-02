@@ -2,6 +2,8 @@
     case
         when {{ realtransactionid }} like 'ch_%'
             -- example: ch_1IssJSBn82mIxvX2icHUlNiT
+            or {{ realtransactionid }} like 'py_%'
+            -- example: py_3KVcV6Bn82mIxvX23opSBFGI
             then 'Stripe'
         when {{ realtransactionid }} like '%-%-%-%-%'
             -- example: 4115d837-f87b-49dd-a1ab-8e6c8aa842ff
