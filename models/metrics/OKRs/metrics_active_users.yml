@@ -2,7 +2,7 @@ version: 2
 
 models:
     - name: metrics_active_users
-      description: This model computes the number of monthly returning active users for OKRs' purpose.
+      description: This model computes the number of monthly returning active users for OKRs purpose.
         Note that an active user is someone who logs into the Genially app.
       columns:
         - name: date_day
