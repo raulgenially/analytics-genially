@@ -56,9 +56,7 @@ final as (
         a.date_day,
         a.active_users,
         c.creations,
-        if (a.active_users != 0,
-            c.creations/a.active_users,
-            null) as kr
+        safe_divide(c.creations, a.active_users) as kr
     
     from monthly_active_users  as a
     left join monthly_creations  as c
