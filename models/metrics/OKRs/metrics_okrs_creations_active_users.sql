@@ -4,9 +4,9 @@
 
 with dates as (
     {{ dbt_utils.date_spine(
-        datepart = "day",
-        start_date = start_date_of_analysis,
-        end_date = "current_date()"
+        datepart="day",
+        start_date=start_date_of_analysis,
+        end_date="current_date()"
         )
     }}
 ),
@@ -37,7 +37,7 @@ monthly_creations as (
 
     from dates
     left join geniallys
-        on date(dates.date_day) between date(geniallys.created_at) and date(geniallys.created_at)+27
+        on date(dates.date_day) between date(geniallys.created_at) and date(geniallys.created_at) + 27
     group by 1
 ),
 

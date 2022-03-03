@@ -4,9 +4,9 @@
 
 with dates as (
     {{ dbt_utils.date_spine(
-        datepart = "day",
-        start_date = start_date_of_analysis,
-        end_date = "current_date()"
+        datepart="day",
+        start_date=start_date_of_analysis,
+        end_date="current_date()"
         )
     }}
 ),

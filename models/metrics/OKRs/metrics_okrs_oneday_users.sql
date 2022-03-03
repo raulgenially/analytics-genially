@@ -4,9 +4,9 @@
 
 with dates as (
     {{ dbt_utils.date_spine(
-        datepart = "day",
-        start_date = start_date_of_analysis,
-        end_date = "current_date()"
+        datepart="day",
+        start_date=start_date_of_analysis,
+        end_date="current_date()"
         )
     }}
 ),
@@ -35,7 +35,7 @@ final as (
 
     from dates
     left join oneday_users
-    on oneday_users.date_day = date(dates.date_day)
+        on oneday_users.date_day = date(dates.date_day)
 )
 
 select * from final
