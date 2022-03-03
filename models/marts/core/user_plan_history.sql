@@ -8,14 +8,14 @@ with user_history as (
     from {{ ref('src_snapshot_genially_users') }}
 ),
 
-compare_next as (
+compare_prev as (
     select
         id,
         user_id,
-        plan,
-        lead(plan) over (
+        lag(plan) over (
             partition by user_id order by started_at asc
-        ) as next_plan,
+        ) as prev_plan,
+        plan,
         started_at
 
     from user_history
@@ -40,9 +40,9 @@ final as (
             timestamp("{{ var('the_distant_future') }}")
         ) as finished_at
 
-    from compare_next
-    where plan != next_plan
-        or next_plan is null
+    from compare_prev
+    where plan != prev_plan
+        or prev_plan is null
 )
 
 select * from final
