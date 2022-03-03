@@ -23,7 +23,6 @@ oneday_users as (
 
     from login_activity
     group by 1
-
 ),
 
 final as (
@@ -31,7 +30,7 @@ final as (
         date(dates.date_day) as date_day,
         oneday_users.n_oneday_users as oneday_users,
         oneday_users.n_signup_users as signup_users,
-        safe_divide(oneday_users.n_oneday_users,oneday_users.n_signup_users) as kr
+        safe_divide(oneday_users.n_oneday_users, oneday_users.n_signup_users) as kr
 
     from dates
     left join oneday_users

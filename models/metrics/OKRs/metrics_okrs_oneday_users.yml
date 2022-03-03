@@ -2,9 +2,9 @@ version: 2
 
 models:
     - name: metrics_okrs_oneday_users
-      description: This model computes the percentage of signups who didn't log in
-        during the next 28 days after their registered date over total signups.
-        Note that an active user is someone who logs into the Genially app.
+      description: This model computes the percentage of signups who signed up during the last 28 days and didn't log in
+       again within that temporal window over total signups users.
+       Note that an active user is someone who logs into the Genially app.
       columns:
         - name: date_day
           description: The particular day where users' activity is described.
@@ -18,7 +18,7 @@ models:
             - not_null
 
         - name: signup_users
-          description: Number of signup in the last 28 days.
+          description: Number of signups in the last 28 days.
           tests:
             - not_null
 
