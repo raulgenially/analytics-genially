@@ -1,9 +1,9 @@
 with licenses as (
-    select * from {{ ref('stg_licenses') }}
+    select * from {{ ref('licenses') }}
 ),
 
 invoices as (
-    select * from {{ ref('stg_invoices') }}
+    select * from {{ ref('billing') }}
     where is_refund = false
 ),
 
