@@ -17,7 +17,7 @@ active_users as (
 
 final as (
     select
-        dates.date_day as date_day,
+        date(dates.date_day) as date_day,
         sum(active_users.n_returning_users_28d) as active_users
 
     from dates

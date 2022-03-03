@@ -37,13 +37,13 @@ monthly_creations as (
 
     from dates
     left join geniallys
-        on dates.date_day between date(geniallys.created_at) and date(geniallys.created_at)+27
+        on date(dates.date_day) between date(geniallys.created_at) and date(geniallys.created_at)+27
     group by 1
 ),
 
 final as (
     select
-        a.date_day,
+        date(a.date_day) as date_day,
         a.active_users,
         c.creations,
         safe_divide(c.creations, a.active_users) as kr

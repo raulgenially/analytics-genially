@@ -28,7 +28,7 @@ oneday_users as (
 
 final as (
     select
-        dates.date_day as date_day,
+        date(dates.date_day) as date_day,
         oneday_users.n_oneday_users as oneday_users,
         oneday_users.n_signup_users as signup_users,
         safe_divide(oneday_users.n_oneday_users,oneday_users.n_signup_users) as kr
