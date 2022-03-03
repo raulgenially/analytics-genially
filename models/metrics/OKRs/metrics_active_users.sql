@@ -1,11 +1,3 @@
-{% set min_date_for_computations %}
-    date('2021-12-20')
-{% endset %}
-
-{% set max_date_for_computations %}
-    date('2023-01-01')
-{% endset %}
-
 {% set start_date_of_analysis %}
     date('2022-01-01')
 {% endset %}
@@ -13,8 +5,8 @@
 with dates as (
     {{ dbt_utils.date_spine(
         datepart = "day",
-        start_date = min_date_for_computations,
-        end_date = max_date_for_computations
+        start_date = start_date_of_analysis,
+        end_date = "current_date()"
         )
     }}
 ),
@@ -24,14 +16,13 @@ active_users as (
 ),
 
 final as (
-    select 
+    select
         dates.date_day as date_day,
         sum(active_users.n_returning_users_28d) as active_users
-    
+
     from dates
     left join active_users
-        on date(active_users.date_day) = dates.date_day
-    where dates.date_day >= {{ start_date_of_analysis }}
+        on active_users.date_day = date(dates.date_day)
     group by 1
 )
 
