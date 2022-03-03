@@ -13,9 +13,13 @@ models:
 
         - name: active_users
           description: Number of active users in the last 28 days.
+          tests:
+            - not_null
 
         - name: creations
           description: Number of new creations in the last 28 days.
+          tests:
+            - not_null
 
         - name: kr
           description: Number of new creations divided by active users. Time period of 28 days.

@@ -12,10 +12,15 @@ models:
             - not_null
 
         - name: oneday_users
-          description: Number of signups who didn't log in during the next 28 days after their registered date.
+          description: Number of signups who signed up during the last 28 days and didn't log in again within that
+            temporal window.
+          tests:
+            - not_null
 
         - name: signup_users
           description: Number of signup in the last 28 days.
+          tests:
+            - not_null
 
         - name: kr
           description: Percentage of one day users over total signups. Time period of 28 days.

@@ -34,7 +34,7 @@ final as (
         safe_divide(oneday_users.n_oneday_users,oneday_users.n_signup_users) as kr
 
     from dates
-        left join oneday_users
+    left join oneday_users
     on oneday_users.date_day = date(dates.date_day)
 )
 

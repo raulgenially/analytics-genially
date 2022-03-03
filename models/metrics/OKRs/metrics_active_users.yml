@@ -12,3 +12,5 @@ models:
 
         - name: active_users
           description: Number of monthly returning active users in the last 28 days.
+          tests:
+            - not_null
