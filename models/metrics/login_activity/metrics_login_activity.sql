@@ -26,6 +26,10 @@ ga_signups as (
     select * from {{ ref('signup_events') }}
 ),
 
+geniallys as (
+    select * from {{ ref('geniallys') }}
+),
+
 dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
@@ -63,29 +67,63 @@ user_day as (
     where dates.date_day >= user_usage.first_usage_at
 ),
 
-user_day_traffic as (
+user_creations as (
+    select
+        user_id,
+        created_at,
+        count(genially_id) as n_creations
+
+    from geniallys
+    {{ dbt_utils.group_by(n=2) }}
+),
+
+{# user_creations as (
     select
         user_day.user_id,
-        {{ place_main_dimension_fields('user_day') }},
-        user_day.device,
-        user_day.channel,
-        user_day.first_usage_at,
         user_day.date_day,
-        user_day.n_days_since_first_usage,
-        (user_day.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
+        count(geniallys.genially_id) as n_creations
+
+    from user_day
+    left join geniallys
+        on user_day.user_id = geniallys.user_id and user_day.date_day = date(geniallys.created_at)
+    {{ dbt_utils.group_by(n=2) }}
+), #}
+
+user_day_creations as (
+    select
+        user_day.*,
+        n_creations
+    from user_day
+    left join user_creations
+        on user_day.user_id = user_creations.user_id
+            and date(user_day.date_day) = date(user_creations.created_at)
+),
+
+
+user_day_traffic as (
+    select
+        user_day_creations.user_id,
+        {{ place_main_dimension_fields('user_day_creations') }},
+        user_day_creations.device,
+        user_day_creations.channel,
+        user_day_creations.first_usage_at,
+        user_day_creations.date_day,
+        user_day_creations.n_days_since_first_usage,
+        user_day_creations.n_creations,
+        (user_day_creations.n_days_since_first_usage = 0 or logins.user_id is not null) as is_active,
         case
-            when user_day.n_days_since_first_usage = 0
+            when user_day_creations.n_days_since_first_usage = 0
                 then 'New'
-            when user_day.n_days_since_first_usage > 0 and logins.user_id is null
+            when user_day_creations.n_days_since_first_usage > 0 and logins.user_id is null
                 then 'Churned'
-            when user_day.n_days_since_first_usage > 0 and logins.user_id is not null
+            when user_day_creations.n_days_since_first_usage > 0 and logins.user_id is not null
                 then 'Returning'
         end as status
 
-    from user_day
+    from user_day_creations
     left join logins
-        on user_day.user_id = logins.user_id
-            and user_day.date_day = date(logins.login_at)
+        on user_day_creations.user_id = logins.user_id
+            and user_day_creations.date_day = date(logins.login_at)
 ),
 
 user_traffic_rolling_status as (
@@ -97,6 +135,7 @@ user_traffic_rolling_status as (
         first_usage_at,
         date_day,
         n_days_since_first_usage,
+        n_creations,
         is_active,
         status,
         -- Compute n_days_active for different status.
@@ -128,6 +167,7 @@ final as (
         first_usage_at,
         date_day,
         n_days_since_first_usage,
+        n_creations,
         is_active,
         status,
         n_days_active_7d,
