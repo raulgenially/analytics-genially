@@ -92,7 +92,7 @@ user_creations as (
 user_day_creations as (
     select
         user_day.*,
-        n_creations
+        coalesce(n_creations,0) as n_creations
     from user_day
     left join user_creations
         on user_day.user_id = user_creations.user_id
