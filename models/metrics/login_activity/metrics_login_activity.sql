@@ -87,7 +87,6 @@ user_day_creations as (
             and date(user_day.date_day) = date(user_creations.created_at)
 ),
 
-
 user_day_traffic as (
     select
         user_day_creations.user_id,
