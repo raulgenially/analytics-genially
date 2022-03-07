@@ -3,7 +3,8 @@ with user_history as (
         id,
         user_id,
         subscription_plan as plan,
-        state_valid_from as started_at
+        state_valid_from as started_at,
+        registered_at
 
     from {{ ref('src_snapshot_genially_users') }}
 ),
@@ -16,7 +17,8 @@ compare_prev as (
             partition by user_id order by started_at asc
         ) as prev_plan,
         plan,
-        started_at
+        started_at,
+        registered_at
 
     from user_history
 ),
@@ -29,7 +31,16 @@ final as (
         plan,
         {{ create_subscription_field('plan') }} as subscription,
 
-        started_at,
+        -- Adjust started_at to the registration date on cases where the
+        -- registration date and the snapshot happened closely.
+        if(
+            prev_plan is null
+                and started_at > registered_at -- Guard against manually set registered_at in the future
+                and datetime_diff(started_at, registered_at, hour) <= 25,
+            registered_at,
+            started_at
+        ) as started_at,
+        -- Don't overlap with the next period
         ifnull(
             timestamp_sub(
                 lead(started_at) over (
