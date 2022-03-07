@@ -70,24 +70,12 @@ user_day as (
 user_creations as (
     select
         user_id,
-        created_at,
+        date(created_at) as created_at,
         count(genially_id) as n_creations
 
     from geniallys
     {{ dbt_utils.group_by(n=2) }}
 ),
-
-{# user_creations as (
-    select
-        user_day.user_id,
-        user_day.date_day,
-        count(geniallys.genially_id) as n_creations
-
-    from user_day
-    left join geniallys
-        on user_day.user_id = geniallys.user_id and user_day.date_day = date(geniallys.created_at)
-    {{ dbt_utils.group_by(n=2) }}
-), #}
 
 user_day_creations as (
     select
@@ -136,6 +124,18 @@ user_traffic_rolling_status as (
         date_day,
         n_days_since_first_usage,
         n_creations,
+        -- Compute n_creations for differents time periods.
+        -- Note we have to leave a temporal margin to get reliable results.
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ week_days_minus }},
+            {{ compute_n_creations(week_days_minus) }},
+            null
+        ) as n_creations_7d,
+        if(
+            date_diff(date_day, {{ min_date_logins }}, day) >= {{ month_days_minus }},
+            {{ compute_n_creations(month_days_minus) }},
+            null
+        ) as n_creations_28d,
         is_active,
         status,
         -- Compute n_days_active for different status.
@@ -168,6 +168,8 @@ final as (
         date_day,
         n_days_since_first_usage,
         n_creations,
+        n_creations_7d,
+        n_creations_28d,
         is_active,
         status,
         n_days_active_7d,
