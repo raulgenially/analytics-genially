@@ -11,7 +11,7 @@ select
     format_date('%d/%m/%Y', billing.period_end_at) as invoice_end_date,
     date_diff(billing.period_end_at, billing.period_start_at, day) as days,
     if(billing.product like '%Team%', '5', cast(quantity as string)) as quantity,
-    regexp_replace(billing.product, r'(.*)Team*.', r'\1 Master') as product,
+    regexp_replace(billing.product, r'(.*)Team*.', r'\1Master') as product,
     billing.recurrence,
     billing.plan,
     replace(cast(billing.total_euro_deducted as string), '.',',') as subtotal,
