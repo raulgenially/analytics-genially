@@ -34,7 +34,7 @@ final as (
 
     from dates
     left join oneday_users
-        on oneday_users.date_day = date(dates.date_day)
+        on date(dates.date_day) = oneday_users.date_day
 )
 
 select * from final

@@ -23,7 +23,7 @@ monthly_activity as (
 
     from dates
     left join activity
-        on activity.date_day = date(dates.date_day)
+        on date(dates.date_day) = activity.date_day
     group by 1
 ),
 

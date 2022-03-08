@@ -18,11 +18,11 @@ active_users as (
 final as (
     select
         date(dates.date_day) as date_day,
-        sum(active_users.n_returning_users_28d) as active_users
+        sum(active_users.n_returning_users_28d) as n_returning_active_users_28d
 
     from dates
     left join active_users
-        on active_users.date_day = date(dates.date_day)
+        on date(dates.date_day) = active_users.date_day
     group by 1
 )
 
