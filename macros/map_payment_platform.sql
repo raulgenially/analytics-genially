@@ -1,8 +1,8 @@
 {% macro map_payment_platform(realtransactionid) %}
     case
-        when {{ realtransactionid }} like 'ch_%'
+        when {{ realtransactionid }} like 'ch\\_%'
             -- example: ch_1IssJSBn82mIxvX2icHUlNiT
-            or {{ realtransactionid }} like 'py_%'
+            or {{ realtransactionid }} like 'py\\_%'
             -- example: py_3KVcV6Bn82mIxvX23opSBFGI
             then 'Stripe'
         when {{ realtransactionid }} like '%-%-%-%-%'
