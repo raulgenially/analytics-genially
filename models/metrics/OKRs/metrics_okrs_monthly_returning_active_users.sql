@@ -1,5 +1,5 @@
 {% set start_date_of_analysis %}
-    date('2022-01-01')
+    date('{{ var('start_date_of_analysis_OKR') }}')
 {% endset %}
 
 with dates as (
