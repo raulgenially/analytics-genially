@@ -117,13 +117,9 @@ models:
 
         - name: n_weekly_creations
           description: Number of geniallys created in the last 7 days.
-          tests:
-            - not_null
 
         - name: n_monthly_creations
           description: Number of geniallys created in the last 28 days.
-          tests:
-            - not_null
 
       tests:
         - dbt_utils.expression_is_true:
