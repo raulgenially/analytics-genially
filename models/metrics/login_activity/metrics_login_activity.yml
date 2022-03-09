@@ -187,3 +187,7 @@ models:
       - dbt_utils.expression_is_true:
           expression: "status = 'Churned'"
           condition: "status_7d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_creations > 0"
+          condition: "is_active = true"
