@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: metrics_okrs_oneday_users
+  - name: metrics_okrs_oneday_users
       description: This model computes the percentage of signups who signed up during the last 28 days and didn't log in
        again within that temporal window over total signups users.
       columns:
