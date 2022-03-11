@@ -1,13 +1,7 @@
-{% macro create_base_user_model(source_dataset=null, source_table=null) %}
+{% macro create_base_user_model(source_cte) %}
 
 with users as (
-    select * from {{ source(source_dataset, source_table) }}
-    {% if source_name == 'snapshots' %}
-        where email is not null
-    {% else %}
-        where __hevo__marked_deleted = false
-            and email is not null
-    {% endif %}
+    select * from {{ source_cte }}
 ),
 
 subscription_plans as (
