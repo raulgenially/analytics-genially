@@ -1,7 +1,6 @@
 with source as (
     select * from {{ source('genially', 'users') }}
-    where __hevo__marked_deleted = false
-        and email is not null
+    where email is not null and dateregister is not null
 ),
 
 users as (
@@ -33,6 +32,7 @@ final as (
         about_me,
 
         is_validated,
+        __hevo__marked_deleted as is_deleted,
 
         analytics_id,
 

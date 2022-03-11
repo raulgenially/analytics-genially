@@ -1,5 +1,6 @@
 with users as (
     select * from {{ ref('stg_users') }}
+    where is_deleted = false
 ),
 
 creations as (

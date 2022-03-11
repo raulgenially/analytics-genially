@@ -86,6 +86,11 @@ models:
           tests:
             - not_null
 
+        - name: is_deleted
+          description: Whether the user has been deleted from the source.
+          tests:
+            - not_null
+
         - name: analytics_id
           description: Foreign key referring to web analytics data.
 

@@ -80,6 +80,7 @@ final as (
         social.social_profile_name,
 
         users.is_validated,
+        users.is_deleted,
         ifnull(social.is_active, false) as is_social_profile_active,
 
         users.registered_at,

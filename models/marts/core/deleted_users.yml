@@ -1,8 +1,10 @@
 version: 2
 
 models:
-    - name: stg_users
-      columns:
+  - name: deleted_users
+    description: Set of users that have been deleted. We've made our best to exclude
+      users that have been marked as phishing.
+    columns:
         - name: user_id
           description: Primary key for users.
           tests:
@@ -17,26 +19,18 @@ models:
 
         - name: sector
           description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
 
         - name: broad_sector
           description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
 
         - name: role_code
           description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
 
         - name: role
           description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null
 
         - name: broad_role
           description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-          tests:
-            - not_null
 
         - name: country
           description: Country (ISO code).
@@ -71,28 +65,11 @@ models:
         - name: linkedin_account
           description: Link to LinkedIn account.
 
-        - name: social_profile_name
-          description: Social Profiles alias & URL.
-
         - name: is_validated
           description: Whether the user has validated their account.
-
-        - name: is_deleted
-          description: Whether the user has been deleted from the source.
-
-        - name: is_social_profile_active
-          description: Whether the user's social profile is active or not.
-          tests:
-            - not_null
 
         - name: registered_at
           description: Registration date.
 
         - name: last_access_at
           description: Last access date.
-
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "broad_sector = sector"
-            condition: "broad_sector = '{{ var('not_selected') }}'
-              or sector = '{{ var('not_selected') }}'"
