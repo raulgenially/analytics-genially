@@ -2,22 +2,22 @@ version: 2
 
 models:
   - name: metrics_okrs_creations_active_users
-      description: This model computes the number of creations created during the last 28 day
-       and monthly active users.
-       Note that an active user is someone who logs into the Genially app.
-      columns:
-        - name: date_day
-          description: The particular day where users' activity is described.
-          tests:
-            - not_null
+    description: This model computes the number of creations created during the last 28 day
+     and monthly active users.
+     Note that an active user is someone who logs into the Genially app.
+    columns:
+      - name: date_day
+        description: The particular day where users' activity is described.
+        tests:
+          - not_null
 
-        - name: active_users
-          description: Number of active users in the last 28 days.
-          tests:
-            - not_null
+      - name: active_users
+        description: Number of active users in the last 28 days.
+        tests:
+          - not_null
 
-        - name: creations
-          description: Number of new creations in the last 28 days.
+      - name: creations
+        description: Number of new creations in the last 28 days.
 
-        - name: kr
-          description: Number of new creations divided by active users. Time period of 28 days.
+      - name: kr
+        description: Number of new creations divided by active users. Time period of 28 days.

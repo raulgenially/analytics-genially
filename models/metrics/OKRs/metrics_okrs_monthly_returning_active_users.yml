@@ -2,15 +2,15 @@ version: 2
 
 models:
   - name: metrics_okrs_monthly_returning_active_users
-      description: This model computes the number of monthly returning active users for OKRs purpose.
-        Note that an active user is someone who logs into the Genially app.
-      columns:
-        - name: date_day
-          description: The particular day where user's activity is described.
-          tests:
-            - not_null
+    description: This model computes the number of monthly returning active users for OKRs purpose.
+      Note that an active user is someone who logs into the Genially app.
+    columns:
+      - name: date_day
+        description: The particular day where user's activity is described.
+        tests:
+          - not_null
 
-        - name: n_returning_active_users_28d
-          description: Number of monthly returning active users in the last 28 days.
-          tests:
-            - not_null
+      - name: n_returning_active_users_28d
+        description: Number of monthly returning active users in the last 28 days.
+        tests:
+          - not_null

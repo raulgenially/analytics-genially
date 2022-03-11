@@ -2,24 +2,24 @@ version: 2
 
 models:
   - name: metrics_okrs_oneday_users
-      description: This model computes the percentage of signups who signed up during the last 28 days and didn't log in
-       again within that temporal window over total signups users.
-      columns:
-        - name: date_day
-          description: The particular day where users' activity is described.
-          tests:
-            - not_null
+    description: This model computes the percentage of signups who signed up during the last 28 days and didn't log in
+     again within that temporal window over total signups users.
+    columns:
+      - name: date_day
+        description: The particular day where users' activity is described.
+        tests:
+          - not_null
 
-        - name: oneday_users
-          description: Number of signups who signed up during the last 28 days and didn't log in again within that
-            temporal window.
-          tests:
-            - not_null
+      - name: oneday_users
+        description: Number of signups who signed up during the last 28 days and didn't log in again within that
+          temporal window.
+        tests:
+          - not_null
 
-        - name: signup_users
-          description: Number of signups in the last 28 days.
-          tests:
-            - not_null
+      - name: signup_users
+        description: Number of signups in the last 28 days.
+        tests:
+          - not_null
 
-        - name: kr
-          description: Percentage of one day users over total signups. Time period of 28 days.
+      - name: kr
+        description: Percentage of one day users over total signups. Time period of 28 days.
