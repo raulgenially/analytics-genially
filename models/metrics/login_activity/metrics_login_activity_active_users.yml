@@ -109,6 +109,18 @@ models:
           description: Number of monthly active users in the last 28 days.
           tests:
             - not_null
+
+        - name: n_creations
+          description: Number of geniallys created.
+          tests:
+            - not_null
+
+        - name: n_weekly_creations
+          description: Number of geniallys created in the last 7 days.
+
+        - name: n_monthly_creations
+          description: Number of geniallys created in the last 28 days.
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "n_daily_active_users <= n_weekly_active_users"

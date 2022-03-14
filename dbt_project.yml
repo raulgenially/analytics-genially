@@ -23,6 +23,8 @@ vars:
   the_distant_future: '3000-01-01'
   # Date we started tracking user state history
   snapshot_users_start_date: '2021-12-20'
+  # Initial date of OKRs analysis
+  start_date_of_analysis_OKR: '2022-01-01'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'

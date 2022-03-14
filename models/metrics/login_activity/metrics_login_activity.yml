@@ -96,6 +96,17 @@ models:
             - dbt_utils.expression_is_true:
                 expression: ">= 0"
 
+        - name: n_creations
+          description: Number of geniallys created.
+          tests:
+            - not_null
+
+        - name: n_creations_7d
+          description: Number of geniallys created considering a weekly time period.
+
+        - name: n_creations_28d
+          description: Number of geniallys created considering a monthly time period.
+
         - name: is_active
           description: Whether or not the user is active on date_day, that is, if the user has logged in.
           tests:
@@ -176,3 +187,8 @@ models:
       - dbt_utils.expression_is_true:
           expression: "status = 'Churned'"
           condition: "status_7d = 'Churned'"
+
+      - dbt_utils.expression_is_true:
+          expression: "is_active = true"
+          condition: "n_creations > 0"
+          severity: warn
