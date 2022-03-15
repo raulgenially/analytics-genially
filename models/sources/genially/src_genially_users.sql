@@ -39,6 +39,7 @@ final as (
         registered_at,
         last_access_at,
         email_validation_created_at,
+        __hevo__ingested_at as updated_at,
 
     from users
 )

@@ -91,6 +91,9 @@ models:
         - name: last_access_at
           description: Last access date.
 
+        - name: updated_at
+          description: Timestamp when the record was updated.
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "broad_sector = sector"

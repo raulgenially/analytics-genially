@@ -105,6 +105,9 @@ models:
         - name: email_validation_created_at
           description: Date the validation email was sent.
 
+        - name: updated_at
+          description: Timestamp when the record was updated.
+
       tests:
         - dbt_utils.expression_is_true:
             expression: "date(last_access_at) >= date(registered_at)"

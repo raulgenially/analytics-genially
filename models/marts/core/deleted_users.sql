@@ -42,7 +42,9 @@ final as (
 
         is_validated,
 
-        last_access_at
+        registered_at,
+        last_access_at,
+        updated_at as deleted_at
 
     from users_cleaned
 )
