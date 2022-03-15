@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: miscellaneous
+    description: Miscellaneous tables that come from different sources and
+      don't fall into a particular category.
+    database: data-genially
+    tables:
+      - name: phishing_users
+        columns:
+          - name: user_id
+            description: Primary key for phishing users.
+            tests:
+              - unique
+              - not_null

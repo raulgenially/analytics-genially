@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: src_miscellaneous_phishing_users
+    description: List of users that have been tagged as phishing and removed from the platform.
+    columns:
+      - name: user_id
+        description: Primary key for phishing users.
+        tests:
+          - unique
+          - not_null
+
+      - name: reported_at
+        description: Date at which the users were reported to be phishing.
+        tests:
+          - not_null

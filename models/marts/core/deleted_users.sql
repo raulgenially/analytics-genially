@@ -4,7 +4,7 @@ with users as (
 ),
 
 phishing as (
-    select * from {{ ref('seed_phishing_users') }}
+    select * from {{ ref('src_miscellaneous_phishing_users') }}
 ),
 
 users_cleaned as (
