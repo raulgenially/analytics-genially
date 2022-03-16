@@ -1,6 +1,6 @@
 with source as (
     select * from {{ source('genially', 'users') }}
-    where email is not null and dateregister is not null
+    where email is not null
 ),
 
 users as (
@@ -42,6 +42,11 @@ final as (
         __hevo__ingested_at as updated_at,
 
     from users
+    where __hevo__marked_deleted = false
+        or (
+            __hevo__marked_deleted = true
+            and registered_at is not null
+        )
 )
 
 select * from final

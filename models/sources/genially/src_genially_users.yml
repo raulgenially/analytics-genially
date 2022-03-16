@@ -107,6 +107,8 @@ models:
 
         - name: updated_at
           description: Timestamp when the record was updated.
+          tests:
+            - not_null
 
       tests:
         - dbt_utils.expression_is_true:
