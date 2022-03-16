@@ -34,8 +34,8 @@ last_plan as (
 plan_dates as (
     select
         date(dates.date_day) as date_day,
-        countif(subscription='Free') as f_users,
-        countif(subscription='Premium') as p_users
+        countif(subscription='Free') as free_users,
+        countif(subscription='Premium') as premium_users
 
     from dates
     left join last_plan
@@ -47,7 +47,9 @@ final as (
     select
         *,
         -- to facilite the visualization and understanding of the metric we consider premium users per 10000 free users
-        safe_divide(p_users,f_users) * 10000 as kr
+        safe_multiply(
+            safe_divide(premium_users, free_users),
+             10000) as kr
 
     from plan_dates
 )
