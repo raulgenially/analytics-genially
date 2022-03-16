@@ -31,7 +31,7 @@ last_plan as (
     where __seqnum = 1
 ),
 
-final as (
+plan_dates as (
     select
         date(dates.date_day) as date_day,
         countif(subscription='Free') as f_users,
@@ -41,6 +41,15 @@ final as (
     left join last_plan
         on date(dates.date_day) between date(last_plan.started_at) and date(last_plan.finished_at)
     group by 1
+),
+
+final as (
+    select
+        *,
+        -- to facilite the visualization and understanding of the metric we consider premium users per 10000 free users
+        safe_divide(p_users,f_users) * 10000 as kr
+
+    from plan_dates
 )
 
 select * from final
