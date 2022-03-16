@@ -1,4 +1,11 @@
  -- The creation date of a genially should be greather than user's registration date.
+ -- TODO: https://github.com/Genially/scrum-genially/issues/9153
+{{
+    config(
+        severity="warn",
+    )
+}}
+
 with geniallys as (
     select * from {{ ref('geniallys') }}
 ),
@@ -17,9 +24,9 @@ final as (
     from geniallys
     inner join users
         on geniallys.user_id = users.user_id
-    where geniallys.created_at < users.registered_at 
+    where geniallys.created_at < users.registered_at
         and geniallys.is_deleted = false
-        and geniallys.is_created_before_registration = false
+        and users.registered_at > '2021-01-01'
     order by users.registered_at desc
 )
 

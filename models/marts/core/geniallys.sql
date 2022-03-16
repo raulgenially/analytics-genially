@@ -40,12 +40,6 @@ final as (
         geniallys.is_visualized_last_60_days,
         geniallys.is_visualized_last_30_days,
         geniallys.is_collaborative,
-        -- In some cases creation date < registration date
-        case
-            when geniallys.created_at is null or users.registered_at is null
-                then null
-            else geniallys.created_at < users.registered_at
-        end as is_created_before_registration,
 
         geniallys.user_id,
         geniallys.reused_from_id,

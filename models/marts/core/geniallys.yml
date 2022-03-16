@@ -161,9 +161,6 @@ models:
           tests:
             - not_null
 
-        - name: is_created_before_registration
-          description: Whether the genially has been created before registration date.
-
         - name: user_id
           description: Foreign key referring to the user creating the genially.
           tests:
