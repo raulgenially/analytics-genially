@@ -89,11 +89,6 @@ models:
           tests:
             - not_null
 
-        - name: is_deleted
-          description: Whether the genially has been physically deleted.
-          tests:
-            - not_null
-
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
             When a Team is disabled, so do all geniallys within the team.

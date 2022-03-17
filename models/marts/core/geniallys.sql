@@ -29,7 +29,6 @@ final as (
         geniallys.is_from_premium_template,
         geniallys.is_published,
         geniallys.is_active,
-        geniallys.is_deleted,
         geniallys.is_disabled,
         geniallys.is_private,
         geniallys.is_password_free,

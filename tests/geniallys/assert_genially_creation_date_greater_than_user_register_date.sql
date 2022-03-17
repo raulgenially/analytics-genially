@@ -25,7 +25,7 @@ final as (
     inner join users
         on geniallys.user_id = users.user_id
     where geniallys.created_at < users.registered_at
-        and geniallys.is_deleted = false
+        and geniallys.is_active = true
         and users.registered_at > '2021-01-01'
     order by users.registered_at desc
 )
