@@ -18,31 +18,8 @@ The job definition is in `cloudbuild.yaml` and it has two main parts:
 
 ### Slack notifications
 
-Slack notifications are enabled for this trigger, although we will only get notified when the build fails
-or times out. This service is executed in Cloud Run from a docker image that google provides and whose config
-file is in `slacknotifier.yaml`. This file also lives in a Cloud Storage bucket
-(`gs://data-genially_cloudbuild/notifications/slacknotifier.yaml`) and should be kept in sync with the file here.
-
-If you want to modify `slacknotifier.yaml` you need to:
-
-- Upload the file to Cloud Storage:
-
-```bash
-gsutil cp deployments/prod/slacknotifier.yaml gs://data-genially_cloudbuild/notifications/slacknotifier.yaml
-```
-
-- Deploy the service:
-
-```bash
-gcloud run deploy dbt-prod-build-slack-notifier \
-   --image=us-east1-docker.pkg.dev/gcb-release/cloud-build-notifiers/slack:latest \
-   --no-allow-unauthenticated \
-   --region=europe-west1 \
-   --update-env-vars=CONFIG_PATH=gs://data-genially_cloudbuild/notifications/slacknotifier.yaml,PROJECT_ID=data-genially
-```
-
-The setup process of Slack notifications from scratch involves a few extra steps, to see them checkout
-[google's guide](https://cloud.google.com/build/docs/configuring-notifications/configure-slack).
+Slack notifications are enabled for cloud build triggers. See
+[this](https://github.com/Genially/data-cloud-build-notifier) repo for more info.
 
 ### Testing `cloudbuild.yaml`
 
@@ -56,4 +33,3 @@ command to manually submit builds to Cloud build. From the root of the project y
 ### Additional resources
 
 [[Link](https://cloud.google.com/build/docs/automating-builds/create-manage-triggers)] - How to create a build trigger \
-[[Link](https://cloud.google.com/build/docs/configuring-notifications/configure-slack)] - Configuring slack notifications
