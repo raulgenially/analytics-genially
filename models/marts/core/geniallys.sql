@@ -35,9 +35,6 @@ final as (
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,
-        geniallys.is_visualized_last_90_days,
-        geniallys.is_visualized_last_60_days,
-        geniallys.is_visualized_last_30_days,
         geniallys.is_collaborative,
 
         geniallys.user_id,
