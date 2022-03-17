@@ -1,5 +1,10 @@
-with users as (
-    {{ create_base_user_model(source_dataset='genially', source_table='users') }}
+with source as (
+    select * from {{ source('genially', 'users') }}
+    where email is not null
+),
+
+users as (
+    {{ create_base_user_model(source_cte='source') }}
 ),
 
 final as (
@@ -27,14 +32,21 @@ final as (
         about_me,
 
         is_validated,
+        __hevo__marked_deleted as is_deleted,
 
         analytics_id,
 
         registered_at,
         last_access_at,
         email_validation_created_at,
+        __hevo__ingested_at as updated_at,
 
     from users
+    where __hevo__marked_deleted = false
+        or (
+            __hevo__marked_deleted = true
+            and registered_at is not null
+        )
 )
 
 select * from final

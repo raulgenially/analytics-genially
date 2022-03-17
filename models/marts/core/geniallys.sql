@@ -4,6 +4,7 @@ with geniallys as (
 
 users as (
     select * from {{ ref('stg_users') }}
+    where is_deleted = false
 ),
 
 final as (

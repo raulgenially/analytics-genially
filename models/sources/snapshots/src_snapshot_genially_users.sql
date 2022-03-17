@@ -1,10 +1,10 @@
-with users as (
-    {{
-        create_base_user_model(
-            source_dataset='snapshots',
-            source_table='snapshot_genially_users'
-        )
-    }}
+with source as (
+    select * from {{ source('snapshots', 'snapshot_genially_users') }}
+    where email is not null
+),
+
+users as (
+    {{ create_base_user_model(source_cte='source') }}
 ),
 
 final as (

@@ -86,6 +86,11 @@ models:
           tests:
             - not_null
 
+        - name: is_deleted
+          description: Whether the user has been deleted from the source.
+          tests:
+            - not_null
+
         - name: analytics_id
           description: Foreign key referring to web analytics data.
 
@@ -99,6 +104,11 @@ models:
 
         - name: email_validation_created_at
           description: Date the validation email was sent.
+
+        - name: updated_at
+          description: Timestamp when the record was updated.
+          tests:
+            - not_null
 
       tests:
         - dbt_utils.expression_is_true:
