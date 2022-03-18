@@ -16,26 +16,21 @@ user_plan as (
 ),
 
 last_plan as (
-    with numbered as (
-        select
-            *,
-            row_number() over (
-                partition by user_id, date(started_at) order by started_at desc
-            ) as __seqnum
-
-        from user_plan
-    )
-
-    select *
-    from numbered
-    where __seqnum = 1
+    {{
+        unique_records_by_column(
+            cte='user_plan',
+            unique_column='user_id, date(started_at)',
+            order_by='started_at',
+            dir='desc',
+            )
+    }}
 ),
 
 plan_dates as (
     select
         date(dates.date_day) as date_day,
-        countif(subscription='Free') as free_users,
-        countif(subscription='Premium') as premium_users
+        countif(last_plan.subscription = 'Free') as free_users,
+        countif(last_plan.subscription = 'Premium') as premium_users
 
     from dates
     left join last_plan

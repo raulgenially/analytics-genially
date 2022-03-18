@@ -8,6 +8,7 @@ models:
         description: The particular day where kr is described.
         tests:
           - not_null
+          - unique
 
       - name: free_users
         description: Total number of free users.
