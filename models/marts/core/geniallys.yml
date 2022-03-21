@@ -145,21 +145,20 @@ models:
         tests:
           - not_null:
               where: "space_id is not null and is_active = true"
-          - dbt_utils.relationships_where:
+          - relationships:
               to: ref('teams')
               field: team_id
-              from_condition: is_active = true
+              where: is_active = true
 
       - name: space_id
         description: Id of the space this genially is part of.
         tests:
           - not_null:
               where: "team_id is not null and is_active = true"
-          - dbt_utils.relationships_where:
+          - relationships:
               to: ref('team_spaces')
               field: team_space_id
-              from_condition: is_active = true
-              severity: warn
+              where: is_active = true
 
       - name: created_at
         description: Creation date.
