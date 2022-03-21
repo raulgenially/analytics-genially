@@ -37,4 +37,4 @@ models:
     tests:
       - dbt_utils.expression_is_true:
           expression: user_owner_id != user_id
-          severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8390
+          condition: collaboration_type = 1
