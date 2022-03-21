@@ -15,7 +15,7 @@ collaboratives as (
         genially_id,
         collaboration_type
 
-    from {{ ref('int_stg_cleaned_collaboratives') }}
+    from {{ ref('src_genially_collaboratives') }}
 ),
 
 genially_templates as (
