@@ -18,12 +18,13 @@ active_users as (
 final as (
     select
         date(dates.date_day) as date_day,
+        active_users.role,
         sum(active_users.n_returning_users_28d) as n_returning_active_users_28d
 
     from dates
     left join active_users
         on date(dates.date_day) = active_users.date_day
-    group by 1
+    {{ dbt_utils.group_by(n=2) }}
 )
 
 select * from final

@@ -10,6 +10,11 @@ models:
         tests:
           - not_null
 
+      - name: role
+        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        tests:
+          - not_null
+
       - name: n_returning_active_users_28d
         description: Number of monthly returning active users in the last 28 days.
         tests:
