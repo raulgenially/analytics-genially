@@ -22,7 +22,7 @@ last_plan as (
             unique_column='user_id, date(started_at)',
             order_by='started_at',
             dir='desc',
-            )
+        )
     }}
 ),
 
@@ -44,7 +44,8 @@ final as (
         -- to facilite the visualization and understanding of the metric we consider premium users per 10000 free users
         safe_multiply(
             safe_divide(premium_users, free_users),
-             10000) as kr
+            10000
+        ) as kr
 
     from plan_dates
 )
