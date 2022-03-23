@@ -15,30 +15,19 @@ user_plan as (
     select * from {{ ref('user_plan_history') }}
 ),
 
-last_plan as (
-    {{
-        unique_records_by_column(
-            cte='user_plan',
-            unique_column='user_id, date(started_at)',
-            order_by='started_at',
-            dir='desc',
-        )
-    }}
-),
-
 plan_dates as (
     select
         date(dates.date_day) as date_day,
-        countif(last_plan.subscription = 'Free') as free_users,
-        countif(last_plan.subscription = 'Premium') as premium_users
+        countif(user_plan.subscription = 'Free') as free_users,
+        countif(user_plan.subscription = 'Premium') as premium_users
 
     from dates
-    left join last_plan
-        on date(dates.date_day) between date(last_plan.started_at) and
+    left join user_plan
+        on date(dates.date_day) between date(user_plan.started_at) and
         if (
-             format_datetime("%H:%M:%S", last_plan.finished_at) = "23:59:59",
-             date(last_plan.finished_at),
-             date(last_plan.finished_at) - 1
+             format_datetime("%H:%M:%S", user_plan.finished_at) = "23:59:59",
+             date(user_plan.finished_at),
+             date(user_plan.finished_at) - 1
         )
     group by 1
 ),
