@@ -20,8 +20,7 @@ preceding_plan_values as (
 
 final as (
     select * from preceding_plan_values
-    where preceding_plan != plan
-    and preceding_finished_at > started_at
+    where preceding_finished_at >= started_at
 )
 
 select * from final

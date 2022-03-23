@@ -34,7 +34,12 @@ plan_dates as (
 
     from dates
     left join last_plan
-        on date(dates.date_day) between date(last_plan.started_at) and date(last_plan.finished_at)
+        on date(dates.date_day) between date(last_plan.started_at) and
+        if (
+             format_datetime("%H:%M:%S", last_plan.finished_at) = "23:59:59",
+             date(last_plan.finished_at),
+             date(last_plan.finished_at) - 1
+        )
     group by 1
 ),
 
