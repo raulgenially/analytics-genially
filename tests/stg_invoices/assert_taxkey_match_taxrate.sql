@@ -12,10 +12,10 @@ invoices as (
 
 final as (
     select
-        invoices.tax_key,
-        invoices.tax_rate,
-        taxes.tax_key,
-        taxes.tax_rate
+        invoices.tax_key as invoice_tax_key,
+        invoices.tax_rate as invoice_tax_rate,
+        taxes.tax_key as taxes_tax_key,
+        taxes.tax_rate as taxes_tax_rate,
 
     from invoices
     left join taxes

@@ -165,7 +165,7 @@ models:
           condition: "status = 'Churned'"
 
       - dbt_utils.expression_is_true:
-          expression: "n_days_active_7d = 0"
+          expression: "n_days_active_7d = 0 and true"
           condition: "status_7d = 'Churned'"
 
       - dbt_utils.expression_is_true:
@@ -173,7 +173,7 @@ models:
           condition: "status_7d != 'Churned'"
 
       - dbt_utils.expression_is_true:
-          expression: "n_days_active_28d = 0"
+          expression: "n_days_active_28d = 0 and true"
           condition: "status_28d = 'Churned'"
 
       - dbt_utils.expression_is_true:

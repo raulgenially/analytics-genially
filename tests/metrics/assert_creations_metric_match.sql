@@ -29,8 +29,8 @@ creations_monthly_projections as (
 
 final as (
     select
-        creations_activity.n_creations,
-        creations_monthly_projections.n_creations
+        creations_activity.n_creations as activity_creations,
+        creations_monthly_projections.n_creations as monthly_projections_creations
 
     from creations_activity
     cross join creations_monthly_projections
