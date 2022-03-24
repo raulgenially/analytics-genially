@@ -29,21 +29,9 @@ models:
 
         - name: template_name
           description: Name of the template.
-          tests:
-            - not_null:
-                where: from_template_id is not null and is_active = true
-                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-                # We have geniallys with id_from_template of non-existent templates.
-                severity: warn
 
         - name: template_language
           description: Language of the template.
-          tests:
-            - not_null:
-                where: from_template_id is not null and is_active = true
-                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-                # We have geniallys with id_from_template of non-existent templates.
-                severity: warn
 
         - name: collaboration_type
           description: "{{ doc('collaboration_type') }}"
@@ -90,12 +78,6 @@ models:
         - name: is_from_premium_template
           description: Whether the template is premium.
             Premium templates can only be used in premium plans.
-          tests:
-            - not_null:
-                where: from_template_id is not null and is_active = true
-                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-                # We have geniallys with id_from_template of non-existent templates.
-                severity: warn
 
         - name: is_published
           description: Whether the genially has been published.
@@ -172,20 +154,11 @@ models:
         - name: reused_from_id
           description: Id of the original genially that this one is based on.
 
-        - name: from_template_id
-          description: Id of the template used for the creation of the genially.
-
         - name: template_to_view_id
           description: Id of the actual genially referring to this template when visualized. If we are dealing
             with the main template this will include the genially_id_to_view_id from the template model. If we
             are dealing with a color variation, it will include the genially_id_to_view_id attribute from the
             templatecolors model.
-          tests:
-            - not_null:
-                where: from_template_id is not null and is_active = true
-                #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-                # We have geniallys with id_from_template of non-existent templates.
-                severity: warn
 
         - name: team_id
           description: Id of the team this genially is part of.
@@ -207,12 +180,6 @@ models:
                 field: team_space_id
                 from_condition: is_active = true
                 severity: warn
-
-        - name: team_template_id
-          description: Id of the genially as a team template.
-
-        - name: from_team_template_id
-          description: Id of the team template used for the creation of the genially.
 
         - name: created_at
           description: Creation date.

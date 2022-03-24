@@ -43,11 +43,8 @@ final as (
 
         geniallys.user_id,
         geniallys.reused_from_id,
-        geniallys.from_template_id,
         geniallys.team_id,
         geniallys.space_id,
-        geniallys.team_template_id,
-        geniallys.from_team_template_id,
         geniallys.template_to_view_id,
 
         geniallys.created_at,
