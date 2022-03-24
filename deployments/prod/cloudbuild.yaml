@@ -26,7 +26,11 @@ steps:
   - COMMIT_SHA=$COMMIT_SHA
 
 - name: 'fishtownanalytics/dbt:1.0.0'
-  args: ['test']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      dbt test || dbt test -s result:fail --store-failures
 
 - name: 'fishtownanalytics/dbt:1.0.0'
   args: ['run-operation', 'cleanup_dataset']
@@ -35,5 +39,6 @@ timeout: 3600s # 1 hour
 options:
   env:
   - 'DBT_PROFILES_DIR=/workspace'
+  - 'DBT_ARTIFACT_STATE_PATH=target/'
 substitutions:
   _RUN_COMMAND: ''
