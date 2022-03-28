@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized="table",
+    )
+}}
+
 with source as (
     select * from {{ source('genially', 'users') }}
     where email is not null
@@ -39,7 +45,7 @@ final as (
         registered_at,
         last_access_at,
         email_validation_created_at,
-        __hevo__ingested_at as updated_at,
+        timestamp_millis(__hevo__ingested_at) as updated_at,
 
     from users
     where __hevo__marked_deleted = false
