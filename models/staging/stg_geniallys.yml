@@ -74,15 +74,6 @@ models:
         - name: is_active
           description: Whether the genially is active at the user dashboard.
 
-        - name: is_in_recyclebin
-          description: Whether the genially has been sent to the Recycle Bin.
-
-        - name: is_logically_deleted
-          description: Whether the genially has been deleted from the Recycle Bin.
-
-        - name: is_deleted
-          description: Whether the genially has been physically deleted.
-
         - name: is_disabled
           description: Indicates whether the genially has been disabled in the context of Teams.
             When a Team is disabled, so do all geniallys within the team.
@@ -101,21 +92,6 @@ models:
 
         - name: is_inspiration
           description: Whether the genially is shown in inspiration.
-
-        - name: is_visualized_last_90_days
-          description: Whether the genially has been visualized within the last 90 days.
-          tests:
-            - not_null
-
-        - name: is_visualized_last_60_days
-          description: Whether the genially has been visualized within the last 60 days.
-          tests:
-            - not_null
-
-        - name: is_visualized_last_30_days
-          description: Whether the genially has been visualized within the last 30 days.
-          tests:
-            - not_null
 
         - name: is_collaborative
           description: Whether the genially is collaborative.
@@ -145,9 +121,9 @@ models:
 
         - name: template_to_view_id
           description: Id of the actual genially referring to this template when visualized. If we are dealing
-            with the main template this will include the genially_id_to_view_id from the template model. If we
-            are dealing with a color variation, it will include the genially_id_to_view_id attribute from the
-            templatecolors model.
+            with the main template this will include the genially_to_view_id from the template model
+            (src_genially_templates). If we are dealing with a color variation, it will include the
+            genially_to_view_id attribute from the templatecolors model (src_genially_templatecolors).
           tests:
             - not_null:
                 where: from_template_id is not null and is_active = true
@@ -177,11 +153,3 @@ models:
         - dbt_utils.expression_is_true:
             expression: "category != 'Other'"
             condition: "template_type is not null"
-
-        - dbt_utils.expression_is_true:
-            expression: "is_visualized_last_60_days = true and is_visualized_last_90_days = true"
-            condition: "is_visualized_last_30_days = true"
-
-        - dbt_utils.expression_is_true:
-            expression: "is_visualized_last_90_days = true"
-            condition: "is_visualized_last_60_days = true"

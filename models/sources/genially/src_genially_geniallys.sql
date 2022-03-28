@@ -14,9 +14,6 @@ final as (
 
         ifnull(published, false) as is_published,
         not ifnull(deleted, false) and __hevo__marked_deleted = false and datedisabled is null as is_active,
-        ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) < 30 as is_in_recyclebin,
-        ifnull(deleted, false) and __hevo__marked_deleted = false and date_diff(current_timestamp(), datedeleted, day) >= 30 as is_logically_deleted,
-        __hevo__marked_deleted as is_deleted,
         if(datedisabled is not null, true, false) as is_disabled,
         ifnull(noindex, false) as is_private,
         ifnull(public, false) as is_password_free,
