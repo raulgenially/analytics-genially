@@ -51,12 +51,13 @@ signups as (
         {{ create_subscription_field('plan') }} as subscription,
         country,
         country_name,
+        broad_sector,
         -- Metrics
         count(user_id) as n_signups
 
     from users
     where date(registered_at) >= {{ min_date }} -- Only focus on signups from min_date on
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 ),
 
 --reference_signups
@@ -68,6 +69,7 @@ metrics1 as (
         reference_table.subscription,
         reference_table.country,
         reference_table.country_name,
+        reference_table.broad_sector,
         --Metrics
         coalesce(signups.n_signups, 0) as n_signups
 
@@ -78,6 +80,7 @@ metrics1 as (
             and reference_table.subscription = signups.subscription
             and reference_table.country = signups.country
             and reference_table.country_name = signups.country_name
+            and reference_table.broad_sector = signups.broad_sector
 ),
 
 creations as(
@@ -88,12 +91,13 @@ creations as(
         {{ create_subscription_field('user_plan') }} as user_subscription,
         user_country,
         user_country_name,
+        user_broad_sector,
         -- Metrics
         count(genially_id) as n_creations
 
     from geniallys
     where date(created_at) >= {{ min_date }}
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 ),
 
 metrics2 as (
@@ -104,6 +108,7 @@ metrics2 as (
         metrics1.subscription,
         metrics1.country,
         metrics1.country_name,
+        metrics1.broad_sector,
         --Metrics
         metrics1.n_signups,
         coalesce(creations.n_creations, 0) as n_creations
@@ -115,6 +120,7 @@ metrics2 as (
             and metrics1.subscription = creations.user_subscription
             and metrics1.country = creations.user_country
             and metrics1.country_name = creations.user_country_name
+            and metrics1.broad_sector = creations.user_broad_sector
 ),
 
 creators_usersfromgeniallys as (
@@ -184,6 +190,7 @@ new_creators as (
         {{ create_subscription_field('users.plan') }} as subscription,
         users.country,
         users.country_name,
+        users.broad_sector,
         -- Metrics
         count(distinct users.user_id) as n_new_creators
 
@@ -192,7 +199,7 @@ new_creators as (
         on totalcreators.user_id = users.user_id
     where date(totalcreators.first_creation_at) >= {{ min_date }}
         and users.registered_at is not null
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 ),
 
 metrics3 as (
@@ -203,6 +210,7 @@ metrics3 as (
         metrics2.subscription,
         metrics2.country,
         metrics2.country_name,
+        metrics2.broad_sector,
         --Metrics
         metrics2.n_signups,
         metrics2.n_creations,
@@ -215,6 +223,7 @@ metrics3 as (
         and metrics2.subscription = new_creators.subscription
         and metrics2.country = new_creators.country
         and metrics2.country_name = new_creators.country_name
+        and metrics2.broad_sector = new_creators.broad_sector
 ),
 
 new_creators_registered_same_day as (
@@ -225,6 +234,7 @@ new_creators_registered_same_day as (
         {{ create_subscription_field('users.plan') }} as subscription,
         users.country,
         users.country_name,
+        users.broad_sector,
         -- Metrics
         count(users.user_id) as n_new_creators_registered_same_day
 
@@ -233,7 +243,7 @@ new_creators_registered_same_day as (
         on totalcreators.user_id = users.user_id
         and date(totalcreators.first_creation_at) = date(users.registered_at)
     where date(totalcreators.first_creation_at) >= {{ min_date }}
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 ),
 
 metrics4 as (
@@ -244,6 +254,7 @@ metrics4 as (
         metrics3.subscription,
         metrics3.country,
         metrics3.country_name,
+        metrics3.broad_sector,
         --Metrics
         metrics3.n_signups,
         metrics3.n_creations,
@@ -258,6 +269,7 @@ metrics4 as (
         and metrics3.subscription = new_creators_registered_same_day.subscription
         and metrics3.country = new_creators_registered_same_day.country
         and metrics3.country_name = new_creators_registered_same_day.country_name
+        and metrics3.broad_sector = new_creators_registered_same_day.broad_sector
 ),
 
 user_logins_profile as (
@@ -268,7 +280,8 @@ user_logins_profile as (
         users.plan,
         users.subscription,
         users.country,
-        users.country_name
+        users.country_name,
+        users.broad_sector
 
     from logins
     left join users
@@ -284,11 +297,12 @@ total_visitors as (
         subscription,
         country,
         country_name,
+        broad_sector,
         --Metrics
         count(user_id) as n_total_visitors
 
     from user_logins_profile
-    {{ dbt_utils.group_by(n=5) }}
+    {{ dbt_utils.group_by(n=6) }}
 ),
 
 metrics5 as (
@@ -299,6 +313,7 @@ metrics5 as (
         metrics4.subscription,
         metrics4.country,
         metrics4.country_name,
+        metrics4.broad_sector,
         --Metrics
         metrics4.n_signups,
         metrics4.n_creations,
@@ -318,6 +333,7 @@ metrics5 as (
         and metrics4.subscription = total_visitors.subscription
         and metrics4.country = total_visitors.country
         and metrics4.country_name = total_visitors.country_name
+        and metrics4.broad_sector = total_visitors.broad_sector
 
 ),
 

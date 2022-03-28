@@ -1,4 +1,5 @@
--- This macro returns a reference table with all combinations of calendar dates (from min_date to current date) and the dimensions: plans, subscriptions, countrys and country names.
+-- This macro returns a reference table with all combinations of calendar dates (from min_date to current date) and the
+-- dimensions: plans, subscriptions, countrys, country names and broad_sector.
 -- It is useful for metrics model to report all possible combinations not just the ones having place.
 -- It should be the starting table, and then metrics should be added using left join to it.
 {% macro get_combination_calendar_dimensions(min_date) %}
@@ -24,6 +25,12 @@ country_codes as (
         '{{ var('not_selected') }}' as name
 ),
 
+broad_sector as (
+    select
+        distinct agg_sector
+    from {{ ref('seed_new_sector_codes') }}
+),
+
 dates_plan as (
     select
         date(dates.date_day) as date_day,
@@ -34,7 +41,7 @@ dates_plan as (
     cross join plans
 ),
 
-reference_table as (
+dates_plan_country as (
     select
         dates_plan.date_day,
         dates_plan.plan,
@@ -44,6 +51,20 @@ reference_table as (
 
     from dates_plan
     cross join country_codes
+),
+
+reference_table as (
+    select
+        dates_plan_country.date_day,
+        dates_plan_country.plan,
+        dates_plan_country.subscription,
+        dates_plan_country.country,
+        dates_plan_country.country_name,
+        broad_sector.agg_sector as broad_sector
+
+    from dates_plan_country
+    cross join broad_sector
+
 )
 
 select * from reference_table
