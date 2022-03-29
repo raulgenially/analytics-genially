@@ -29,6 +29,16 @@ broad_sector as (
     select
         distinct agg_sector
     from {{ ref('seed_new_sector_codes') }}
+    union all
+    select
+        '{{ var('not_selected') }}' as agg_sector
+
+),
+
+broad_role as (
+    select
+        distinct broad_role
+    from {{ ref('users') }}
 ),
 
 dates_plan as (

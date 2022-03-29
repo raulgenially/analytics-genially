@@ -6,7 +6,8 @@ lag( {{ metric }}, {{ days }} ) over (
                 subscription,
                 country,
                 country_name,
-                broad_sector
+                broad_sector,
+                broad_role
             order by date_day asc
         )
 
