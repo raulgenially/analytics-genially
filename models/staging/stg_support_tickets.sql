@@ -20,7 +20,6 @@ final as (
     select
         id,
 
-        agent_name,
         type,
         source,
         source_label,

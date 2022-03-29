@@ -14,18 +14,12 @@ priorities as (
     select * from {{ ref('seed_freshdesk_ticket_priorities') }}
 ),
 
-agents as (
-    select * from {{ ref('seed_freshdesk_ticket_agents') }}
-),
-
-
 base_tickets as (
     select
         tickets.*,
         sources.name as source_label,
         statuses.name as status_label,
         priorities.name as priority_label,
-        agents.name as agent_name,
 
     from tickets
     left join sources
@@ -34,15 +28,12 @@ base_tickets as (
         on tickets.status = statuses.code
     left join priorities
         on tickets.priority = priorities.code
-    left join agents
-        on tickets.responder_id = agents.code
 ),
 
 final as (
     select
         id,
 
-        agent_name,
         type,
         source,
         source_label,

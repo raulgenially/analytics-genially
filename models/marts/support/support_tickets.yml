@@ -10,9 +10,6 @@ models:
           - unique
           - not_null
 
-      - name: agent_name
-        description: Name of the agent who handled the ticket.
-
       - name: type
         description: This field categorizes the ticket according to the different kinds
           of issues our support team deals with.
@@ -48,19 +45,6 @@ models:
       - name: group_name
         description: Name of the group to which the ticket has been assigned.
 
-      - name: contact_sector
-        description: Sector of the person who opened the ticket, as long as it is done with a registered email address.
-
-      - name: contact_role
-        description: Role of the person who opened the ticket, as long as it is done with a registered email address.
-
-      - name: contact_language
-        description: Used language of the person who opened the ticket.
-
-      - name: contact_plan
-        description: Genially Plan of the person who opened the ticket,
-          as long as it is done with a registered email address.
-
       - name: contact_id
         description: ID of the contact creating the ticket.
 
@@ -90,6 +74,3 @@ models:
 
       - name: closed_at
         description: Ticket closed timestamp.
-
-      - name: contact_registered_at
-        description: Date contact signed up in Genially.
