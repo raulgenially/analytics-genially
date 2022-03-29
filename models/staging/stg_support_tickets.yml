@@ -10,6 +10,9 @@ models:
           - unique
           - not_null
 
+      - name: agent_name
+        description: Name of the agent who handled the ticket.
+
       - name: type
         description: This field categorizes the ticket according to the different kinds
           of issues our support team deals with.
