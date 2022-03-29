@@ -15,7 +15,6 @@ agents as (
     select * from {{ ref('seed_freshdesk_ticket_agents') }}
 ),
 
-
 base_tickets as (
     select
         tickets.*,
