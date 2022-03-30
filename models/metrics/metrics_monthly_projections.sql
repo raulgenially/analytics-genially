@@ -48,7 +48,7 @@ signups as (
         -- Dimensions
         date(registered_at) as registered_at,
         plan,
-        {{ create_subscription_field('plan') }} as subscription,
+        subscription,
         country,
         country_name,
         broad_sector,
@@ -193,7 +193,7 @@ new_creators as (
         --Dimensions
         date(totalcreators.first_creation_at) as first_creation_at,
         users.plan,
-        {{ create_subscription_field('users.plan') }} as subscription,
+        users.subscription,
         users.country,
         users.country_name,
         users.broad_sector,
@@ -240,7 +240,7 @@ new_creators_registered_same_day as (
         --Dimensions
         date(first_creation_at) as first_creation_at,
         users.plan,
-        {{ create_subscription_field('users.plan') }} as subscription,
+        users.subscription,
         users.country,
         users.country_name,
         users.broad_sector,
