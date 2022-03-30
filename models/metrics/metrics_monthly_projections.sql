@@ -126,7 +126,7 @@ metrics2 as (
             and metrics1.country = creations.user_country
             and metrics1.country_name = creations.user_country_name
             and metrics1.broad_sector = creations.user_broad_sector
-            and metrics1.broad_role = creations.broad_role
+            and metrics1.broad_role = creations.user_broad_role
 ),
 
 creators_usersfromgeniallys as (

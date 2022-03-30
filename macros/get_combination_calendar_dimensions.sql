@@ -25,19 +25,9 @@ country_codes as (
         '{{ var('not_selected') }}' as name
 ),
 
-broad_sector as (
+broad_sector_role as (
     select
-        distinct agg_sector
-    from {{ ref('seed_new_sector_codes') }}
-    union all
-    select
-        '{{ var('not_selected') }}' as agg_sector
-
-),
-
-broad_role as (
-    select
-        distinct broad_role
+        distinct broad_sector, broad_role
     from {{ ref('users') }}
 ),
 
@@ -70,11 +60,11 @@ reference_table as (
         dates_plan_country.subscription,
         dates_plan_country.country,
         dates_plan_country.country_name,
-        broad_sector.agg_sector as broad_sector
+        broad_sector_role.broad_sector,
+        broad_sector_role.broad_role
 
     from dates_plan_country
-    cross join broad_sector
-
+    cross join broad_sector_role
 )
 
 select * from reference_table
