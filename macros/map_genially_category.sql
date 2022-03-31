@@ -1,5 +1,5 @@
 {% macro map_genially_category(template_type, genially_type) %}
-    case 
+    case
         when {{ template_type }} = 'template-presentation'
             then 'Presentation'
         when {{ template_type }} in ('template-dossier', 'template-reporting', 'template-sales')

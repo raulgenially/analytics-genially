@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: metrics_teams_brand_usage
       description: Model containing info as to team's configuration.
       columns:

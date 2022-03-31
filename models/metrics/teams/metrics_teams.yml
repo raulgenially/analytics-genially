@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: metrics_teams
       description: Model containing info as to creations and spaces in teams.
       columns:

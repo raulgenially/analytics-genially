@@ -1,6 +1,6 @@
 version: 2
 
-models:  
+models:
     - name: metrics_users_in_funnel
       description: Model containing number of users for different stages of the funnel.
       columns:

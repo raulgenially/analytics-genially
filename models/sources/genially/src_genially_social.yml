@@ -9,12 +9,12 @@ models:
           tests:
             - unique
             - not_null
-        
+
         - name: is_active
           description: Social Profiles current status.
           tests:
             - not_null
-        
+
         - name: social_profile_name
           description: Social Profiles alias & URL.
 
