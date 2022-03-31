@@ -1,12 +1,15 @@
 with tickets as (
     select * from {{ source('freshdesk', 'tickets') }}
 ),
+
 sources as (
     select * from {{ ref('seed_freshdesk_ticket_sources') }}
 ),
+
 statuses as (
     select * from {{ ref('seed_freshdesk_ticket_statuses') }}
 ),
+
 priorities as (
     select * from {{ ref('seed_freshdesk_ticket_priorities') }}
 ),

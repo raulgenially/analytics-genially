@@ -64,6 +64,9 @@ models:
       - name: contact_id
         description: ID of the contact creating the ticket.
 
+      - name: user_id
+        description: ID of the user creating the ticket if registered.
+
       - name: group_id
         description: ID of the group to which the ticket has been assigned.
 
