@@ -116,11 +116,11 @@ models:
           - not_null
 
     tests:
-    - dbt_utils.expression_is_true:
-        expression: "n_activated_users + n_inactivated_users = n_previous_new_users"
+      - dbt_utils.expression_is_true:
+          expression: "n_activated_users + n_inactivated_users = n_previous_new_users"
 
-    - dbt_utils.expression_is_true:
-        expression: "n_retained_users + n_churned_users = n_previous_returnings_users"
+      - dbt_utils.expression_is_true:
+          expression: "n_retained_users + n_churned_users = n_previous_returnings_users"
 
-    - dbt_utils.expression_is_true:
-        expression: "n_resurrected_users + n_hibernated_users  = n_previous_churned_users"
+      - dbt_utils.expression_is_true:
+          expression: "n_resurrected_users + n_hibernated_users  = n_previous_churned_users"
