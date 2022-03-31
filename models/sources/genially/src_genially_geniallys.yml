@@ -81,6 +81,10 @@ models:
 
       - name: reused_from_id
         description: Id of the original genially that this one is based on.
+        tests:
+          - relationships:
+              to: ref('src_genially_geniallys')
+              field: genially_id
 
       - name: from_template_id
         description: Id of the template used for the creation of the genially.
