@@ -35,6 +35,16 @@ models:
           tests:
             - not_null
 
+        - name: broad_sector
+          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+          tests:
+            - not_null
+
+        - name: broad_role
+          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+          tests:
+            - not_null
+
         - name: n_signups
           description: Numbers of users registered at date_day.
           tests:
