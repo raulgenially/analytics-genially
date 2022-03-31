@@ -1,45 +1,45 @@
 version: 2
 
 models:
-    - name: metrics_teams
-      description: Model containing info as to creations and spaces in teams.
-      columns:
-        - name: date_day
-          description: The particular day where creations and spaces is described.
-          tests:
-            - not_null
+  - name: metrics_teams
+    description: Model containing info as to creations and spaces in teams.
+    columns:
+      - name: date_day
+        description: The particular day where creations and spaces is described.
+        tests:
+          - not_null
 
-        - name: team_id
-          description: Id of the team
-          tests:
-            - not_null
+      - name: team_id
+        description: Id of the team
+        tests:
+          - not_null
 
-        - name: team_name
-          description: Team name.
-          tests:
-            - not_null
+      - name: team_name
+        description: Team name.
+        tests:
+          - not_null
 
-        - name: team_created_at
-          description: Date creation of the team.
-          tests:
-            - not_null
+      - name: team_created_at
+        description: Date creation of the team.
+        tests:
+          - not_null
 
-        - name: n_active_creations
-          description: Number of new active creations.
-          tests:
-            - not_null
+      - name: n_active_creations
+        description: Number of new active creations.
+        tests:
+          - not_null
 
-        - name: n_spaces
-          description: Number of new created spaces.
-          tests:
-            - not_null
+      - name: n_spaces
+        description: Number of new created spaces.
+        tests:
+          - not_null
 
-        - name: n_cumulative_active_creations
-          description: Total number of active creations created until date_day.
-          tests:
-            - not_null
+      - name: n_cumulative_active_creations
+        description: Total number of active creations created until date_day.
+        tests:
+          - not_null
 
-        - name: n_cumulative_spaces
-          description: Total number of spaces created until date_day.
-          tests:
-            - not_null
+      - name: n_cumulative_spaces
+        description: Total number of spaces created until date_day.
+        tests:
+          - not_null

@@ -1,128 +1,128 @@
 version: 2
 
 models:
-    - name: src_genially_licenses
-      description: Information about the licenses the users purchase.
-        There are many issues (shit) related to this table.
-        Let's try to be pragmatic and pay only special attention to the newest licenses.
-      columns:
-        - name: license_id
-          description: Primary key for licenses.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_licenses
+    description: Information about the licenses the users purchase.
+      There are many issues (shit) related to this table.
+      Let's try to be pragmatic and pay only special attention to the newest licenses.
+    columns:
+      - name: license_id
+        description: Primary key for licenses.
+        tests:
+          - unique
+          - not_null
 
-        - name: status
-          description: The status of the subscription, either Finished, Pending or Canceled.
+      - name: status
+        description: The status of the subscription, either Finished, Pending or Canceled.
 
-            **Finished** means the license has been paid and it is active.
-            **Pending** means the license has an outstanding payment.
-            **Canceled** means the license is no longer active.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_license_status_values() }}"
+          **Finished** means the license has been paid and it is active.
+          **Pending** means the license has an outstanding payment.
+          **Canceled** means the license is no longer active.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_license_status_values() }}"
 
-        - name: license_type
-          description: Identifier of the type of license.
-            This describes whether the license has a monthly or annual payment.
-            and the degree of feature access to the platform.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('seed_license_codes')
-                field: license_code
+      - name: license_type
+        description: Identifier of the type of license.
+          This describes whether the license has a monthly or annual payment.
+          and the degree of feature access to the platform.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('seed_license_codes')
+              field: license_code
 
-        - name: recurrence
-          description: whether the license has a monthly or annual payment
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_license_recurrence_values() }}"
+      - name: recurrence
+        description: whether the license has a monthly or annual payment
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_license_recurrence_values() }}"
 
-        - name: plan
-          description: The degree of feature access to the platform.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_license_plan_values() }}"
+      - name: plan
+        description: The degree of feature access to the platform.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_license_plan_values() }}"
 
-        - name: comments
-          description: Notes on the license.
+      - name: comments
+        description: Notes on the license.
 
-        - name: user_ip
-          description: Ip address from which the user purchased the license.
-            Used for refund disputes.
+      - name: user_ip
+        description: Ip address from which the user purchased the license.
+          Used for refund disputes.
 
-        - name: user_id
-          description: Id of the User purchasing the license.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
-                where: "started_at >= '2017-07-01'"
+      - name: user_id
+        description: Id of the User purchasing the license.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_users')
+              field: user_id
+              where: "started_at >= '2017-07-01'"
 
-        - name: payer_id
-          description: Id of the user in the payment processing platform
-            used (e.g. Stripe or Braintree).
-          tests:
-            - not_null
+      - name: payer_id
+        description: Id of the user in the payment processing platform
+          used (e.g. Stripe or Braintree).
+        tests:
+          - not_null
 
-        - name: transaction_id
-          description: Id of the transaction in the payment processing platform.
-            This refers to the first payment associated with the subscription.
-            This field is not very relevant here, though.
-            This field should not be null but in rare cases where an invoice is not generated
-            because the amount to pay is 0, it can be null.
-          tests:
-            - unique:
-                where: "started_at >= '2020-06-24'"
+      - name: transaction_id
+        description: Id of the transaction in the payment processing platform.
+          This refers to the first payment associated with the subscription.
+          This field is not very relevant here, though.
+          This field should not be null but in rare cases where an invoice is not generated
+          because the amount to pay is 0, it can be null.
+        tests:
+          - unique:
+              where: "started_at >= '2020-06-24'"
 
-        - name: subscription_id
-          description: Id of the subscription in the payment processing platform.
-          tests:
-            - unique:
-                where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
-            - not_null
+      - name: subscription_id
+        description: Id of the subscription in the payment processing platform.
+        tests:
+          - unique:
+              where: "started_at >= '2019-02-04'" # We can live with this issue for older licenses.
+          - not_null
 
-        - name: started_at
-          description: Date time the license starts.
-          tests:
-            - not_null
+      - name: started_at
+        description: Date time the license starts.
+        tests:
+          - not_null
 
-        - name: finished_at
-          description: Date time the license finished.
+      - name: finished_at
+        description: Date time the license finished.
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "started_at <= finished_at"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "started_at <= finished_at"
 
-        - dbt_utils.expression_is_true:
-            expression: "date(finished_at) <= current_date()"
+      - dbt_utils.expression_is_true:
+          expression: "date(finished_at) <= current_date()"
 
-        - dbt_utils.expression_is_true:
-            expression: "finished_at is null"
-            condition: status = 'Finished'
+      - dbt_utils.expression_is_true:
+          expression: "finished_at is null"
+          condition: status = 'Finished'
 
-        - dbt_utils.expression_is_true:
-            # Pending licenses should be removed after 24h if payment is not confirmed.
-            expression: "date_diff(current_date(), date(started_at), day) < 2"
-            condition: "status = 'Pending'"
+      - dbt_utils.expression_is_true:
+          # Pending licenses should be removed after 24h if payment is not confirmed.
+          expression: "date_diff(current_date(), date(started_at), day) < 2"
+          condition: "status = 'Pending'"
 
-        - dbt_utils.expression_is_true:
-            expression: "finished_at is not null"
-            condition: "status = 'Canceled' and started_at >= '2020-02-05'" # Ok, let's be pragmatic here as there are a total of 247 cases.
+      - dbt_utils.expression_is_true:
+          expression: "finished_at is not null"
+          condition: "status = 'Canceled' and started_at >= '2020-02-05'" # Ok, let's be pragmatic here as there are a total of 247 cases.
 
-        - dbt_utils.unique_combination_of_columns:
-            combination_of_columns:
-              - status
-              - license_type
-              - comments
-              - user_ip
-              - user_id
-              - payer_id
-              - transaction_id
-              - subscription_id
-              - started_at
-              - finished_at
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - status
+            - license_type
+            - comments
+            - user_ip
+            - user_id
+            - payer_id
+            - transaction_id
+            - subscription_id
+            - started_at
+            - finished_at

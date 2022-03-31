@@ -1,217 +1,217 @@
 version: 2
 
 models:
-    - name: billing
-      description: "{{ doc('billing_description') }}"
-      columns:
-        - name: id
-          description: Primary key for this model.
-          tests:
-            - unique
-            - not_null
+  - name: billing
+    description: "{{ doc('billing_description') }}"
+    columns:
+      - name: id
+        description: Primary key for this model.
+        tests:
+          - unique
+          - not_null
 
-        - name: invoice_id
-          description: Invoice's identifier in the source DB.
-          tests:
-            - not_null
+      - name: invoice_id
+        description: Invoice's identifier in the source DB.
+        tests:
+          - not_null
 
-        - name: description
-          description: Invoice's description with all product information.
-          tests:
-            - not_null
+      - name: description
+        description: Invoice's description with all product information.
+        tests:
+          - not_null
 
-        - name: quantity
-          description: Number of licenses purchased.
-            This is extracted with a regexp from the description. Not reliable.
-          tests:
-            - not_null
+      - name: quantity
+        description: Number of licenses purchased.
+          This is extracted with a regexp from the description. Not reliable.
+        tests:
+          - not_null
 
-        - name: product
-          description: Type of product purchased with this invoice.
-            This is extracted with a regexp from the description. Not reliable.
+      - name: product
+        description: Type of product purchased with this invoice.
+          This is extracted with a regexp from the description. Not reliable.
 
-        - name: recurrence
-          description: Whether this invoice is paying a monthly or annual subscription.
-            This is extracted with a regexp from the description. Not reliable.
-          tests:
-            - accepted_values:
-                values: "{{ get_recurrence_values() }}"
+      - name: recurrence
+        description: Whether this invoice is paying a monthly or annual subscription.
+          This is extracted with a regexp from the description. Not reliable.
+        tests:
+          - accepted_values:
+              values: "{{ get_recurrence_values() }}"
 
-        - name: plan
-          description: Type of purchased plan or service.
+      - name: plan
+        description: Type of purchased plan or service.
 
-        - name: payer_email
-          description: The email of the person paying the invoice.
-          tests:
-            - not_null
+      - name: payer_email
+        description: The email of the person paying the invoice.
+        tests:
+          - not_null
 
-        - name: payer_name
-          description: The name of the person paying the invoice. It can also be the email.
+      - name: payer_name
+        description: The name of the person paying the invoice. It can also be the email.
 
-        - name: payer_cif
-          description: The tax ID of the payer.
+      - name: payer_cif
+        description: The tax ID of the payer.
 
-        - name: payer_address
-          description: The payer's address.
+      - name: payer_address
+        description: The payer's address.
 
-        - name: payer_country
-          description: The payer's country.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('seed_country_codes')
-                field: code
+      - name: payer_country
+        description: The payer's country.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('seed_country_codes')
+              field: code
 
-        - name: total
-          description: Total amount in their original currency.
-          tests:
-            - not_null
+      - name: total
+        description: Total amount in their original currency.
+        tests:
+          - not_null
 
-        - name: currency
-          description: Original currency of the payment.
-          tests:
-            - not_null
+      - name: currency
+        description: Original currency of the payment.
+        tests:
+          - not_null
 
-        - name: total_euro
-          description: The equivalent in € of the amount specified in total.
-          tests:
-            - not_null
+      - name: total_euro
+        description: The equivalent in € of the amount specified in total.
+        tests:
+          - not_null
 
-        - name: tax_rate
-          description: The percentage at which the invoice is taxed.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
-            - relationships:
-                to: ref('seed_taxkey_taxrate')
-                field: tax_rate
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
-            - dbt_utils.expression_is_true:
-                expression: ">= 0"
+      - name: tax_rate
+        description: The percentage at which the invoice is taxed.
+        tests:
+          - not_null:
+              where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
+          - relationships:
+              to: ref('seed_taxkey_taxrate')
+              field: tax_rate
+              where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
 
-        - name: tax_key
-          description: Tax Idetification key.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
-            - relationships:
-                to: ref('seed_taxkey_taxrate')
-                field: tax_key
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
+      - name: tax_key
+        description: Tax Idetification key.
+        tests:
+          - not_null:
+              where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
+          - relationships:
+              to: ref('seed_taxkey_taxrate')
+              field: tax_key
+              where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}'
 
-        - name: total_euro_deducted
-          description: Paid amount after taxes and converted in eur.
-          tests:
-            - not_null
+      - name: total_euro_deducted
+        description: Paid amount after taxes and converted in eur.
+        tests:
+          - not_null
 
-        - name: tax_amount
-          description: Taxes in eur.
-          tests:
-            - not_null
+      - name: tax_amount
+        description: Taxes in eur.
+        tests:
+          - not_null
 
-        - name: payment_platform
-          description: Payment platform used to make the payment. Either Braintree,
-            Paypal or Stripe.
-          tests:
-            - not_null:
-                where: "invoiced_at >= '2020-08-15'"
+      - name: payment_platform
+        description: Payment platform used to make the payment. Either Braintree,
+          Paypal or Stripe.
+        tests:
+          - not_null:
+              where: "invoiced_at >= '2020-08-15'"
 
-        - name: role
-          description: Payer role.
-          tests:
-            - not_null:
-                where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
+      - name: role
+        description: Payer role.
+        tests:
+          - not_null:
+              where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
 
-        - name: sector
-          description: Payer sector.
-          tests:
-            - not_null:
-                where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
+      - name: sector
+        description: Payer sector.
+        tests:
+          - not_null:
+              where: "invoiced_at >= '2018-01-18' and date(invoiced_at) < current_date()"
 
-        - name: is_refund
-          description: Whether this invoice is refunding a previous invoice or not.
-          tests:
-            - not_null
+      - name: is_refund
+        description: Whether this invoice is refunding a previous invoice or not.
+        tests:
+          - not_null
 
-        - name: is_valid_euvat_number
-          description: Indicates if 'payer_cif' is validated as Intracomunitary.
-          tests:
-            - not_null:
-                where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}' and is_refund = false
+      - name: is_valid_euvat_number
+        description: Indicates if 'payer_cif' is validated as Intracomunitary.
+        tests:
+          - not_null:
+              where: date(invoiced_at) > '{{var('invoice_tax_start_date')}}' and is_refund = false
 
-        - name: is_from_eu_country
-          description: Indicates if the payment is from within the EU.
-          tests:
-            - not_null
+      - name: is_from_eu_country
+        description: Indicates if the payment is from within the EU.
+        tests:
+          - not_null
 
-        - name: user_id
-          description: Id of the user making the payment.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('users')
-                field: user_id
-                where: invoiced_at >= '2018-01-18'
+      - name: user_id
+        description: Id of the user making the payment.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('users')
+              field: user_id
+              where: invoiced_at >= '2018-01-18'
 
-        - name: subscription_id
-          description: Id of the subscription in the payment processing platform.
-            There can be more than one invoice associated with a subscription.
-          tests:
-            - not_null
+      - name: subscription_id
+        description: Id of the subscription in the payment processing platform.
+          There can be more than one invoice associated with a subscription.
+        tests:
+          - not_null
 
-        - name: transaction_id
-          description: Id of the transaction in the payment processing platform.
-            This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
-          tests:
-            - not_null:
-                where: "invoiced_at >= '2020-01-16'"
+      - name: transaction_id
+        description: Id of the transaction in the payment processing platform.
+          This can be duplicated due to errors in the payment processing platform. There should be a refund invoice fixing this.
+        tests:
+          - not_null:
+              where: "invoiced_at >= '2020-01-16'"
 
-        - name: invoice_number_id
-          description: Unique and financial id for the invoice.
-          tests:
-            - unique:
-                where: "invoiced_at >= '2019-02-18'"
-            - not_null
+      - name: invoice_number_id
+        description: Unique and financial id for the invoice.
+        tests:
+          - unique:
+              where: "invoiced_at >= '2019-02-18'"
+          - not_null
 
-        - name: reference_invoice_number_id
-          description: Invoice number of the invoice we are refunding.
-          tests:
-            - not_null:
-                where: is_refund = true
+      - name: reference_invoice_number_id
+        description: Invoice number of the invoice we are refunding.
+        tests:
+          - not_null:
+              where: is_refund = true
 
-        - name: invoiced_at
-          description: Date at which the invoice was created.
-          tests:
-            - not_null
+      - name: invoiced_at
+        description: Date at which the invoice was created.
+        tests:
+          - not_null
 
-        - name: refunded_at
-          description: For invoices, date time at which the invoice was refunded.
+      - name: refunded_at
+        description: For invoices, date time at which the invoice was refunded.
 
-        - name: originally_invoiced_at
-          description: For refunds, date time at which the invoice we are refunding was invoiced.
-            For regular invoices, same date time as invoiced_at.
-          tests:
-            - not_null
+      - name: originally_invoiced_at
+        description: For refunds, date time at which the invoice we are refunding was invoiced.
+          For regular invoices, same date time as invoiced_at.
+        tests:
+          - not_null
 
-        - name: period_start_at
-          description: Date at which the paid subscription starts.
-          tests:
-            - not_null
+      - name: period_start_at
+        description: Date at which the paid subscription starts.
+        tests:
+          - not_null
 
-        - name: period_end_at
-          description: Date at which the paid subscription will end.
-          tests:
-            - not_null
+      - name: period_end_at
+        description: Date at which the paid subscription will end.
+        tests:
+          - not_null
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "total_euro = total"
-            condition: "currency = 'eur'"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "total_euro = total"
+          condition: "currency = 'eur'"
 
-        - dbt_utils.expression_is_true:
-            expression: "is_valid_euvat_number is not true"
-            condition: "payer_cif is null and invoiced_at > '{{ var('invoice_tax_start_date') }}'"
+      - dbt_utils.expression_is_true:
+          expression: "is_valid_euvat_number is not true"
+          condition: "payer_cif is null and invoiced_at > '{{ var('invoice_tax_start_date') }}'"
 
-        - dbt_utils.expression_is_true:
-            expression: "tax_amount = 0"
-            condition: "tax_key = 'INTRA_21' and is_valid_euvat_number = true"
+      - dbt_utils.expression_is_true:
+          expression: "tax_amount = 0"
+          condition: "tax_key = 'INTRA_21' and is_valid_euvat_number = true"

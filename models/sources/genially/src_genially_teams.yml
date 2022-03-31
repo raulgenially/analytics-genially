@@ -1,82 +1,82 @@
 version: 2
 
 models:
-    - name: src_genially_teams
-      description: Teams
-      columns:
-        - name: team_id
-          description: Primary key for the teams.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_teams
+    description: Teams
+    columns:
+      - name: team_id
+        description: Primary key for the teams.
+        tests:
+          - unique
+          - not_null
 
-        - name: name
-          description: Name of the team
-          tests:
-            - not_null
+      - name: name
+        description: Name of the team
+        tests:
+          - not_null
 
-        - name: seats
-          description: Number of users that can be part of this team.
-          tests:
-            - not_null
+      - name: seats
+        description: Number of users that can be part of this team.
+        tests:
+          - not_null
 
-        - name: logo
-          description: Link to the team logo image (Team tab in Settings).
+      - name: logo
+        description: Link to the team logo image (Team tab in Settings).
 
-        - name: description
-          description: Short description about what team is about.
+      - name: description
+        description: Short description about what team is about.
 
-        - name: plan
-          description: "{{ doc('team_type') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_team_type_values() }}"
-                quote: false
+      - name: plan
+        description: "{{ doc('team_type') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_team_type_values() }}"
+              quote: false
 
-        - name: plan_name
-          description: The equivalent name of the plan property. Extracted from `seed_team_type_codes.csv`.
-          tests:
-            - not_null
+      - name: plan_name
+        description: The equivalent name of the plan property. Extracted from `seed_team_type_codes.csv`.
+        tests:
+          - not_null
 
-        - name: banner
-          description: Link to the top banner image (Team tab in Settings).
+      - name: banner
+        description: Link to the top banner image (Team tab in Settings).
 
-        - name: branding_size_watermark
-          description: Size of the watermark image (e.g. medium).
+      - name: branding_size_watermark
+        description: Size of the watermark image (e.g. medium).
 
-        - name: branding_custom_watermark
-          description: Link to the image to use as a watermark (This is called logo in Team Branding section).
+      - name: branding_custom_watermark
+        description: Link to the image to use as a watermark (This is called logo in Team Branding section).
 
-        - name: branding_custom_logo
-          description: Link to the image to use as a logo (This is called loader in Team Branding section).
+      - name: branding_custom_logo
+        description: Link to the image to use as a logo (This is called loader in Team Branding section).
 
-        - name: branding_watermark_link
-          description: Web where the watermark should take you.
+      - name: branding_watermark_link
+        description: Web where the watermark should take you.
 
-        - name: owner_id
-          description: User id that created the team.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_users')
-                field: user_id
+      - name: owner_id
+        description: User id that created the team.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_users')
+              field: user_id
 
-        - name: is_configured
-          description: Whether the team has been customized (banner, logo, etc).
-          tests:
-            - not_null
+      - name: is_configured
+        description: Whether the team has been customized (banner, logo, etc).
+        tests:
+          - not_null
 
-        - name: is_disabled
-          description: Indicates whether the team has been disabled.
-            It is a logical way to cut off the access to the team to all members.
-          tests:
-            - not_null
+      - name: is_disabled
+        description: Indicates whether the team has been disabled.
+          It is a logical way to cut off the access to the team to all members.
+        tests:
+          - not_null
 
-        - name: created_at
-          description: The date the team was created.
-          tests:
-            - not_null
+      - name: created_at
+        description: The date the team was created.
+        tests:
+          - not_null
 
-        - name: disabled_at
-          description: The date at which the team was disabled.
+      - name: disabled_at
+        description: The date at which the team was disabled.

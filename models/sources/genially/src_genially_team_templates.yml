@@ -1,40 +1,40 @@
 version: 2
 
 models:
-    - name: src_genially_team_templates
-      description: Team templates. Geniallys that can be used as a templates for a given team.
-      columns:
-        - name: team_template_id
-          description: Primary key for the team templates.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_team_templates
+    description: Team templates. Geniallys that can be used as a templates for a given team.
+    columns:
+      - name: team_template_id
+        description: Primary key for the team templates.
+        tests:
+          - unique
+          - not_null
 
-        - name: genially_id
-          description: Id of the genially to use as a template.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_geniallys')
-                field: genially_id
+      - name: genially_id
+        description: Id of the genially to use as a template.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_geniallys')
+              field: genially_id
 
-        - name: team_id
-          description: The team this template belongs to.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_teams')
-                field: team_id
+      - name: team_id
+        description: The team this template belongs to.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_teams')
+              field: team_id
 
-        - name: space_id
-          description: The space in which the genially is created.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_team_spaces')
-                field: team_space_id
+      - name: space_id
+        description: The space in which the genially is created.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_team_spaces')
+              field: team_space_id
 
-        - name: created_at
-          description: Creation date of the team template.
-          tests:
-            - not_null
+      - name: created_at
+        description: Creation date of the team template.
+        tests:
+          - not_null

@@ -1,29 +1,29 @@
 version: 2
 
 models:
-    - name: src_genially_templatecolors
-      description: Template Color variations that users could use for old creations.
-      columns:
-        - name: templatecolor_id
-          description: Primary key for template colors.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_templatecolors
+    description: Template Color variations that users could use for old creations.
+    columns:
+      - name: templatecolor_id
+        description: Primary key for template colors.
+        tests:
+          - unique
+          - not_null
 
-        - name: color
-          description: Template color variation in hex.
+      - name: color
+        description: Template color variation in hex.
 
-        - name: genially_id
-          description: Id from the genially which is used to be a template.
-          tests:
-            - not_null
+      - name: genially_id
+        description: Id from the genially which is used to be a template.
+        tests:
+          - not_null
 
-        - name: genially_to_view_id
-          description: Id to view from the genially which is used to be a template.
-          tests:
-            - not_null
+      - name: genially_to_view_id
+        description: Id to view from the genially which is used to be a template.
+        tests:
+          - not_null
 
-        - name: template_id
-          description: Id of the main template which has color variations.
-          tests:
-            - not_null
+      - name: template_id
+        description: Id of the main template which has color variations.
+        tests:
+          - not_null

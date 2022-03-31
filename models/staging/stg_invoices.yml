@@ -1,120 +1,120 @@
 version: 2
 
 models:
-    - name: stg_invoices
-      description: Information about invoices and its refunds. This models standarizes and
-        sticks together both invoices and refund invoices.
-      columns:
-        - name: id
-          description: Primary key for stg_invoices. This is a surrogate key
-            from invoice_id and is_refund.
-          tests:
-            - unique
-            - not_null
+  - name: stg_invoices
+    description: Information about invoices and its refunds. This models standarizes and
+      sticks together both invoices and refund invoices.
+    columns:
+      - name: id
+        description: Primary key for stg_invoices. This is a surrogate key
+          from invoice_id and is_refund.
+        tests:
+          - unique
+          - not_null
 
-        - name: invoice_id
-          description: Invoice's identifier in the source DB.
+      - name: invoice_id
+        description: Invoice's identifier in the source DB.
 
-        - name: description
-          description: Description of the type of license purchased.
+      - name: description
+        description: Description of the type of license purchased.
 
-        - name: quantity
-          description: Number of licenses purchased.
-            This is extracted with a regexp from the description. Not reliable.
+      - name: quantity
+        description: Number of licenses purchased.
+          This is extracted with a regexp from the description. Not reliable.
 
-        - name: product
-          description: Type of product purchased with this invoice.
-            This is extracted with a regexp from the description. Not reliable.
+      - name: product
+        description: Type of product purchased with this invoice.
+          This is extracted with a regexp from the description. Not reliable.
 
-        - name: recurrence
-          description: Whether this invoice is paying a monthly or annual subscription.
-            This is extracted with a regexp from the description. Not reliable.
+      - name: recurrence
+        description: Whether this invoice is paying a monthly or annual subscription.
+          This is extracted with a regexp from the description. Not reliable.
 
-        - name: plan
-          description: Type of plan this is invoice is purchasing.
-            This is extracted with a regexp from the description. Not reliable.
+      - name: plan
+        description: Type of plan this is invoice is purchasing.
+          This is extracted with a regexp from the description. Not reliable.
 
-        - name: payer_email
-          description: The email of the person paying the invoice.
+      - name: payer_email
+        description: The email of the person paying the invoice.
 
-        - name: payer_name
-          description: The name of the person paying the invoice. It can also be the email.
+      - name: payer_name
+        description: The name of the person paying the invoice. It can also be the email.
 
-        - name: payer_cif
-          description: The tax ID of the payer.
+      - name: payer_cif
+        description: The tax ID of the payer.
 
-        - name: payer_address
-          description: The payer's address.
+      - name: payer_address
+        description: The payer's address.
 
-        - name: payer_country
-          description: The payer's country.
+      - name: payer_country
+        description: The payer's country.
 
-        - name: total
-          description: Amount of monetary value paid in the currency
-            specified in the currency column.
+      - name: total
+        description: Amount of monetary value paid in the currency
+          specified in the currency column.
 
-        - name: total_euro
-          description: The equivalent in € of the amount specified in total.
+      - name: total_euro
+        description: The equivalent in € of the amount specified in total.
 
-        - name: tax_rate
-          description: The percentage at which the invoice is taxed.
+      - name: tax_rate
+        description: The percentage at which the invoice is taxed.
 
-        - name: tax_key
-          description: Tax Idetification key.
+      - name: tax_key
+        description: Tax Idetification key.
 
-        - name: currency
-          description: Currency in which the invoice is paid.
+      - name: currency
+        description: Currency in which the invoice is paid.
 
-        - name: payment_platform
-          description: Payment platform used to make the payment. Either Braintree,
-            Paypal or Stripe.
+      - name: payment_platform
+        description: Payment platform used to make the payment. Either Braintree,
+          Paypal or Stripe.
 
-        - name: is_refund
-          description: Whether this invoice is refunding a previous invoice or not.
-          tests:
-            - not_null
+      - name: is_refund
+        description: Whether this invoice is refunding a previous invoice or not.
+        tests:
+          - not_null
 
-        - name: is_valid_euvat_number
-          description: Indicates if 'payer_cif' is validated as Intracomunitary.
+      - name: is_valid_euvat_number
+        description: Indicates if 'payer_cif' is validated as Intracomunitary.
 
-        - name: user_id
-          description: Id of the user making the payment.
+      - name: user_id
+        description: Id of the user making the payment.
 
-        - name: subscription_id
-          description: Id of the subscription in the payment processing platform.
+      - name: subscription_id
+        description: Id of the subscription in the payment processing platform.
 
-        - name: transaction_id
-          description: Id of the transaction in the payment processing platform.
+      - name: transaction_id
+        description: Id of the transaction in the payment processing platform.
 
-        - name: invoice_number_id
-          description: Unique invoice number.
+      - name: invoice_number_id
+        description: Unique invoice number.
 
-        - name: reference_invoice_number_id
-          description: Invoice number of the invoice we are refunding.
+      - name: reference_invoice_number_id
+        description: Invoice number of the invoice we are refunding.
 
-        - name: invoiced_at
-          description: Date time at which the invoice was emitted.
+      - name: invoiced_at
+        description: Date time at which the invoice was emitted.
 
-        - name: refunded_at
-          description: Date time at which this invoice has been refunded.
+      - name: refunded_at
+        description: Date time at which this invoice has been refunded.
 
-        - name: originally_invoiced_at
-          description: For refunds, date time at which the invoice we are refunding was invoiced.
-            For regular invoices, same date time as invoiced_at.
-          tests:
-            - not_null
+      - name: originally_invoiced_at
+        description: For refunds, date time at which the invoice we are refunding was invoiced.
+          For regular invoices, same date time as invoiced_at.
+        tests:
+          - not_null
 
-        - name: period_start_at
-          description: Date at which the paid subscription starts.
+      - name: period_start_at
+        description: Date at which the paid subscription starts.
 
-        - name: period_end_at
-          description: Date at which the paid subscription will end.
+      - name: period_end_at
+        description: Date at which the paid subscription will end.
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "refunded_at is null"
-            condition: "is_refund = true"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "refunded_at is null"
+          condition: "is_refund = true"
 
-        - dbt_utils.expression_is_true:
-            expression: "reference_invoice_number_id is null"
-            condition: "is_refund = false"
+      - dbt_utils.expression_is_true:
+          expression: "reference_invoice_number_id is null"
+          condition: "is_refund = false"

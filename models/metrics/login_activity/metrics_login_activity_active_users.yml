@@ -1,131 +1,131 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_active_users
-      description: This model computes the number of daily/weekly/monthly active users segmented by different dimensions.
-        Note that an active user is someone who logs into the Genially app.
-        This active user can be a new user (i.e., a signups) or a returning user.
-      columns:
-        - name: date_day
-          description: The particular day where user's activity is described.
-          tests:
-            - not_null
+  - name: metrics_login_activity_active_users
+    description: This model computes the number of daily/weekly/monthly active users segmented by different dimensions.
+      Note that an active user is someone who logs into the Genially app.
+      This active user can be a new user (i.e., a signups) or a returning user.
+    columns:
+      - name: date_day
+        description: The particular day where user's activity is described.
+        tests:
+          - not_null
 
-        - name: plan
-          description: "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
 
-        - name: subscription
-          description: Type of subscription, Free or Premium.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_subscription_values() }}"
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
 
-        - name: sector
-          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: sector
+        description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_sector
-          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: role
-          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null
+      - name: role
+        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_role
-          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-          tests:
-            - not_null
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
 
-        - name: country
-          description: Country (ISO code).
-          tests:
-            - not_null
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
 
-        - name: country_name
-          description: Full name of the country.
-          tests:
-            - not_null
+      - name: country_name
+        description: Full name of the country.
+        tests:
+          - not_null
 
-        - name: signup_device
-          description: Device through which the user signed up.
-          tests:
-            - not_null
+      - name: signup_device
+        description: Device through which the user signed up.
+        tests:
+          - not_null
 
-        - name: signup_channel
-          description: Acquisition channel.
-          tests:
-            - not_null
+      - name: signup_channel
+        description: Acquisition channel.
+        tests:
+          - not_null
 
-        - name: n_signups
-          description: Number of signups or new users.
-          tests:
-            - not_null
+      - name: n_signups
+        description: Number of signups or new users.
+        tests:
+          - not_null
 
-        - name: n_returning_users
-          description: Number of returning users.
-          tests:
-            - not_null
+      - name: n_returning_users
+        description: Number of returning users.
+        tests:
+          - not_null
 
-        - name: n_daily_active_users
-          description: Number of daily active users.
-          tests:
-            - not_null
+      - name: n_daily_active_users
+        description: Number of daily active users.
+        tests:
+          - not_null
 
-        - name: n_signups_7d
-          description: Number of signups or new users in the last 7 days.
-          tests:
-            - not_null
+      - name: n_signups_7d
+        description: Number of signups or new users in the last 7 days.
+        tests:
+          - not_null
 
-        - name: n_returning_users_7d
-          description: Number of returning users in the last 7 days.
-          tests:
-            - not_null
+      - name: n_returning_users_7d
+        description: Number of returning users in the last 7 days.
+        tests:
+          - not_null
 
-        - name: n_weekly_active_users
-          description: Number of weekly active users in the last 7 days.
-          tests:
-            - not_null
+      - name: n_weekly_active_users
+        description: Number of weekly active users in the last 7 days.
+        tests:
+          - not_null
 
-        - name: n_signups_28d
-          description: Number of signups or new users in the last 28 days.
-          tests:
-            - not_null
+      - name: n_signups_28d
+        description: Number of signups or new users in the last 28 days.
+        tests:
+          - not_null
 
-        - name: n_returning_users_28d
-          description: Number of returning users in the last 28 days.
-          tests:
-            - not_null
+      - name: n_returning_users_28d
+        description: Number of returning users in the last 28 days.
+        tests:
+          - not_null
 
-        - name: n_monthly_active_users
-          description: Number of monthly active users in the last 28 days.
-          tests:
-            - not_null
+      - name: n_monthly_active_users
+        description: Number of monthly active users in the last 28 days.
+        tests:
+          - not_null
 
-        - name: n_creations
-          description: Number of geniallys created.
-          tests:
-            - not_null
+      - name: n_creations
+        description: Number of geniallys created.
+        tests:
+          - not_null
 
-        - name: n_weekly_creations
-          description: Number of geniallys created in the last 7 days.
+      - name: n_weekly_creations
+        description: Number of geniallys created in the last 7 days.
 
-        - name: n_monthly_creations
-          description: Number of geniallys created in the last 28 days.
+      - name: n_monthly_creations
+        description: Number of geniallys created in the last 28 days.
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "n_daily_active_users <= n_weekly_active_users"
-            condition: "date_day >= '2021-12-27'"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "n_daily_active_users <= n_weekly_active_users"
+          condition: "date_day >= '2021-12-27'"
 
-        - dbt_utils.expression_is_true:
-            expression: "n_weekly_active_users <= n_monthly_active_users"
-            condition: "date_day >= '2022-01-17'"
+      - dbt_utils.expression_is_true:
+          expression: "n_weekly_active_users <= n_monthly_active_users"
+          condition: "date_day >= '2022-01-17'"

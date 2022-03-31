@@ -1,91 +1,91 @@
 version: 2
 
 models:
-    - name: util_sector_codes
-      description: Codes used to identify old and new sectors.
-      columns:
-        - name: sector_id
-          description: Primary key for sectors.
-          tests:
-            - unique
-            - not_null
+  - name: util_sector_codes
+    description: Codes used to identify old and new sectors.
+    columns:
+      - name: sector_id
+        description: Primary key for sectors.
+        tests:
+          - unique
+          - not_null
 
-        - name: sector_name
-          description: Sector name. Those whose name ends with `(old)` belong to sectors defined for the old onboarding.
-          tests:
-            - not_null
+      - name: sector_name
+        description: Sector name. Those whose name ends with `(old)` belong to sectors defined for the old onboarding.
+        tests:
+          - not_null
 
-        - name: agg_sector
-          description: Broad category of the sector (e.g. education, corporate, etc).
-          tests:
-            - not_null
+      - name: agg_sector
+        description: Broad category of the sector (e.g. education, corporate, etc).
+        tests:
+          - not_null
 
-    - name: util_role_codes
-      description: Codes used to identify old and new roles.
-      columns:
-        - name: role_id
-          description: Primary key for roles.
-          tests:
-            - unique
-            - not_null
+  - name: util_role_codes
+    description: Codes used to identify old and new roles.
+    columns:
+      - name: role_id
+        description: Primary key for roles.
+        tests:
+          - unique
+          - not_null
 
-        - name: role_name
-          description: Role name. Those whose name ends with `(old)` belong to roles defined for the old onboarding.
-          tests:
-            - not_null
+      - name: role_name
+        description: Role name. Those whose name ends with `(old)` belong to roles defined for the old onboarding.
+        tests:
+          - not_null
 
-        - name: sector_id
-          description: Foreign key to sector_codes.
-          tests:
-            - not_null
+      - name: sector_id
+        description: Foreign key to sector_codes.
+        tests:
+          - not_null
 
-    - name: util_user_profiles
-      description: Role-sector pairs (both the old and new onboarding) along with their correspondence with new role-sector pairs.
-        Note that new codes are tied to themselves for completeness.
-      columns:
-        - name: role_id
-          description: Role identifier. Values < 100 belong to roles from the old onboarding.
-          tests:
-            - unique
-            - not_null
+  - name: util_user_profiles
+    description: Role-sector pairs (both the old and new onboarding) along with their correspondence with new role-sector pairs.
+      Note that new codes are tied to themselves for completeness.
+    columns:
+      - name: role_id
+        description: Role identifier. Values < 100 belong to roles from the old onboarding.
+        tests:
+          - unique
+          - not_null
 
-        - name: role_name
-          description: Role name. Those whose name ends with `(old)` belong to roles defined for the old onboarding.
-          tests:
-            - not_null
+      - name: role_name
+        description: Role name. Those whose name ends with `(old)` belong to roles defined for the old onboarding.
+        tests:
+          - not_null
 
-        - name: sector_id
-          description: Sector identifier associated to the role. Foreign key to sector_codes.
-          tests:
-            - not_null
+      - name: sector_id
+        description: Sector identifier associated to the role. Foreign key to sector_codes.
+        tests:
+          - not_null
 
-        - name: sector_name
-          description: Sector name. Those whose name ends with `(old)` belong to sectors defined for the old onboarding.
-          tests:
-            - not_null
+      - name: sector_name
+        description: Sector name. Those whose name ends with `(old)` belong to sectors defined for the old onboarding.
+        tests:
+          - not_null
 
-        - name: new_role_id
-          description: Role identifier from the new onboarding correspondent to the (potentially old) role_id.
-            Those records where role_id already is a role from the new onboarding show duplicated values here and other new_* fields.
-          tests:
-            - not_null
+      - name: new_role_id
+        description: Role identifier from the new onboarding correspondent to the (potentially old) role_id.
+          Those records where role_id already is a role from the new onboarding show duplicated values here and other new_* fields.
+        tests:
+          - not_null
 
-        - name: new_role_name
-          description: Role name from new_role_id.
-          tests:
-            - not_null
+      - name: new_role_name
+        description: Role name from new_role_id.
+        tests:
+          - not_null
 
-        - name: new_sector_id
-          description: Sector from the role new_role_id.
-          tests:
-            - not_null
+      - name: new_sector_id
+        description: Sector from the role new_role_id.
+        tests:
+          - not_null
 
-        - name: new_sector_name
-          description: Sector from the role new_role_id.
-          tests:
-            - not_null
+      - name: new_sector_name
+        description: Sector from the role new_role_id.
+        tests:
+          - not_null
 
-        - name: agg_sector
-          description: Aggregated sector this role_id/new_role_id belongs to.
-          tests:
-            - not_null
+      - name: agg_sector
+        description: Aggregated sector this role_id/new_role_id belongs to.
+        tests:
+          - not_null

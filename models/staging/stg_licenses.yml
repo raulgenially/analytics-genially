@@ -1,88 +1,88 @@
 version: 2
 
 models:
-    - name: stg_licenses
-      description: Information about the licenses the users purchase and its
-        metadata when they have been canceled.
-      columns:
-        - name: license_id
-          description: Primary key for licenses.
-          tests:
-            - unique
-            - not_null
+  - name: stg_licenses
+    description: Information about the licenses the users purchase and its
+      metadata when they have been canceled.
+    columns:
+      - name: license_id
+        description: Primary key for licenses.
+        tests:
+          - unique
+          - not_null
 
-        - name: status
-          description: The status of the subscription,
-            either Pending, Active, Canceled, Passive Churn or Proactive Churn.
+      - name: status
+        description: The status of the subscription,
+          either Pending, Active, Canceled, Passive Churn or Proactive Churn.
 
-            **Pending** -> the license is created but has not been paid for yet.
-            **Active** -> the license has been paid and it is active.
-            **Canceled** -> the license is active but the user has canceled the license
-                (it will be a proactive churn in the following billing period).
-            **Passive Churn** -> the license reached the EOL (end of life) because either the license has
-              been terminated from our side or because upon renovation, the payment could not be made after
-              several retries.
-            **Proactive Churn** -> the license reached the EOL because the user canceled
-                the subscription at some point before the next billing period.
-          tests:
-            - not_null
+          **Pending** -> the license is created but has not been paid for yet.
+          **Active** -> the license has been paid and it is active.
+          **Canceled** -> the license is active but the user has canceled the license
+              (it will be a proactive churn in the following billing period).
+          **Passive Churn** -> the license reached the EOL (end of life) because either the license has
+            been terminated from our side or because upon renovation, the payment could not be made after
+            several retries.
+          **Proactive Churn** -> the license reached the EOL because the user canceled
+              the subscription at some point before the next billing period.
+        tests:
+          - not_null
 
-        - name: license_type
-          description: Identifier of the type of license.
-            This describes whether the license has a monthly or annual payment
-            and the degree of feature access to the platform.
+      - name: license_type
+        description: Identifier of the type of license.
+          This describes whether the license has a monthly or annual payment
+          and the degree of feature access to the platform.
 
-        - name: recurrence
-          description: whether the license has a monthly or annual payment
+      - name: recurrence
+        description: whether the license has a monthly or annual payment
 
-        - name: plan
-          description: The degree of feature access to the platform.
+      - name: plan
+        description: The degree of feature access to the platform.
 
-        - name: comments
-          description: Notes on the license.
+      - name: comments
+        description: Notes on the license.
 
-        - name: user_id
-          description: Id of the User purchasing the license.
+      - name: user_id
+        description: Id of the User purchasing the license.
 
-        - name: payer_id
-          description: Id of the user in the payment processing platform
-            used (e.g. Stripe or Braintree).
+      - name: payer_id
+        description: Id of the user in the payment processing platform
+          used (e.g. Stripe or Braintree).
 
-        - name: subscription_id
-          description: Id of the subscription in the payment processing platform.
+      - name: subscription_id
+        description: Id of the subscription in the payment processing platform.
 
-        - name: is_active
-          description: Whether the license is currently active (granting premium access) or not.
-          tests:
-            - not_null
+      - name: is_active
+        description: Whether the license is currently active (granting premium access) or not.
+        tests:
+          - not_null
 
-        - name: started_at
-          description: Date time the license starts.
+      - name: started_at
+        description: Date time the license starts.
 
-        - name: finished_at
-          description: Date time the license is no longer active.
+      - name: finished_at
+        description: Date time the license is no longer active.
 
-        - name: canceled_at
-          description: Date time at which the license is canceled.
+      - name: canceled_at
+        description: Date time at which the license is canceled.
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: date_diff(current_date(), date(started_at), day) < 2
-              and finished_at is null and canceled_at is null
-            condition: status = "Pending"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: date_diff(current_date(), date(started_at), day) < 2
+            and finished_at is null and canceled_at is null
+          condition: status = "Pending"
 
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is null
-            condition: status = "Active"
+      - dbt_utils.expression_is_true:
+          expression: finished_at is null and canceled_at is null
+          condition: status = "Active"
 
-        - dbt_utils.expression_is_true:
-            expression: finished_at is null and canceled_at is not null
-            condition: status = "Canceled"
+      - dbt_utils.expression_is_true:
+          expression: finished_at is null and canceled_at is not null
+          condition: status = "Canceled"
 
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is null
-            condition: status = "Passive Churn" and started_at >= '2020-02-05'
+      - dbt_utils.expression_is_true:
+          expression: finished_at is not null and canceled_at is null
+          condition: status = "Passive Churn" and started_at >= '2020-02-05'
 
-        - dbt_utils.expression_is_true:
-            expression: finished_at is not null and canceled_at is not null
-            condition: status = "Proactive Churn"
+      - dbt_utils.expression_is_true:
+          expression: finished_at is not null and canceled_at is not null
+          condition: status = "Proactive Churn"
