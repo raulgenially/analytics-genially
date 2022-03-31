@@ -4,6 +4,6 @@
             then '{{ var('unknown') }}'
         when {{ plan }} = 'Free'
             then 'Free'
-        else 'Premium' 
+        else 'Premium'
     end
 {% endmacro %}

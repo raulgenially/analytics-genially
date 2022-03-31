@@ -1,138 +1,137 @@
 version: 2
 
 models:
-    - name: src_genially_geniallys
-      description: All geniallys created (by users, by employees, templates + collaboratives).
-      columns:
-        - name: genially_id
-          description: Primary key for geniallys.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_geniallys
+    description: All geniallys created (by users, by employees, templates + collaboratives).
+    columns:
+      - name: genially_id
+        description: Primary key for geniallys.
+        tests:
+          - unique
+          - not_null
 
-        - name: genially_type
-          description: Type of genially.
+      - name: genially_type
+        description: Type of genially.
 
-        - name: name
-          description: Genially name.
+      - name: name
+        description: Genially name.
 
-        - name: tags
-          description: Tags associated to the genially.
+      - name: tags
+        description: Tags associated to the genially.
 
-        - name: description
-          description: Description of the genially.
+      - name: description
+        description: Description of the genially.
 
-        - name: friendly_url
-          description: Url linking to social view.
+      - name: friendly_url
+        description: Url linking to social view.
 
-        - name: is_published
-          description: Whether the genially has been published.
-          tests:
-            - not_null
+      - name: is_published
+        description: Whether the genially has been published.
+        tests:
+          - not_null
 
-        - name: is_active
-          description: Whether the genially is active at the user dashboard.
-          tests:
-            - not_null
+      - name: is_active
+        description: Whether the genially is active at the user dashboard.
+        tests:
+          - not_null
 
-        - name: is_disabled
-          description: Indicates whether the genially has been disabled in the context of Teams.
-            When a Team is disabled, so do all geniallys within the team.
-          tests:
-            - not_null
+      - name: is_disabled
+        description: Indicates whether the genially has been disabled in the context of Teams.
+          When a Team is disabled, so do all geniallys within the team.
+        tests:
+          - not_null
 
-        - name: is_private
-          description: Whether the genially can be indexed by search engines.
-          tests:
-            - not_null
+      - name: is_private
+        description: Whether the genially can be indexed by search engines.
+        tests:
+          - not_null
 
-        - name: is_password_free
-          description: Whether the genially has an access password.
-          tests:
-            - not_null
+      - name: is_password_free
+        description: Whether the genially has an access password.
+        tests:
+          - not_null
 
-        - name: is_in_social_profile
-          description: Whether the genially is shown in user's social profile (This is different from social view).
-          tests:
-            - not_null
+      - name: is_in_social_profile
+        description: Whether the genially is shown in user's social profile (This is different from social view).
+        tests:
+          - not_null
 
-        - name: is_reusable
-          description: Whether the genially can be reusable as a template by another user.
-          tests:
-            - not_null
+      - name: is_reusable
+        description: Whether the genially can be reusable as a template by another user.
+        tests:
+          - not_null
 
-        - name: is_inspiration
-          description: Whether the genially is shown in inspiration.
-          tests:
-            - not_null
+      - name: is_inspiration
+        description: Whether the genially is shown in inspiration.
+        tests:
+          - not_null
 
-        - name: has_genially_analytics
-          description: Whether the genially has tinybird analytics activated.
-          tests:
-            - not_null
+      - name: has_genially_analytics
+        description: Whether the genially has tinybird analytics activated.
+        tests:
+          - not_null
 
-        - name: user_id
-          description: Foreign key referring to the user creating the genially.
-          tests:
-            - not_null
+      - name: user_id
+        description: Foreign key referring to the user creating the genially.
+        tests:
+          - not_null
 
-        - name: analytics_id
-          description: Foreign key referring to web analytics data.
+      - name: analytics_id
+        description: Foreign key referring to web analytics data.
 
-        - name: reused_from_id
-          description: Id of the original genially that this one is based on.
+      - name: reused_from_id
+        description: Id of the original genially that this one is based on.
 
-        - name: from_template_id
-          description: Id of the template used for the creation of the genially.
+      - name: from_template_id
+        description: Id of the template used for the creation of the genially.
 
-        - name: team_id
-          description: Id of the team this genially is part of.
-          tests:
-            - relationships:
-                to: ref('src_genially_teams')
-                field: team_id
-                where: is_active = true
+      - name: team_id
+        description: Id of the team this genially is part of.
+        tests:
+          - relationships:
+              to: ref('src_genially_teams')
+              field: team_id
+              where: is_active = true
 
-        - name: space_id
-          description: Id of the space this genially is part of.
-          tests:
-            - relationships:
-                to: ref('src_genially_team_spaces')
-                field: team_space_id
-                where: is_active = true
-                severity: warn
+      - name: space_id
+        description: Id of the space this genially is part of.
+        tests:
+          - relationships:
+              to: ref('src_genially_team_spaces')
+              field: team_space_id
+              where: is_active = true
+              severity: warn
 
-        - name: team_template_id
-          description: Id of the genially as a team template.
+      - name: team_template_id
+        description: Id of the genially as a team template.
 
-        - name: from_team_template_id
-          description: Id of the team template used for the creation of the genially.
+      - name: from_team_template_id
+        description: Id of the team template used for the creation of the genially.
 
-        - name: modified_at
-          description: Modification date.
-          tests:
-            - not_null
+      - name: modified_at
+        description: Modification date.
+        tests:
+          - not_null
 
-        - name: created_at
-          description: Creation date.
+      - name: created_at
+        description: Creation date.
 
-        - name: published_at
-          description: Publication date.
+      - name: published_at
+        description: Publication date.
 
-        - name: last_view_at
-          description: Last time the genially was visualized.
+      - name: last_view_at
+        description: Last time the genially was visualized.
 
-        - name: deleted_at
-          description: This refers to the date at which the user moves the Genially to the recycle bin.
+      - name: deleted_at
+        description: This refers to the date at which the user moves the Genially to the recycle bin.
 
-        - name: disabled_at
-          description: The date at which the genially is disabled because the team is disabled.
+      - name: disabled_at
+        description: The date at which the genially is disabled because the team is disabled.
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: space_id is not null
-            condition: team_id is not null and is_active = true
-        - dbt_utils.expression_is_true:
-            expression: team_id is not null
-            condition: space_id is not null and is_active = true
-
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: space_id is not null
+          condition: team_id is not null and is_active = true
+      - dbt_utils.expression_is_true:
+          expression: team_id is not null
+          condition: space_id is not null and is_active = true

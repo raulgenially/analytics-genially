@@ -1,52 +1,52 @@
 version: 2
 
 models:
-    - name: src_genially_team_spaces
-      description: Team spaces
-      columns:
-        - name: team_space_id
-          description: Primary key for the team spaces.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_team_spaces
+    description: Team spaces
+    columns:
+      - name: team_space_id
+        description: Primary key for the team spaces.
+        tests:
+          - unique
+          - not_null
 
-        - name: name
-          description: Name of the space.
+      - name: name
+        description: Name of the space.
 
-        - name: icon
-          description: Emoji character attached to the space name.
+      - name: icon
+        description: Emoji character attached to the space name.
 
-        - name: is_common
-          description: Whether this is the common space of the team.
-          tests:
-            - not_null
+      - name: is_common
+        description: Whether this is the common space of the team.
+        tests:
+          - not_null
 
-        - name: team_id
-          description: The team id this space belongs to.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_teams')
-                field: team_id
+      - name: team_id
+        description: The team id this space belongs to.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_teams')
+              field: team_id
 
-        - name: owner_id
-          description: The team member id that created this space.
-          tests:
-            - not_null:
-                where: "is_common = false"
-            - relationships:
-                to: ref('src_genially_team_members')
-                field: team_member_id
+      - name: owner_id
+        description: The team member id that created this space.
+        tests:
+          - not_null:
+              where: "is_common = false"
+          - relationships:
+              to: ref('src_genially_team_members')
+              field: team_member_id
 
-        - name: created_at
-          description: Date time this space was created.
-          tests:
-            - not_null
+      - name: created_at
+        description: Date time this space was created.
+        tests:
+          - not_null
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "owner_id is null"
-            condition: "is_common = true"
-        - dbt_utils.expression_is_true:
-            expression: "owner_id is not null"
-            condition: "is_common = false"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "owner_id is null"
+          condition: "is_common = true"
+      - dbt_utils.expression_is_true:
+          expression: "owner_id is not null"
+          condition: "is_common = false"

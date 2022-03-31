@@ -1,122 +1,122 @@
 version: 2
 
 models:
-    - name: src_snapshot_genially_users
-      description: Historic states of genially users.
-        Tracking started on {{ var('snapshot_users_start_date') }}.
-      columns:
-        - name: id
-          description: Primary key for the user state.
-          tests:
-            - unique
-            - not_null
+  - name: src_snapshot_genially_users
+    description: Historic states of genially users.
+      Tracking started on {{ var('snapshot_users_start_date') }}.
+    columns:
+      - name: id
+        description: Primary key for the user state.
+        tests:
+          - unique
+          - not_null
 
-        - name: user_id
-          description: The id of the user.
-          tests:
-            - not_null
+      - name: user_id
+        description: The id of the user.
+        tests:
+          - not_null
 
-        - name: subscription_plan
-          description:  "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
+      - name: subscription_plan
+        description:  "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
 
-        - name: sector_code
-          description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+      - name: sector_code
+        description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
 
-        - name: role_code
-          description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+      - name: role_code
+        description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
 
-        - name: username
-          description: Username.
+      - name: username
+        description: Username.
 
-        - name: nickname
-          description: Nickname.
+      - name: nickname
+        description: Nickname.
 
-        - name: email
-          description: Email account (same as username).
-          tests:
-            - not_null
+      - name: email
+        description: Email account (same as username).
+        tests:
+          - not_null
 
-        - name: country
-          description: Country (ISO code).
-          tests:
-            - not_null
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
 
-        - name: country_name
-          description: Name of the country correspondent to the ISO code.
-          tests:
-            - not_null
+      - name: country_name
+        description: Name of the country correspondent to the ISO code.
+        tests:
+          - not_null
 
-        - name: city
-          description: City.
+      - name: city
+        description: City.
 
-        - name: logins
-          description: Logins in the application using third-party services such as Google, Facebook, etc.
+      - name: logins
+        description: Logins in the application using third-party services such as Google, Facebook, etc.
 
-        - name: language
-          description: Language.
+      - name: language
+        description: Language.
 
-        - name: organization
-          description: Organization.
+      - name: organization
+        description: Organization.
 
-        - name: facebook_account
-          description: Link to Facebook account.
+      - name: facebook_account
+        description: Link to Facebook account.
 
-        - name: twitter_account
-          description: Link to Twitter account.
+      - name: twitter_account
+        description: Link to Twitter account.
 
-        - name: youtube_account
-          description: Link to YouTube account.
+      - name: youtube_account
+        description: Link to YouTube account.
 
-        - name: instagram_account
-          description: Link to Instagram account.
+      - name: instagram_account
+        description: Link to Instagram account.
 
-        - name: linkedin_account
-          description: Link to LinkedIn account.
+      - name: linkedin_account
+        description: Link to LinkedIn account.
 
-        - name: email_validation_token
-          description: Token used to validate the email.
+      - name: email_validation_token
+        description: Token used to validate the email.
 
-        - name: about_me
-          description: Short description about the user (user defined).
+      - name: about_me
+        description: Short description about the user (user defined).
 
-        - name: version
-          description: The number of this state. Versions start from 1 onwards.
-          tests:
-            - not_null
+      - name: version
+        description: The number of this state. Versions start from 1 onwards.
+        tests:
+          - not_null
 
-        - name: is_validated
-          description: Whether the user has validated their email.
-          tests:
-            - not_null
+      - name: is_validated
+        description: Whether the user has validated their email.
+        tests:
+          - not_null
 
-        - name: is_current_state
-          description: Whether the state of the user is the current one.
-          tests:
-            - not_null
+      - name: is_current_state
+        description: Whether the state of the user is the current one.
+        tests:
+          - not_null
 
-        - name: analytics_id
-          description: Foreign key referring to web analytics data.
+      - name: analytics_id
+        description: Foreign key referring to web analytics data.
 
-        - name: registered_at
-          description: Registration date.
+      - name: registered_at
+        description: Registration date.
 
-        - name: last_access_at
-          description: Last access date.
+      - name: last_access_at
+        description: Last access date.
 
-        - name: email_validation_created_at
-          description: Date the validation email was sent.
+      - name: email_validation_created_at
+        description: Date the validation email was sent.
 
-        - name: state_valid_from
-          description: Date from which this state is active.
-          tests:
-            - not_null
+      - name: state_valid_from
+        description: Date from which this state is active.
+        tests:
+          - not_null
 
-        - name: state_valid_to
-          description: Date where this state is superseded by a new one, except
-            the currently active state which has a fictional date far into the future.
-          tests:
-            - not_null
+      - name: state_valid_to
+        description: Date where this state is superseded by a new one, except
+          the currently active state which has a fictional date far into the future.
+        tests:
+          - not_null

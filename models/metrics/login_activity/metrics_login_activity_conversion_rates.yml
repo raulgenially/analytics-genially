@@ -1,121 +1,121 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_conversion_rates
-      description: This model computes the conversion rates of daily active users.
-      columns:
-        - name: time_period
-          description: Indicates whether the conversion rates refer to daily, weekly or monthly active users.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_time_period_values() }}"
+  - name: metrics_login_activity_conversion_rates
+    description: This model computes the conversion rates of daily active users.
+    columns:
+      - name: time_period
+        description: Indicates whether the conversion rates refer to daily, weekly or monthly active users.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_time_period_values() }}"
 
-        - name: date_day
-          description: The particular day where user's activity is described.
-          tests:
-            - not_null
+      - name: date_day
+        description: The particular day where user's activity is described.
+        tests:
+          - not_null
 
-        - name: plan
-          description: "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
 
-        - name: subscription
-          description: Type of subscription, Free or Premium.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_subscription_values() }}"
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
 
-        - name: sector
-          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: sector
+        description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_sector
-          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: role
-          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null
+      - name: role
+        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_role
-          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-          tests:
-            - not_null
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
 
-        - name: country
-          description: Country (ISO code).
-          tests:
-            - not_null
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
 
-        - name: country_name
-          description: Full name of the country.
-          tests:
-            - not_null
+      - name: country_name
+        description: Full name of the country.
+        tests:
+          - not_null
 
-        - name: signup_device
-          description: Device through which the user signed up.
-          tests:
-            - not_null
+      - name: signup_device
+        description: Device through which the user signed up.
+        tests:
+          - not_null
 
-        - name: signup_channel
-          description: Acquisition channel.
-          tests:
-            - not_null
+      - name: signup_channel
+        description: Acquisition channel.
+        tests:
+          - not_null
 
-        - name: n_activated_users
-          description: Number of users who came back on a different day after signing up.
-          tests:
-            - not_null
+      - name: n_activated_users
+        description: Number of users who came back on a different day after signing up.
+        tests:
+          - not_null
 
-        - name: n_inactivated_users
-          description: Number of users who did not came back after signing up.
-          tests:
-            - not_null
+      - name: n_inactivated_users
+        description: Number of users who did not came back after signing up.
+        tests:
+          - not_null
 
-        - name: n_retained_users
-          description: Number of returning users who were also returning in the previous status.
-          tests:
-            - not_null
+      - name: n_retained_users
+        description: Number of returning users who were also returning in the previous status.
+        tests:
+          - not_null
 
-        - name: n_churned_users
-          description: Number of users who have stopped logging in.
-          tests:
-            - not_null
+      - name: n_churned_users
+        description: Number of users who have stopped logging in.
+        tests:
+          - not_null
 
-        - name: n_resurrected_users
-          description: Number of users who have logged back in after a period without logging in.
-          tests:
-            - not_null
+      - name: n_resurrected_users
+        description: Number of users who have logged back in after a period without logging in.
+        tests:
+          - not_null
 
-        - name: n_hibernated_users
-          description: Number of users who have not logged in for two or more periods.
-          tests:
-            - not_null
+      - name: n_hibernated_users
+        description: Number of users who have not logged in for two or more periods.
+        tests:
+          - not_null
 
-        - name: n_previous_new_users
-          description: Total new users of the previous period.
-          tests:
-            - not_null
+      - name: n_previous_new_users
+        description: Total new users of the previous period.
+        tests:
+          - not_null
 
-        - name: n_previous_returnings_users
-          description: Total returning users of the previous period.
-          tests:
-            - not_null
+      - name: n_previous_returnings_users
+        description: Total returning users of the previous period.
+        tests:
+          - not_null
 
-        - name: n_previous_churned_users
-          description: Total churned users of the previous period.
-          tests:
-            - not_null
+      - name: n_previous_churned_users
+        description: Total churned users of the previous period.
+        tests:
+          - not_null
 
-      tests:
+    tests:
       - dbt_utils.expression_is_true:
           expression: "n_activated_users + n_inactivated_users = n_previous_new_users"
 

@@ -1,147 +1,147 @@
 version: 2
 
 models:
-    - name: users
-      columns:
-        - name: user_id
-          description: Primary key for users.
-          tests:
-            - unique
-            - not_null
+  - name: users
+    columns:
+      - name: user_id
+        description: Primary key for users.
+        tests:
+          - unique
+          - not_null
 
-        - name: plan
-          description: "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
 
-        - name: subscription
-          description: Type of subscription, Free or Premium.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_subscription_values() }}"
-  
-        - name: sector
-          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
 
-        - name: broad_sector
-          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: sector
+        description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: role
-          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_role
-          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-          tests:
-            - not_null
+      - name: role
+        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        tests:
+          - not_null
 
-        - name: country
-          description: Country (ISO code).
-          tests:
-            - not_null
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
 
-        - name: country_name
-          description: Name of the country correspondent to the ISO code.
-          tests:
-            - not_null
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
 
-        - name: email
-          description: Email account (same as username).
-          tests:
-            - not_null
+      - name: country_name
+        description: Name of the country correspondent to the ISO code.
+        tests:
+          - not_null
 
-        - name: nickname
-          description: User NickName in Genially.
+      - name: email
+        description: Email account (same as username).
+        tests:
+          - not_null
 
-        - name: language
-          description: Language the Genially web interface is in.
+      - name: nickname
+        description: User NickName in Genially.
 
-        - name: about_me
-          description: Short description about the user (user defined).
+      - name: language
+        description: Language the Genially web interface is in.
 
-        - name: facebook_account
-          description: Link to Facebook account.
+      - name: about_me
+        description: Short description about the user (user defined).
 
-        - name: twitter_account
-          description: Link to Twitter account.
+      - name: facebook_account
+        description: Link to Facebook account.
 
-        - name: youtube_account
-          description: Link to YouTube account.
+      - name: twitter_account
+        description: Link to Twitter account.
 
-        - name: instagram_account
-          description: Link to Instagram account.
+      - name: youtube_account
+        description: Link to YouTube account.
 
-        - name: linkedin_account
-          description: Link to LinkedIn account.
+      - name: instagram_account
+        description: Link to Instagram account.
 
-        - name: social_profile_name
-          description: Social Profiles alias & URL.
+      - name: linkedin_account
+        description: Link to LinkedIn account.
 
-        - name: n_total_creations
-          description: Total number of creations (including those that have been removed).
-          tests:
-            - not_null
+      - name: social_profile_name
+        description: Social Profiles alias & URL.
 
-        - name: n_active_creations
-          description: Total number of active creations, that is, creations that have not been removed.
-          tests:
-            - not_null
+      - name: n_total_creations
+        description: Total number of creations (including those that have been removed).
+        tests:
+          - not_null
 
-        - name: is_validated
-          description: Whether the user has validated their account.
-          tests:
-            - not_null
+      - name: n_active_creations
+        description: Total number of active creations, that is, creations that have not been removed.
+        tests:
+          - not_null
 
-        - name: is_social_profile_active
-          description: Whether the user's social profile is active or not.
-          tests:
-            - not_null
+      - name: is_validated
+        description: Whether the user has validated their account.
+        tests:
+          - not_null
 
-        - name: is_collaborator
-          description: Whether the user forms part of a collaboration (active or not).
-          tests:
-            - not_null
+      - name: is_social_profile_active
+        description: Whether the user's social profile is active or not.
+        tests:
+          - not_null
 
-        - name: is_creator
-          description: Whether the user is considered a creator (see the define_creator macro).
-          tests:
-            - not_null
+      - name: is_collaborator
+        description: Whether the user forms part of a collaboration (active or not).
+        tests:
+          - not_null
 
-        - name: is_publisher
-          description: Whether the user is considered a publisher (see the define_publisher macro).
-          tests:
-            - not_null
+      - name: is_creator
+        description: Whether the user is considered a creator (see the define_creator macro).
+        tests:
+          - not_null
 
-        - name: is_heavy_publisher
-          description: Whether the user is considered a heavy publisher (see the define_heavy_publisher macro).
-          tests:
-            - not_null
+      - name: is_publisher
+        description: Whether the user is considered a publisher (see the define_publisher macro).
+        tests:
+          - not_null
 
-        - name: is_recurrent_publisher
-          description: Whether the user is considered a recurrent publisher (see the define_recurrent_publisher macro).
-          tests:
-            - not_null
+      - name: is_heavy_publisher
+        description: Whether the user is considered a heavy publisher (see the define_heavy_publisher macro).
+        tests:
+          - not_null
 
-        - name: registered_at
-          description: Registration date.
-          tests:
-            - not_null
+      - name: is_recurrent_publisher
+        description: Whether the user is considered a recurrent publisher (see the define_recurrent_publisher macro).
+        tests:
+          - not_null
 
-        - name: last_access_at
-          description: Last access date.
+      - name: registered_at
+        description: Registration date.
+        tests:
+          - not_null
 
-      tests:
-        - dbt_utils.expression_is_true:
-            expression: "country_name = '{{ var('not_selected') }}'"
-            condition: "country = '{{ var('not_selected') }}'"
+      - name: last_access_at
+        description: Last access date.
 
-        - dbt_utils.expression_is_true:
-            expression: "n_active_creations <= n_total_creations"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "country_name = '{{ var('not_selected') }}'"
+          condition: "country = '{{ var('not_selected') }}'"
+
+      - dbt_utils.expression_is_true:
+          expression: "n_active_creations <= n_total_creations"

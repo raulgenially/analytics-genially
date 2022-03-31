@@ -1,35 +1,35 @@
 version: 2
 
 models:
-    - name: src_genially_team_groups
-      description: Team groups. A team group is a subset of users within a given team.
-      columns:
-        - name: team_group_id
-          description: Primary key for the team groups.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_team_groups
+    description: Team groups. A team group is a subset of users within a given team.
+    columns:
+      - name: team_group_id
+        description: Primary key for the team groups.
+        tests:
+          - unique
+          - not_null
 
-        - name: name
-          description: Name of the team group.
-          tests:
-            - not_null
+      - name: name
+        description: Name of the team group.
+        tests:
+          - not_null
 
-        - name: color
-          description: The accent color of the group.
+      - name: color
+        description: The accent color of the group.
 
-        - name: team_id
-          description: The team this group belongs to.
-          tests:
-            - not_null
-            - relationships:
-                to: ref('src_genially_teams')
-                field: team_id
+      - name: team_id
+        description: The team this group belongs to.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_teams')
+              field: team_id
 
-        - name: member_ids
-          description: List of member ids forming part of this team group.
+      - name: member_ids
+        description: List of member ids forming part of this team group.
 
-        - name: created_at
-          description: The date time this group was created.
-          tests:
-            - not_null
+      - name: created_at
+        description: The date time this group was created.
+        tests:
+          - not_null

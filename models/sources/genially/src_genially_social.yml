@@ -1,25 +1,25 @@
 version: 2
 
 models:
-    - name: src_genially_social
-      description: Users Social Profiles
-      columns:
-        - name: social_profile_id
-          description: Primary key for the social profiles.
-          tests:
-            - unique
-            - not_null
-        
-        - name: is_active
-          description: Social Profiles current status.
-          tests:
-            - not_null
-        
-        - name: social_profile_name
-          description: Social Profiles alias & URL.
+  - name: src_genially_social
+    description: Users Social Profiles
+    columns:
+      - name: social_profile_id
+        description: Primary key for the social profiles.
+        tests:
+          - unique
+          - not_null
 
-        - name: user_id
-          description: Creator's User Id of the social profile.
-          tests:
-            - unique
-            - not_null
+      - name: is_active
+        description: Social Profiles current status.
+        tests:
+          - not_null
+
+      - name: social_profile_name
+        description: Social Profiles alias & URL.
+
+      - name: user_id
+        description: Creator's User Id of the social profile.
+        tests:
+          - unique
+          - not_null

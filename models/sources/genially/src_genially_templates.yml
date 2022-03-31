@@ -1,65 +1,65 @@
 version: 2
 
 models:
-    - name: src_genially_templates
-      description: Templates that users can use for creations.
-      columns:
-        - name: template_id
-          description: Primary key for templates.
-          tests:
-            - unique
-            - not_null
+  - name: src_genially_templates
+    description: Templates that users can use for creations.
+    columns:
+      - name: template_id
+        description: Primary key for templates.
+        tests:
+          - unique
+          - not_null
 
-        - name: template_type
-          description: Template type.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_template_type_values() }}"
+      - name: template_type
+        description: Template type.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_template_type_values() }}"
 
-        - name: subcategory
-          description: Template subcategory.
+      - name: subcategory
+        description: Template subcategory.
 
-        - name: name
-          description: Name of the template.
-          tests:
-            - not_null
+      - name: name
+        description: Name of the template.
+        tests:
+          - not_null
 
-        - name: language
-          description: Language of the template.
+      - name: language
+        description: Language of the template.
 
-        - name: tags
-          description: Tags associated to the template.
+      - name: tags
+        description: Tags associated to the template.
 
-        - name: template_order
-          description: The template is shown in the application according to this field.
+      - name: template_order
+        description: The template is shown in the application according to this field.
 
-        - name: default_color
-          description: The default accent color of the creation.
+      - name: default_color
+        description: The default accent color of the creation.
 
-        - name: is_hidden
-          description: Whether the template is hidden in the template panel.
-          tests:
-            - not_null
+      - name: is_hidden
+        description: Whether the template is hidden in the template panel.
+        tests:
+          - not_null
 
-        - name: is_premium
-          description: Whether the template is premium.
-            Premium templates can only be used in premium plans.
-          tests:
-            - not_null
+      - name: is_premium
+        description: Whether the template is premium.
+          Premium templates can only be used in premium plans.
+        tests:
+          - not_null
 
-        - name: is_new
-          description: Whether the template is new.
+      - name: is_new
+        description: Whether the template is new.
 
-        - name: has_slides_selectable
-          description: Whether you can select specific slides when using the template.
+      - name: has_slides_selectable
+        description: Whether you can select specific slides when using the template.
 
-        - name: genially_id
-          description: Id of the actual genially referring to this template.
-          tests:
-            - not_null
+      - name: genially_id
+        description: Id of the actual genially referring to this template.
+        tests:
+          - not_null
 
-        - name: genially_to_view_id
-          description: Id of the actual genially referring to this template when visualized.
-          tests:
-            - not_null
+      - name: genially_to_view_id
+        description: Id of the actual genially referring to this template when visualized.
+        tests:
+          - not_null

@@ -1,172 +1,172 @@
 version: 2
 
 sources:
-    - name: genially
-      description: Back office data.
-      database: data-genially
-      tables:
-        - name: geniallys
-          columns:
-            - name: _id
-              description: Primary key for geniallys.
-              tests:
-                - unique
-                - not_null
+  - name: genially
+    description: Back office data.
+    database: data-genially
+    tables:
+      - name: geniallys
+        columns:
+          - name: _id
+            description: Primary key for geniallys.
+            tests:
+              - unique
+              - not_null
 
-            - name: __hevo__marked_deleted
-              description: Indicates if the genially is deleted in MongoDB.
-              tests:
-                - not_null
+          - name: __hevo__marked_deleted
+            description: Indicates if the genially is deleted in MongoDB.
+            tests:
+              - not_null
 
-        - name: users
-          columns:
-            - name: _id
-              description: Primary key for users.
-              tests:
-                - unique
-                - not_null
+      - name: users
+        columns:
+          - name: _id
+            description: Primary key for users.
+            tests:
+              - unique
+              - not_null
 
-        - name: templatev9
-          columns:
-            - name: _id
-              description: Primary key for templates.
-              tests:
-                - unique
-                - not_null
+      - name: templatev9
+        columns:
+          - name: _id
+            description: Primary key for templates.
+            tests:
+              - unique
+              - not_null
 
-        - name: collaborative
-          columns:
-            - name: _id
-              description: Primary key for collaboratives.
-              tests:
-                - unique
-                - not_null
+      - name: collaborative
+        columns:
+          - name: _id
+            description: Primary key for collaboratives.
+            tests:
+              - unique
+              - not_null
 
-        - name: social
-          description: Users Social Profiles information.
-          columns:
-            - name: _id
-              description: Primary key for social profiles.
-              tests:
-                - unique
-                - not_null
+      - name: social
+        description: Users Social Profiles information.
+        columns:
+          - name: _id
+            description: Primary key for social profiles.
+            tests:
+              - unique
+              - not_null
 
-            - name: iduser
-              description: Id User of the social profile.
-              tests:
-                - unique
+          - name: iduser
+            description: Id User of the social profile.
+            tests:
+              - unique
 
-        - name: inspirationv4
-          description: Geniallys shown at Inspiration section.
-          columns:
-            - name: _id
-              description: Primary key for Inspiration geniallys.
-              tests:
-                - unique
-                - not_null
+      - name: inspirationv4
+        description: Geniallys shown at Inspiration section.
+        columns:
+          - name: _id
+            description: Primary key for Inspiration geniallys.
+            tests:
+              - unique
+              - not_null
 
-        - name: templatecolors
-          description: Template colors variation (Old Templates).
-          columns:
-            - name: _id
-              description: Primary key for template colors.
-              tests:
-                - unique
-                - not_null
+      - name: templatecolors
+        description: Template colors variation (Old Templates).
+        columns:
+          - name: _id
+            description: Primary key for template colors.
+            tests:
+              - unique
+              - not_null
 
-            - name: idgenially
-              description: Id Genially of the template color.
-              tests:
-                - not_null
+          - name: idgenially
+            description: Id Genially of the template color.
+            tests:
+              - not_null
 
-        - name: license
-          description: Information about the licenses the users purchase.
-          columns:
-            - name: _id
-              description: Primary key for licenses.
-              tests:
-                - unique
-                - not_null
+      - name: license
+        description: Information about the licenses the users purchase.
+        columns:
+          - name: _id
+            description: Primary key for licenses.
+            tests:
+              - unique
+              - not_null
 
-        - name: canceledlicense
-          description: Information about canceled licenses.
-          columns:
-            - name: _id
-              description: Primary key for licenses.
-              tests:
-                - unique
-                - not_null
+      - name: canceledlicense
+        description: Information about canceled licenses.
+        columns:
+          - name: _id
+            description: Primary key for licenses.
+            tests:
+              - unique
+              - not_null
 
-        - name: invoice
-          description: Information about invoices.
-          columns:
-            - name: _id
-              description: Primary key for invoices.
-              tests:
-                - unique
-                - not_null
+      - name: invoice
+        description: Information about invoices.
+        columns:
+          - name: _id
+            description: Primary key for invoices.
+            tests:
+              - unique
+              - not_null
 
-        - name: refundinvoice
-          description: Information about refunded invoices.
-          columns:
-            - name: _id
-              description: Primary key for refund invoices.
-              tests:
-                - unique
-                - not_null
+      - name: refundinvoice
+        description: Information about refunded invoices.
+        columns:
+          - name: _id
+            description: Primary key for refund invoices.
+            tests:
+              - unique
+              - not_null
 
-        - name: team
-          columns:
-            - name: _id
-              description: Primary key for teams.
-              tests:
-                - unique
-                - not_null
+      - name: team
+        columns:
+          - name: _id
+            description: Primary key for teams.
+            tests:
+              - unique
+              - not_null
 
-        - name: teammember
-          columns:
-            - name: _id
-              description: Primary key for team member.
-              tests:
-                - unique
-                - not_null
+      - name: teammember
+        columns:
+          - name: _id
+            description: Primary key for team member.
+            tests:
+              - unique
+              - not_null
 
-            - name: createdat
-              description: Date at which the team member is registered in the production database.
-                In other words, date at which the team member is invited to join in.
-                See https://github.com/Genially/scrum-genially/issues/7607
-              tests:
-                - not_null:
-                    where: __hevo__loaded_at > 1634605270447 and __hevo__marked_deleted = false
+          - name: createdat
+            description: Date at which the team member is registered in the production database.
+              In other words, date at which the team member is invited to join in.
+              See https://github.com/Genially/scrum-genially/issues/7607
+            tests:
+              - not_null:
+                  where: __hevo__loaded_at > 1634605270447 and __hevo__marked_deleted = false
 
-        - name: teamspace
-          columns:
-            - name: _id
-              description: Primary key for team space.
-              tests:
-                - unique
-                - not_null
+      - name: teamspace
+        columns:
+          - name: _id
+            description: Primary key for team space.
+            tests:
+              - unique
+              - not_null
 
-        - name: teamspacecollaborator
-          columns:
-            - name: _id
-              description: Primary key for team space collaborator.
-              tests:
-                - unique
-                - not_null
+      - name: teamspacecollaborator
+        columns:
+          - name: _id
+            description: Primary key for team space collaborator.
+            tests:
+              - unique
+              - not_null
 
-        - name: teamtemplate
-          columns:
-            - name: _id
-              description: Primary key for team templates.
-              tests:
-                - unique
-                - not_null
+      - name: teamtemplate
+        columns:
+          - name: _id
+            description: Primary key for team templates.
+            tests:
+              - unique
+              - not_null
 
-        - name: teamgroup
-          columns:
-            - name: _id
-              description: Primary key for team groups.
-              tests:
-                - unique
-                - not_null
+      - name: teamgroup
+        columns:
+          - name: _id
+            description: Primary key for team groups.
+            tests:
+              - unique
+              - not_null

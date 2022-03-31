@@ -14,7 +14,7 @@ final as (
         team_members.role as member_role,
         role_codes.name as member_role_name,
 
-        -- See https://github.com/Genially/scrum-genially/issues/7607 
+        -- See https://github.com/Genially/scrum-genially/issues/7607
         (
             team_members.confirmedat is not null
             and team_members.deletedat is null

@@ -1,82 +1,82 @@
 version: 2
 
 models:
-    - name: metrics_login_activity_cohorts
-      description: A model which crosses users with their logins based on the users table's snaspshots.
-        Also, is enriched with sign up device and default channel grouping from Google Analytics.
-        This model is used to calculate activity cohorts.
+  - name: metrics_login_activity_cohorts
+    description: A model which crosses users with their logins based on the users table's snaspshots.
+      Also, is enriched with sign up device and default channel grouping from Google Analytics.
+      This model is used to calculate activity cohorts.
 
-      columns:
-        - name: user_id
-          description: The user id whose activity is described on date_day.
-          tests:
-            - not_null
+    columns:
+      - name: user_id
+        description: The user id whose activity is described on date_day.
+        tests:
+          - not_null
 
-        - name: plan
-          description: "{{ doc('subscription_codes') }}"
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_plan_values() }}"
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
 
-        - name: subscription
-          description: Type of subscription, Free or Premium.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_subscription_values() }}"
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
 
-        - name: sector
-          description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: sector
+        description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_sector
-          description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-          tests:
-            - not_null
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
 
-        - name: role
-          description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-          tests:
-            - not_null
+      - name: role
+        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        tests:
+          - not_null
 
-        - name: broad_role
-          description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-          tests:
-            - not_null
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
 
-        - name: country
-          description: Country (ISO code).
-          tests:
-            - not_null
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
 
-        - name: country_name
-          description: Full name of the country.
-          tests:
-            - not_null
+      - name: country_name
+        description: Full name of the country.
+        tests:
+          - not_null
 
-        - name: signup_device
-          description: Device through which the user signed up.
-          tests:
-            - not_null
+      - name: signup_device
+        description: Device through which the user signed up.
+        tests:
+          - not_null
 
-        - name: signup_channel
-          description: Acquisition channel.
-          tests:
-            - not_null
+      - name: signup_channel
+        description: Acquisition channel.
+        tests:
+          - not_null
 
-        - name: registered_at
-          description: The date at user signed up.
-          tests:
-            - not_null
+      - name: registered_at
+        description: The date at user signed up.
+        tests:
+          - not_null
 
-        - name: login_at
-          description: The date the user logged in.
-          tests:
-            - not_null
+      - name: login_at
+        description: The date the user logged in.
+        tests:
+          - not_null
 
-        - name: n_days_since_first_usage
-          description: The number of days since the user initiated their activity for the first time.
-          tests:
-            - not_null
+      - name: n_days_since_first_usage
+        description: The number of days since the user initiated their activity for the first time.
+        tests:
+          - not_null

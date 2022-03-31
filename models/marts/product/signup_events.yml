@@ -1,34 +1,34 @@
 version: 2
 
 models:
-    - name: signup_events
-      description: Signup events from each user.
-      columns:
-        - name: user_id
-          description: Primary key for the signup events.
-          tests:
-            - unique
-            - not_null
+  - name: signup_events
+    description: Signup events from each user.
+    columns:
+      - name: user_id
+        description: Primary key for the signup events.
+        tests:
+          - unique
+          - not_null
 
-        - name: device
-          description: Device used for the signup.
-          tests:
-            - not_null
-            - accepted_values:
-                values: "{{ get_ga4_device_values() }}"
+      - name: device
+        description: Device used for the signup.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_ga4_device_values() }}"
 
-        - name: source
-          description: Name of the network that first acquired the user.
-          tests:
-            - not_null
+      - name: source
+        description: Name of the network that first acquired the user.
+        tests:
+          - not_null
 
-        - name: channel
-          description: Name of the channel (paid search, organic, email, etc)
-            that first acquired the user.
-          tests:
-            - not_null
+      - name: channel
+        description: Name of the channel (paid search, organic, email, etc)
+          that first acquired the user.
+        tests:
+          - not_null
 
-        - name: event_at
-          description: The date time at which the event was registered.
-          tests:
-            - not_null
+      - name: event_at
+        description: The date time at which the event was registered.
+        tests:
+          - not_null

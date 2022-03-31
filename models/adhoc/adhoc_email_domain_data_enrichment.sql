@@ -2,7 +2,6 @@ with user_data as (
     select * from {{ ref('adhoc_base_user_data_enrichment') }}
 ),
 
-
 final as (
     select
         *
@@ -14,4 +13,3 @@ final as (
 )
 
 select * from final
-
