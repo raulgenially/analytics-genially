@@ -40,3 +40,12 @@ seeds:
 
       - name: name
         description: Name associated.
+
+  - name: seed_freshdesk_ticket_agents
+    description: Agents mapping. Extracted from Diego's insights.
+    columns:
+      - name: code
+        description: Agent id, initially named as responder_id.
+
+      - name: name
+        description: Agent name.
