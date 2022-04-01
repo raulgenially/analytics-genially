@@ -106,10 +106,21 @@ models:
               where: is_active = true
 
       - name: team_template_id
-        description: Id of the genially as a team template.
+        description: Id of a team template this genially was created from.
+          This field is a WIP and may change its meaning in the future.
+        tests:
+          - relationships:
+              to: ref('src_genially_team_templates')
+              field: team_template_id
+              where: is_active = true
 
-      - name: from_team_template_id
-        description: Id of the team template used for the creation of the genially.
+      - name: from_team_genially_id
+        description: Id of the original genially in a team workspace that this one is based on.
+          This field is a WIP and may change its meaning in the future.
+        tests:
+          - relationships:
+              to: ref('src_genially_geniallys')
+              field: genially_id
 
       - name: modified_at
         description: Modification date.

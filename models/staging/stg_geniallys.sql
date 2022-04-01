@@ -97,7 +97,7 @@ final as (
                     end
             when geniallys.from_template_id is not null
                 then 'Template'
-            when geniallys.from_team_template_id is not null
+            when geniallys.from_team_genially_id is not null
                 then 'Team Template'
             when geniallys.genially_type = 17 or geniallys.genially_type = 27
                 then 'From Scratch'
@@ -133,7 +133,7 @@ final as (
         geniallys.team_id,
         geniallys.space_id,
         geniallys.team_template_id,
-        geniallys.from_team_template_id,
+        geniallys.from_team_genially_id,
         geniallys.template_to_view_id,
 
         geniallys.created_at,
