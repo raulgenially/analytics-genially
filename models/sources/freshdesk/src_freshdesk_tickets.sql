@@ -24,7 +24,7 @@ base_tickets as (
         sources.name as source_label,
         statuses.name as status_label,
         priorities.name as priority_label,
-        agents.name as agent_name,
+        agents.name as agent_name
 
     from tickets
     left join sources
