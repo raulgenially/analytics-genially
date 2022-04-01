@@ -52,8 +52,10 @@ final as (
         {{ clean_ticket_emails('to_emails') }},
         {{ clean_ticket_emails('fwd_emails') }},
         tags,
+
         requester.id as contact_id,
         group_id,
+
         created_at,
         updated_at,
         -- stats
@@ -62,7 +64,9 @@ final as (
         stats.first_responded_at,
         stats.reopened_at,
         stats.resolved_at,
-        stats.closed_at,
+        stats.closed_at
+
     from base_tickets
 )
+
 select * from final
