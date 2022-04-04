@@ -1,6 +1,6 @@
 -- This macro returns a reference table with all combinations of calendar months (from min_date to current date) and the
 -- dimensions: plans, subscriptions, countries, country names, broad sectors and broad roles.
--- It is useful for metrics model to report all possible combinations not just the ones having place.
+-- It is useful for metrics model with month granularity to report all possible combinations not just the ones having place.
 -- It should be the starting table, and then metrics should be added using left join to it.
 {% macro get_combination_calendar_dimensions_bymonth(min_date) %}
 
