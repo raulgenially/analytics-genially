@@ -19,6 +19,7 @@ metric_lastday_of_the_month as (
     from {{ ref('metrics_okrs_premium_free') }}
     where date_day = last_day(date_day,month)
 ),
+-- we consider the value of these metrics in a month as the value of the metrics on the last day of the month.
 
 final as (
     select
