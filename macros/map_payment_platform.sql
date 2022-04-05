@@ -2,6 +2,7 @@
     case
         when {{ realtransactionid }} like 'ch\\_%'
             -- example: ch_1IssJSBn82mIxvX2icHUlNiT
+            then 'Stripe'
         when {{ realtransactionid }} like 'py\\_%'
             -- example: py_3KVcV6Bn82mIxvX23opSBFGI
             then 'Stripe_PayPal'
