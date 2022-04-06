@@ -45,6 +45,7 @@ models:
               to: ref('src_genially_users')
               field: user_id
               where: collaboration_type = 1
+              error_if: ">5"
 
       - name: user_owner_id
         description: Id of the user that is owner of the collaborative genially.

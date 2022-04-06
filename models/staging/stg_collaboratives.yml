@@ -23,6 +23,7 @@ models:
           - relationships:
               to: ref('stg_users')
               field: user_id
+              error_if: ">5"
 
       - name: user_owner_id
         description: Id of the user that is owner of the collaborative genially.
