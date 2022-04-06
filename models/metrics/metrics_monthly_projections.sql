@@ -7,7 +7,7 @@
 {% endset %}
 
 with reference_table as (
-    {{ get_combination_calendar_dimensions(min_date) }}
+    {{ get_combination_calendar_dimensions(min_date,"day") }}
 ),
 
 geniallys as (
