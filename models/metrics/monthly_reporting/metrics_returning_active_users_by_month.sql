@@ -10,6 +10,7 @@ returning_users as (
     select
         *,
         date_trunc(date_day, month) as date_month
+
     from {{ ref('metrics_login_activity') }}
     where status = 'Returning'
         and date_day >= {{ min_date }}
@@ -25,6 +26,7 @@ final as (
         reference_table.broad_sector,
         reference_table.broad_role,
         count(distinct returning_users.user_id) as n_returning
+
     from reference_table
     left join returning_users
         on date(reference_table.date_month) = returning_users.date_month

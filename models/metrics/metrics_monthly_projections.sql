@@ -7,7 +7,7 @@
 {% endset %}
 
 with reference_table as (
-    {{ get_combination_calendar_dimensions(min_date,"day") }}
+    {{ get_combination_calendar_dimensions(min_date, "day") }}
 ),
 
 geniallys as (
@@ -65,7 +65,7 @@ signups as (
 metrics1 as (
     select
         --Dimensions
-        reference_table.date_day,
+        date(reference_table.date_day) as date_day,
         reference_table.plan,
         reference_table.subscription,
         reference_table.country,
@@ -77,7 +77,7 @@ metrics1 as (
 
     from reference_table
     left join signups
-        on reference_table.date_day = signups.registered_at
+        on date(reference_table.date_day) = signups.registered_at
             and reference_table.plan = signups.plan
             and reference_table.subscription = signups.subscription
             and reference_table.country = signups.country
