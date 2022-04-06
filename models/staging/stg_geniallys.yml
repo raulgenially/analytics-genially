@@ -28,28 +28,61 @@ models:
         description: Template type that the genially is based on, if any.
         tests:
           - not_null:
-              where: from_template_id is not null and is_active = true
-              #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-              # We have geniallys with id_from_template of non-existent templates.
-              severity: warn
+              # Some templates were deleted by error along with the genially that
+              # formed it. For more info: https://github.com/Genially/scrum-genially/issues/9175
+              # Here we exclude those cases
+              where: from_template_id is not null
+                and is_active = true
+                and from_template_id not in
+                (
+                    '5a65d8e347aa950ede9c7eb6',
+                    '5a65d8df47aa950ede9c7e32',
+                    '5a58934bc7e8391435c3b5ec',
+                    '5a589348c7e8391435c3b568',
+                    '5a4dff4a80ccd724cc592588',
+                    '58ad75f11fa91d365ccd15e8',
+                    '5e4b91d4286e0e46371a61d4'
+                )
 
       - name: template_name
         description: Name of the template.
         tests:
           - not_null:
-              where: from_template_id is not null and is_active = true
-              #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-              # We have geniallys with id_from_template of non-existent templates.
-              severity: warn
+              # Some templates were deleted by error along with the genially that
+              # formed it. For more info: https://github.com/Genially/scrum-genially/issues/9175
+              # Here we exclude those cases
+              where: from_template_id is not null
+                and is_active = true
+                and from_template_id not in
+                (
+                    '5a65d8e347aa950ede9c7eb6',
+                    '5a65d8df47aa950ede9c7e32',
+                    '5a58934bc7e8391435c3b5ec',
+                    '5a589348c7e8391435c3b568',
+                    '5a4dff4a80ccd724cc592588',
+                    '58ad75f11fa91d365ccd15e8',
+                    '5e4b91d4286e0e46371a61d4'
+                )
 
       - name: template_language
         description: Language of the template.
         tests:
           - not_null:
-              where: from_template_id is not null and is_active = true
-              #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-              # We have geniallys with id_from_template of non-existent templates.
-              severity: warn
+              # Some templates were deleted by error along with the genially that
+              # formed it. For more info: https://github.com/Genially/scrum-genially/issues/9175
+              # Here we exclude those cases
+              where: from_template_id is not null
+                and is_active = true
+                and from_template_id not in
+                (
+                    '5a65d8e347aa950ede9c7eb6',
+                    '5a65d8df47aa950ede9c7e32',
+                    '5a58934bc7e8391435c3b5ec',
+                    '5a589348c7e8391435c3b568',
+                    '5a4dff4a80ccd724cc592588',
+                    '58ad75f11fa91d365ccd15e8',
+                    '5e4b91d4286e0e46371a61d4'
+                )
 
       - name: collaboration_type
         description: "{{ doc('collaboration_type') }}"
@@ -63,10 +96,21 @@ models:
           Premium templates can only be used in premium plans.
         tests:
           - not_null:
-              where: from_template_id is not null and is_active = true
-              #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-              # We have geniallys with id_from_template of non-existent templates.
-              severity: warn
+              # Some templates were deleted by error along with the genially that
+              # formed it. For more info: https://github.com/Genially/scrum-genially/issues/9175
+              # Here we exclude those cases
+              where: from_template_id is not null
+                and is_active = true
+                and from_template_id not in
+                (
+                    '5a65d8e347aa950ede9c7eb6',
+                    '5a65d8df47aa950ede9c7e32',
+                    '5a58934bc7e8391435c3b5ec',
+                    '5a589348c7e8391435c3b568',
+                    '5a4dff4a80ccd724cc592588',
+                    '58ad75f11fa91d365ccd15e8',
+                    '5e4b91d4286e0e46371a61d4'
+                )
 
       - name: is_published
         description: Whether the genially has been published.
@@ -114,10 +158,12 @@ models:
         description: Id of the space this genially is part of.
 
       - name: team_template_id
-        description: Id of the genially as a team template.
+        description: Id of a team template this genially was created from.
+          This field is a WIP and may change its meaning in the future.
 
-      - name: from_team_template_id
-        description: Id of the team template used for the creation of the genially.
+      - name: from_team_genially_id
+        description: Id of the original genially in a team workspace that this one is based on.
+          This field is a WIP and may change its meaning in the future.
 
       - name: template_to_view_id
         description: Id of the actual genially referring to this template when visualized. If we are dealing
@@ -126,10 +172,21 @@ models:
           genially_to_view_id attribute from the templatecolors model (src_genially_templatecolors).
         tests:
           - not_null:
-              where: from_template_id is not null and is_active = true
-              #TODO: https://github.com/Genially/data-team-issues/issues/133#issuecomment-994901140
-              # We have geniallys with id_from_template of non-existent templates.
-              severity: warn
+              # Some templates were deleted by error along with the genially that
+              # formed it. For more info: https://github.com/Genially/scrum-genially/issues/9175
+              # Here we exclude those cases
+              where: from_template_id is not null
+                and is_active = true
+                and from_template_id not in
+                (
+                    '5a65d8e347aa950ede9c7eb6',
+                    '5a65d8df47aa950ede9c7e32',
+                    '5a58934bc7e8391435c3b5ec',
+                    '5a589348c7e8391435c3b568',
+                    '5a4dff4a80ccd724cc592588',
+                    '58ad75f11fa91d365ccd15e8',
+                    '5e4b91d4286e0e46371a61d4'
+                )
 
       - name: created_at
         description: Creation date.

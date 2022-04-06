@@ -23,7 +23,7 @@ models:
           - relationships:
               to: ref('stg_users')
               field: user_id
-              severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
+              error_if: ">5"
 
       - name: user_owner_id
         description: Id of the user that is owner of the collaborative genially.
@@ -37,4 +37,4 @@ models:
     tests:
       - dbt_utils.expression_is_true:
           expression: user_owner_id != user_id
-          severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8390
+          condition: collaboration_type = 1

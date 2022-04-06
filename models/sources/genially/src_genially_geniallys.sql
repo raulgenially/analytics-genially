@@ -38,7 +38,7 @@ final as (
         idteam as team_id,
         idspace as space_id,
         idteamtemplate as team_template_id,
-        idfromteamtemplate as from_team_template_id,
+        idfromteamtemplate as from_team_genially_id,
 
         lastmodified as modified_at,
         -- First valid creation date is 2016-05-25T21:46:53 (as of 2021-07-15)

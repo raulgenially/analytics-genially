@@ -41,7 +41,7 @@ models:
           - relationships:
               to: ref('users')
               field: user_id
-              severity: warn # TODO: https://github.com/Genially/scrum-genially/issues/8259
+              error_if: ">5"
 
       - name: user_owner_id
         description: Id of the user that is owner of the collaborative genially.

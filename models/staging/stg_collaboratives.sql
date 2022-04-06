@@ -1,8 +1,5 @@
 with collaboratives as (
-    -- TODO: rely on the src model once
-    -- https://github.com/Genially/scrum-genially/issues/8259
-    -- is addressed
-    select * from {{ ref('int_stg_cleaned_collaboratives') }}
+    select * from {{ ref('src_genially_collaboratives') }}
 ),
 
 team_members as (
