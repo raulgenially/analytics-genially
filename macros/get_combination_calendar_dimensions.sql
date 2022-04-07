@@ -2,11 +2,11 @@
 -- dimensions: plans, subscriptions, countries, country names, broad sectors and broad roles.
 -- It is useful for metrics model to report all possible combinations not just the ones having place.
 -- It should be the starting table, and then metrics should be added using left join to it.
-{% macro get_combination_calendar_dimensions(min_date) %}
+{% macro get_combination_calendar_dimensions(min_date, date_part) %}
 
 with dates as (
     {{ dbt_utils.date_spine(
-        datepart="day",
+        datepart=date_part,
         start_date=min_date,
         end_date="current_date()"
         )
@@ -33,7 +33,7 @@ broad_sector_role as (
 
 dates_plan as (
     select
-        date(dates.date_day) as date_day,
+        dates.*,
         plans.plan,
         {{ create_subscription_field('plans.plan') }} as subscription
 
@@ -43,9 +43,7 @@ dates_plan as (
 
 dates_plan_country as (
     select
-        dates_plan.date_day,
-        dates_plan.plan,
-        dates_plan.subscription,
+        dates_plan.*,
         country_codes.code as country,
         country_codes.name as country_name
 
@@ -55,11 +53,7 @@ dates_plan_country as (
 
 reference_table as (
     select
-        dates_plan_country.date_day,
-        dates_plan_country.plan,
-        dates_plan_country.subscription,
-        dates_plan_country.country,
-        dates_plan_country.country_name,
+        dates_plan_country.*,
         broad_sector_role.broad_sector,
         broad_sector_role.broad_role
 
