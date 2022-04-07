@@ -3,7 +3,7 @@
 {% endset %}
 
 with reference_table as (
-    {{ get_combination_calendar_dimensions(min_date,"month") }}
+    {{ get_combination_calendar_dimensions(min_date, "month") }}
 ),
 
 returning_users as (
