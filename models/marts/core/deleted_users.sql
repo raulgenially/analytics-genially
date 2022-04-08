@@ -22,6 +22,7 @@ final as (
         user_id,
 
         plan,
+        {{ create_subscription_field('plan') }} as subscription,
         sector_code,
         sector,
         broad_sector,
