@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: metrics_okrs_premium_free
+  - name: metrics_okrs_premium_free_users
     description: This model computes the ratio of premium users per 10000 free users.
     columns:
       - name: date_day
