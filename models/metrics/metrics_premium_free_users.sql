@@ -1,5 +1,5 @@
 {% set start_date_of_analysis %}
-    '{{ var('start_date_of_analysis_OKR') }}'
+    '{{ var('snapshot_users_start_date') }}'
 {% endset %}
 
 with dates as (
@@ -15,7 +15,7 @@ user_plan as (
     select * from {{ ref('user_plan_history') }}
 ),
 
-plan_dates as (
+final as (
     select
         date(dates.date_day) as date_day,
         countif(user_plan.subscription = 'Free') as free_users,
@@ -30,18 +30,6 @@ plan_dates as (
              date(user_plan.finished_at) - 1
         )
     group by 1
-),
-
-final as (
-    select
-        *,
-        -- to facilite the visualization and understanding of the metric we consider premium users per 10000 free users
-        safe_multiply(
-            safe_divide(premium_users, free_users),
-            10000
-        ) as kr
-
-    from plan_dates
 )
 
 select * from final

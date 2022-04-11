@@ -1,11 +1,11 @@
 version: 2
 
 models:
-  - name: metrics_okrs_premium_free
-    description: This model computes the ratio of premium users per 10000 free users.
+  - name: metrics_premium_free_users
+    description: This model computes the number of premium and free users across the history.
     columns:
       - name: date_day
-        description: The particular day where kr is described.
+        description: The particular day where metrics are described.
         tests:
           - not_null
           - unique
@@ -19,6 +19,3 @@ models:
         description: Total number of premium users.
         tests:
           - not_null
-
-      - name: kr
-        description: Ratio of premium users per 10000 free users.

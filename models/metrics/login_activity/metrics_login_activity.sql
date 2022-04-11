@@ -11,7 +11,7 @@
 {% set month_days_minus = month_days - 1 %}
 
 {% set min_date_logins %}
-    date('2021-12-20')
+    '{{ var('snapshot_users_start_date') }}'
 {% endset %}
 
 with logins as (
