@@ -61,7 +61,7 @@ models:
         description: Genially Plan of the person who opened the ticket,
           as long as it is done with a registered email address.
 
-      - name: country_name
+      - name: contact_country
         description: Country name corresponding to the iso code.
 
       - name: contact_id
