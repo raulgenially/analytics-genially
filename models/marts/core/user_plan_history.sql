@@ -7,7 +7,7 @@ with user_history as (
         state_valid_to,
         registered_at
 
-    from {{ ref('src_snapshot_genially_users') }}
+    from {{ ref('stg_clean_snapshot_users') }}
 ),
 
 compare_plan as (

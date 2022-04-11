@@ -4,7 +4,7 @@ with user_history as (
         last_access_at,
         version,
 
-    from {{ ref('src_snapshot_genially_users') }}
+    from {{ ref('stg_clean_snapshot_users') }}
     -- We started tracking changes on this date
     where last_access_at >= '{{ var('snapshot_users_start_date') }}'
 ),
