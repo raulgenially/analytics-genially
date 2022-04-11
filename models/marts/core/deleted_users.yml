@@ -93,9 +93,13 @@ models:
 
       - name: registered_at
         description: Registration date.
+        tests:
+          - not_null
 
       - name: last_access_at
         description: Last access date.
 
       - name: deleted_at
         description: Timestamp when the user was deleted.
+        tests:
+          - not_null

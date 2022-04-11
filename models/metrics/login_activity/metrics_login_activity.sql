@@ -19,35 +19,7 @@ with logins as (
 ),
 
 users as (
-    select
-        user_id,
-        plan,
-        subscription,
-        sector,
-        broad_sector,
-        role,
-        broad_role,
-        country,
-        country_name,
-        registered_at
-
-    from {{ ref('users') }}
-
-    union all
-
-    select
-        user_id,
-        plan,
-        subscription,
-        sector,
-        broad_sector,
-        role,
-        broad_role,
-        country,
-        country_name,
-        registered_at
-
-    from {{ ref('deleted_users') }}
+    select * from {{ ref('users') }}
 ),
 
 ga_signups as (
