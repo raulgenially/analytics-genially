@@ -26,6 +26,7 @@ final as(
         contacts.role as contact_role,
         contacts.language_name as contact_language,
         contacts.plan as contact_plan,
+        contacts.country_name as contact_country,
 
         tickets.contact_id,
         tickets.group_id,
