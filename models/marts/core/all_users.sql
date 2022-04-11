@@ -1,10 +1,15 @@
--- This macro performs the union of all users (active + deleted).
--- It's aimed to be used in different metrics models to keep the consistency across the full history.
-{% macro create_unioned_all_users_model() %}
+with users as (
+    select * from {{ ref('users') }}
+),
 
-with final as (
+deleted_users as (
+    select * from {{ ref('deleted_users') }}
+),
+
+final as (
     select
         user_id,
+
         plan,
         subscription,
         sector,
@@ -13,14 +18,17 @@ with final as (
         broad_role,
         country,
         country_name,
-        registered_at
 
-    from {{ ref('users') }}
+        registered_at,
+        null as deleted_at
+
+    from users
 
     union all
 
     select
         user_id,
+
         plan,
         subscription,
         sector,
@@ -29,11 +37,11 @@ with final as (
         broad_role,
         country,
         country_name,
-        registered_at
 
-    from {{ ref('deleted_users') }}
+        registered_at,
+        deleted_at
+
+    from deleted_users
 )
 
 select * from final
-
-{% endmacro %}
