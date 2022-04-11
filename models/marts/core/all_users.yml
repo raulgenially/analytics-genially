@@ -62,5 +62,3 @@ models:
 
       - name: deleted_at
         description: Timestamp when the user was deleted.
-        tests:
-          - not_null
