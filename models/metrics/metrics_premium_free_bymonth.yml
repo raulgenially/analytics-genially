@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: metrics_premium_free_bymonth
+    description: This model computes the number of premium users and free users each month.
+    columns:
+      - name: date_month
+        description: The particular month where metrics are described.
+        tests:
+          - not_null
+          - unique
+
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
+
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
+
+      - name: country_name
+        description: Full name of the country.
+        tests:
+          - not_null
+
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
+
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
+
+      - name: n_free_users
+        description: Total number of free users.
+        tests:
+          - not_null
+
+      - name: n_premium_users
+        description: Total number of premium users.
+        tests:
+          - not_null
