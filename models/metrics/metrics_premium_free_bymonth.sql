@@ -29,8 +29,8 @@ final as (
         m.country_name,
         m.broad_sector,
         m.broad_role,
-        m.free_users,
-        m.premium_users
+        m.n_free_users,
+        m.n_premium_users
 
     from dates
     left join metric_lastday_of_the_month as m

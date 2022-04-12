@@ -8,7 +8,6 @@ models:
         description: The particular month where metrics are described.
         tests:
           - not_null
-          - unique
 
       - name: plan
         description: "{{ doc('subscription_codes') }}"
