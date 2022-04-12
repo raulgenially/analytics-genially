@@ -15,9 +15,13 @@ final as (
         role_codes.name as member_role_name,
 
         -- See https://github.com/Genially/scrum-genially/issues/7607
+        -- Guest members have confirmedat populated when the invite
+        -- is created. Check that the user_id is populated to check
+        -- if the user is a Genially user (and therefore part of the team)
         (
             team_members.confirmedat is not null
             and team_members.deletedat is null
+            and team_members.iduser is not null
         ) as is_part_of_the_team,
 
         team_members.iduser as user_id,
