@@ -2,17 +2,20 @@
     '{{ var('start_date_of_analysis_OKR') }}'
 {% endset %}
 
-with dates as (
-    {{ dbt_utils.date_spine(
-        datepart="day",
-        start_date=start_date_of_analysis,
-        end_date="current_date()"
-        )
-    }}
+with premium_free_users as (
+    select *
+    from {{ ref('metrics_premium_free_users') }}
+    where date_day >= {{ start_date_of_analysis }}
 ),
 
-premium_free_users as (
-    select * from {{ ref('metrics_premium_free_users') }}
+premium_free_users_byday as (
+    select
+        date_day,
+        sum(n_free_users) as n_free_users,
+        sum(n_premium_users) as n_premium_users
+
+    from premium_free_users
+    group by 1
 ),
 
 final as (
@@ -20,11 +23,11 @@ final as (
         *,
         -- to facilite the visualization and understanding of the metric we consider premium users per 10000 free users
         safe_multiply(
-            safe_divide(premium_users, free_users),
+            safe_divide(n_premium_users, n_free_users),
             10000
         ) as kr
 
-    from premium_free_users
+    from premium_free_users_byday
 )
 
 select * from final

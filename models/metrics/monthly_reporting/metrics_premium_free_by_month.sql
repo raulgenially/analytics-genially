@@ -16,7 +16,7 @@ metric_lastday_of_the_month as (
         *,
         date_trunc(date_day, month) as date_month
 
-    from {{ ref('metrics_okrs_premium_free') }}
+    from {{ ref('metrics_premium_free_users') }}
     where date_day = last_day(date_day, month)
 ),
 -- we consider the value of these metrics in a month as the value of the metrics on the last day of the month.
