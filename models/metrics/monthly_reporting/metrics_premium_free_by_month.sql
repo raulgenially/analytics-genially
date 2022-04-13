@@ -1,14 +1,9 @@
-{% set start_date_of_analysis %}
-    '{{ var('start_date_of_analysis_OKR') }}'
+{% set min_date %}
+    date('2022-01-01') -- we are collecting data since '2021-12-20', so first complete month is 01-2022.
 {% endset %}
 
-with dates as (
-    {{ dbt_utils.date_spine(
-        datepart="month",
-        start_date=start_date_of_analysis,
-        end_date="current_date()"
-        )
-    }}
+with reference_table as (
+    {{ get_combination_calendar_dimensions(min_date, "month") }}
 ),
 
 metric_lastday_of_the_month as (
@@ -23,18 +18,25 @@ metric_lastday_of_the_month as (
 
 final as (
     select
-        date(dates.date_month) as date_month,
-        m.plan,
-        m.country,
-        m.country_name,
-        m.broad_sector,
-        m.broad_role,
-        m.n_free_users,
-        m.n_premium_users
+        date(reference_table.date_month) as date_month,
+        reference_table.plan,
+        reference_table.subscription,
+        reference_table.country,
+        reference_table.country_name,
+        reference_table.broad_sector,
+        reference_table.broad_role,
+        coalesce(m.n_free_users, 0) as n_free_users,
+        coalesce(m.n_premium_users, 0) as n_premium_users
 
-    from dates
+    from reference_table
     left join metric_lastday_of_the_month as m
-        on date(dates.date_month) = m.date_month
+        on date(reference_table.date_month) = m.date_month
+            and reference_table.plan = m.plan
+            and reference_table.subscription = m.subscription
+            and reference_table.country = m.country
+            and reference_table.country_name = m.country_name
+            and reference_table.broad_sector = m.broad_sector
+            and reference_table.broad_role = m.broad_role
 )
 
 select * from final

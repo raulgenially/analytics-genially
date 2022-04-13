@@ -36,6 +36,7 @@ final as (
     select
         date(dates.date_day) as date_day,
         user_plan_dimensiones.plan,
+        user_plan_dimensiones.subscription,
         user_plan_dimensiones.country,
         user_plan_dimensiones.country_name,
         user_plan_dimensiones.broad_sector,
@@ -51,7 +52,7 @@ final as (
              date(user_plan_dimensiones.finished_at),
              date(user_plan_dimensiones.finished_at) - 1
         )
-    {{ dbt_utils.group_by(n=6) }}
+    {{ dbt_utils.group_by(n=7) }}
 )
 
 select * from final
