@@ -5,6 +5,9 @@ with teams as (
 members as (
     select * from {{ ref('src_genially_team_members') }}
     where is_part_of_the_team = true
+        -- Guest members do not count towards the seat limit
+        -- https://github.com/Genially/scrum-genially/issues/9493
+        and member_role != 4
 ),
 
 spaces as (
