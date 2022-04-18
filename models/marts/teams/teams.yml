@@ -24,6 +24,10 @@ models:
       - name: n_members
         description: Number of members in the team.
 
+      - name: n_guest_members
+        description: Number of confirmed and registered guest members in the team.
+          They do not count towards the seat limit.
+
       - name: n_active_creations
         description: Number of active creations in the team.
 
