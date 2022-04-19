@@ -5,9 +5,6 @@ with teams as (
 members as (
     select * from {{ ref('src_genially_team_members') }}
     where is_part_of_the_team = true
-        -- Guest members do not count towards the seat limit
-        -- https://github.com/Genially/scrum-genially/issues/9493
-        and member_role != 4
 ),
 
 spaces as (
@@ -39,7 +36,11 @@ creations_teams as (
 members_teams as (
     select
         team_id,
-        count(team_member_id) as n_members,
+        countif(member_role != 4) as n_members,
+        -- We are counting only confirmed and registered guest members
+        -- Guest members do not count towards the seat limit
+        -- https://github.com/Genially/scrum-genially/issues/9493
+        countif(member_role = 4) as n_guest_members
 
     from members
     group by 1
@@ -54,6 +55,7 @@ final as (
         teams.seats as n_seats,
         coalesce(spaces_teams.n_spaces, 0) as n_spaces,
         coalesce(members_teams.n_members, 0) as n_members,
+        coalesce(members_teams.n_guest_members, 0) as n_guest_members,
         coalesce(creations_teams.n_active_creations, 0) as n_active_creations,
 
         teams.is_disabled,
