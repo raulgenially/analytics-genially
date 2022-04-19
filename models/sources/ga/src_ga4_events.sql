@@ -17,6 +17,7 @@ final as (
         {{ ga4_param("event_params", "data_tgm1", "string") }},
         {{ ga4_param("event_params", "data_tgm2", "string") }},
         {{ ga4_param("event_params", "data_tgm3", "string") }},
+        {{ ga4_param("event_params", "data_tgm4", "string") }},
         -- user_properties
         {{ ga4_param("user_properties", "user_type", "string") }},
         {{ ga4_param("user_properties", "user_sector", "int") }},
