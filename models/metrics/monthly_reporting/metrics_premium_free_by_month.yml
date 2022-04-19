@@ -16,6 +16,13 @@ models:
           - accepted_values:
               values: "{{ get_plan_values() }}"
 
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
+
       - name: country
         description: Country (ISO code).
         tests:

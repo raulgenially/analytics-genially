@@ -8,7 +8,7 @@ with premium_free_users as (
     where date_day >= {{ start_date_of_analysis }}
 ),
 
-premium_free_users_byday as (
+premium_free_users_by_day as (
     select
         date_day,
         sum(n_free_users) as n_free_users,
@@ -27,7 +27,7 @@ final as (
             10000
         ) as kr
 
-    from premium_free_users_byday
+    from premium_free_users_by_day
 )
 
 select * from final
