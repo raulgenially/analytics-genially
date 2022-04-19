@@ -36,7 +36,7 @@
                             when table_type = 'VIEW' then 'VIEW'
                         end as relation_type,
                         array_to_string([table_catalog, table_schema, table_name], '.') as relation_name
-                    from {{ dataset }}.INFORMATION_SCHEMA.TABLES
+                    from {{ database }}.{{ dataset }}.INFORMATION_SCHEMA.TABLES
                     where not (table_name in ('{{ "', '".join(tables) }}'))
                 {% endfor %}
             {% endfor %}
