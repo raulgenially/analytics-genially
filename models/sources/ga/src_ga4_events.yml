@@ -31,7 +31,7 @@ models:
       - name: data_tgm3
         description: Data slot 3. Each event populates this field with something relevant to the event.
 
-      - name: data_tgm3
+      - name: data_tgm4
         description: Data slot 4. Each event populates this field with something relevant to the event.
 
       - name: user_type
