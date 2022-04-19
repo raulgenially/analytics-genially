@@ -11,7 +11,11 @@ monthly_projections as (
     select * from {{ ref('metrics_monthly_projections') }}
 ),
 
-creations_activity as (
+users_and_creations_by_day as (
+    select * from {{ ref('metrics_users_and_creations_by_day') }}
+),
+
+creations_model1 as (
     select
         sum(n_creations) as n_creations
 
@@ -19,7 +23,7 @@ creations_activity as (
     where date_day >= {{ testing_date }}
 ),
 
-creations_monthly_projections as (
+creations_model2 as (
     select
         sum(n_creations) as n_creations
 
@@ -27,14 +31,32 @@ creations_monthly_projections as (
     where date_day >= {{ testing_date }}
 ),
 
-final as (
+creations_model3 as (
     select
-        creations_activity.n_creations as activity_creations,
-        creations_monthly_projections.n_creations as monthly_projections_creations
+        sum(n_creations) as n_creations
 
-    from creations_activity
-    cross join creations_monthly_projections
-    where creations_activity.n_creations != creations_monthly_projections.n_creations
+    from users_and_creations_by_day
+    where date_day >= {{ testing_date }}
+),
+
+creations_union as (
+    select n_creations from creations_model1
+    union all
+    select n_creations from creations_model2
+    union all
+    select n_creations from creations_model3
+),
+
+creations_count as (
+    select
+        count(distinct n_creations) as n_values
+
+    from creations_union
+),
+
+final as (
+    select * from creations_count
+    where n_values != 1
 )
 
 select * from final
