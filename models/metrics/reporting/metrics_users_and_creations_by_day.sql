@@ -129,7 +129,7 @@ metrics2 as (
             and metrics1.broad_role = creations.user_broad_role
 ),
 
-creators_usersfromgeniallys as (
+creators_users_from_geniallys as (
     select
         user_id,
         min(created_at) as first_creation_at
@@ -138,7 +138,7 @@ creators_usersfromgeniallys as (
     group by 1
 ),
 
-creators_usersfromcollaboratives as (
+creators_users_from_collaboratives as (
     select
         user_id,
         min(created_at) as first_creation_at
@@ -153,7 +153,7 @@ creators as (
         user_id,
         first_creation_at
 
-    from creators_usersfromgeniallys
+    from creators_users_from_geniallys
 
     union all
 
@@ -161,10 +161,10 @@ creators as (
         user_id,
         first_creation_at
 
-    from creators_usersfromcollaboratives
+    from creators_users_from_collaboratives
 ),
 
-uniquecreators as(
+unique_creators as(
     select
         user_id,
         min(first_creation_at) as first_creation_at,
@@ -174,24 +174,24 @@ uniquecreators as(
 ),
 --if a collaboration or a genially started before the user is registered, the creation date should be equal to user's registered date:
 
-totalcreators as (
+total_creators as (
     select
-        uniquecreators.user_id,
+        unique_creators.user_id,
         if (
-            date(uniquecreators.first_creation_at) < date(users.registered_at),
+            date(unique_creators.first_creation_at) < date(users.registered_at),
             date(users.registered_at),
-            date(uniquecreators.first_creation_at)
+            date(unique_creators.first_creation_at)
         ) as first_creation_at
 
-    from uniquecreators
+    from unique_creators
     left join users
-        on uniquecreators.user_id = users.user_id
+        on unique_creators.user_id = users.user_id
 ),
 
 new_creators as (
     select
         --Dimensions
-        date(totalcreators.first_creation_at) as first_creation_at,
+        date(total_creators.first_creation_at) as first_creation_at,
         users.plan,
         users.subscription,
         users.country,
@@ -201,10 +201,10 @@ new_creators as (
         -- Metrics
         count(distinct users.user_id) as n_new_creators
 
-    from totalcreators
+    from total_creators
     left join users
-        on totalcreators.user_id = users.user_id
-    where date(totalcreators.first_creation_at) >= {{ min_date }}
+        on total_creators.user_id = users.user_id
+    where date(total_creators.first_creation_at) >= {{ min_date }}
         and users.registered_at is not null
     {{ dbt_utils.group_by(n=7) }}
 ),
@@ -248,11 +248,11 @@ new_creators_registered_same_day as (
         -- Metrics
         count(users.user_id) as n_new_creators_registered_same_day
 
-    from totalcreators
+    from total_creators
     left join users
-        on totalcreators.user_id = users.user_id
-        and date(totalcreators.first_creation_at) = date(users.registered_at)
-    where date(totalcreators.first_creation_at) >= {{ min_date }}
+        on total_creators.user_id = users.user_id
+        and date(total_creators.first_creation_at) = date(users.registered_at)
+    where date(total_creators.first_creation_at) >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
