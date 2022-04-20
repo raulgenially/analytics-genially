@@ -10,12 +10,12 @@ models:
           - not_null
           - unique
 
-      - name: free_users
+      - name: n_free_users
         description: Total number of free users.
         tests:
           - not_null
 
-      - name: premium_users
+      - name: n_premium_users
         description: Total number of premium users.
         tests:
           - not_null

@@ -1,11 +1,11 @@
 version: 2
 
 models:
-  - name: metrics_premium_free_users
-    description: This model computes the number of premium and free users across the history.
+  - name: metrics_premium_free_by_month
+    description: This model computes the number of premium users and free users each month.
     columns:
-      - name: date_day
-        description: The particular day where metrics are described.
+      - name: date_month
+        description: The particular month where metrics are described.
         tests:
           - not_null
 
