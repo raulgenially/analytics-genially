@@ -6,13 +6,13 @@ with reference_table as (
     {{ get_combination_calendar_dimensions(min_date, "month") }}
 ),
 
-returning_users as (
+login_activity as (
     select
         *,
         date_trunc(date_day, month) as date_month
 
     from {{ ref('metrics_login_activity') }}
-    where status = 'Returning'
+    where status in ('New', 'Returning')
         and date_day >= {{ min_date }}
 ),
 
@@ -25,17 +25,18 @@ final as (
         reference_table.country_name,
         reference_table.broad_sector,
         reference_table.broad_role,
-        count(distinct returning_users.user_id) as n_returning
+        count(distinct login_activity.user_id) as n_active_users,
+        count(distinct if(login_activity.status = 'Returning', login_activity.user_id, null)) as n_returning
 
     from reference_table
-    left join returning_users
-        on date(reference_table.date_month) = returning_users.date_month
-            and reference_table.plan = returning_users.plan
-            and reference_table.subscription = returning_users.subscription
-            and reference_table.country = returning_users.country
-            and reference_table.country_name = returning_users.country_name
-            and reference_table.broad_sector = returning_users.broad_sector
-            and reference_table.broad_role = returning_users.broad_role
+    left join login_activity
+        on date(reference_table.date_month) = login_activity.date_month
+            and reference_table.plan = login_activity.plan
+            and reference_table.subscription = login_activity.subscription
+            and reference_table.country = login_activity.country
+            and reference_table.country_name = login_activity.country_name
+            and reference_table.broad_sector = login_activity.broad_sector
+            and reference_table.broad_role = login_activity.broad_role
     {{ dbt_utils.group_by(n=7) }}
 )
 
