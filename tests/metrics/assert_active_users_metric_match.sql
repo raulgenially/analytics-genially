@@ -57,8 +57,21 @@ active_users_count as (
     from active_users_union
 ),
 
+totals_join as (
+    select
+        m1.n_active_users as n_active_users_loging_activity,
+        m2.n_active_users as n_active_users_monthly_projections,
+        m3.n_active_users as n_active_users_users_and_creations_by_day,
+        c.n_values
+
+    from active_users_model1 as m1
+        cross join active_users_model2 as m2
+        cross join active_users_model3 as m3
+        cross join active_users_count as c
+),
+
 final as (
-    select * from active_users_count
+    select * from totals_join
     where n_values != 1
 )
 
