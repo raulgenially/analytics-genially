@@ -54,8 +54,21 @@ creations_count as (
     from creations_union
 ),
 
+totals_join as (
+    select
+        m1.n_creations as n_creations_loging_activity,
+        m2.n_creations as n_creations_monthly_projections,
+        m3.n_creations as n_creations_users_and_creations_by_day,
+        c.n_values
+
+    from creations_model1 as m1
+        cross join creations_model2 as m2
+        cross join creations_model3 as m3
+        cross join creations_count as c
+),
+
 final as (
-    select * from creations_count
+    select * from totals_join
     where n_values != 1
 )
 
