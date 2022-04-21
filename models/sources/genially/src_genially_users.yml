@@ -57,8 +57,8 @@ models:
       - name: language
         description: Language.
 
-      - name: organization
-        description: Organization.
+      - name: organization_name
+        description: Organization name.
 
       - name: facebook_account
         description: Link to Facebook account.
@@ -93,6 +93,9 @@ models:
 
       - name: analytics_id
         description: Foreign key referring to web analytics data.
+
+      - name: organization_id
+        description: Organization Id. It will be custom if there are not any match with an existent organization.
 
       - name: registered_at
         description: Registration date.

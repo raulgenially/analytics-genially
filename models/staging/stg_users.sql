@@ -71,7 +71,7 @@ final as (
         users.email,
         users.nickname,
         users.language,
-        json_extract_scalar(users.organization, '$.Name') as organization_name,
+        users.organization_name,
         users.about_me,
         users.facebook_account,
         users.twitter_account,
@@ -84,7 +84,7 @@ final as (
         users.is_deleted,
         ifnull(social.is_active, false) as is_social_profile_active,
 
-        json_extract_scalar(users.organization, '$.Id') as organization_id,
+        users.organization_id,
 
         users.registered_at,
         users.last_access_at,
