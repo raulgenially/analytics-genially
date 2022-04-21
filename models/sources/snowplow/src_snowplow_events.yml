@@ -1,0 +1,214 @@
+version: 2
+
+models:
+  - name: src_snowplow_events
+    description: Events collected with Snowplow.
+    columns:
+      - name: event_id
+        description: The ID of the event. Can be duplicated.
+
+      - name: event_name
+        description: The name of the event.
+
+      - name: app_id
+        description: Application ID.
+
+      - name: page_url
+        description: >
+          The page url when the event was generated. Example: http://www.example.com
+
+      - name: page_title
+        description: >
+          The page title when the event was generated. Example: Panel - Genial.ly
+
+      - name: page_urlhost
+        description: >
+          The host of the url. Example: www.example.com
+
+      - name: page_urlpath
+        description: >
+          The path to the page. Example: /create
+
+      - name: page_urlquery
+        description: >
+          The query string of the url. Example: id=something&idfs=somethingelse
+
+      - name: page_referrer
+        description: >
+          The previous visited page. Example: http://www.previouspage.com
+
+      - name: refr_urlhost
+        description: >
+          The host of the referrer url. Example: www.previouspage.com
+
+      - name: refr_urlpath
+        description: >
+          The path to the referrer url. Example: /create
+
+      - name: refr_urlquery
+        description: >
+          The query string of the referrer url. Example: id=something&idfs=somethingelse
+
+      - name: device_category
+        description: >
+          The type of device used to access the app. Example: Desktop, Phone, TV
+
+      - name: device_brand
+        description: >
+          The brand of device used to access the app. Example: LG, Apple, Asus
+
+      - name: device_name
+        description: >
+          The name of device used to access the app. Example: Nokia G20, Xiaomi Poco F1
+
+      - name: operating_system
+        description: >
+          The operating system of the device. Example: Windows, Android, Ubuntu
+
+      - name: operating_system_version
+        description: >
+          The version of the operating device. Example: 10.2, 10.13.1, 12
+
+      - name: browser_language_code
+        description: >
+          The language code of the browser. Example: es, en-gb, fr
+
+      - name: browser_language
+        description: >
+          The language the browser. Example: French, Spanish, Romanian (Romania)
+
+      - name: browser_name
+        description: >
+          The name of the browser. Example: Chrome, Safari, Edge
+
+      - name: browser_name_version
+        description: >
+          The name of the browser and the complete version. Example: Chrome 86.0.4240.110, Firefox 100.0
+
+      - name: browser_name_version_major
+        description: >
+          The name of the browser and the major version. Example: Chrome 86, Firefox 100
+
+      - name: browser_version
+        description: >
+          The complete version of the browser. Example: 14.1.2, 16.2
+
+      - name: browser_version_major
+        description: >
+          The major version of the browser. Example: 14, 16
+
+      - name: geo_country
+        description: >
+          ISO 3166-1 code for the country the visitor is located in. Example: ES, BZ, CL
+
+      - name: geo_region
+        description: >
+          ISO-3166-2 code for country region the visitor is in. Example: ES, BZ, CL
+
+      - name: geo_region_name
+        description: >
+          Visitor region name. Example: Florida, Granada, Provincia de Peravia
+
+      - name: geo_city
+        description: >
+          City the visitor is in. Example: Zaragoza, Onda, Istanbul
+
+      - name: geo_latitude
+        description: >
+          Visitor location latitude. Example: 42.9335, 32.1521
+
+      - name: geo_longitude
+        description: >
+          Visitor location longitude. Example: -3.6095, 34.9339
+
+      - name: utm_medium
+        description: >
+          Type of traffic source. Example: cpc, fb, email
+
+      - name: utm_source
+        description: >
+          The company / website where the traffic came from. Example: Mailchimp, google, zalo
+
+      - name: utm_campaign
+        description: >
+          The campaign ID. Example: Bienvenida_ES_EDU3, Mejores_Plantillas_Octubre_ES_EDU
+
+      - name: utm_term
+        description: Any keywords associated with the referrer.
+
+      - name: utm_content
+        description: The content of the ad (or an ID so that it can be looked up).
+
+      - name: utm_medium_referrer
+        description: >
+          Type of referrer. Example: email, serach, social
+
+      - name: utm_source_referrer
+        description: >
+          Name of referer if recognised. Example: Gmail, Instagram, Twitter
+
+      - name: utm_term_referrer
+        description: Keywords if source is a search engine.
+
+      - name: transaction_id
+        description: Order ID of an ecommerce transaction.
+
+      - name: transaction_total
+        description: >
+          Total transaction value. Example: 12.29
+
+      - name: transaction_currency
+        description: >
+          Currency of the transaction. Example: USD
+
+      - name: transaction_affiliation
+        description: Transaction affiliation (e.g. store where sale took place).
+
+      - name: item_order_id
+        description: Order ID of the transaction this item is included in.
+
+      - name: item_id
+        description: Product SKU.
+
+      - name: item_name
+        description: Product name.
+
+      - name: item_category
+        description: Product category.
+
+      - name: item_price
+        description: Product unit price.
+
+      - name: item_quantity
+        description: Number of product in transaction.
+
+      - name: item_currency
+        description: Currency of the transaction.
+
+      - name: user_id
+        description: The user ID in Genially. Null if the user has not accepted cookies.
+
+      - name: domain_user_id
+        description: >
+          User ID set by Snowplow using 1st party cookie. Example: bc2e92ec6c204a14
+
+      - name: domain_session_id
+        description: >
+          A visit / session identifier. Example: c6ef3124-b53a-4b13-a233-0088f79dcbcb
+
+      - name: domain_session_idx
+        description: >
+          A visit / session index. Example: 3
+
+      - name: network_user_id
+        description: >
+          User ID set by Snowplow using 3rd party cookie. Example: ecdff4d0-9175-40ac-a8bb-325c49733607
+
+      - name: event_received_at
+        description: Timestamp for the event recorded by the Snowplow collector.
+
+      - name: event_triggered_at
+        description: Timestamp for the event recorded on the client device.
+
+      - name: event_loaded_at
+        description: Timestamp for the event recorded when it was inserted in BigQuery.

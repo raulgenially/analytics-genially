@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: rt_pipeline_prod1
+    description: Event data collected with snowplow.
+    database: snowplow-genially
+    tables:
+      - name: events
