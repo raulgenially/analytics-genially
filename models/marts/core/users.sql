@@ -22,6 +22,7 @@ final as (
         users.email,
         users.nickname,
         users.language,
+        users.organization,
         users.about_me,
         users.facebook_account,
         users.twitter_account,
