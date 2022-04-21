@@ -53,8 +53,8 @@ models:
       - name: language
         description: Language the Genially web interface is in.
 
-      - name: organization
-        description: Organization.
+      - name: organization_name
+        description: Organization name.
 
       - name: about_me
         description: Short description about the user (user defined).
@@ -87,6 +87,9 @@ models:
         description: Whether the user's social profile is active or not.
         tests:
           - not_null
+
+      - name: organization_id
+        description: Organization Id. It will be custom if there are not any match with an existent organization.
 
       - name: registered_at
         description: Registration date.
