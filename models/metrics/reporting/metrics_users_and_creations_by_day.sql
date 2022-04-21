@@ -172,7 +172,8 @@ unique_creators as(
     from creators
     group by 1
 ),
---if a collaboration or a genially started before the user is registered, the creation date should be equal to user's registered date:
+--if a collaboration or a genially started before the user is registered, the creation date should be equal to user's
+-- registered date:
 
 total_creators as (
     select
@@ -270,8 +271,10 @@ metrics4 as (
         metrics3.n_signups,
         metrics3.n_creations,
         metrics3.n_new_creators,
-        coalesce(new_creators_registered_same_day.n_new_creators_registered_same_day, 0) as n_new_creators_registered_same_day,
-        metrics3.n_new_creators - coalesce(new_creators_registered_same_day.n_new_creators_registered_same_day, 0) as n_new_creators_previously_registered
+        coalesce(new_creators_registered_same_day.n_new_creators_registered_same_day, 0)
+            as n_new_creators_registered_same_day,
+        metrics3.n_new_creators - coalesce(new_creators_registered_same_day.n_new_creators_registered_same_day, 0)
+            as n_new_creators_previously_registered
 
     from metrics3
     left join new_creators_registered_same_day
@@ -369,13 +372,19 @@ final as (
         {{ get_lag_dimension_monthly_projections('n_new_creators', month_days) }} as n_new_creators_previous_28d,
         {{ get_lag_dimension_monthly_projections('n_new_creators', year_days) }} as n_new_creators_previous_364d,
         -- lag n_new_creators_registered_same_day
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', week_days) }} as n_new_creators_registered_same_day_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', month_days) }} as n_new_creators_registered_same_day_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', year_days) }} as n_new_creators_registered_same_day_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', week_days) }}
+            as n_new_creators_registered_same_day_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', month_days) }}
+            as n_new_creators_registered_same_day_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', year_days) }}
+            as n_new_creators_registered_same_day_previous_364d,
         -- lag n_new_creators_previously_registered
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }} as n_new_creators_previously_registered_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }} as n_new_creators_previously_registered_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }} as n_new_creators_previously_registered_previous_364d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }}
+            as n_new_creators_previously_registered_previous_7d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }}
+            as n_new_creators_previously_registered_previous_28d,
+        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }}
+            as n_new_creators_previously_registered_previous_364d,
         --lag n_active_users
         {{ get_lag_dimension_monthly_projections('n_active_users', week_days) }} as n_active_users_previous_7d,
         {{ get_lag_dimension_monthly_projections('n_active_users', month_days) }} as n_active_users_previous_28d,
