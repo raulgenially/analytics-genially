@@ -1,0 +1,128 @@
+version: 2
+
+models:
+  - name: metrics_users_and_creations_by_day
+    description: Model containing metrics related to users and creations based on calendar days.
+      It has been included these metrics and their value at 7, 8 and 364 previous days.
+      This model has been built using a reference table (macro get_combination_calendar_dimensions) with all posible combinations of the dimensions.
+    columns:
+      - name: date_day
+        description: The particular day where metrics are described.
+        tests:
+          - not_null
+
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_plan_values() }}"
+
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
+
+      - name: country
+        description: Country (ISO code).
+        tests:
+          - not_null
+
+      - name: country_name
+        description: Full name of the country.
+        tests:
+          - not_null
+
+      - name: broad_sector
+        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        tests:
+          - not_null
+
+      - name: broad_role
+        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        tests:
+          - not_null
+
+      - name: n_signups
+        description: Numbers of users registered at date_day.
+        tests:
+          - not_null
+
+      - name: n_creations
+        description: Numbers of geniallys created at date_day.
+        tests:
+          - not_null
+
+      - name: n_new_creators
+        description: Numbers of users whose first creation at date_day.
+        tests:
+          - not_null
+
+      - name: n_new_creators_registered_same_day
+        description: Numbers of users whose first creation at date_day and registered at date_day.
+        tests:
+          - not_null
+
+      - name: n_new_creators_previously_registered
+        description: Numbers of users whose first creation at date_day and not registered at date_day.
+        tests:
+          - not_null
+
+      - name: n_active_users
+        description: Numbers of users that logged in to genially on date_day.
+
+      - name: n_signups_previous_7d
+        description: Numbers of users registered 7 days ago.
+
+      - name: n_signups_previous_28d
+        description: Numbers of users registered 28 days ago.
+
+      - name: n_signups_previous_364d
+        description: Numbers of users registered 364 days ago.
+
+      - name: n_creations_previous_7d
+        description: Numbers of geniallys created 7 days ago.
+
+      - name: n_creations_previous_28d
+        description: Numbers of geniallys created 28 days ago.
+
+      - name: n_creations_previous_364d
+        description: Numbers of geniallys created 364 days ago.
+
+      - name: n_new_creators_previous_7d
+        description: Numbers of users who their first creation 7 days ago.
+
+      - name: n_new_creators_previous_28d
+        description: Numbers of users who their first creation 28 days ago.
+
+      - name: n_new_creators_previous_364d
+        description: Numbers of users who their first creation 364 days ago.
+
+      - name: n_new_creators_registered_same_day_previous_7d
+        description: Numbers of users who their first creation 7 days ago and registered 7 days ago.
+
+      - name: n_new_creators_registered_same_day_previous_28d
+        description: Numbers of users who their first creation 28 days ago and registered 28 days ago.
+
+      - name: n_new_creators_registered_same_day_previous_364d
+        description: Numbers of users who their first creation 364 days ago and registered 364 days ago.
+
+      - name: n_new_creators_previously_registered_previous_7d
+        description: Numbers of users who their first creation 7 days ago and not registered 7 days ago.
+
+      - name: n_new_creators_previously_registered_previous_28d
+        description: Numbers of users who their first creation 28 days ago and not registered 28 days ago.
+
+      - name: n_new_creators_previously_registered_previous_364d
+        description: Numbers of users who their first creation 364 days ago and not registered 364 days ago.
+
+      - name: n_active_users_previous_7d
+        description: Number of users that logged in to genially 7 days prior to date_day.
+
+      - name: n_active_users_previous_28d
+        description: Number of users that logged in to genially 28 days prior to date_day.
+
+      - name: n_active_users_previous_364d
+        description: Number of users that logged in to genially 364 days prior to date_day.
