@@ -22,6 +22,7 @@ final as (
         users.email,
         users.nickname,
         users.language,
+        users.organization_name,
         users.about_me,
         users.facebook_account,
         users.twitter_account,
@@ -39,6 +40,8 @@ final as (
         ifnull({{ define_publisher() }}, false) as is_publisher,
         ifnull({{ define_heavy_publisher() }}, false) as is_heavy_publisher,
         ifnull({{ define_recurrent_publisher() }}, false) as is_recurrent_publisher,
+
+        users.organization_id,
 
         users.registered_at,
         users.last_access_at

@@ -54,14 +54,17 @@ final as (
         newrole as role_code,
         lower(email) as email_lower,
         -- socialmedia extraction
-        json_extract_scalar(socialmedia, '$.facebook') as facebook_account,
-        json_extract_scalar(socialmedia, '$.twitter') as twitter_account,
-        json_extract_scalar(socialmedia, '$.youtube') as youtube_account,
-        json_extract_scalar(socialmedia, '$.instagram') as instagram_account,
-        json_extract_scalar(socialmedia, '$.linkedin') as linkedin_account,
+        nullif(json_extract_scalar(socialmedia, '$.facebook'), '') as facebook_account,
+        nullif(json_extract_scalar(socialmedia, '$.twitter'), '') as twitter_account,
+        nullif(json_extract_scalar(socialmedia, '$.youtube'), '') as youtube_account,
+        nullif(json_extract_scalar(socialmedia, '$.instagram'), '') as instagram_account,
+        nullif(json_extract_scalar(socialmedia, '$.linkedin'), '') as linkedin_account,
         -- emailvalidationtoken extraction
         json_extract_scalar(emailvalidationtoken, '$.Token') as email_validation_token,
         summary as about_me,
+        -- organization extraction
+        nullif(json_extract_scalar(organization, '$.Id'), '') as organization_id,
+        nullif(json_extract_scalar(organization, '$.Name'), '') as organization_name,
 
         ifnull(validated, False) as is_validated,
 

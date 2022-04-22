@@ -71,6 +71,7 @@ final as (
         users.email,
         users.nickname,
         users.language,
+        users.organization_name,
         users.about_me,
         users.facebook_account,
         users.twitter_account,
@@ -82,6 +83,8 @@ final as (
         users.is_validated,
         users.is_deleted,
         ifnull(social.is_active, false) as is_social_profile_active,
+
+        users.organization_id,
 
         users.registered_at,
         users.last_access_at,

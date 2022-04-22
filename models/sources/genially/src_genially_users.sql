@@ -28,7 +28,7 @@ final as (
         city,
         logins,
         language,
-        organization,
+        organization_name,
         facebook_account,
         twitter_account,
         youtube_account,
@@ -41,6 +41,7 @@ final as (
         __hevo__marked_deleted as is_deleted,
 
         analytics_id,
+        organization_id,
 
         registered_at,
         last_access_at,
