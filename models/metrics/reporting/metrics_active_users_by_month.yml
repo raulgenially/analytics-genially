@@ -50,8 +50,8 @@ models:
         tests:
           - not_null
 
-      - name: n_returning
-        description: Numbers of returning active users registered during that month.
+      - name: n_signups
+        description: Numbers of users registered during that month.
         tests:
           - not_null
 
