@@ -50,9 +50,9 @@ final as (
         mkt_campaign as utm_campaign,
         mkt_term as utm_term,
         mkt_content as utm_content,
-        refr_medium as utm_medium_referrer,
-        refr_source as utm_source_referrer,
-        refr_term as utm_term_referrer,
+        refr_medium,
+        refr_source,
+        refr_term,
         -- ecommerce transaction
         tr_orderid as transaction_id,
         tr_total as transaction_total,
@@ -70,13 +70,13 @@ final as (
         -- user identification
         user_id,
         domain_userid as domain_user_id,
-        domain_sessionid as domain_session_id,
-        domain_sessionidx as domain_session_idx,
+        domain_sessionid as session_id,
+        domain_sessionidx as session_count,
         network_userid as network_user_id,
 
         -- event timestamps
         collector_tstamp as event_received_at,
-        dvce_created_tstamp as event_triggered_at,
+        derived_tstamp as event_triggered_at,
         load_tstamp as event_loaded_at
 
     from events

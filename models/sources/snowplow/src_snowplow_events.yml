@@ -15,11 +15,11 @@ models:
 
       - name: page_url
         description: >
-          The page url when the event was generated. Example: http://www.example.com
+          The page url at the time the event was generated. Example: http://www.example.com
 
       - name: page_title
         description: >
-          The page title when the event was generated. Example: Panel - Genial.ly
+          The page title at the time the event was generated. Example: Panel - Genial.ly
 
       - name: page_urlhost
         description: >
@@ -75,7 +75,7 @@ models:
 
       - name: browser_language
         description: >
-          The language the browser. Example: French, Spanish, Romanian (Romania)
+          The language of the browser. Example: French, Spanish, Romanian (Romania)
 
       - name: browser_name
         description: >
@@ -123,11 +123,11 @@ models:
 
       - name: utm_medium
         description: >
-          Type of traffic source. Example: cpc, fb, email
+          Type of traffic source (aka channel). Example: cpc, fb, email
 
       - name: utm_source
         description: >
-          The company / website where the traffic came from. Example: Mailchimp, google, zalo
+          The platform or tool where the traffic came from. Example: Mailchimp, google, zalo
 
       - name: utm_campaign
         description: >
@@ -139,15 +139,15 @@ models:
       - name: utm_content
         description: The content of the ad (or an ID so that it can be looked up).
 
-      - name: utm_medium_referrer
+      - name: refr_medium
         description: >
           Type of referrer. Example: email, serach, social
 
-      - name: utm_source_referrer
+      - name: refr_source
         description: >
           Name of referer if recognised. Example: Gmail, Instagram, Twitter
 
-      - name: utm_term_referrer
+      - name: refr_term
         description: Keywords if source is a search engine.
 
       - name: transaction_id
@@ -192,17 +192,18 @@ models:
         description: >
           User ID set by Snowplow using 1st party cookie. Example: bc2e92ec6c204a14
 
-      - name: domain_session_id
+      - name: session_id
         description: >
           A visit / session identifier. Example: c6ef3124-b53a-4b13-a233-0088f79dcbcb
 
-      - name: domain_session_idx
+      - name: session_count
         description: >
-          A visit / session index. Example: 3
+          A visit / session count. Example: 3
 
       - name: network_user_id
         description: >
-          User ID set by Snowplow using 3rd party cookie. Example: ecdff4d0-9175-40ac-a8bb-325c49733607
+          User ID set by Snowplow using 3rd party cookie (configured as 1st party since
+          since the snowplow collector). Example: ecdff4d0-9175-40ac-a8bb-325c49733607
 
       - name: event_received_at
         description: Timestamp for the event recorded by the Snowplow collector.
