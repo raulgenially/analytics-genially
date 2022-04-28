@@ -55,6 +55,12 @@ models:
         tests:
           - not_null
 
+      - name: n_creations
+        description: Numbers of geniallys created during that month.
+        tests:
+          - not_null
+
+
     tests:
       - dbt_utils.expression_is_true:
           expression: "n_signups <= n_active_users"

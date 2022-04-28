@@ -16,8 +16,17 @@ login_activity as (
         and date_day >= {{ min_date }}
 ),
 
-final as (
+users_and_creations_by_day as (
     select
+        *,
+        date_trunc(date_day, month) as date_month
+
+    from {{ ref('metrics_users_and_creations_by_day') }}
+),
+
+metrics1 as (
+    select
+        -- Dimensions
         date(reference_table.date_month) as date_month,
         reference_table.plan,
         reference_table.subscription,
@@ -25,6 +34,7 @@ final as (
         reference_table.country_name,
         reference_table.broad_sector,
         reference_table.broad_role,
+        -- Metrics
         count(distinct login_activity.user_id) as n_active_users,
         count(distinct if(login_activity.status = 'New', login_activity.user_id, null)) as n_signups
 
@@ -38,6 +48,48 @@ final as (
             and reference_table.broad_sector = login_activity.broad_sector
             and reference_table.broad_role = login_activity.broad_role
     {{ dbt_utils.group_by(n=7) }}
+),
+
+creations as(
+    select
+        -- Dimensions
+        date_month,
+        plan,
+        subscription,
+        country,
+        country_name,
+        broad_sector,
+        broad_role,
+        -- Metrics
+        sum(n_creations) as n_creations
+
+    from users_and_creations_by_day
+    where date_month >= {{ min_date }}
+    {{ dbt_utils.group_by(n=7) }}
+),
+
+final as (
+    select
+        m1.date_month,
+        m1.plan,
+        m1.subscription,
+        m1.country,
+        m1.country_name,
+        m1.broad_sector,
+        m1.broad_role,
+        m1.n_active_users,
+        m1.n_signups,
+        c.n_creations as n_creations
+
+    from metrics1 as m1
+        left join creations as c
+            on m1.date_month=c.date_month
+                and m1.plan = c.plan
+                and m1.subscription = c.subscription
+                and m1.country = c.country
+                and m1.country_name = c.country_name
+                and m1.broad_sector = c.broad_sector
+                and m1.broad_role = c.broad_role
 )
 
 select * from final
