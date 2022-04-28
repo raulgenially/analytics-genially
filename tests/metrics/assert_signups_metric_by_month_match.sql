@@ -11,7 +11,7 @@ with users_and_creations_by_day as (
 ),
 
 active_users_by_month as (
-    select * from {{ ref('metrics_active_users_by_month') }}
+    select * from {{ ref('metrics_users_and_creations_by_month') }}
 ),
 
 signups_model1 as (
