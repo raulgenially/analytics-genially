@@ -82,8 +82,8 @@ final as (
         c.n_creations as n_creations
 
     from metrics1 as m1
-        left join creations as c
-            on m1.date_month=c.date_month
+    left join creations as c
+            on m1.date_month = c.date_month
                 and m1.plan = c.plan
                 and m1.subscription = c.subscription
                 and m1.country = c.country
