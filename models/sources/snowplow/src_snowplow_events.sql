@@ -53,19 +53,6 @@ final as (
         refr_medium,
         refr_source,
         refr_term,
-        -- ecommerce transaction
-        tr_orderid as transaction_id,
-        tr_total as transaction_total,
-        tr_currency as transaction_currency,
-        tr_affiliation as transaction_affiliation,
-        -- ecommerce item
-        ti_orderid as item_order_id,
-        ti_sku as item_id,
-        ti_name as item_name,
-        ti_category as item_category,
-        ti_price as item_price,
-        ti_quantity as item_quantity,
-        ti_currency as item_currency,
 
         -- user identification
         user_id,

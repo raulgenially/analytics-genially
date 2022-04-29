@@ -150,41 +150,6 @@ models:
       - name: refr_term
         description: Keywords if source is a search engine.
 
-      - name: transaction_id
-        description: Order ID of an ecommerce transaction.
-
-      - name: transaction_total
-        description: >
-          Total transaction value. Example: 12.29
-
-      - name: transaction_currency
-        description: >
-          Currency of the transaction. Example: USD
-
-      - name: transaction_affiliation
-        description: Transaction affiliation (e.g. store where sale took place).
-
-      - name: item_order_id
-        description: Order ID of the transaction this item is included in.
-
-      - name: item_id
-        description: Product SKU.
-
-      - name: item_name
-        description: Product name.
-
-      - name: item_category
-        description: Product category.
-
-      - name: item_price
-        description: Product unit price.
-
-      - name: item_quantity
-        description: Number of product in transaction.
-
-      - name: item_currency
-        description: Currency of the transaction.
-
       - name: user_id
         description: The user ID in Genially. Null if the user has not accepted cookies.
 
