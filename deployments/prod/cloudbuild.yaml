@@ -3,16 +3,16 @@ steps:
   entrypoint: 'bash'
   args: ['-c', 'gcloud secrets versions access latest --secret="dbt-prod-profiles" > profiles.yml']
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['deps']
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['seed']
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['snapshot']
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   entrypoint: 'bash'
   args: ['-c', 'dbt run $${RUN_COMMAND}']
   env:
@@ -25,14 +25,14 @@ steps:
   env:
   - COMMIT_SHA=$COMMIT_SHA
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
       dbt test || dbt test -s result:fail --store-failures
 
-- name: 'fishtownanalytics/dbt:1.0.0'
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['run-operation', 'cleanup_dataset']
 
 timeout: 3600s # 1 hour
