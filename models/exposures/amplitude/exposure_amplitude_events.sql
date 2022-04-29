@@ -92,20 +92,12 @@ final as (
 
         -- event_properties
         struct(
-            domain_session_id,
-            domain_session_idx,
+            session_id,
+            session_count,
             page_url,
             page_title,
             page_referrer,
             page_urlpath as page_path,
-            -- generic parameters
-            {{ path_part('page_urlpath', 0) }} as page_path_part0,
-            {{ path_part('page_urlpath', 1) }} as page_path_part1,
-            {{ path_part('page_urlpath', 2) }} as page_path_part2,
-            {{ path_part('page_urlpath', 3) }} as page_path_part3,
-            {{ path_part('page_urlpath', 4) }} as page_path_part4,
-            {{ path_part('page_urlpath', 5) }} as page_path_part5,
-            {{ path_part('page_urlpath', 6) }} as page_path_part6,
             -- curated parameters
             regexp_extract(page_urlpath, r'^/teams/([^/]*)/?') as team_id,
             regexp_extract(page_urlpath, r'^/editor/([^/]*)/?') as genially_id,
