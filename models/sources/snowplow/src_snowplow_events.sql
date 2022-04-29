@@ -15,6 +15,7 @@ final as (
         -- event properties
         event_name,
         app_id,
+        name_tracker as tracker_name,
         page_url,
         page_title,
         page_urlhost,

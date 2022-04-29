@@ -13,6 +13,11 @@ models:
       - name: app_id
         description: Application ID.
 
+      - name: tracker_name
+        description: >
+          Part of the Genially platform the tracker is sending events from.
+          Example: editorTracker, dashboardTracker
+
       - name: page_url
         description: >
           The page url at the time the event was generated. Example: http://www.example.com
@@ -168,7 +173,8 @@ models:
       - name: network_user_id
         description: >
           User ID set by Snowplow using 3rd party cookie (configured as 1st party since
-          since the snowplow collector). Example: ecdff4d0-9175-40ac-a8bb-325c49733607
+          the snowplow collector is hosted on the same domain as the genially web).
+          Example: ecdff4d0-9175-40ac-a8bb-325c49733607
 
       - name: event_received_at
         description: Timestamp for the event recorded by the Snowplow collector.
