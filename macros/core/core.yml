@@ -1,0 +1,8 @@
+version: 2
+
+macros:
+  - name: generate_schema_name
+    description: Override the core dbt macro `generate_schema_name` to use an alternative pattern for generating
+      schema names. With the new pattern, in development environments, all tables are created under the same dataset.
+      In production, the tables will be created in the specified dataset (if provided through a schema config parameter)
+      or the default target dataset.

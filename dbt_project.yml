@@ -25,6 +25,33 @@ vars:
   snapshot_users_start_date: '2021-12-20'
   # Initial date of OKRs analysis
   start_date_of_analysis_OKR: '2022-01-01'
+  # Snowplow
+  snowplow_web:
+    # Define source data
+    snowplow__atomic_schema: rt_pipeline_prod1
+    snowplow__database: snowplow-genially
+    # Enable activated enrichments
+    snowplow__enable_iab: true
+    snowplow__enable_ua: true
+    snowplow__enable_yauaa: true
+    # Process data from this date on based on environment
+    snowplow__start_date: "{{ snowplow_utils.get_value_by_target(
+                                dev_value=snowplow_utils.n_timedeltas_ago(1, 'days'),
+                                default_value='2022-04-07',
+                                dev_target_name='dev'
+                              )
+                           }}"
+    snowplow__backfill_limit_days: "{{ snowplow_utils.get_value_by_target(
+                                         dev_value=1,
+                                         default_value=30,
+                                         dev_target_name='dev'
+                                       )
+                                    }}"
+    # Process only data with this app_id
+    snowplow__app_id: ['genially-webapp']
+    # Table is partitioned by collector_tstmap so we need to set this to false
+    snowplow__derived_tstamp_partitioned: false
+
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'
@@ -77,6 +104,8 @@ models:
       +materialized: ephemeral
       +tags:
         - adhoc
+  snowplow_web:
+    +database: "{{ 'snowplow-genially' if target.name == 'prod' else target.database }}"
 
 seeds:
   analytics_genially:

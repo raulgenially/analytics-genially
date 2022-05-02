@@ -30,7 +30,7 @@ steps:
   args:
     - '-c'
     - |
-      dbt test || dbt test -s result:fail --store-failures
+      dbt test --selector test_build || dbt test -s result:fail --store-failures
 
 - name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['run-operation', 'cleanup_dataset']
