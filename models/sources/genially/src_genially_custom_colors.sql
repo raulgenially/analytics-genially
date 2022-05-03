@@ -15,4 +15,4 @@ final as(
     where __hevo__marked_deleted = false
 )
 
- select * from final limit 10
+ select * from final
