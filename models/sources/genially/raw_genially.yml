@@ -170,3 +170,35 @@ sources:
             tests:
               - unique
               - not_null
+
+      - name: custombackground
+        columns:
+          - name: _id
+            description: Primary key for brand's custom backgrounds.
+            tests:
+              - unique
+              - not_null
+
+      - name: customcolor
+        columns:
+          - name: _id
+            description: Primary key for brand's custom colors.
+            tests:
+              - unique
+              - not_null
+
+      - name: customfont
+        columns:
+          - name: _id
+            description: Primary key for brand's custom fonts.
+            tests:
+              - unique
+              - not_null
+
+      - name: customimage
+        columns:
+          - name: _id
+            description: Primary key for brand's custom images.
+            tests:
+              - unique
+              - not_null
