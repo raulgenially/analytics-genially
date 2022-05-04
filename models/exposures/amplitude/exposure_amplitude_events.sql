@@ -104,7 +104,7 @@ final as (
             regexp_extract(page_urlpath, r'/spaces/([^/]*)/?') as team_space_id,
             regexp_extract(page_urlpath, r'^/invoice/([^/]*)/?') as invoice_id,
             regexp_extract(page_urlpath, r'/folder/([^/]*)/?') as folder_id,
-            regexp_extract(page_urlpath, r'^/templates/([^/]*)/?') as template_type
+            regexp_extract(page_urlpath, r'/templates/([^/]*)/?') as template_section
         ) as event_properties,
 
         -- user_properties
