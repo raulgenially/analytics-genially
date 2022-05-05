@@ -29,8 +29,6 @@ models:
         description: Plan the contact has in genially.
           This field is populated at the time of the last contact.
         tests:
-          - not_null:
-              where: user_id is not null
           - accepted_values:
               values: "{{ get_freshdesk_contact_plan_values() }}"
 
@@ -67,9 +65,6 @@ models:
       - name: n_total_creations
         description: Number of creations the contact has in genially.
           This field is populated at the time of the last contact.
-        tests:
-          - not_null:
-              where: user_id is not null
 
       - name: user_id
         # TODO: We have some contacts from users we don't have in the users collection
@@ -94,13 +89,7 @@ models:
       - name: last_login_at
         description: Time of last login in genially.
           This field is populated at the time of the last contact.
-        tests:
-          - not_null:
-              where: user_id is not null
 
       - name: registered_at
         description: Time of registration in genially.
           This field is populated at the time of the last contact.
-        tests:
-          - not_null:
-              where: user_id is not null
