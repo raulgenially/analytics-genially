@@ -52,8 +52,8 @@ totals_join as (
         c.n_values
 
     from signups_model1 as m1
-        cross join signups_model2 as m2
-        cross join signups_count as c
+    cross join signups_model2 as m2
+    cross join signups_count as c
 ),
 
 final as (
