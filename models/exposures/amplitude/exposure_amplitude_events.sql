@@ -1,3 +1,8 @@
+{{
+    config(
+        materialized="table",
+    )
+}}
 with raw_events as (
     select * from {{ ref('src_snowplow_events') }}
     where event_received_at > timestamp_sub(timestamp(current_date()), interval 7 day)
@@ -59,7 +64,7 @@ enriched_events as (
         nullif(users.country_name,'{{ var('not_selected') }}') as user_country,
         users.plan as user_plan,
         users.registered_at as user_registered_at,
-        users.n_active_creations as user_creations,
+        users.n_total_creations as user_creations,
         -- licenses
         licenses.recurrence as plan_recurrence,
 
@@ -82,7 +87,7 @@ final as (
         geo_city as city,
         geo_country_name as country,
         nullif(device_brand, 'Unknown') as device_brand,
-        nullif(device_brand, 'Unknown') as device_manufacturer,
+        nullif(device_name, 'Unknown') as device_model,
         browser_language as language,
         geo_latitude as location_lat,
         geo_longitude as location_lng,
@@ -109,7 +114,7 @@ final as (
 
         -- user_properties
         struct(
-            user_country as profile_country,
+            user_country as country,
             user_sector_code as sector_id,
             user_sector as sector,
             user_role_code as role_id,
@@ -119,6 +124,9 @@ final as (
             plan_recurrence,
             user_creations as n_creations
         ) as user_properties,
+
+        -- cursor used during ingestion
+        event_received_at,
 
     from enriched_events
 )
