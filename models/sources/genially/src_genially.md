@@ -42,6 +42,8 @@ One of the following values:
 | 1         | Free       |
 | 2         | Master     |
 | 3         | Edu        |
+| 4         | Pro        |
+| 5         | Basic      |
 
 {% enddocs %}
 
