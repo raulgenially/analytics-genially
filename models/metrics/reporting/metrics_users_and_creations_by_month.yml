@@ -60,7 +60,6 @@ models:
         tests:
           - not_null
 
-
     tests:
       - dbt_utils.expression_is_true:
           expression: "n_signups <= n_active_users"

@@ -2,7 +2,7 @@
     date('2022-01-01')
 {% endset %}
 
-{% set last_day %}
+{% set first_day_current_month %}
     date_trunc(current_date(), month)
 {% endset %}
 
@@ -20,7 +20,7 @@ creations_model1 as (
 
     from users_and_creations_by_day
     where date_day >= {{ testing_date }}
-    and date_day < {{ last_day }}
+        and date_day < {{ first_day_current_month }}
 ),
 
 creations_model2 as (
