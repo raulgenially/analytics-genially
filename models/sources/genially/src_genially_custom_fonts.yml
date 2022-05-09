@@ -32,7 +32,6 @@ models:
 
       - name: children_fonts
         description: Object containing fonts which was merged into another one.
-        tests:
 
       - name: user_id
         description: Foreign key referring to the user uploading the font.
