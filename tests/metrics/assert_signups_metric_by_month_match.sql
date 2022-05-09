@@ -20,7 +20,7 @@ signups_model1 as (
 
     from users_and_creations_by_day
     where date_day >= {{ testing_date }}
-    and date_day < {{ first_day_current_month }}
+        and date_day < {{ first_day_current_month }}
 ),
 
 signups_model2 as (
