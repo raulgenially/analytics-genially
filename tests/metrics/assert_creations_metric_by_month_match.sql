@@ -14,46 +14,46 @@ active_users_by_month as (
     select * from {{ ref('metrics_users_and_creations_by_month') }}
 ),
 
-signups_model1 as (
+creations_model1 as (
     select
-        sum(n_signups) as n_signups
+        sum(n_creations) as n_creations
 
     from users_and_creations_by_day
     where date_day >= {{ testing_date }}
         and date_day < {{ first_day_current_month }}
 ),
 
-signups_model2 as (
+creations_model2 as (
     select
-        sum(n_signups) as n_signups
+        sum(n_creations) as n_creations
 
     from active_users_by_month
     where date_month >= {{ testing_date }}
 ),
 
-signups_union as (
-    select n_signups from signups_model1
+creations_union as (
+    select n_creations from creations_model1
     union all
-    select n_signups from signups_model2
+    select n_creations from creations_model2
 
 ),
 
-signups_count as (
+creations_count as (
     select
-        count(distinct n_signups) as n_values
+        count(distinct n_creations) as n_values
 
-    from signups_union
+    from creations_union
 ),
 
 totals_join as (
     select
-        m1.n_signups as n_signups_users_and_creations_by_day,
-        m2.n_signups as n_signups_active_users_by_month,
+        m1.n_creations as n_creations_users_and_creations_by_day,
+        m2.n_creations as n_creations_active_users_by_month,
         c.n_values
 
-    from signups_model1 as m1
-    cross join signups_model2 as m2
-    cross join signups_count as c
+    from creations_model1 as m1
+    cross join creations_model2 as m2
+    cross join creations_count as c
 ),
 
 final as (

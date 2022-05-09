@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: metrics_active_users_by_month
-    description: Model containing signups and active users metrics aggregated by month.
+  - name: metrics_users_and_creations_by_month
+    description: Model containing metrics related to users and creations aggregated by month.
      This model has been built using a reference table (macro get_combination_calendar_dimensions) with all posible
      combinations of the dimensions.
     columns:
@@ -52,6 +52,11 @@ models:
 
       - name: n_signups
         description: Numbers of users registered during that month.
+        tests:
+          - not_null
+
+      - name: n_creations
+        description: Numbers of geniallys created during that month.
         tests:
           - not_null
 
