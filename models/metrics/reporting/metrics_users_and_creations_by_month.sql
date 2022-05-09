@@ -83,13 +83,13 @@ final as (
 
     from metrics1 as m1
     left join creations as c
-            on m1.date_month = c.date_month
-                and m1.plan = c.plan
-                and m1.subscription = c.subscription
-                and m1.country = c.country
-                and m1.country_name = c.country_name
-                and m1.broad_sector = c.broad_sector
-                and m1.broad_role = c.broad_role
+        on m1.date_month = c.date_month
+            and m1.plan = c.plan
+            and m1.subscription = c.subscription
+            and m1.country = c.country
+            and m1.country_name = c.country_name
+            and m1.broad_sector = c.broad_sector
+            and m1.broad_role = c.broad_role
 )
 
 select * from final
