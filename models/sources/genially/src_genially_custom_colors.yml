@@ -4,16 +4,15 @@ models:
   - name: src_genially_custom_colors
     description: Custom colors uploaded into 'My Brand' section.
     columns:
-      - name: custom_color_id
+      - name: color_id
         description: Primary key for custom colors.
         tests:
           - unique
           - not_null
 
-      - name: custom_color_code
+      - name: color_code
         description: Custom color code. It would be on rgb(0,0,0) or \#0000 format.
         tests:
-          - unique
           - not_null
 
       - name: user_id
@@ -26,8 +25,9 @@ models:
 
       - name: team_id
         description: Foreign key referring to the team where the background is uploaded.
-        tests:
-          - relationships:
-              to: ref('src_genially_teams')
-              field: team_id
-              where: team_id is not null
+# TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
+        # tests:
+          # - relationships:
+          #     to: ref('src_genially_teams')
+          #     field: team_id
+

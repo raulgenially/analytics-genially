@@ -4,9 +4,9 @@ with custom_background as (
 
 final as(
     select
-        _id as custom_background_id,
+        _id as background_id,
 
-        urlbackground as custom_background_url,
+        urlbackground as background_url,
 
         iduser as user_id,
         idteam as team_id

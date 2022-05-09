@@ -4,9 +4,9 @@ with custom_color as (
 
 final as(
     select
-        _id as custom_color_id,
+        _id as color_id,
 
-        color as custom_color_code,
+        color as color_code,
 
         iduser as user_id,
         idteam as team_id

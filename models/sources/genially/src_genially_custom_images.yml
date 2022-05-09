@@ -4,30 +4,30 @@ models:
   - name: src_genially_custom_images
     description: Custom images uploaded into 'My Brand' section.
     columns:
-      - name: custom_image_id
+      - name: image_id
         description: Primary key for custom image.
         tests:
           - unique
           - not_null
 
-      - name: custom_image_url
+      - name: image_url
         description: Custom image url.
         tests:
           - not_null
 
+      - name: user_id
+        description: Foreign key referring to the user uploading the image.
 # TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
-      # - name: user_id
-      #   description: Foreign key referring to the user uploading the image.
       #   tests:
       #     - not_null
       #     - relationships:
       #         to: ref('src_genially_users')
       #         field: user_id
 
-      # - name: team_id
-      #   description: Foreign key referring to the team where the image is uploaded.
+      - name: team_id
+        description: Foreign key referring to the team where the image is uploaded.
+# TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
       #   tests:
       #     - relationships:
       #         to: ref('src_genially_teams')
       #         field: team_id
-      #         where: team_id is not null

@@ -4,9 +4,9 @@ with custom_image as (
 
 final as(
     select
-        _id as custom_image_id,
+        _id as image_id,
 
-        urlimage as custom_image_url,
+        urlimage as image_url,
 
         iduser as user_id,
         idteam as team_id
