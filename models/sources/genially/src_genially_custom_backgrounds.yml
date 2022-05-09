@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: src_genially_custom_backgrounds
+    description: Custom backgrounds uploaded into 'My Brand' section.
+    columns:
+      - name: background_id
+        description: Primary key for custom backgrounds.
+        tests:
+          - unique
+          - not_null
+
+      - name: background_url
+        description: Custom background url.
+        tests:
+          - not_null
+
+      - name: user_id
+        description: Foreign key referring to the user uploading the background.
+# TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
+      #   tests:
+      #     - not_null
+      #     - relationships:
+      #         to: ref('src_genially_users')
+      #         field: user_id
+
+      - name: team_id
+        description: Foreign key referring to the team where the background is uploaded.
+# TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
+      #   tests:
+      #     - relationships:
+      #         to: ref('src_genially_teams')
+      #         field: team_id
+      #         where: team_id is not null

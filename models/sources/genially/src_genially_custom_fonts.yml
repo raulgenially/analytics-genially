@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: src_genially_custom_fonts
+    description: Custom fonts uploaded into 'My Brand' section.
+    columns:
+      - name: font_id
+        description: Primary key for custom fonts.
+        tests:
+          - unique
+          - not_null
+
+      - name: font_url
+        description: Custom font url.
+        tests:
+          - not_null
+
+      - name: font_name
+        description: Custom internal font name.
+        tests:
+          - not_null
+
+      - name: font_format
+        description: Custom font text format. For now is always 'truetype'.
+        tests:
+          - not_null
+
+      - name: display_name
+        description: Custom font displayed name to the user.
+        tests:
+          - not_null
+
+      - name: children_fonts
+        description: Object containing fonts which was merged into another one.
+
+      - name: user_id
+        description: Foreign key referring to the user uploading the font.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('src_genially_users')
+              field: user_id
+
+      - name: team_id
+        description: Foreign key referring to the team where the background is uploaded.
+# TO BE FIXED ON https://github.com/genially/scrum-genially/issues/9730
+      #   tests:
+      #     - relationships:
+      #         to: ref('src_genially_teams')
+      #         field: team_id
+
+      - name: copied_from_font_id
+        description: Id of the original font which it was copied. It happen when an user moves a genially from an
+          individual WS to a team WS.
