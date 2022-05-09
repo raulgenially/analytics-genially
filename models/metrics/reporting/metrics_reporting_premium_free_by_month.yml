@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: metrics_premium_free_by_month
+  - name: metrics_reporting_premium_free_by_month
     description: This model computes the number of premium users and free users each month.
     columns:
       - name: date_month

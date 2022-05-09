@@ -13,7 +13,7 @@ monthly_projections as (
 ),
 
 users_and_creations_by_day as (
-    select * from {{ ref('metrics_users_and_creations_by_day') }}
+    select * from {{ ref('metrics_reporting_users_and_creations_by_day') }}
 ),
 
 active_users_model1 as (
@@ -65,9 +65,9 @@ totals_join as (
         c.n_values
 
     from active_users_model1 as m1
-        cross join active_users_model2 as m2
-        cross join active_users_model3 as m3
-        cross join active_users_count as c
+    cross join active_users_model2 as m2
+    cross join active_users_model3 as m3
+    cross join active_users_count as c
 ),
 
 final as (

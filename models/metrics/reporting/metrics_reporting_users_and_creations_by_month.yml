@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: metrics_users_and_creations_by_month
+  - name: metrics_reporting_users_and_creations_by_month
     description: Model containing metrics related to users and creations aggregated by month.
      This model has been built using a reference table (macro get_combination_calendar_dimensions) with all posible
      combinations of the dimensions.

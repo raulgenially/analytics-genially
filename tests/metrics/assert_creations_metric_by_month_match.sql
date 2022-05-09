@@ -7,11 +7,11 @@
 {% endset %}
 
 with users_and_creations_by_day as (
-    select * from {{ ref('metrics_users_and_creations_by_day') }}
+    select * from {{ ref('metrics_reporting_users_and_creations_by_day') }}
 ),
 
 active_users_by_month as (
-    select * from {{ ref('metrics_users_and_creations_by_month') }}
+    select * from {{ ref('metrics_reporting_users_and_creations_by_month') }}
 ),
 
 creations_model1 as (
