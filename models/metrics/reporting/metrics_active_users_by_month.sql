@@ -26,7 +26,7 @@ final as (
         reference_table.broad_sector,
         reference_table.broad_role,
         count(distinct login_activity.user_id) as n_active_users,
-        count(distinct if(login_activity.status = 'Returning', login_activity.user_id, null)) as n_returning
+        count(distinct if(login_activity.status = 'New', login_activity.user_id, null)) as n_signups
 
     from reference_table
     left join login_activity
