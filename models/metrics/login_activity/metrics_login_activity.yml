@@ -80,7 +80,7 @@ models:
           - not_null
 
       - name: first_usage_at
-        description: The date the user initiated their activity for the first time.
+        description: The date the user initiated their activity for the first time (registration date).
         tests:
           - not_null
 
@@ -111,6 +111,9 @@ models:
         description: Whether or not the user is active on date_day, that is, if the user has logged in.
         tests:
           - not_null
+
+      - name: is_active_editor
+        description: Whether or not the user have accessed the editor on date_day.
 
       - name: status
         description: Whether the user is New, Returning or Churned considering a daily time period.
@@ -187,8 +190,3 @@ models:
     - dbt_utils.expression_is_true:
         expression: "status = 'Churned'"
         condition: "status_7d = 'Churned'"
-
-    - dbt_utils.expression_is_true:
-        expression: "is_active = true"
-        condition: "n_creations > 0"
-        severity: warn

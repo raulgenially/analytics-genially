@@ -30,6 +30,10 @@ geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
+snowplow_web_page_views as (
+    select * from {{ ref('snowplow_web_page_views') }}
+),
+
 dates as (
     {{ dbt_utils.date_spine(
         datepart="day",
@@ -88,6 +92,16 @@ user_day_creations as (
             and user_day.date_day = date(user_creations.created_at)
 ),
 
+user_editors as (
+    select distinct
+        user_id,
+        date(derived_tstamp) as edition_at
+
+    from snowplow_web_page_views
+    where date(start_tstamp) >= '{{ var('snowplow_page_views_start_date') }}' -- Table partitioned by start_tstamp
+        and page_urlpath like '/editor%'
+),
+
 user_day_traffic as (
     select
         user_day_creations.user_id,
@@ -106,12 +120,20 @@ user_day_traffic as (
                 then 'Churned'
             when user_day_creations.n_days_since_first_usage > 0 and logins.user_id is not null
                 then 'Returning'
-        end as status
+        end as status,
+        if(
+            user_day_creations.date_day >= '{{ var('snowplow_page_views_start_date') }}',
+            user_editors.user_id is not null, -- I can reliably determine if the user visited the editor
+            null
+        ) as is_active_editor
 
     from user_day_creations
     left join logins
         on user_day_creations.user_id = logins.user_id
             and user_day_creations.date_day = date(logins.login_at)
+    left join user_editors -- Incorporate data as to edition activity
+        on user_day_creations.user_id = user_editors.user_id
+            and user_day_creations.date_day = user_editors.edition_at
 ),
 
 user_traffic_rolling_status as (
@@ -138,6 +160,7 @@ user_traffic_rolling_status as (
         ) as n_creations_28d,
         is_active,
         status,
+        is_active_editor,
         -- Compute n_days_active for different status.
         -- Note we have to leave a temporal margin to get reliable results.
         if(
@@ -171,6 +194,7 @@ final as (
         n_creations_7d,
         n_creations_28d,
         is_active,
+        is_active_editor,
         status,
         n_days_active_7d,
         status_7d,
