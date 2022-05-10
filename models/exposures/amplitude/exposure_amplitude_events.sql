@@ -10,10 +10,24 @@ with raw_events as (
         and event_received_at < timestamp(current_date())
 ),
 
+modeled_events as (
+    select * from {{ ref('seed_modeled_amplitude_events') }}
+),
+
+-- filter out events that are not modeled
+raw_events_modeled as (
+    select
+        raw_events.*
+
+    from raw_events
+    inner join modeled_events
+        on raw_events.event_name = modeled_events.event_name
+),
+
 raw_events_deduped as (
     {{
         unique_records_by_column(
-            cte='raw_events',
+            cte='raw_events_modeled',
             unique_column='event_id',
             order_by='event_triggered_at',
             dir='asc',
