@@ -80,7 +80,11 @@ enriched_events as (
         users.registered_at as user_registered_at,
         users.n_total_creations as user_creations,
         -- licenses
-        licenses.recurrence as plan_recurrence,
+        if(
+            licenses.started_at < raw_events.event_triggered_at,
+            licenses.recurrence,
+            null
+        ) as plan_recurrence
 
     from raw_events_deduped as raw_events
     left join users
