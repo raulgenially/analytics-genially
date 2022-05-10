@@ -118,8 +118,9 @@ final as (
             page_referrer,
             page_urlpath as page_path,
             -- curated parameters
-            regexp_extract(page_urlpath, r'^/teams/([^/]*)/?') as team_id,
-            regexp_extract(page_urlpath, r'^/editor/([^/]*)/?') as genially_id,
+            regexp_extract(page_urlpath, r'^/teams/([^/]{24})/?') as team_id,
+            regexp_extract(page_urlpath, r'(?:/(?:analytics|duplicate)|^/(?:editor|reuse))/([^/]*)/?$') as genially_id,
+            regexp_extract(page_urlpath, r'^/usetemplate/([^/]*)/?') as template_id,
             regexp_extract(page_urlpath, r'/spaces/([^/]*)/?') as team_space_id,
             regexp_extract(page_urlpath, r'^/invoice/([^/]*)/?') as invoice_id,
             regexp_extract(page_urlpath, r'/folder/([^/]*)/?') as folder_id,
