@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: metrics_users_and_creations_by_day
+  - name: metrics_reporting_users_and_creations_by_day
     description: Model containing metrics related to users and creations based on calendar days.
       It has been included these metrics and their value at 7, 8 and 364 previous days.
       This model has been built using a reference table (macro get_combination_calendar_dimensions) with all posible combinations of the dimensions.

@@ -21,7 +21,7 @@ users_and_creations_by_day as (
         *,
         date_trunc(date_day, month) as date_month
 
-    from {{ ref('metrics_users_and_creations_by_day') }}
+    from {{ ref('metrics_reporting_users_and_creations_by_day') }}
 ),
 
 metrics1 as (
