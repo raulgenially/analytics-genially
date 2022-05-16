@@ -30,8 +30,8 @@ geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
-snowplow_web_page_views as (
-    select * from {{ ref('snowplow_web_page_views') }}
+user_editions as (
+    select * from {{ ref('user_editions') }}
 ),
 
 dates as (
@@ -92,16 +92,6 @@ user_day_creations as (
             and user_day.date_day = date(user_creations.created_at)
 ),
 
-user_editors as (
-    select distinct
-        user_id,
-        date(derived_tstamp) as edition_at
-
-    from snowplow_web_page_views
-    where date(start_tstamp) >= '{{ var('snowplow_page_views_start_date') }}' -- Table partitioned by start_tstamp
-        and page_urlpath like '/editor%'
-),
-
 user_day_traffic as (
     select
         user_day_creations.user_id,
@@ -123,7 +113,7 @@ user_day_traffic as (
         end as status,
         if(
             user_day_creations.date_day >= '{{ var('snowplow_page_views_start_date') }}',
-            user_editors.user_id is not null, -- I can reliably determine if the user visited the editor
+            user_editions.user_id is not null, -- I can reliably determine if the user visited the editor
             null
         ) as is_active_editor
 
@@ -131,9 +121,9 @@ user_day_traffic as (
     left join logins
         on user_day_creations.user_id = logins.user_id
             and user_day_creations.date_day = date(logins.login_at)
-    left join user_editors -- Incorporate data as to edition activity
-        on user_day_creations.user_id = user_editors.user_id
-            and user_day_creations.date_day = user_editors.edition_at
+    left join user_editions -- Incorporate data as to edition activity
+        on user_day_creations.user_id = user_editions.user_id
+            and user_day_creations.date_day = user_editions.edition_at
 ),
 
 user_traffic_rolling_status as (

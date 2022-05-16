@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: user_editions
+    description: Records of when a user accessed the editor.
+      At most we will have 1 record per user per day. These records
+      started being recorded on {{ var('snowplow_page_views_start_date') }}.
+    columns:
+      - name: edition_id
+        description: Primary key of this model.
+          It is a surrogate key composed by user_id and edition_at.
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user id that viewed the editor.
+        tests:
+          - not_null
+
+      - name: edition_at
+        description: The date the user viewed the editor.
+        tests:
+          - not_null
+
+      - name: first_touch_at
+        description: The first record we have of the user viewing the editor.
+        tests:
+          - not_null
