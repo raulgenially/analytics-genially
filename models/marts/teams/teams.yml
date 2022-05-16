@@ -56,3 +56,5 @@ models:
     tests:
       - dbt_utils.expression_is_true:
           expression: "n_members <= n_seats"
+          # TODO: https://github.com/Genially/scrum-genially/issues/9493
+          severity: warn
