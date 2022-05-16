@@ -2,41 +2,41 @@ with snowplow_web_page_views as (
     select * from {{ ref('snowplow_web_page_views') }}
 ),
 
-user_editors as (
-    select distinct
+editions as (
+    select
         user_id,
-        date(derived_tstamp) as edition_at
+        derived_tstamp as edition_at
 
     from snowplow_web_page_views
     where date(start_tstamp) >= '{{ var('snowplow_page_views_start_date') }}' -- Table partitioned by start_tstamp
         and page_urlpath like '/editor%'
 ),
 
-first_edition as (
-    select
-        user_id,
-        min(edition_at) as first_touch_at
-
-    from user_editors
-    group by 1
+-- Pick the last edition for a certain day
+editions_deduped as (
+    {{
+        unique_records_by_column(
+            cte='editions',
+            unique_column='user_id, date(edition_at)',
+            order_by='edition_at',
+            dir='desc',
+        )
+    }}
 ),
 
 final as (
     select
         {{ dbt_utils.surrogate_key([
-            'user_editors.user_id',
-            'user_editors.edition_at'
+            'user_id',
+            'date(edition_at)'
            ])
         }} as edition_id,
 
-        user_editors.user_id,
+        user_id,
 
-        user_editors.edition_at,
-        first_edition.first_touch_at as first_touch_at
+        edition_at,
 
-    from user_editors
-    left join first_edition
-        on user_editors.user_id = first_edition.user_id
+    from editions_deduped
 )
 
 select * from final

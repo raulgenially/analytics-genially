@@ -123,7 +123,7 @@ user_day_traffic as (
             and user_day_creations.date_day = date(logins.login_at)
     left join user_editions -- Incorporate data as to edition activity
         on user_day_creations.user_id = user_editions.user_id
-            and user_day_creations.date_day = user_editions.edition_at
+            and user_day_creations.date_day = date(user_editions.edition_at)
 ),
 
 user_traffic_rolling_status as (

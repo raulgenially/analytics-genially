@@ -8,7 +8,7 @@ models:
     columns:
       - name: edition_id
         description: Primary key of this model.
-          It is a surrogate key composed by user_id and edition_at.
+          It is a surrogate key composed by user_id and date(edition_at).
         tests:
           - unique
           - not_null
@@ -20,10 +20,5 @@ models:
 
       - name: edition_at
         description: The date the user viewed the editor.
-        tests:
-          - not_null
-
-      - name: first_touch_at
-        description: The first record we have of the user viewing the editor.
         tests:
           - not_null
