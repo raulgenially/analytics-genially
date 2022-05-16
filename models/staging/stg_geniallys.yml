@@ -125,7 +125,7 @@ models:
       - name: is_private
         description: Whether the genially can be indexed by search engines.
 
-      - name: is_password_free
+      - name: has_password
         description: Whether the genially has a an access password.
 
       - name: is_in_social_profile

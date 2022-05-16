@@ -46,7 +46,7 @@ models:
         tests:
           - not_null
 
-      - name: is_password_free
+      - name: has_password
         description: Whether the genially has an access password.
         tests:
           - not_null
