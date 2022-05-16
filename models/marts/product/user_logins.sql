@@ -1,4 +1,8 @@
-with user_history as (
+with users as (
+    select * from {{ ref('stg_users') }}
+),
+
+user_history as (
     select
         user_id,
         last_access_at,
@@ -21,43 +25,48 @@ logins as (
     }}
 ),
 
-logins_numbered as (
+-- We want to consider the registration date as a login as well.
+logins_users_unioned as (
     select
         user_id,
-        logins.last_access_at as login_at,
-        row_number() over (
-            partition by user_id
-            order by last_access_at
-        ) as login_day,
+        last_access_at as login_at
 
     from logins
-),
 
-first_touch as (
+    union all
+
     select
         user_id,
-        login_at as first_touch_at
+        registered_at as login_at
 
-    from logins_numbered
-    where login_day = 1
+    from users
+),
+
+-- Once unioned logins and users, pick the last login for a certain day
+logins_deduped as (
+    {{
+        unique_records_by_column(
+            cte='logins_users_unioned',
+            unique_column='user_id, date(login_at)',
+            order_by='login_at',
+            dir='desc',
+        )
+    }}
 ),
 
 final as (
     select
         {{ dbt_utils.surrogate_key([
-            'logins.user_id',
-            'logins.login_at'
+            'user_id',
+            'date(login_at)'
            ])
         }} as login_id,
 
-        logins.user_id,
+        user_id,
 
-        logins.login_at,
-        first_touch.first_touch_at as first_touch_at
+        login_at
 
-    from logins_numbered as logins
-    left join first_touch
-        on logins.user_id = first_touch.user_id
+    from logins_deduped
 )
 
 select * from final

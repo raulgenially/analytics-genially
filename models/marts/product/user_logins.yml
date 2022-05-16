@@ -8,7 +8,7 @@ models:
     columns:
       - name: login_id
         description: Primary key of this model.
-          It is a surrogate key composed by user_id and login_at.
+          It is a surrogate key composed by user_id and date(login_at).
         tests:
           - unique
           - not_null
@@ -20,10 +20,5 @@ models:
 
       - name: login_at
         description: The date the user logged in.
-        tests:
-          - not_null
-
-      - name: first_touch_at
-        description: The first record we have of the user logging in.
         tests:
           - not_null
