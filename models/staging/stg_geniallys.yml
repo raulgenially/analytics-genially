@@ -206,9 +206,6 @@ models:
       - name: disabled_at
         description: The date at which the genially is disabled because the team is disabled.
 
-      - name: updated_at
-        description: Timestamp when the record was updated.
-
     tests:
       - dbt_utils.expression_is_true:
           expression: "category != 'Other'"

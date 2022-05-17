@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: deleted_users
-    description: Set of users that have been deleted. We've made our best to exclude
-      users that have been marked as phishing.
+  - name: int_mart_all_users
+    description: Model that includes all users (active + deleted) in the same table.
+      It's aimed to be used in different metrics models to keep the consistency across the full history.
     columns:
       - name: user_id
         description: Primary key for users.
@@ -25,9 +25,6 @@ models:
           - accepted_values:
               values: "{{ get_subscription_values() }}"
 
-      - name: sector_code
-        description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-
       - name: sector
         description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
         tests:
@@ -37,9 +34,6 @@ models:
         description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
         tests:
           - not_null
-
-      - name: role_code
-        description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
 
       - name: role
         description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
@@ -61,45 +55,10 @@ models:
         tests:
           - not_null
 
-      - name: email
-        description: Email account (same as username).
-
-      - name: nickname
-        description: User nickname in genially.
-
-      - name: language
-        description: Language the Genially web interface is in.
-
-      - name: about_me
-        description: Short description about the user (user defined).
-
-      - name: facebook_account
-        description: Link to Facebook account.
-
-      - name: twitter_account
-        description: Link to Twitter account.
-
-      - name: youtube_account
-        description: Link to YouTube account.
-
-      - name: instagram_account
-        description: Link to Instagram account.
-
-      - name: linkedin_account
-        description: Link to LinkedIn account.
-
-      - name: is_validated
-        description: Whether the user has validated their account.
-
       - name: registered_at
         description: Registration date.
         tests:
           - not_null
 
-      - name: last_access_at
-        description: Last access date.
-
       - name: deleted_at
         description: Timestamp when the user was deleted.
-        tests:
-          - not_null
