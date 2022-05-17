@@ -129,9 +129,6 @@ models:
       - name: user_properties.plan
         description: The type of subscription.
 
-      - name: user_properties.plan_recurrence
-        description: whether the plan has a monthly or annual payment.
-
       - name: user_properties.n_creations
         description: The total number of geniallys created.
 

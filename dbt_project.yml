@@ -111,6 +111,7 @@ models:
         - exposures
       amplitude:
         +schema: amplitude
+        +materialized: table
   snowplow_web:
     +database: "{{ 'snowplow-genially' if target.name == 'prod' else target.database }}"
 

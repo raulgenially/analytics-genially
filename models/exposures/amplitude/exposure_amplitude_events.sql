@@ -1,13 +1,10 @@
-{{
-    config(
-        materialized="table",
-    )
-}}
+{% set yesterday = "date_sub(current_date(), interval 1 day)" %}
+
 with raw_events as (
     select * from {{ ref('src_snowplow_events') }}
-    where event_received_at > timestamp_sub(timestamp(current_date()), interval 7 day)
+    where date(event_received_at) >= date_sub(current_date(), interval 7 day)
         and (user_id is not null or network_user_id is not null)
-        and event_received_at < timestamp(current_date())
+        and date(event_received_at) <= {{ yesterday }}
 ),
 
 modeled_events as (
@@ -43,22 +40,6 @@ users as (
     select * from {{ ref('users') }}
 ),
 
-active_licenses as (
-    select * from {{ ref('licenses') }}
-    where is_active = true
-),
-
-active_licenses_deduped as (
-    {{
-        unique_records_by_column(
-            cte='active_licenses',
-            unique_column='user_id',
-            order_by='started_at',
-            dir='desc',
-        )
-    }}
-),
-
 enriched_events as (
     select
         raw_events.* replace(
@@ -79,18 +60,10 @@ enriched_events as (
         users.plan as user_plan,
         users.registered_at as user_registered_at,
         users.n_total_creations as user_creations,
-        -- licenses
-        if(
-            licenses.started_at < raw_events.event_triggered_at,
-            licenses.recurrence,
-            null
-        ) as plan_recurrence
 
     from raw_events_deduped as raw_events
     left join users
         on raw_events.user_id = users.user_id
-    left join active_licenses_deduped as licenses
-        on raw_events.user_id = licenses.user_id
     left join countries
         on raw_events.geo_country = countries.code
 ),
@@ -140,12 +113,21 @@ final as (
             user_role as role,
             format_timestamp("%Y-%m-%dT%X%Ez", user_registered_at) as registered_at,
             user_plan as plan,
-            plan_recurrence,
             user_creations as n_creations
         ) as user_properties,
 
-        -- cursor used during ingestion
-        event_received_at,
+        -- Cursor used during ingestion.
+        -- The events of yesterday are the ones that are going to be ingested on
+        -- a given day so we have to bring its event_received_at to the present
+        -- because the ingestion job loads events whose load time falls in the
+        -- range (last_job_start_time, current_job_start_time].
+        -- We add 5 min into the future so that no events are skipped if the table is
+        -- being generated while the ingestion job runs.
+        if(
+            date(event_received_at) = {{ yesterday }},
+            timestamp_add(current_timestamp(), interval 5 minute),
+            event_received_at
+        ) as event_received_at
 
     from enriched_events
 )
