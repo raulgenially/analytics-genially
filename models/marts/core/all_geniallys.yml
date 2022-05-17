@@ -2,6 +2,8 @@ version: 2
 
 models:
   - name: all_geniallys
+    description: Model that includes all geniallys (active + deleted) in the same table.
+      It's aimed to be used in different metrics models to keep the consistency across the full history.
     columns:
       - name: genially_id
         description: Primary key for geniallys.
