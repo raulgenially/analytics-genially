@@ -2,10 +2,6 @@
     date('2022-01-01')
 {% endset %}
 
-{% set first_day_current_month %}
-    date_trunc(current_date(), month)
-{% endset %}
-
 with users_and_creations_by_day as (
     select * from {{ ref('metrics_reporting_users_and_creations_by_day') }}
 ),
@@ -20,7 +16,7 @@ users_and_creations_by_day_sum as (
 
     from users_and_creations_by_day
     where date_day >= {{ testing_date }}
-        and date_day < {{ first_day_current_month }}
+        and date_day < {{ get_first_day_current_month() }}
 
 ),
 
