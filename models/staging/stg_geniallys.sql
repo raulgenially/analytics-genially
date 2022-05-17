@@ -117,7 +117,7 @@ final as (
         geniallys.is_active,
         geniallys.is_disabled,
         geniallys.is_private,
-        geniallys.is_password_free,
+        geniallys.has_password,
         geniallys.is_in_social_profile,
         geniallys.is_reusable,
         geniallys.is_inspiration,

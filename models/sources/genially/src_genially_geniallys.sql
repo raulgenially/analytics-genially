@@ -16,7 +16,7 @@ final as (
         not ifnull(deleted, false) and __hevo__marked_deleted = false and datedisabled is null as is_active,
         if(datedisabled is not null, true, false) as is_disabled,
         ifnull(noindex, false) as is_private,
-        ifnull(public, false) as is_password_free,
+        not ifnull(public, false) as has_password,
         case
             when published = true and ifnull(noindex, false) = false
                 then
