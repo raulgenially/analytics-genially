@@ -46,7 +46,8 @@ final as (
         datepublished as published_at,
         lastview as last_view_at,
         datedeleted as deleted_at,
-        datedisabled as disabled_at
+        datedisabled as disabled_at,
+        timestamp_millis(__hevo__ingested_at) as updated_at
 
     from geniallys
 )

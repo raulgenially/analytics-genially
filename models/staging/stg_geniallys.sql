@@ -142,6 +142,7 @@ final as (
         geniallys.last_view_at,
         geniallys.deleted_at,
         geniallys.disabled_at,
+        geniallys.updated_at
 
     from int_geniallys as geniallys
     left join inspiration
