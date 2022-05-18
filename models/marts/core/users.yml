@@ -2,6 +2,8 @@ version: 2
 
 models:
   - name: users
+    description: This model only includes those users present in the data source.
+      To analyse all users registered since June 4, 2021, see all_users model.
     columns:
       - name: user_id
         description: Primary key for users.

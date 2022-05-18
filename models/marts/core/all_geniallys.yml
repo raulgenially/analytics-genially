@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: all_geniallys
-    description: Model that includes all geniallys (active + deleted) in the same table.
+    description: Model that includes all geniallys (active or not) from users of the all_users model.
       It's aimed to be used in different metrics models to keep the consistency across the full history.
     columns:
       - name: genially_id
@@ -13,66 +13,42 @@ models:
 
       - name: user_plan
         description: "{{ doc('subscription_codes') }}"
-        tests:
-          - not_null
 
       - name: user_subscription
         description: Type of subscription, Free or Premium.
-        tests:
-          - not_null
-          - accepted_values:
-              values: "{{ get_subscription_values() }}"
 
       - name: user_sector
         description: Sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-        tests:
-          - not_null
 
       - name: user_broad_sector
         description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
-        tests:
-          - not_null
 
       - name: user_role
         description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
-        tests:
-          - not_null
 
       - name: user_broad_role
         description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
-        tests:
-          - not_null
 
       - name: user_country
         description: Country (ISO code).
-        tests:
-          - not_null
 
       - name: user_country_name
         description: Full name of the country.
-        tests:
-          - not_null
 
       - name: is_published
         description: Whether the genially has been published.
-        tests:
-          - not_null
 
       - name: is_active
         description: Whether the genially is active at the user dashboard.
-        tests:
-          - not_null
 
       - name: user_id
         description: Foreign key referring to the user creating the genially.
-        tests:
-          - not_null
-          - relationships:
-              to: ref('all_users')
-              field: user_id
 
       - name: created_at
         description: Creation date.
 
       - name: published_at
         description: Publication date.
+
+      - name: user_deleted_at
+        description: Timestamp when the user of the genially was deleted.

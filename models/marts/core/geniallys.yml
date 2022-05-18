@@ -2,6 +2,8 @@ version: 2
 
 models:
   - name: geniallys
+    description: This model includes all geniallys (active or not) of users from the users model.
+      Please, note that references to other tables is only reliable for active geniallys.
     columns:
       - name: genially_id
         description: Primary key for geniallys.

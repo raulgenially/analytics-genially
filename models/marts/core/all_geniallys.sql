@@ -25,7 +25,8 @@ final as (
         geniallys.user_id,
 
         geniallys.created_at,
-        geniallys.published_at
+        geniallys.published_at,
+        all_users.deleted_at as user_deleted_at
 
     from geniallys
     inner join all_users
