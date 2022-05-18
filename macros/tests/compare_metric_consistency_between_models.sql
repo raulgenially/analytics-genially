@@ -1,5 +1,3 @@
--- This macro receives a list of ctes with only one column (metric) and one row,
--- and compares if for all the ctes the value is the same
 {% macro compare_metric_consistency_between_models(ctes, metric) %}    
     with
 
