@@ -6,23 +6,10 @@ user_history as (
     select
         user_id,
         last_access_at,
-        version,
 
     from {{ ref('stg_clean_snapshot_users') }}
     -- We started tracking changes on this date
     where last_access_at >= '{{ var('snapshot_users_start_date') }}'
-),
-
--- In case we have several records for
--- the same day, pick the last one.
-logins as (
-    {{ unique_records_by_column(
-        cte='user_history',
-        unique_column='user_id, date(last_access_at)',
-        order_by='version',
-        dir='desc'
-       )
-    }}
 ),
 
 -- We want to consider the registration date as a login as well.
@@ -31,9 +18,9 @@ logins_users_unioned as (
         user_id,
         last_access_at as login_at
 
-    from logins
+    from user_history
 
-    union all
+    union distinct
 
     select
         user_id,
@@ -42,7 +29,7 @@ logins_users_unioned as (
     from users
 ),
 
--- Once unioned logins and users, pick the last login for a certain day
+-- In case we have several records for the same day, pick the last one.
 logins_deduped as (
     {{
         unique_records_by_column(
