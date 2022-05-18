@@ -54,8 +54,10 @@ enriched_events as (
         -- users
         users.sector_code as user_sector_code,
         nullif(users.sector,'{{ var('not_selected') }}') as user_sector,
+        nullif(users.broad_sector,'{{ var('not_selected') }}') as user_broad_sector,
         users.role_code as user_role_code,
         nullif(users.role,'{{ var('not_selected') }}') as user_role,
+        nullif(users.broad_role,'{{ var('not_selected') }}') as user_broad_role,
         nullif(users.country_name,'{{ var('not_selected') }}') as user_country,
         users.plan as user_plan,
         users.registered_at as user_registered_at,
@@ -109,8 +111,10 @@ final as (
             user_country as country,
             user_sector_code as sector_id,
             user_sector as sector,
+            user_broad_sector as broad_sector,
             user_role_code as role_id,
             user_role as role,
+            user_broad_role as broad_role,
             format_timestamp("%Y-%m-%dT%X%Ez", user_registered_at) as registered_at,
             user_plan as plan,
             user_creations as n_creations

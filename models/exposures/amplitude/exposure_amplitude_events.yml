@@ -93,6 +93,9 @@ models:
       - name: event_properties.genially_id
         description: The genially ID the event is related to. Currently extracted from the url.
 
+      - name: event_properties.template_id
+        description: The template ID the event is related to. Currently extracted from the url.
+
       - name: event_properties.team_space_id
         description: The team space ID the event is related to. Currently extracted from the url.
 
@@ -117,11 +120,17 @@ models:
       - name: user_properties.sector
         description: The name of the sector.
 
+      - name: user_properties.broad_sector
+        description: Broad category for the sector.
+
       - name: user_properties.role_id
         description: The ID of the role.
 
       - name: user_properties.role
         description: The name of the role.
+
+      - name: user_properties.broad_role
+        description: Broad category for the role.
 
       - name: user_properties.registered_at
         description: Registration date.
