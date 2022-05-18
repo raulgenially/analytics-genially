@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: user_editions
+  - name: user_editor_views
     description: Records of when a user accessed the editor.
       At most we will have 1 record per user per day. These records
       started being recorded on {{ var('snowplow_page_views_start_date') }}.

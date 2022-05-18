@@ -1,8 +1,9 @@
 with snowplow_web_page_views as (
     select * from {{ ref('snowplow_web_page_views') }}
+    where user_id is not null
 ),
 
-editions as (
+editor_views as (
     select
         user_id,
         derived_tstamp as edition_at
@@ -13,10 +14,10 @@ editions as (
 ),
 
 -- Pick the last edition for a certain day
-editions_deduped as (
+editor_views_deduped as (
     {{
         unique_records_by_column(
-            cte='editions',
+            cte='editor_views',
             unique_column='user_id, date(edition_at)',
             order_by='edition_at',
             dir='desc',
@@ -36,7 +37,7 @@ final as (
 
         edition_at,
 
-    from editions_deduped
+    from editor_views_deduped
 )
 
 select * from final

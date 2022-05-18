@@ -30,8 +30,8 @@ geniallys as (
     select * from {{ ref('geniallys') }}
 ),
 
-user_editions as (
-    select * from {{ ref('user_editions') }}
+user_editor_views as (
+    select * from {{ ref('user_editor_views') }}
 ),
 
 dates as (
@@ -113,7 +113,7 @@ user_day_traffic as (
         end as status,
         if(
             user_day_creations.date_day >= '{{ var('snowplow_page_views_start_date') }}',
-            user_editions.user_id is not null, -- I can reliably determine if the user visited the editor
+            user_editor_views.user_id is not null, -- I can reliably determine if the user visited the editor
             null
         ) as is_active_editor
 
@@ -121,9 +121,9 @@ user_day_traffic as (
     left join logins
         on user_day_creations.user_id = logins.user_id
             and user_day_creations.date_day = date(logins.login_at)
-    left join user_editions -- Incorporate data as to edition activity
-        on user_day_creations.user_id = user_editions.user_id
-            and user_day_creations.date_day = date(user_editions.edition_at)
+    left join user_editor_views -- Incorporate data as to edition activity
+        on user_day_creations.user_id = user_editor_views.user_id
+            and user_day_creations.date_day = date(user_editor_views.edition_at)
 ),
 
 user_traffic_rolling_status as (

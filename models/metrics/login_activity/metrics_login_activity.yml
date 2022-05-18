@@ -113,7 +113,7 @@ models:
           - not_null
 
       - name: is_active_editor
-        description: Whether or not the user have accessed the editor on date_day.
+        description: Whether or not the user has accessed the editor on date_day.
 
       - name: status
         description: Whether the user is New, Returning or Churned considering a daily time period.
