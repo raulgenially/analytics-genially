@@ -1,5 +1,4 @@
 -- The number of active users or logins should match among the implicated models.
-
 {% set testing_date %}
     date('2021-12-20')
 {% endset %}

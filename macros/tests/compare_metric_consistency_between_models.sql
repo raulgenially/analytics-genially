@@ -2,22 +2,22 @@
     with
 
     {% for cte in ctes %}
-    {{ cte }}_sum as (
-        select
-            {{ date_column }},
-            sum({{ metric }}) as {{ metric }}
-        from {{ cte }}
-        group by {{ date_column }}
-    ),
+        {{ cte }}_sum as (
+            select
+                {{ date_column }},
+                sum({{ metric }}) as {{ metric }}
+            from {{ cte }}
+            group by {{ date_column }}
+        ),
     {% endfor %}
 
     {{ metric }}_union as (
         {% for cte in ctes %}
-        {% if loop.index > 1 %}union all{% endif %}
-        select
-            {{ date_column }},
-            {{ metric }}
-        from {{ cte }}_sum
+            {% if loop.index > 1 %}union all{% endif %}
+            select
+                {{ date_column }},
+                {{ metric }}
+            from {{ cte }}_sum
         {% endfor %}
     ),
 
@@ -33,24 +33,24 @@
     totals_join as (
         select
             {% for cte in ctes %}
-            {{ cte }}_sum.{{ metric }} as {{ cte }}_sum_{{ metric }},
+                {{ cte }}_sum.{{ metric }} as {{ cte }}_sum_{{ metric }},
             {% endfor %}
             {{ metric }}_count_distinct.n_distinct_values,
             {{ metric }}_count_distinct.{{ date_column }}
 
         from
             {% for cte in ctes %}
-            {% if loop.index == 1 %}{{ cte }}_sum{% endif %}
-            full join
-            {% if not loop.last %}
-                {{ loop.nextitem }}_sum
-                    on {{ cte }}_sum.{{ date_column }} =
-                        {{ loop.nextitem }}_sum.{{ date_column }}
-            {% else %}
-                {{ metric }}_count_distinct
-                    on {{ cte }}_sum.{{ date_column }} =
-                        {{ metric }}_count_distinct.{{ date_column }}
-            {% endif %}
+                {% if loop.index == 1 %}{{ cte }}_sum{% endif %}
+                full join
+                {% if not loop.last %}
+                    {{ loop.nextitem }}_sum
+                        on {{ cte }}_sum.{{ date_column }} =
+                            {{ loop.nextitem }}_sum.{{ date_column }}
+                {% else %}
+                    {{ metric }}_count_distinct
+                        on {{ cte }}_sum.{{ date_column }} =
+                            {{ metric }}_count_distinct.{{ date_column }}
+                {% endif %}
             {% endfor %}
     ),
 
