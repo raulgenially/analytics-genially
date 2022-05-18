@@ -32,7 +32,7 @@ users_and_creations_by_day as (
 
 users_in_funnel as (
     select
-        n_signups
+        n_signups,
         registered_at as date_day
 
     from {{ ref('metrics_users_in_funnel') }}
