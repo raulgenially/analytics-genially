@@ -17,7 +17,8 @@ final as (
     select
         user_id,
 
-        subscription_plan,
+        plan,
+        subscription,
         sector_code,
         role_code,
         username,

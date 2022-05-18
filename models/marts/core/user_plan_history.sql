@@ -2,7 +2,8 @@ with user_history as (
     select
         id,
         user_id,
-        subscription_plan as plan,
+        plan,
+        subscription,
         state_valid_from as started_at,
         state_valid_to,
         registered_at
@@ -66,7 +67,7 @@ final as (
 
         user_id,
         plan,
-        {{ create_subscription_field('plan') }} as subscription,
+        subscription,
 
         -- Adjust started_at to the registration date on cases where the
         -- registration date and the snapshot happened closely.

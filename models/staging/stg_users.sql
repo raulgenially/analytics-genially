@@ -59,8 +59,8 @@ final as (
     select
         users.user_id,
 
-        users.subscription_plan as plan,
-        {{ create_subscription_field('users.subscription_plan') }} as subscription,
+        users.plan,
+        users.subscription,
         users.final_sector_code as sector_code,
         users.final_sector as sector,
         users.final_broad_sector as broad_sector,

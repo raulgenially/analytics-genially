@@ -26,10 +26,11 @@ base_users as (
 -- the time difference is behind a certain threshold.
 int_users as (
     select
-        *,
+        users.*,
         ifnull(users.country_code_raw, '{{ var('not_selected') }}') as country_code,
         ifnull(country_codes.name, '{{ var('not_selected') }}') as country_name,
-        subscription_plans.plan as subscription_plan,
+        subscription_plans.plan as plan,
+        {{ create_subscription_field('subscription_plans.plan') }} as subscription,
         -- We take dateregister as the true date
         if(
             users.dateregister > users.lastaccesstime

@@ -2,18 +2,8 @@ with user_history as (
     select * from {{ ref('stg_clean_snapshot_users') }}
 ),
 
-users as (
-    select user_id from {{ ref('users') }}
-),
-
-deleted_users as (
-    select user_id from {{ ref('deleted_users') }}
-),
-
 all_users as (
-    select * from users
-    union all
-    select * from deleted_users
+    select user_id from {{ ref('all_users') }}
 ),
 
 final as (
