@@ -6,7 +6,8 @@
 
 with login_activity_active_users as (
     select
-        n_daily_active_users as n_active_users
+        n_daily_active_users as n_active_users,
+        date_day
 
     from {{ ref('metrics_login_activity_active_users') }}
     where date_day >= {{ testing_date }}
@@ -14,7 +15,8 @@ with login_activity_active_users as (
 
 monthly_projections as (
     select
-        n_total_visitors as n_active_users
+        n_total_visitors as n_active_users,
+        date_day
 
     from {{ ref('metrics_monthly_projections') }}
     where date_day >= {{ testing_date }}
@@ -22,7 +24,8 @@ monthly_projections as (
 
 users_and_creations_by_day as (
     select
-        n_active_users
+        n_active_users,
+        date_day
 
     from {{ ref('metrics_reporting_users_and_creations_by_day') }}
     where date_day >= {{ testing_date }}
@@ -35,7 +38,8 @@ final as (
             'monthly_projections',
             'users_and_creations_by_day'
             ],
-        metric = 'n_active_users'
+        metric = 'n_active_users',
+        date_column = 'date_day'
     ) }}
 )
 

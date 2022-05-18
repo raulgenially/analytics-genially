@@ -2,9 +2,9 @@ version: 2
 
 macros:
   - name: compare_metric_consistency_between_models
-    description: Recieves a list of ctes with one column that contains 
-      the metric we want to compare, sums that column for each cte and 
-      compares if for all of them the resulting value is consistent. 
+    description: Recieves a list of ctes with one column that contains
+      the metric we want to compare, sums that column for each cte grouping by
+      date and compares if for all of them the resulting value is consistent.
     arguments:
       - name: ctes
         type: array
@@ -13,3 +13,7 @@ macros:
       - name: metric
         type: string
         description: The name of the column with the metric to compare.
+
+      - name: date_column
+        type: date
+        description: The name of the date column to group.

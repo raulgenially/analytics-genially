@@ -4,7 +4,8 @@
 
 with users_and_creations_by_day as (
     select
-        n_creations
+        n_creations,
+        date_trunc(date_day, month) as date_month
 
     from {{ ref('metrics_reporting_users_and_creations_by_day') }}
     where date_day >= {{ testing_date }}
@@ -13,7 +14,9 @@ with users_and_creations_by_day as (
 
 active_users_by_month as (
     select
-        n_creations
+        n_creations,
+        date_month
+
     from {{ ref('metrics_reporting_users_and_creations_by_month') }}
     where date_month >= {{ testing_date }}
 ),
@@ -24,7 +27,8 @@ final as (
             'users_and_creations_by_day',
             'active_users_by_month'
             ],
-        metric = 'n_creations'
+        metric = 'n_creations',
+        date_column = 'date_month'
     ) }}
 )
 
