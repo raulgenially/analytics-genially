@@ -1,4 +1,4 @@
-{% macro compare_metric_consistency_between_models(ctes, metric) %}    
+{% macro compare_metric_consistency_between_models(ctes, metric) %}
     with
 
     {% for cte in ctes %}
@@ -8,7 +8,7 @@
         from {{ cte }}
     ),
     {% endfor %}
-    
+
     {{ metric }}_union as (
         {% for cte in ctes %}
         {% if loop.index > 1 %}union all{% endif %}
@@ -19,18 +19,18 @@
     {{ metric }}_count_distinct as (
         select
             count(distinct {{ metric }}) as n_distinct_values
-    
+
         from {{ metric }}_union
     ),
-    
+
     totals_join as (
         select
             {% for cte in ctes %}
             {{ cte }}_sum.{{ metric }} as {{ cte }}_sum_{{ metric }},
             {% endfor %}
             {{ metric }}_count_distinct.n_distinct_values
-    
-        from 
+
+        from
             {% for cte in ctes %}
             {{ cte }}_sum
             cross join
@@ -39,11 +39,11 @@
     ),
 
     final as (
-        select * 
+        select *
         from totals_join
         where n_distinct_values != 1
     )
 
     select * from final
-		
+
 {% endmacro %}

@@ -3,7 +3,7 @@
 {% endset %}
 
 with users_and_creations_by_day as (
-    select 
+    select
         n_creations
 
     from {{ ref('metrics_reporting_users_and_creations_by_day') }}
@@ -12,7 +12,7 @@ with users_and_creations_by_day as (
 ),
 
 active_users_by_month as (
-    select 
+    select
         n_creations
     from {{ ref('metrics_reporting_users_and_creations_by_month') }}
     where date_month >= {{ testing_date }}
@@ -21,9 +21,9 @@ active_users_by_month as (
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
-            'users_and_creations_by_day', 
+            'users_and_creations_by_day',
             'active_users_by_month'
-            ], 
+            ],
         metric = 'n_creations'
     ) }}
 )

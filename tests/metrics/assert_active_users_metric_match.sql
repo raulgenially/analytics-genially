@@ -5,7 +5,7 @@
 {% endset %}
 
 with login_activity_active_users as (
-    select 
+    select
         n_daily_active_users as n_active_users
 
     from {{ ref('metrics_login_activity_active_users') }}
@@ -13,7 +13,7 @@ with login_activity_active_users as (
 ),
 
 monthly_projections as (
-    select 
+    select
         n_total_visitors as n_active_users
 
     from {{ ref('metrics_monthly_projections') }}
@@ -21,7 +21,7 @@ monthly_projections as (
 ),
 
 users_and_creations_by_day as (
-    select 
+    select
         n_active_users
 
     from {{ ref('metrics_reporting_users_and_creations_by_day') }}
@@ -31,10 +31,10 @@ users_and_creations_by_day as (
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
-            'login_activity_active_users', 
-            'monthly_projections', 
+            'login_activity_active_users',
+            'monthly_projections',
             'users_and_creations_by_day'
-            ], 
+            ],
         metric = 'n_active_users'
     ) }}
 )

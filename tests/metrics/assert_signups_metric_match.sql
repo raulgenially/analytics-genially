@@ -4,7 +4,7 @@
 {% endset %}
 
 with login_activity_active_users as (
-    select 
+    select
         n_signups
 
     from {{ ref('metrics_login_activity_active_users') }}
@@ -12,7 +12,7 @@ with login_activity_active_users as (
 ),
 
 monthly_projections as (
-    select 
+    select
         n_signups
 
     from {{ ref('metrics_monthly_projections') }}
@@ -20,7 +20,7 @@ monthly_projections as (
 ),
 
 users_and_creations_by_day as (
-    select 
+    select
         n_signups
 
     from {{ ref('metrics_reporting_users_and_creations_by_day') }}
@@ -28,7 +28,7 @@ users_and_creations_by_day as (
 ),
 
 users_in_funnel as (
-    select 
+    select
         n_signups
 
     from {{ ref('metrics_users_in_funnel') }}
@@ -38,11 +38,11 @@ users_in_funnel as (
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
-            'login_activity_active_users', 
-            'monthly_projections', 
-            'users_in_funnel', 
+            'login_activity_active_users',
+            'monthly_projections',
+            'users_in_funnel',
             'users_and_creations_by_day'
-            ], 
+            ],
         metric = 'n_signups'
     ) }}
 )
