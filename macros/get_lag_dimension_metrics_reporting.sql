@@ -1,4 +1,4 @@
-{% macro get_lag_dimension_monthly_projections(metric, days, date_field) %}
+{% macro get_lag_dimension_metrics_reporting(metric, days, date_field) %}
 
 lag( {{ metric }}, {{ days }} ) over (
             partition by

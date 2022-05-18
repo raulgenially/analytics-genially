@@ -39,8 +39,7 @@ metrics1 as (
         reference_table.broad_sector,
         reference_table.broad_role,
         -- Metrics
-        count(distinct login_activity.user_id) as n_active_users,
-        count(distinct if(login_activity.status = 'New', login_activity.user_id, null)) as n_signups
+        count(distinct login_activity.user_id) as n_active_users
 
     from reference_table
     left join login_activity
@@ -65,7 +64,8 @@ creations as(
         broad_sector,
         broad_role,
         -- Metrics
-        sum(n_creations) as n_creations
+        sum(n_creations) as n_creations,
+        sum(n_signups) as n_signups
 
     from users_and_creations_by_day
     where date_month >= {{ min_date }}
@@ -82,8 +82,8 @@ metrics2 as (
         m1.broad_sector,
         m1.broad_role,
         m1.n_active_users,
-        m1.n_signups,
-        c.n_creations as n_creations
+        c.n_creations as n_creations,
+        c.n_signups as n_signups
 
     from metrics1 as m1
     left join creations as c
@@ -99,7 +99,15 @@ metrics2 as (
 final as (
     select
         *,
-        {{ get_lag_dimension_monthly_projections('n_signups', week_days) }} as n_signups_previous_7d,
+        --lags n_active_users
+        {{ get_lag_dimension_metrics_reporting('n_active_users', 1,'date_month') }} as n_active_users_previous_month,
+        -- lags n_signups
+        {{ get_lag_dimension_metrics_reporting('n_signups', 1,'date_month') }} as n_signups_previous_month,
+        {{ get_lag_dimension_metrics_reporting('n_signups', 12,'date_month') }} as n_signups_previous_year,
+        -- lags n_creations
+        {{ get_lag_dimension_metrics_reporting('n_creations', 1,'date_month') }} as n_creations_previous_month,
+        {{ get_lag_dimension_metrics_reporting('n_creations', 12,'date_month') }} as n_creations_previous_year
+
     from metrics2
 )
 
