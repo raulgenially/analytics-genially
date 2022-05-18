@@ -1,5 +1,9 @@
-{% set min_date %}
+{% set min_date_activity %}
     date('2022-01-01') -- we are collecting data since '2021-12-20', so first complete month is 01-2022.
+{% endset %}
+
+{% set min_date %}
+    date('2020-01-01')
 {% endset %}
 
 with reference_table as (
@@ -13,7 +17,7 @@ login_activity as (
 
     from {{ ref('metrics_login_activity') }}
     where status in ('New', 'Returning')
-        and date_day >= {{ min_date }}
+        and date_day >= {{ min_date_activity }}
 ),
 
 users_and_creations_by_day as (
@@ -68,7 +72,7 @@ creations as(
     {{ dbt_utils.group_by(n=7) }}
 ),
 
-final as (
+metrics2 as (
     select
         m1.date_month,
         m1.plan,
@@ -90,6 +94,13 @@ final as (
             and m1.country_name = c.country_name
             and m1.broad_sector = c.broad_sector
             and m1.broad_role = c.broad_role
+),
+
+final as (
+    select
+        *,
+        {{ get_lag_dimension_monthly_projections('n_signups', week_days) }} as n_signups_previous_7d,
+    from metrics2
 )
 
 select * from final
