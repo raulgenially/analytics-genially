@@ -4,60 +4,44 @@
 {% endset %}
 
 with login_activity_active_users as (
-    select * from {{ ref('metrics_login_activity_active_users') }}
+    select 
+        n_signups
+
+    from {{ ref('metrics_login_activity_active_users') }}
+    where date_day >= {{ testing_date }}
 ),
 
 monthly_projections as (
-    select * from {{ ref('metrics_monthly_projections') }}
+    select 
+        n_signups
+
+    from {{ ref('metrics_monthly_projections') }}
+    where date_day >= {{ testing_date }}
 ),
 
 users_and_creations_by_day as (
-    select * from {{ ref('metrics_reporting_users_and_creations_by_day') }}
+    select 
+        n_signups
+
+    from {{ ref('metrics_reporting_users_and_creations_by_day') }}
+    where date_day >= {{ testing_date }}
 ),
 
 users_in_funnel as (
-    select * from {{ ref('metrics_users_in_funnel') }}
-),
+    select 
+        n_signups
 
-login_activity_active_users_sum as (
-    select
-        sum(n_signups) as n_signups
-
-    from login_activity_active_users
-    where date_day >= {{ testing_date }}
-),
-
-monthly_projections_sum as (
-    select
-        sum(n_signups) as n_signups
-
-    from monthly_projections
-    where date_day >= {{ testing_date }}
-),
-
-users_in_funnel_sum as (
-    select
-        sum(n_signups) as n_signups
-
-    from users_in_funnel
+    from {{ ref('metrics_users_in_funnel') }}
     where registered_at >= {{ testing_date }}
-),
-
-users_and_creations_by_day_sum as (
-    select
-        sum(n_signups) as n_signups
-
-    from users_and_creations_by_day
-    where date_day >= {{ testing_date }}
 ),
 
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
-            'login_activity_active_users_sum', 
-            'monthly_projections_sum', 
-            'users_in_funnel_sum', 
-            'users_and_creations_by_day_sum'
+            'login_activity_active_users', 
+            'monthly_projections', 
+            'users_in_funnel', 
+            'users_and_creations_by_day'
             ], 
         metric = 'n_signups'
     ) }}
