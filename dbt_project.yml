@@ -25,6 +25,8 @@ vars:
   snapshot_users_start_date: '2021-12-20'
   # Initial date of OKRs analysis
   start_date_of_analysis_OKR: '2022-01-01'
+  # Date from which we started gathering Snowplow page views
+  snowplow_page_views_start_date: '2022-04-11' #TODO Update this once we have the user context implemented
   # Snowplow
   snowplow_web:
     # Define source data

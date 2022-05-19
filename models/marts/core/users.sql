@@ -12,7 +12,7 @@ final as (
         users.user_id,
 
         users.plan,
-        {{ create_subscription_field('users.plan') }} as subscription,
+        users.subscription,
         users.sector,
         users.broad_sector,
         users.role,

@@ -22,7 +22,7 @@ active_plan as (
 final as (
     select
         users.user_id,
-        users.subscription_plan,
+        users.plan,
         active_plan.plan as history_plan,
         active_plan.started_at,
         active_plan.finished_at
@@ -30,7 +30,7 @@ final as (
     from users
     left join active_plan
         on users.user_id = active_plan.user_id
-    where users.subscription_plan != active_plan.plan
+    where users.plan != active_plan.plan
 )
 
 select * from final

@@ -22,25 +22,8 @@ collaboratives as (
     select * from {{ ref('collaboratives') }}
 ),
 
-user_logins as (
-    select * from {{ ref('user_logins') }}
-),
-
--- We want to consider the registration date as a login as well.
 logins as (
-    select
-        user_id,
-        date(login_at) as login_at
-
-    from user_logins
-
-    union distinct
-
-    select
-        user_id,
-        date(registered_at) as login_at
-
-    from users
+    select * from {{ ref('user_logins') }}
 ),
 
 signups as (
@@ -290,7 +273,7 @@ metrics4 as (
 user_logins_profile as (
     select
         logins.user_id,
-        logins.login_at,
+        date(logins.login_at) as login_at,
 
         users.plan,
         users.subscription,
@@ -302,7 +285,7 @@ user_logins_profile as (
     from logins
     left join users
         on logins.user_id = users.user_id
-    where logins.login_at >= {{ min_date }}
+    where date(logins.login_at) >= {{ min_date }}
 ),
 
 total_visitors as (

@@ -12,7 +12,8 @@ final as (
         dbt_scd_id as id,
         user_id,
 
-        subscription_plan,
+        plan,
+        subscription,
         sector_code,
         role_code,
         username,

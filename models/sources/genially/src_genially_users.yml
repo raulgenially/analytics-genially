@@ -10,12 +10,19 @@ models:
           - unique
           - not_null
 
-      - name: subscription_plan
-        description:  "{{ doc('subscription_codes') }}"
+      - name: plan
+        description: "{{ doc('subscription_codes') }}"
         tests:
           - not_null
           - accepted_values:
               values: "{{ get_plan_values() }}"
+
+      - name: subscription
+        description: Type of subscription, Free or Premium.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_subscription_values() }}"
 
       - name: sector_code
         description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).

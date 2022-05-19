@@ -15,8 +15,11 @@ models:
       - name: user_id
         description: The id of the user.
 
-      - name: subscription_plan
+      - name: plan
         description:  "{{ doc('subscription_codes') }}"
+
+      - name: subscription
+        description: Type of subscription, Free or Premium.
 
       - name: sector_code
         description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
