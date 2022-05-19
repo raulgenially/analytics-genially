@@ -10,7 +10,7 @@ editor_views as (
 
     from snowplow_web_page_views
     where date(start_tstamp) >= '{{ var('snowplow_page_views_start_date') }}' -- Table partitioned by start_tstamp
-        and page_urlpath like '/editor%'
+        and page_urlpath like '/editor/%'
 ),
 
 -- Pick the last edition for a certain day

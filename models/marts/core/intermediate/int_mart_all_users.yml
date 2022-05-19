@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: int_mart_all_users
-    description: Model that includes all users (active + deleted) in the same table.
+    description: Model that includes all users (active + deleted) in the same table, after removing phising users.
       It's aimed to be used in different metrics models to keep the consistency across the full history.
     columns:
       - name: user_id
