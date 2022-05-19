@@ -1,5 +1,5 @@
 with users as (
-    select * from {{ ref('stg_users') }}
+    select * from {{ ref('int_mart_all_users') }}
 ),
 
 user_history as (
