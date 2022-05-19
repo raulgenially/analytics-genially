@@ -360,35 +360,41 @@ final as (
     select
         *,
         -- lags n_signups
-        {{ get_lag_dimension_monthly_projections('n_signups', week_days) }} as n_signups_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_signups', month_days) }} as n_signups_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_signups', year_days) }} as n_signups_previous_364d,
+        {{ get_lag_dimension_metrics_reporting('n_signups', week_days, 'date_day') }} as n_signups_previous_7d,
+        {{ get_lag_dimension_metrics_reporting('n_signups', month_days, 'date_day') }} as n_signups_previous_28d,
+        {{ get_lag_dimension_metrics_reporting('n_signups', year_days, 'date_day') }} as n_signups_previous_364d,
         -- lags n_creations
-        {{ get_lag_dimension_monthly_projections('n_creations', week_days) }} as n_creations_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_creations', month_days) }} as n_creations_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_creations', year_days) }} as n_creations_previous_364d,
+        {{ get_lag_dimension_metrics_reporting('n_creations', week_days, 'date_day') }} as n_creations_previous_7d,
+        {{ get_lag_dimension_metrics_reporting('n_creations', month_days, 'date_day') }} as n_creations_previous_28d,
+        {{ get_lag_dimension_metrics_reporting('n_creations', year_days, 'date_day') }} as n_creations_previous_364d,
         -- lag n_new_creators
-        {{ get_lag_dimension_monthly_projections('n_new_creators', week_days) }} as n_new_creators_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators', month_days) }} as n_new_creators_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators', year_days) }} as n_new_creators_previous_364d,
+        {{ get_lag_dimension_metrics_reporting('n_new_creators', week_days, 'date_day') }}
+            as n_new_creators_previous_7d,
+        {{ get_lag_dimension_metrics_reporting('n_new_creators', month_days, 'date_day') }}
+            as n_new_creators_previous_28d,
+        {{ get_lag_dimension_metrics_reporting('n_new_creators', year_days, 'date_day') }}
+            as n_new_creators_previous_364d,
         -- lag n_new_creators_registered_same_day
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', week_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_registered_same_day', week_days, 'date_day') }}
             as n_new_creators_registered_same_day_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', month_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_registered_same_day', month_days, 'date_day') }}
             as n_new_creators_registered_same_day_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_registered_same_day', year_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_registered_same_day', year_days, 'date_day') }}
             as n_new_creators_registered_same_day_previous_364d,
         -- lag n_new_creators_previously_registered
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', week_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_previously_registered', week_days, 'date_day') }}
             as n_new_creators_previously_registered_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', month_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_previously_registered', month_days, 'date_day') }}
             as n_new_creators_previously_registered_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_new_creators_previously_registered', year_days) }}
+        {{ get_lag_dimension_metrics_reporting('n_new_creators_previously_registered', year_days, 'date_day') }}
             as n_new_creators_previously_registered_previous_364d,
         --lag n_active_users
-        {{ get_lag_dimension_monthly_projections('n_active_users', week_days) }} as n_active_users_previous_7d,
-        {{ get_lag_dimension_monthly_projections('n_active_users', month_days) }} as n_active_users_previous_28d,
-        {{ get_lag_dimension_monthly_projections('n_active_users', year_days) }} as n_active_users_previous_364d,
+        {{ get_lag_dimension_metrics_reporting('n_active_users', week_days, 'date_day') }}
+            as n_active_users_previous_7d,
+        {{ get_lag_dimension_metrics_reporting('n_active_users', month_days, 'date_day') }}
+            as n_active_users_previous_28d,
+        {{ get_lag_dimension_metrics_reporting('n_active_users', year_days, 'date_day') }}
+            as n_active_users_previous_364d,
 
     from metrics5
 )

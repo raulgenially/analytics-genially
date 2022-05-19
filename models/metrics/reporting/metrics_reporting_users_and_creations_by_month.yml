@@ -60,6 +60,22 @@ models:
         tests:
           - not_null
 
+      - name: n_active_users_previous_month
+        description: Numbers of active users during the previous month.
+
+      - name: n_signups_previous_month
+        description: Numbers of users registered during the previous month.
+
+      - name: n_signups_previous_year
+        description: Numbers of users registered during that month in the previous year.
+
+      - name: n_creations_previous_month
+        description: Numbers of geniallys created during the previous month.
+
+      - name: n_creations_previous_year
+        description: Numbers of geniallys created during that month in the previous year.
+
     tests:
       - dbt_utils.expression_is_true:
           expression: "n_signups <= n_active_users"
+          where: date(date_month) >= '2022-01-01'
