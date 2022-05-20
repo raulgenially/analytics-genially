@@ -41,6 +41,8 @@ models:
               to: ref('src_genially_team_members')
               field: team_member_id
               where: collaboration_type = 4
+              # TODO: https://github.com/Genially/scrum-genially/issues/8259
+              severity: warn
           - relationships:
               to: ref('src_genially_users')
               field: user_id
