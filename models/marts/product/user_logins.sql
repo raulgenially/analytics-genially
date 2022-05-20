@@ -1,3 +1,4 @@
+-- TODO enrich this model with Snowplow data once we have the user entitiy implemented.
 with users as (
     select * from {{ ref('int_mart_all_users') }}
 ),
