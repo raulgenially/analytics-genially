@@ -32,7 +32,7 @@ final as (
         ifnull(hasgeniallyanalytics, false) as has_genially_analytics,
 
         iduser as user_id,
-        idanalytics as analytics_id,
+        idanalytics analytics_id,
         reusedfrom as reused_from_id,
         idfromtemplate as from_template_id,
         idteam as team_id,
