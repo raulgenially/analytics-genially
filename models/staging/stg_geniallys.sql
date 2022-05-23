@@ -126,7 +126,7 @@ final as (
             true,
             false
         ) as is_collaborative,
-        geniallys.has_genially_analytics,
+        geniallys.has_internal_analytics,
 
         geniallys.user_id,
         geniallys.reused_from_id,
@@ -136,7 +136,7 @@ final as (
         geniallys.team_template_id,
         geniallys.from_team_genially_id,
         geniallys.template_to_view_id,
-        geniallys.analytics_id,
+        geniallys.google_analytics_id,
 
         geniallys.created_at,
         geniallys.modified_at,

@@ -66,7 +66,7 @@ models:
         tests:
           - not_null
 
-      - name: has_genially_analytics
+      - name: has_internal_analytics
         description: Whether the genially has tinybird analytics activated.
         tests:
           - not_null
@@ -76,9 +76,8 @@ models:
         tests:
           - not_null
 
-      - name: analytics_id
-        description: Foreign key referring to web analytics data.
-
+      - name: google_analytics_id
+        description: Foreign key referring to Google Analytics measurement id.
       - name: reused_from_id
         description: Id of the original genially that this one is based on.
         tests:
