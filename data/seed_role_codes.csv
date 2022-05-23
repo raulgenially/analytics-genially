@@ -1,0 +1,128 @@
+role_id,role_name,sector_id,broad_role,version
+1,Teacher,1,Teacher K12,1
+2,Student,1,Student K12,1
+3,Admin - Technician,1,Pro K12,1
+4,Other,1,Pro K12,1
+51,Teacher,11,Teacher K12,1
+52,Student,11,Student K12,1
+53,Admin - Technician,11,Pro K12,1
+54,Other,11,Pro K12,1
+5,Teacher,2,Teacher Uni,1
+6,Student,2,Student Uni,1
+7,Admin - Technician,2,Pro Uni,1
+8,Designer,2,Pro Uni,1
+9,Marketing and Communication,2,Pro Uni,1
+10,Other,2,Pro Uni,1
+11,Teacher,3,Teacher Other Edu,1
+12,Student,3,Student Other Edu,1
+13,Admin - Technician,3,Pro Other Edu,1
+14,Designer,3,Pro Other Edu,1
+15,Marketing and Communication,3,Pro Other Edu,1
+16,Other,3,Pro Other Edu,1
+17,Designer,4,Design,1
+18,Marketing and Communication,4,Marketing/Communications,1
+19,Trainer,4,Training,1
+20,Admin - Technician,4,Other Pro,1
+21,Sales,4,Other Pro,1
+22,Other,4,Other Pro,1
+23,Designer,5,Design,1
+24,Marketing and Communication,5,Marketing/Communications,1
+25,Trainer,5,Training,1
+26,Admin - Technician,5,Other Pro,1
+27,Sales,5,Other Pro,1
+28,Other,5,Other Pro,1
+29,Designer,6,Design,1
+30,Marketing and Communication,6,Marketing/Communications,1
+31,Trainer,6,Training,1
+32,Admin - Technician,6,Other Pro,1
+33,Other,6,Other Pro,1
+34,Designer,7,Design,1
+35,Marketing and Communication,7,Marketing/Communications,1
+36,Trainer,7,Training,1
+37,Admin - Technician,7,Other Pro,1
+38,Other,7,Other Pro,1
+39,Designer,8,Design,1
+40,Marketing and Communication,8,Marketing/Communications,1
+41,Journalist - Editor,8,Other Pro,1
+42,Other,8,Other Pro,1
+43,Designer,9,Design,1
+44,Marketing and Communication,9,Marketing/Communications,1
+45,Journalist - Editor,9,Other Pro,1
+46,Other,9,Other Pro,1
+47,Designer,10,Design,1
+48,Marketing and Communication,10,Marketing/Communications,1
+49,Trainer,10,Training,1
+50,Other,10,Other Pro,1
+100,Teacher,200,Teacher K12,2
+101,Student,200,Student K12,2
+102,Coordinator/Management,200,Pro K12,2
+103,Other,200,Pro K12,2
+104,Teacher,201,Teacher K12,2
+105,Student,201,Student K12,2
+106,Coordinator/Management,201,Pro K12,2
+107,Other,201,Pro K12,2
+108,Teacher,202,Teacher K12,2
+109,Student,202,Student K12,2
+110,Coordinator/Management,202,Pro K12,2
+111,Other,202,Pro K12,2
+112,Teacher,203,Teacher Other Edu,2
+113,Student,203,Student Other Edu,2
+114,Coordinator/Management,203,Pro Other Edu,2
+115,Other,203,Pro Other Edu,2
+116,Teacher,204,Teacher Uni,2
+117,Student,204,Student Uni,2
+118,Coordinator/Management,204,Pro Uni,2
+119,Other,204,Pro Uni,2
+120,Teacher,205,Teacher Other Edu,2
+121,Student,205,Student Other Edu,2
+122,Coordinator/Management,205,Pro Other Edu,2
+123,Other,205,Pro Other Edu,2
+124,Design,206,Design,2
+125,Marketing/Communications,206,Marketing/Communications,2
+126,Training,206,Training,2
+127,Finance/Accounting,206,Other Pro,2
+128,HR,206,Other Pro,2
+129,Sales,206,Other Pro,2
+130,Other,206,Other Pro,2
+131,Design,207,Design,2
+132,Marketing/Communications,207,Marketing/Communications,2
+133,Training,207,Training,2
+134,Finance/Accounting,207,Other Pro,2
+135,HR,207,Other Pro,2
+136,Sales,207,Other Pro,2
+137,Other,207,Other Pro,2
+138,Design,208,Design,2
+139,Marketing/Communications,208,Marketing/Communications,2
+140,Training,208,Training,2
+141,Finance/Accounting,208,Other Pro,2
+142,HR,208,Other Pro,2
+143,Sales,208,Other Pro,2
+144,Other,208,Other Pro,2
+145,Design,209,Design,2
+146,Marketing/Communications,209,Marketing/Communications,2
+147,Training,209,Training,2
+148,Finance/Accounting,209,Other Pro,2
+149,HR,209,Other Pro,2
+150,Sales,209,Other Pro,2
+151,Other,209,Other Pro,2
+152,Design,210,Design,2
+153,Marketing/Communications,210,Marketing/Communications,2
+154,Training,210,Training,2
+155,Finance/Accounting,210,Other Pro,2
+156,HR,210,Other Pro,2
+157,Sales,210,Other Pro,2
+158,Other,210,Other Pro,2
+159,Design,211,Design,2
+160,Marketing/Communications,211,Marketing/Communications,2
+161,Training,211,Training,2
+162,Finance/Accounting,211,Other Pro,2
+163,HR,211,Other Pro,2
+164,Sales,211,Other Pro,2
+165,Other,211,Other Pro,2
+166,Design,212,Design,2
+167,Marketing/Communications,212,Marketing/Communications,2
+168,Training,212,Training,2
+169,Finance/Accounting,212,Other Pro,2
+170,HR,212,Other Pro,2
+171,Sales,212,Other Pro,2
+172,Other,212,Other Pro,2

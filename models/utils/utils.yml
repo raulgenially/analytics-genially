@@ -15,7 +15,7 @@ models:
         tests:
           - not_null
 
-      - name: agg_sector
+      - name: broad_sector
         description: Broad category of the sector (e.g. education, corporate, etc).
         tests:
           - not_null
@@ -85,7 +85,7 @@ models:
         tests:
           - not_null
 
-      - name: agg_sector
+      - name: broad_sector
         description: Aggregated sector this role_id/new_role_id belongs to.
         tests:
           - not_null

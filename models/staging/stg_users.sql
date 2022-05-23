@@ -14,7 +14,7 @@ sectors as (
     select distinct
         sector_id,
         sector_name,
-        agg_sector
+        broad_sector
     from profiles
 ),
 
@@ -22,7 +22,7 @@ base_users as (
     select
         users.*,
         sectors.sector_name as sector,
-        sectors.agg_sector as agg_sector,
+        sectors.broad_sector as broad_sector,
         roles.role_name as role,
 
     from users
@@ -41,7 +41,7 @@ int_users as (
             ifnull(profiles.new_sector_name, users.sector), '{{ var('not_selected') }}'
         ) as final_sector,
         ifnull(
-            ifnull(profiles.agg_sector, users.agg_sector), '{{ var('not_selected') }}'
+            ifnull(profiles.broad_sector, users.broad_sector), '{{ var('not_selected') }}'
         ) as final_broad_sector,
         -- Role mapping
         ifnull(profiles.new_role_id, users.role_code) as final_role_code,

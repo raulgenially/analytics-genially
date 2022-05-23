@@ -1,0 +1,25 @@
+sector_id,sector_name,broad_sector,version
+1,Primary Education,K12 Education,1
+11,Secondary Education,K12 Education,1
+2,Higher Education,University,1
+3,E-Learning,Other Education,1
+4,PYME,Company,1
+5,Company,Company,1
+6,Public Admin. & NGO,Public Admin. & NGO,1
+7,Freelance,Other Corporate,1
+8,Media,Company,1
+9,Editorial,Company,1
+10,Agency,Company,1
+200,Elementary School,K12 Education,2
+201,Middle School,K12 Education,2
+202,High School,K12 Education,2
+203,Technical vocational training,Other Education,2
+204,University/Graduate School,University,2
+205,Other Education,Other Education,2
+206,Agency,Company,2
+207,Publisher,Company,2
+208,Private company,Company,2
+209,Government/Institution,Public Admin. & NGO,2
+210,Non-profit/NGO,Public Admin. & NGO,2
+211,Freelance,Other Corporate,2
+212,Other Corporate,Other Corporate,2

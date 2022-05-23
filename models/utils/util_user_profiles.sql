@@ -16,7 +16,7 @@ int_user_profile as (
         role_codes.role_name,
         role_codes.sector_id,
         sector_codes.sector_name,
-        sector_codes.agg_sector
+        sector_codes.broad_sector
 
     from role_codes
     left join sector_codes
@@ -29,7 +29,7 @@ role_mapping as (
         role_codes.role_name as new_role_name,
         role_codes.sector_id as new_sector_id,
         sector_codes.sector_name as new_sector_name,
-        sector_codes.agg_sector
+        sector_codes.broad_sector
 
     from role_correspondence
     left join role_codes
@@ -48,7 +48,7 @@ final as (
         ifnull(role_mapping.new_role_name, int_user_profile.role_name) as new_role_name,
         ifnull(role_mapping.new_sector_id, int_user_profile.sector_id) as new_sector_id,
         ifnull(role_mapping.new_sector_name, int_user_profile.sector_name) as new_sector_name,
-        ifnull(role_mapping.agg_sector, int_user_profile.agg_sector) as agg_sector
+        ifnull(role_mapping.broad_sector, int_user_profile.broad_sector) as broad_sector
 
     from int_user_profile
     left join role_mapping
