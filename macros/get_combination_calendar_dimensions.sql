@@ -28,7 +28,7 @@ country_codes as (
 broad_sector_role as (
     select distinct
         broad_sector, broad_role
-    from {{ ref('users') }}
+    from {{ ref('all_users') }}
 ),
 
 dates_plan as (
