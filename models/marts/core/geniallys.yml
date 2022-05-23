@@ -125,6 +125,11 @@ models:
         tests:
           - not_null
 
+      - name: has_internal_analytics
+        description: Whether the genially has tinybird analytics activated.
+        tests:
+          - not_null
+
       - name: user_id
         description: Foreign key referring to the user creating the genially.
         tests:
@@ -161,6 +166,9 @@ models:
               to: ref('team_spaces')
               field: team_space_id
               where: is_active = true
+
+      - name: google_analytics_id
+        description: Foreign key referring to Google Analytics measurement id.
 
       - name: created_at
         description: Creation date.

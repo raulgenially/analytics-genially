@@ -29,10 +29,10 @@ final as (
         end as is_in_social_profile, -- concept different from social view
         ifnull(reusable, false) as is_reusable,
         ifnull(inspiration, false) as is_inspiration,
-        ifnull(hasgeniallyanalytics, false) as has_genially_analytics,
+        ifnull(hasgeniallyanalytics, false) as has_internal_analytics,
 
         iduser as user_id,
-        idanalytics as analytics_id,
+        idanalytics as google_analytics_id,
         reusedfrom as reused_from_id,
         idfromtemplate as from_template_id,
         idteam as team_id,
