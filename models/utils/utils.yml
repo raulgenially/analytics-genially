@@ -39,6 +39,11 @@ models:
         tests:
           - not_null
 
+      - name: broad_role
+        description: Broad categories for role based on broad_sector.
+        tests:
+          - not_null
+
   - name: util_user_profiles
     description: Role-sector pairs (both the old and new onboarding) along with their correspondence with new role-sector pairs.
       Note that new codes are tied to themselves for completeness.
@@ -72,6 +77,11 @@ models:
 
       - name: new_role_name
         description: Role name from new_role_id.
+        tests:
+          - not_null
+
+      - name: broad_role
+        description: Broad categories for role based on broad_sector.
         tests:
           - not_null
 

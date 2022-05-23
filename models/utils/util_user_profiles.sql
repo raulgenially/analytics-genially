@@ -15,6 +15,7 @@ int_user_profile as (
         role_codes.role_id,
         role_codes.role_name,
         role_codes.sector_id,
+        role_codes.broad_role,
         sector_codes.sector_name,
         sector_codes.broad_sector
 
@@ -27,6 +28,7 @@ role_mapping as (
     select
         role_correspondence.*,
         role_codes.role_name as new_role_name,
+        role_codes.broad_role,
         role_codes.sector_id as new_sector_id,
         sector_codes.sector_name as new_sector_name,
         sector_codes.broad_sector
@@ -46,6 +48,7 @@ final as (
         int_user_profile.sector_name,
         ifnull(role_mapping.new_role_id, int_user_profile.role_id) as new_role_id,
         ifnull(role_mapping.new_role_name, int_user_profile.role_name) as new_role_name,
+        ifnull(role_mapping.broad_role, int_user_profile.broad_role) as broad_role,
         ifnull(role_mapping.new_sector_id, int_user_profile.sector_id) as new_sector_id,
         ifnull(role_mapping.new_sector_name, int_user_profile.sector_name) as new_sector_name,
         ifnull(role_mapping.broad_sector, int_user_profile.broad_sector) as broad_sector

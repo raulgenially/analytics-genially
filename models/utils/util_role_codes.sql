@@ -9,7 +9,8 @@ final as (
             when version = 1 then concat(role_name, ' (old)')
             else role_name
         end as role_name,
-        sector_id
+        sector_id,
+        broad_role
 
     from role_codes
 )

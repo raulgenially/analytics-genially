@@ -24,6 +24,7 @@ base_users as (
         sectors.sector_name as sector,
         sectors.broad_sector as broad_sector,
         roles.role_name as role,
+        roles.broad_role as broad_role
 
     from users
     left join sectors
@@ -48,6 +49,9 @@ int_users as (
         ifnull(
             ifnull(profiles.new_role_name, users.role), '{{ var('not_selected') }}'
         ) as final_role,
+        ifnull(
+            ifnull(profiles.broad_role, users.broad_role), '{{ var('not_selected') }}'
+        ) as final_broad_role,
 
     from base_users as users
     left join profiles
@@ -66,7 +70,7 @@ final as (
         users.final_broad_sector as broad_sector,
         users.final_role_code as role_code,
         users.final_role as role,
-        {{ create_broad_role_field('users.final_role', 'users.final_broad_sector') }} as broad_role,
+        users.final_broad_role as broad_role,
         users.country,
         users.country_name,
         users.email,
