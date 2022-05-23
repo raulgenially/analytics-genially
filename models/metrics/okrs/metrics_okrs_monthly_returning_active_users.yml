@@ -11,7 +11,7 @@ models:
           - not_null
 
       - name: role
-        description: Role (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        description: Role (see data/seed_role_codes.csv).
         tests:
           - not_null
 
