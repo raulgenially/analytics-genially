@@ -1,0 +1,148 @@
+version: 2
+
+models:
+  - name: exposure_amplitude_events
+    description: Events of the last 7 days modeled as Amplitude expect thems to perform the ingestion.
+    columns:
+      - name: event_type
+        description: The type of event.
+        tests:
+          - not_null
+
+      - name: time
+        description: The time the event ocurred in milliseconds since epoch (Unix Timestamp).
+        tests:
+          - not_null
+
+      - name: user_id
+        description: The user ID that generated the event.
+        tests:
+          # Either the user_id or the device_id should be present
+          - not_null:
+              where: device_id is null
+
+      - name: device_id
+        description: The device identifier that generated the event. This is set by Snowplow.
+        tests:
+          # Either the user_id or the device_id should be present
+          - not_null:
+              where: user_id is null
+
+      - name: insert_id
+        description: The event ID.
+        tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: The name of the city the user is in.
+
+      - name: country
+        description: The name of the country the user is in.
+
+      - name: device_brand
+        description: The brand of the device.
+
+      - name: device_model
+        description: The name of the device.
+
+      - name: language
+        description: The browser language.
+
+      - name: location_lat
+        description: The latitude the user is in.
+
+      - name: location_lng
+        description: The longitude the user is in.
+
+      - name: os_name
+        description: The name of the operating system.
+
+      - name: os_version
+        description: The version of the operating system.
+
+      - name: region
+        description: The name of the region the user is in.
+
+      - name: event_properties
+        description: The properties attached to the event.
+
+      - name: event_properties.session_id
+        description: The session ID the event belongs to. This is set by Snowplow.
+
+      - name: event_properties.session_count
+        description: The session count for the current user. This is set by Snowplow.
+
+      - name: event_properties.page_url
+        description: The url at the time of the event.
+        tests:
+          - not_null
+
+      - name: event_properties.page_title
+        description: The page title at the time of the event.
+
+      - name: event_properties.page_referrer
+        description: The page referrer at the time of the event.
+
+      - name: event_properties.page_path
+        description: The url path at the time of the event.
+
+      - name: event_properties.team_id
+        description: The team ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.genially_id
+        description: The genially ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.template_id
+        description: The template ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.team_space_id
+        description: The team space ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.invoice_id
+        description: The invoice ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.folder_id
+        description: The folder ID the event is related to. Currently extracted from the url.
+
+      - name: event_properties.template_section
+        description: The template section the user is viewing in a templates page. Currently extracted from the url.
+
+      - name: user_properties
+        description: User properties at the time of the event.
+
+      - name: user_properties.country
+        description: Country selected in the Genially App.
+
+      - name: user_properties.sector_id
+        description: The ID of the sector.
+
+      - name: user_properties.sector
+        description: The name of the sector.
+
+      - name: user_properties.broad_sector
+        description: Broad category for the sector.
+
+      - name: user_properties.role_id
+        description: The ID of the role.
+
+      - name: user_properties.role
+        description: The name of the role.
+
+      - name: user_properties.broad_role
+        description: Broad category for the role.
+
+      - name: user_properties.registered_at
+        description: Registration date.
+
+      - name: user_properties.plan
+        description: The type of subscription.
+
+      - name: user_properties.n_creations
+        description: The total number of geniallys created.
+
+      - name: event_received_at
+        description: Timestamp the event reached the Snowplow collector.
+          Used by Amplitude as the cursor during ingestion.
+        tests:
+          - not_null

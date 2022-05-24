@@ -13,8 +13,10 @@ final as (
 
         users.plan,
         users.subscription,
+        users.sector_code,
         users.sector,
         users.broad_sector,
+        users.role_code,
         users.role,
         users.broad_role,
         users.country,

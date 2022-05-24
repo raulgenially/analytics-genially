@@ -106,6 +106,12 @@ models:
       +materialized: ephemeral
       +tags:
         - adhoc
+    exposures:
+      +tags:
+        - exposures
+      amplitude:
+        +schema: amplitude
+        +materialized: table
   snowplow_web:
     +database: "{{ 'snowplow-genially' if target.name == 'prod' else target.database }}"
 
