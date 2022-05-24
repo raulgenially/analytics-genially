@@ -1,5 +1,5 @@
 with users as(
-    select * from {{ ref('users') }}
+    select * from {{ ref('all_users') }}
 ),
 
 logins as (

@@ -12,7 +12,6 @@ users as (
         date(date_trunc(registered_at, {{ date_part }})) as date_part_registered_at
 
     from {{ ref('all_users') }}
-    where date(registered_at) >= {{ min_date }}
 ),
 
 geniallys as (
@@ -21,7 +20,6 @@ geniallys as (
         date(date_trunc(created_at, {{ date_part }})) as date_part_created_at
 
     from {{ ref('all_geniallys') }}
-    where date(created_at) >= {{ min_date }}
 ),
 
 user_creations as (
@@ -30,7 +28,6 @@ user_creations as (
         date(date_trunc(creation_at, {{ date_part }})) as date_part_creation_at
 
     from {{ ref('user_creations') }}
-    where date(creation_at) >= {{ min_date }}
 ),
 
 user_logins as (
@@ -39,7 +36,6 @@ user_logins as (
         date(date_trunc(login_at, {{ date_part }})) as date_part_login_at
 
     from {{ ref('user_logins') }}
-    where date(login_at) >= {{ min_date }}
 ),
 
 -- New users / Signups
@@ -57,6 +53,7 @@ signups as (
         count(user_id) as n_signups
 
     from users
+    where date_part_registered_at >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
@@ -99,6 +96,7 @@ new_creations as(
         count(genially_id) as n_creations
 
     from geniallys
+    where date_part_created_at >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
@@ -154,6 +152,7 @@ new_creators as (
     from user_first_creations
     inner join users
         on user_first_creations.user_id = users.user_id
+    where user_first_creations.date_part_first_creation_at >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
@@ -201,6 +200,7 @@ new_creators_registered_same_date_part as (
     inner join users
         on user_first_creations.user_id = users.user_id
             and user_first_creations.date_part_first_creation_at = users.date_part_registered_at
+    where user_first_creations.date_part_first_creation_at >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
@@ -253,6 +253,7 @@ active_users as (
     from user_logins
     inner join users
         on user_logins.user_id = users.user_id
+    where user_logins.date_part_login_at >= {{ min_date }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
