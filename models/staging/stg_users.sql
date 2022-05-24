@@ -35,23 +35,18 @@ base_users as (
 
 int_users as (
     select
-        users.*,
-        -- Sector mapping
-        ifnull(profiles.new_sector_id, users.sector_code) as final_sector_code,
-        ifnull(
-            ifnull(profiles.new_sector_name, users.sector), '{{ var('not_selected') }}'
-        ) as final_sector,
-        ifnull(
-            ifnull(profiles.broad_sector, users.broad_sector), '{{ var('not_selected') }}'
-        ) as final_broad_sector,
-        -- Role mapping
-        ifnull(profiles.new_role_id, users.role_code) as final_role_code,
-        ifnull(
-            ifnull(profiles.new_role_name, users.role), '{{ var('not_selected') }}'
-        ) as final_role,
-        ifnull(
-            ifnull(profiles.broad_role, users.broad_role), '{{ var('not_selected') }}'
-        ) as final_broad_role,
+        users.* replace(
+            ifnull(profiles.new_sector_id, users.sector_code) as sector_code,
+            coalesce(profiles.new_sector_name, users.sector,
+                '{{ var('not_selected') }}') as sector,
+            coalesce(profiles.broad_sector, users.broad_sector,
+                '{{ var('not_selected') }}') as broad_sector,
+            ifnull(profiles.new_role_id, users.role_code) as role_code,
+            coalesce(profiles.new_role_name, users.role,
+                '{{ var('not_selected') }}') as role,
+            coalesce(profiles.broad_role, users.broad_role,
+                '{{ var('not_selected') }}') as broad_role
+        )
 
     from base_users as users
     left join profiles
@@ -65,12 +60,12 @@ final as (
 
         users.plan,
         users.subscription,
-        users.final_sector_code as sector_code,
-        users.final_sector as sector,
-        users.final_broad_sector as broad_sector,
-        users.final_role_code as role_code,
-        users.final_role as role,
-        users.final_broad_role as broad_role,
+        users.sector_code,
+        users.sector,
+        users.broad_sector,
+        users.role_code,
+        users.role,
+        users.broad_role,
         users.country,
         users.country_name,
         users.email,
