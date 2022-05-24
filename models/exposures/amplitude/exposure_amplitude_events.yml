@@ -143,6 +143,6 @@ models:
 
       - name: event_received_at
         description: Timestamp the event reached the Snowplow collector.
-          User by Amplitude as the cursor during ingestion.
+          Used by Amplitude as the cursor during ingestion.
         tests:
           - not_null
