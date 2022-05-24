@@ -1,9 +1,17 @@
 with role_codes as (
-    select * from {{ ref('util_role_codes') }}
+    select * replace (
+        if(version = 1, concat(role_name, ' (old)'), role_name) as role_name
+    )
+
+    from {{ ref('seed_role_codes') }}
 ),
 
 sector_codes as (
-    select * from {{ ref('util_sector_codes') }}
+    select * replace (
+        if(version = 1, concat(sector_name, ' (old)'), sector_name) as sector_name
+    )
+
+    from {{ ref('seed_sector_codes') }}
 ),
 
 role_correspondence as (
