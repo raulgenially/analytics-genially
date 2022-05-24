@@ -1,6 +1,6 @@
 -- The number of signups should match among the implicated models.
 {% set testing_date %}
-    date('2021-12-20')
+    '{{ var('snapshot_users_start_date') }}'
 {% endset %}
 
 with login_activity_active_users as (
@@ -9,15 +9,6 @@ with login_activity_active_users as (
         date_day
 
     from {{ ref('metrics_login_activity_active_users') }}
-    where date_day >= {{ testing_date }}
-),
-
-monthly_projections as (
-    select
-        n_signups,
-        date_day
-
-    from {{ ref('metrics_monthly_projections') }}
     where date_day >= {{ testing_date }}
 ),
 
@@ -30,21 +21,10 @@ users_and_creations_by_day as (
     where date_day >= {{ testing_date }}
 ),
 
-users_in_funnel as (
-    select
-        n_signups,
-        registered_at as date_day
-
-    from {{ ref('metrics_users_in_funnel') }}
-    where registered_at >= {{ testing_date }}
-),
-
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
             'login_activity_active_users',
-            'monthly_projections',
-            'users_in_funnel',
             'users_and_creations_by_day'
             ],
         metric = 'n_signups',

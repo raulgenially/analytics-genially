@@ -16,7 +16,7 @@ final as(
     left join users
         on logins.user_id = users.user_id
     where login_at < registered_at
-    group by 1,2
+    group by 1, 2
 )
 
 select * from final

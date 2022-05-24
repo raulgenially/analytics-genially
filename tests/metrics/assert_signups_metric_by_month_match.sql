@@ -12,7 +12,7 @@ with users_and_creations_by_day as (
         and date_day < {{ get_first_day_current_month() }}
 ),
 
-active_users_by_month as (
+users_and_creations_by_month as (
     select
         n_signups,
         date_month
@@ -25,7 +25,7 @@ final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
             'users_and_creations_by_day',
-            'active_users_by_month'
+            'users_and_creations_by_month'
             ],
         metric = 'n_signups',
         date_column = 'date_month'

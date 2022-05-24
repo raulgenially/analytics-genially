@@ -19,7 +19,7 @@ with logins as (
 ),
 
 users as (
-    select * from {{ ref('users') }}
+    select * from {{ ref('all_users') }}
 ),
 
 ga_signups as (
@@ -27,7 +27,7 @@ ga_signups as (
 ),
 
 geniallys as (
-    select * from {{ ref('geniallys') }}
+    select * from {{ ref('all_geniallys') }}
 ),
 
 user_editor_views as (

@@ -20,8 +20,8 @@ final as (
             as n_signups_previous_7d,
         {{ get_lag_dimension_metrics_reporting('n_signups', month_days, 'date_day') }}
             as n_signups_previous_28d,
-        {{ get_lag_dimension_metrics_reporting('n_signups', year_days, 'date_day') }} as
-            n_signups_previous_364d,
+        {{ get_lag_dimension_metrics_reporting('n_signups', year_days, 'date_day') }}
+            as n_signups_previous_364d,
         -- lags n_creations
         {{ get_lag_dimension_metrics_reporting('n_creations', week_days, 'date_day') }}
             as n_creations_previous_7d,

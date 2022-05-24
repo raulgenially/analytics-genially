@@ -1,3 +1,4 @@
+-- TODO Deprecate
 {% set week_days = 7 %}
 {% set month_days = 28 %}
 {% set year_days = 364 %}
