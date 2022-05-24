@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='view'
-    )
-}}
-
 with deleted_users as (
     select * from {{ ref('stg_users') }}
     where is_deleted = true

@@ -3,7 +3,7 @@ with geniallys as (
     where created_at is not null
 ),
 
-all_users as (
+users as (
     select * from {{ ref('int_mart_all_users') }}
 ),
 
@@ -12,13 +12,29 @@ collaboratives as (
     where user_id is not null
 ),
 
-cleaned_geniallys as ( -- Remove geniallys due to phishing users.
+-- Remove geniallys due to phishing users.
+cleaned_geniallys as (
     select
         geniallys.*
 
     from geniallys
-    inner join all_users
-        on geniallys.user_id = all_users.user_id
+    inner join users
+        on geniallys.user_id = users.user_id
+),
+
+-- Correct collaboratives shared before registration date.
+cleaned_collaboratives as (
+    select
+        collaboratives.user_id,
+        if(
+            collaboratives.created_at < users.registered_at,
+            users.registered_at,
+            collaboratives.created_at
+        ) as created_at
+
+    from collaboratives
+    inner join users
+        on collaboratives.user_id = users.user_id
 ),
 
 -- We want to consider collaboratives as well.
@@ -35,7 +51,7 @@ user_creations as (
         user_id,
         created_at as creation_at
 
-    from collaboratives
+    from cleaned_collaboratives
 ),
 
 -- In case we have several records for the same day, pick the last one.
