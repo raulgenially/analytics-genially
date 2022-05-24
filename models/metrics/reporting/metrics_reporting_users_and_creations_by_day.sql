@@ -63,7 +63,7 @@ final as (
         {{ get_lag_dimension_metrics_reporting('n_returning_users', month_days, 'date_day') }}
             as n_returning_users_previous_28d,
         {{ get_lag_dimension_metrics_reporting('n_returning_users', year_days, 'date_day') }}
-            as n_returning_users_previous_364d,
+            as n_returning_users_previous_364d
 
     from reporting_model
 )

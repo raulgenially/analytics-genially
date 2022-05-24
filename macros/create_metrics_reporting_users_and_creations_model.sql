@@ -184,7 +184,7 @@ metrics3 as (
 ),
 
 -- New creators AND New users
-new_creators_registered_same_period as (
+new_creators_registered_same_date_part as (
     select
         --Dimensions
         user_first_creations.date_part_first_creation_at as first_creation_at,
@@ -195,7 +195,7 @@ new_creators_registered_same_period as (
         users.broad_sector,
         users.broad_role,
         -- Metrics
-        count(user_first_creations.user_id) as n_new_creators_registered_same_period
+        count(user_first_creations.user_id) as n_new_creators_registered_same_date_part
 
     from user_first_creations
     inner join users
@@ -218,20 +218,23 @@ metrics4 as (
         metrics3.n_signups,
         metrics3.n_new_creations,
         metrics3.n_new_creators,
-        coalesce(new_creators_registered_same_period.n_new_creators_registered_same_period, 0)
-            as n_new_creators_registered_same_period,
-        metrics3.n_new_creators - coalesce(new_creators_registered_same_period.n_new_creators_registered_same_period, 0)
-            as n_new_creators_previously_registered
+        coalesce(
+            new_creators_registered_same_date_part.n_new_creators_registered_same_date_part, 0
+        ) as n_new_creators_registered_same_date_part,
+        (
+            metrics3.n_new_creators -
+            coalesce(new_creators_registered_same_date_part.n_new_creators_registered_same_date_part, 0)
+        ) as n_new_creators_previously_registered
 
     from metrics3
-    left join new_creators_registered_same_period
-        on metrics3.date_part = new_creators_registered_same_period.first_creation_at
-            and metrics3.plan = new_creators_registered_same_period.plan
-            and metrics3.subscription = new_creators_registered_same_period.subscription
-            and metrics3.country = new_creators_registered_same_period.country
-            and metrics3.country_name = new_creators_registered_same_period.country_name
-            and metrics3.broad_sector = new_creators_registered_same_period.broad_sector
-            and metrics3.broad_role = new_creators_registered_same_period.broad_role
+    left join new_creators_registered_same_date_part
+        on metrics3.date_part = new_creators_registered_same_date_part.first_creation_at
+            and metrics3.plan = new_creators_registered_same_date_part.plan
+            and metrics3.subscription = new_creators_registered_same_date_part.subscription
+            and metrics3.country = new_creators_registered_same_date_part.country
+            and metrics3.country_name = new_creators_registered_same_date_part.country_name
+            and metrics3.broad_sector = new_creators_registered_same_date_part.broad_sector
+            and metrics3.broad_role = new_creators_registered_same_date_part.broad_role
 ),
 
 active_users as (
@@ -267,13 +270,14 @@ final as (
         metrics4.n_signups,
         metrics4.n_new_creations,
         metrics4.n_new_creators,
-        metrics4.n_new_creators_registered_same_period as n_new_creators_registered_same_{{ date_part }},
+        metrics4.n_new_creators_registered_same_date_part as n_new_creators_registered_same_{{ date_part }},
         metrics4.n_new_creators_previously_registered,
         -- Variable 'snapshot_users_start_date' rounded so we can use this model for different granularities
         if(metrics4.date_part < '2022-01-01', null, coalesce(active_users.n_active_users, 0)) as n_active_users,
-        if(
-            metrics4.date_part < '2022-01-01', null, coalesce(active_users.n_active_users, 0)
-        ) - n_signups as n_returning_users
+        (
+            if(metrics4.date_part < '2022-01-01', null, coalesce(active_users.n_active_users, 0)) -
+            n_signups
+        ) as n_returning_users
 
     from metrics4
     left join active_users
