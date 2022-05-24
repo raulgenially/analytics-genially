@@ -22,13 +22,13 @@ final as (
             as n_signups_previous_28d,
         {{ get_lag_dimension_metrics_reporting('n_signups', year_days, 'date_day') }} as
             n_signups_previous_364d,
-        -- lags n_new_creations
-        {{ get_lag_dimension_metrics_reporting('n_new_creations', week_days, 'date_day') }}
-            as n_new_creations_previous_7d,
-        {{ get_lag_dimension_metrics_reporting('n_new_creations', month_days, 'date_day') }}
-            as n_new_creations_previous_28d,
-        {{ get_lag_dimension_metrics_reporting('n_new_creations', year_days, 'date_day') }}
-            as n_new_creations_previous_364d,
+        -- lags n_creations
+        {{ get_lag_dimension_metrics_reporting('n_creations', week_days, 'date_day') }}
+            as n_creations_previous_7d,
+        {{ get_lag_dimension_metrics_reporting('n_creations', month_days, 'date_day') }}
+            as n_creations_previous_28d,
+        {{ get_lag_dimension_metrics_reporting('n_creations', year_days, 'date_day') }}
+            as n_creations_previous_364d,
         -- lag n_new_creators
         {{ get_lag_dimension_metrics_reporting('n_new_creators', week_days, 'date_day') }}
             as n_new_creators_previous_7d,

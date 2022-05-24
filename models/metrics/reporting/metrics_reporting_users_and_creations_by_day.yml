@@ -51,7 +51,7 @@ models:
         tests:
           - not_null
 
-      - name: n_new_creations
+      - name: n_creations
         description: Number of geniallys created on date_day.
         tests:
           - not_null
@@ -93,14 +93,14 @@ models:
       - name: n_signups_previous_364d
         description: Metric of 'signups' 364 days ago.
 
-      - name: n_new_creations_previous_7d
-        description: Metric of 'new creations' 7 days ago.
+      - name: n_creations_previous_7d
+        description: Metric of 'creations' 7 days ago.
 
-      - name: n_new_creations_previous_28d
-        description: Metric of 'new creations' 28 days ago.
+      - name: n_creations_previous_28d
+        description: Metric of 'creations' 28 days ago.
 
-      - name: n_new_creations_previous_364d
-        description: Metric of 'new creations' 364 days ago.
+      - name: n_creations_previous_364d
+        description: Metric of 'creations' 364 days ago.
 
       - name: n_new_creators_previous_7d
         description: Metric of 'new creators' 7 days ago.

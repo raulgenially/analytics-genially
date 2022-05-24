@@ -96,7 +96,7 @@ new_creations as(
         user_broad_sector,
         user_broad_role,
         -- Metrics
-        count(genially_id) as n_new_creations
+        count(genially_id) as n_creations
 
     from geniallys
     {{ dbt_utils.group_by(n=7) }}
@@ -114,7 +114,7 @@ metrics2 as (
         metrics1.broad_role,
         --Metrics
         metrics1.n_signups,
-        coalesce(new_creations.n_new_creations, 0) as n_new_creations
+        coalesce(new_creations.n_creations, 0) as n_creations
 
     from metrics1
     left join new_creations
@@ -169,7 +169,7 @@ metrics3 as (
         metrics2.broad_role,
         --Metrics
         metrics2.n_signups,
-        metrics2.n_new_creations,
+        metrics2.n_creations,
         coalesce(new_creators.n_new_creators, 0) as n_new_creators
 
     from metrics2
@@ -216,7 +216,7 @@ metrics4 as (
         metrics3.broad_role,
         --Metrics
         metrics3.n_signups,
-        metrics3.n_new_creations,
+        metrics3.n_creations,
         metrics3.n_new_creators,
         coalesce(
             new_creators_registered_same_date_part.n_new_creators_registered_same_date_part, 0
@@ -268,7 +268,7 @@ final as (
         metrics4.broad_role,
         --Metrics
         metrics4.n_signups,
-        metrics4.n_new_creations,
+        metrics4.n_creations,
         metrics4.n_new_creators,
         metrics4.n_new_creators_registered_same_date_part as n_new_creators_registered_same_{{ date_part }},
         metrics4.n_new_creators_previously_registered,

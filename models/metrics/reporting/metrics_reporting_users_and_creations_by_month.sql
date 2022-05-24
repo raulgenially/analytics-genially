@@ -16,11 +16,11 @@ final as (
             as n_signups_previous_month,
         {{ get_lag_dimension_metrics_reporting('n_signups', 12, 'date_month') }}
             as n_signups_previous_year,
-        -- lags n_new_creations
-        {{ get_lag_dimension_metrics_reporting('n_new_creations', 1, 'date_month') }}
-            as n_new_creations_previous_month,
-        {{ get_lag_dimension_metrics_reporting('n_new_creations', 12, 'date_month') }}
-            as n_new_creations_previous_year,
+        -- lags n_creations
+        {{ get_lag_dimension_metrics_reporting('n_creations', 1, 'date_month') }}
+            as n_creations_previous_month,
+        {{ get_lag_dimension_metrics_reporting('n_creations', 12, 'date_month') }}
+            as n_creations_previous_year,
         -- lag n_new_creators
         {{ get_lag_dimension_metrics_reporting('n_new_creators', 1, 'date_month') }}
             as n_new_creators_previous_month,

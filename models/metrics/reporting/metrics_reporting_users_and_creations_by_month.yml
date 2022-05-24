@@ -50,7 +50,7 @@ models:
         tests:
           - not_null
 
-      - name: n_new_creations
+      - name: n_creations
         description: Number of geniallys created on date_month.
         tests:
           - not_null
@@ -89,11 +89,11 @@ models:
       - name: n_signups_previous_year
         description: Metric of 'signups' on previous year.
 
-      - name: n_new_creations_previous_month
-        description: Metric of 'new creations' on previous month.
+      - name: n_creations_previous_month
+        description: Metric of 'creations' on previous month.
 
-      - name: n_new_creations_previous_year
-        description: Metric of 'new creations' on previous year.
+      - name: n_creations_previous_year
+        description: Metric of 'creations' on previous year.
 
       - name: n_new_creators_previous_month
         description: Metric of 'new creators' on previous month.
