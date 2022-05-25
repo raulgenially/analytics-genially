@@ -35,6 +35,9 @@ steps:
 - name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
   args: ['run-operation', 'cleanup_dataset']
 
+- name: 'ghcr.io/dbt-labs/dbt-bigquery:1.1.0'
+  args: ['run-operation', 'drop_audit_dataset']
+
 timeout: 3600s # 1 hour
 options:
   env:
