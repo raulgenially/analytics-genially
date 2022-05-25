@@ -1,4 +1,4 @@
--- TODO Deprecate
+-- TODO To be deprecated
 {% set week_days = 7 %}
 {% set month_days = 28 %}
 {% set year_days = 364 %}

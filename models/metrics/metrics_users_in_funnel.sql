@@ -1,4 +1,4 @@
--- TODO Deprecate
+-- TODO To be deprecated
 {%- set min_date -%}
     date(2019, 1, 1)
 {%- endset -%}
