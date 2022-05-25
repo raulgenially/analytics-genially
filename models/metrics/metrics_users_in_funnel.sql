@@ -1,7 +1,7 @@
 -- TODO To be deprecated
-{%- set min_date -%}
+{% set min_date %}
     date(2019, 1, 1)
-{%- endset -%}
+{% endset %}
 
 with users as (
     select * from {{ ref('users') }}
