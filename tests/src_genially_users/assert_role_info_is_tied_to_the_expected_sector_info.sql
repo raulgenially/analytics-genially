@@ -4,7 +4,7 @@ with users as (
 ),
 
 role_codes as (
-    select * from {{ ref('util_role_codes') }}
+    select * from {{ ref('seed_role_codes') }}
 ),
 
 final as (

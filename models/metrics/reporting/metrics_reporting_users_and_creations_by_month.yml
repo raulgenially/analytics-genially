@@ -36,12 +36,12 @@ models:
           - not_null
 
       - name: broad_sector
-        description: Broad categories for sector (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        description: Broad categories for sector (see data/seed_sector_codes.csv).
         tests:
           - not_null
 
       - name: broad_role
-        description: Broad categories for role based on broad_sector (see create_broad_role_field macro).
+        description: Broad categories for role based on broad_sector (see data/seed_role_codes.csv).
         tests:
           - not_null
 
