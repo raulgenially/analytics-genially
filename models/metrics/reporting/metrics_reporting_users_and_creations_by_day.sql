@@ -2,14 +2,10 @@
 {% set month_days = 28 %}
 {% set year_days = 364 %}
 
-{% set min_date %}
-    date('2020-01-01')
-{% endset %}
-
 {% set date_part = "day" %}
 
 with reporting_model as (
-    {{ create_metrics_reporting_users_and_creations_model(min_date, date_part) }}
+    {{ create_metrics_reporting_users_and_creations_model(date_part) }}
 ),
 
 final as (

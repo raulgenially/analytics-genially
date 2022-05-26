@@ -1,6 +1,15 @@
 -- This macro is intended to be used in reporting-related models, across various granularities.
--- The granularity is determined by the input parameter 'date_part'.
-{% macro create_metrics_reporting_users_and_creations_model(min_date, date_part) %}
+-- The granularity is determined by the input parameter 'date_part' (tested with day and month).
+{% macro create_metrics_reporting_users_and_creations_model(date_part) %}
+
+{% set min_date %}
+    date('2020-01-01')
+{% endset %}
+
+-- Variable 'snapshot_users_start_date' rounded so we can use this macro for different date parts.
+{% set min_date_active_users %}
+    date('2022-01-01')
+{% endset %}
 
 with reference_table as (
     {{ get_combination_calendar_dimensions(min_date, date_part) }}
@@ -125,7 +134,7 @@ metrics2 as (
             and metrics1.broad_role = new_creations.user_broad_role
 ),
 
--- First creation for each user
+-- First creation ever for each user
 user_first_creations as (
     select
         user_id,
@@ -219,22 +228,22 @@ metrics4 as (
         metrics3.n_creations,
         metrics3.n_new_creators,
         coalesce(
-            new_creators_registered_same_date_part.n_new_creators_registered_same_date_part, 0
+            new_creators.n_new_creators_registered_same_date_part, 0
         ) as n_new_creators_registered_same_date_part,
         (
             metrics3.n_new_creators -
-            coalesce(new_creators_registered_same_date_part.n_new_creators_registered_same_date_part, 0)
+            coalesce(new_creators.n_new_creators_registered_same_date_part, 0)
         ) as n_new_creators_previously_registered
 
     from metrics3
-    left join new_creators_registered_same_date_part
-        on metrics3.date_part = new_creators_registered_same_date_part.first_creation_at
-            and metrics3.plan = new_creators_registered_same_date_part.plan
-            and metrics3.subscription = new_creators_registered_same_date_part.subscription
-            and metrics3.country = new_creators_registered_same_date_part.country
-            and metrics3.country_name = new_creators_registered_same_date_part.country_name
-            and metrics3.broad_sector = new_creators_registered_same_date_part.broad_sector
-            and metrics3.broad_role = new_creators_registered_same_date_part.broad_role
+    left join new_creators_registered_same_date_part as new_creators
+        on metrics3.date_part = new_creators.first_creation_at
+            and metrics3.plan = new_creators.plan
+            and metrics3.subscription = new_creators.subscription
+            and metrics3.country = new_creators.country
+            and metrics3.country_name = new_creators.country_name
+            and metrics3.broad_sector = new_creators.broad_sector
+            and metrics3.broad_role = new_creators.broad_role
 ),
 
 active_users as (
@@ -253,7 +262,7 @@ active_users as (
     from user_logins
     inner join users
         on user_logins.user_id = users.user_id
-    where user_logins.date_part_login_at >= {{ min_date }}
+    where user_logins.date_part_login_at >= {{ min_date_active_users }}
     {{ dbt_utils.group_by(n=7) }}
 ),
 
@@ -273,10 +282,11 @@ final as (
         metrics4.n_new_creators,
         metrics4.n_new_creators_registered_same_date_part as n_new_creators_registered_same_{{ date_part }},
         metrics4.n_new_creators_previously_registered,
-        -- Variable 'snapshot_users_start_date' rounded so we can use this model for different granularities
-        if(metrics4.date_part < '2022-01-01', null, coalesce(active_users.n_active_users, 0)) as n_active_users,
+        if(
+            metrics4.date_part < {{ min_date_active_users }}, null, coalesce(active_users.n_active_users, 0)
+        ) as n_active_users,
         (
-            if(metrics4.date_part < '2022-01-01', null, coalesce(active_users.n_active_users, 0)) -
+            if(metrics4.date_part < {{ min_date_active_users }}, null, coalesce(active_users.n_active_users, 0)) -
             n_signups
         ) as n_returning_users
 
