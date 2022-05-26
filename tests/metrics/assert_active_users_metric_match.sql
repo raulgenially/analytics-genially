@@ -21,11 +21,21 @@ users_and_creations_by_day as (
     where date_day >= {{ testing_date }}
 ),
 
+monthly_projections as (
+    select
+        n_total_visitors as n_active_users,
+        date_day
+
+    from {{ ref('metrics_monthly_projections') }}
+    where date_day >= {{ testing_date }}
+),
+
 final as (
     {{ compare_metric_consistency_between_models(
         ctes = [
             'login_activity_active_users',
-            'users_and_creations_by_day'
+            'users_and_creations_by_day',
+            'monthly_projections'
             ],
         metric = 'n_active_users',
         date_column = 'date_day'

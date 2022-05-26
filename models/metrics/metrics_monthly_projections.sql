@@ -12,11 +12,11 @@ with reference_table as (
 ),
 
 geniallys as (
-    select * from {{ ref('geniallys') }}
+    select * from {{ ref('all_geniallys') }}
 ),
 
 users as (
-    select * from {{ ref('users') }}
+    select * from {{ ref('all_users') }}
 ),
 
 collaboratives as (
