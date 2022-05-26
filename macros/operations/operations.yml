@@ -1,0 +1,26 @@
+# Two spaces at the end of some lines are placed purposefully in order to
+# indicate line break and ease the readability of the description.
+version: 2
+
+macros:
+  - name: cleanup_dataset
+    description: |
+      Removes tables and views from the given run configuration.  
+      Usage in production: `dbt run-operation cleanup_dataset`  
+      To only see the commands that it is about to perform:
+      `dbt run-operation cleanup_dataset --args '{"dry_run": True}'`
+    arguments:
+      - name: dry_run
+        type: boolean (Default False)
+        description: If True, the command will only be logged but not executed.
+
+  - name: drop_audit_dataset
+    description: |
+      Drops audit dataset `dbt_test__audit`  
+      Usage in production: `dbt run-operation drop_audit_dataset`  
+      To only see the commands that it is about to perform:
+      `dbt run-operation drop_audit_dataset --args '{"dry_run": True}'`
+    arguments:
+      - name: dry_run
+        type: boolean (Default False)
+        description: If True, the command will only be logged but not executed.

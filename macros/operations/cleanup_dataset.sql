@@ -1,8 +1,3 @@
--- Removes tables and views from the given run configuration
--- Usage in production:
---    dbt run-operation cleanup_dataset
--- To only see the commands that it is about to perform:
---    dbt run-operation cleanup_dataset --args '{"dry_run": True}'
 {% macro cleanup_dataset(dry_run=False) %}
     {% if execute %}
         {% set current_model_locations={} %}
