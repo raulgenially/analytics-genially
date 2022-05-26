@@ -18,6 +18,8 @@ sectors as (
     from profiles
 ),
 
+-- In this cte, users columns sector_code and role_code are mapped with its
+-- corresponding descriptions - sector, broad_sector, role, broad_role
 base_users as (
     select
         users.*,
@@ -33,6 +35,12 @@ base_users as (
         on users.role_code = roles.role_id
 ),
 
+-- Here we replace the codes and descriptions of sector and role columns:
+-- 1. If the code is old (version 1), it is mapped with the new code (version 2)
+-- 2. If the code is already new, or it is old but the mapping is not found,
+--    then value from users is kept
+-- 3. If the column is a description column and the mapping code-description
+--    is not found, then it sets a default description 'Not-selected'
 int_users as (
     select
         users.* replace(
