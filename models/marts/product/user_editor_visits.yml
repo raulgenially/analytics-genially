@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: user_editor_visits
+    description: >
+      This model describes if a user visits the Editor (app.genial.ly/editor/).
+      This data is modeled in such a manner that there is only one record per user per day;
+      therefore, it doesn't tell you how many times the user visits the Editor on a certain day.
+    columns:
+      - name: editor_visit_id
+        description: Primary key of this model.
+          It is a surrogate key composed by user_id and date(editor_visited_at).
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user id who visits the Editor.
+        tests:
+          - not_null
+
+      - name: editor_visited_at
+        description: The date at which the user visits the editor.
+        tests:
+          - not_null

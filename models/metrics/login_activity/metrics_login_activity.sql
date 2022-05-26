@@ -30,8 +30,8 @@ geniallys as (
     select * from {{ ref('all_geniallys') }}
 ),
 
-user_editor_views as (
-    select * from {{ ref('user_editor_views') }}
+user_editor_visits as (
+    select * from {{ ref('user_editor_visits') }}
 ),
 
 dates as (
@@ -113,17 +113,17 @@ user_day_traffic as (
         end as status,
         if(
             user_day_creations.date_day >= '{{ var('snowplow_page_views_start_date') }}',
-            user_editor_views.user_id is not null, -- I can reliably determine if the user visited the editor
+            user_editor_visits.user_id is not null, -- I can reliably determine if the user visited the editor
             null
-        ) as is_active_editor_view
+        ) as is_active_editor_visit
 
     from user_day_creations
     left join logins
         on user_day_creations.user_id = logins.user_id
             and user_day_creations.date_day = date(logins.login_at)
-    left join user_editor_views -- Incorporate data as to edition activity
-        on user_day_creations.user_id = user_editor_views.user_id
-            and user_day_creations.date_day = date(user_editor_views.editor_viewed_at)
+    left join user_editor_visits -- Incorporate data as to edition activity
+        on user_day_creations.user_id = user_editor_visits.user_id
+            and user_day_creations.date_day = date(user_editor_visits.editor_visited_at)
 ),
 
 user_traffic_rolling_status as (
@@ -150,7 +150,7 @@ user_traffic_rolling_status as (
         ) as n_creations_28d,
         is_active,
         status,
-        is_active_editor_view,
+        is_active_editor_visit,
         -- Compute n_days_active for different status.
         -- Note we have to leave a temporal margin to get reliable results.
         if(
@@ -184,7 +184,7 @@ final as (
         n_creations_7d,
         n_creations_28d,
         is_active,
-        is_active_editor_view,
+        is_active_editor_visit,
         status,
         n_days_active_7d,
         status_7d,

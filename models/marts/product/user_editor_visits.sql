@@ -3,10 +3,10 @@ with snowplow_web_page_views as (
     where user_id is not null --TODO to be changed after implementing user entity.
 ),
 
-editor_views as (
+editor_visits as (
     select
         user_id,
-        derived_tstamp as editor_viewed_at
+        derived_tstamp as editor_visited_at
 
     from snowplow_web_page_views
     where date(start_tstamp) >= '{{ var('snowplow_page_views_start_date') }}' -- Table partitioned by start_tstamp.
@@ -14,12 +14,12 @@ editor_views as (
 ),
 
 -- Pick the last edition for a certain day.
-editor_views_deduped as (
+editor_visits_deduped as (
     {{
         unique_records_by_column(
-            cte='editor_views',
-            unique_column='user_id, date(editor_viewed_at)',
-            order_by='editor_viewed_at',
+            cte='editor_visits',
+            unique_column='user_id, date(editor_visited_at)',
+            order_by='editor_visited_at',
             dir='desc',
         )
     }}
@@ -29,15 +29,15 @@ final as (
     select
         {{ dbt_utils.surrogate_key([
             'user_id',
-            'date(editor_viewed_at)'
+            'date(editor_visited_at)'
            ])
-        }} as edition_id,
+        }} as editor_visit_id,
 
         user_id,
 
-        editor_viewed_at,
+        editor_visited_at,
 
-    from editor_views_deduped
+    from editor_visits_deduped
 )
 
 select * from final
