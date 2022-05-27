@@ -62,6 +62,23 @@ int_users as (
             and users.role_code = profiles.role_id
 ),
 
+-- Here we overwrite the description of column broad_role when the sector_id
+-- that the user has does not match the sector that corresponds to its role
+fixed_users as (
+    select
+        users.* replace(
+            case
+                when profiles.sector_id != users.sector_code
+                    then '{{ var('not_selected') }}'
+                else users.broad_role
+            end as broad_role
+        )
+
+    from int_users as users
+    left join profiles
+    on users.role_code = profiles.role_id
+),
+
 final as (
     select
         users.user_id,
@@ -98,7 +115,7 @@ final as (
         users.last_access_at,
         users.updated_at
 
-    from int_users as users
+    from fixed_users as users
     left join social
         on users.user_id = social.user_id
 )
