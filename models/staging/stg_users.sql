@@ -62,11 +62,16 @@ int_users as (
             and users.role_code = profiles.role_id
 ),
 
--- Here we overwrite the description of column broad_role when the sector_id
--- that the user has does not match the sector that corresponds to its role
+-- Here we overwrite the description of sector_role and broad_role when the
+-- sector_id of the user does not match the sector that corresponds to its role
 fixed_users as (
     select
         users.* replace(
+            case
+                when profiles.sector_id != users.sector_code
+                    then '{{ var('not_selected') }}'
+                else users.broad_sector
+            end as broad_sector,
             case
                 when profiles.sector_id != users.sector_code
                     then '{{ var('not_selected') }}'
