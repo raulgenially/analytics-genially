@@ -112,3 +112,7 @@ models:
           expression: "broad_sector = sector"
           condition: "broad_sector = '{{ var('not_selected') }}'
             or sector = '{{ var('not_selected') }}'"
+      - dbt_utils.expression_is_true:
+          expression: "broad_role = role"
+          condition: "broad_role = '{{ var('not_selected') }}'
+            or role = '{{ var('not_selected') }}'"

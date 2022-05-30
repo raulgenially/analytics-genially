@@ -70,8 +70,18 @@ fixed_users as (
             case
                 when profiles.sector_id != users.sector_code
                     then '{{ var('not_selected') }}'
+                else users.sector
+            end as sector,
+            case
+                when profiles.sector_id != users.sector_code
+                    then '{{ var('not_selected') }}'
                 else users.broad_sector
             end as broad_sector,
+            case
+                when profiles.sector_id != users.sector_code
+                    then '{{ var('not_selected') }}'
+                else users.role
+            end as role,
             case
                 when profiles.sector_id != users.sector_code
                     then '{{ var('not_selected') }}'
@@ -81,7 +91,7 @@ fixed_users as (
 
     from int_users as users
     left join profiles
-    on users.role_code = profiles.role_id
+        on users.role_code = profiles.role_id
 ),
 
 final as (
