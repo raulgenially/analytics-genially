@@ -1,3 +1,4 @@
+-- TODO To be deprecated
 {% set week_days = 7 %}
 {% set month_days = 28 %}
 {% set year_days = 364 %}
@@ -11,11 +12,11 @@ with reference_table as (
 ),
 
 geniallys as (
-    select * from {{ ref('geniallys') }}
+    select * from {{ ref('all_geniallys') }}
 ),
 
 users as (
-    select * from {{ ref('users') }}
+    select * from {{ ref('all_users') }}
 ),
 
 collaboratives as (

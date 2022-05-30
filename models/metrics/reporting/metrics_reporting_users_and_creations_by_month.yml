@@ -45,37 +45,82 @@ models:
         tests:
           - not_null
 
-      - name: n_active_users
-        description: Numbers of active users during that month.
-        tests:
-          - not_null
-
       - name: n_signups
-        description: Numbers of users registered during that month.
+        description: Number of users registered on date_month (aka new users).
         tests:
           - not_null
 
       - name: n_creations
-        description: Numbers of geniallys created during that month.
+        description: Number of geniallys created on date_month.
         tests:
           - not_null
 
-      - name: n_active_users_previous_month
-        description: Numbers of active users during the previous month.
+      - name: n_new_creators
+        description: Number of users whose first creation was on date_month.
+        tests:
+          - not_null
+
+      - name: n_new_creators_registered_same_month
+        description: Number of users whose first creation was on date_month and registered on date_month as well.
+        tests:
+          - not_null
+
+      - name: n_new_creators_previously_registered
+        description: Number of users whose first creation was on date_month and registered previously to date_month.
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+
+      - name: n_active_users
+        description: Number of users that logged in to genially on date_month.
+
+      - name: n_returning_users
+        description: Number of users that logged in to genially on date_month but they are not new (they aren't signups).
+        tests:
+          - not_null:
+              where: "n_active_users is not null"
+          - dbt_utils.expression_is_true:
+                expression: ">= 0"
 
       - name: n_signups_previous_month
-        description: Numbers of users registered during the previous month.
+        description: Metric of 'signups' on previous month.
 
       - name: n_signups_previous_year
-        description: Numbers of users registered during that month in the previous year.
+        description: Metric of 'signups' on previous year.
 
       - name: n_creations_previous_month
-        description: Numbers of geniallys created during the previous month.
+        description: Metric of 'creations' on previous month.
 
       - name: n_creations_previous_year
-        description: Numbers of geniallys created during that month in the previous year.
+        description: Metric of 'creations' on previous year.
 
-    tests:
-      - dbt_utils.expression_is_true:
-          expression: "n_signups <= n_active_users"
-          where: date(date_month) >= '2022-01-01'
+      - name: n_new_creators_previous_month
+        description: Metric of 'new creators' on previous month.
+
+      - name: n_new_creators_previous_year
+        description: Metric of 'new creators' on previous year.
+
+      - name: n_new_creators_registered_same_month_previous_month
+        description: Metric of 'new creators registered same month' on previous month.
+
+      - name: n_new_creators_registered_same_month_previous_year
+        description: Metric of 'new creators registered same month' on previous year.
+
+      - name: n_new_creators_previously_registered_previous_month
+        description: Metric of 'new creators previously registered' on previous month.
+
+      - name: n_new_creators_previously_registered_previous_year
+        description: Metric of 'new creators previously registered' on previous year.
+
+      - name: n_active_users_previous_month
+        description: Metric of 'active users' on previous month.
+
+      - name: n_active_users_previous_year
+        description: Metric of 'active users' on previous year.
+
+      - name: n_returning_users_previous_month
+        description: Metric of 'returning users' on previous month.
+
+      - name: n_returning_users_previous_year
+        description: Metric of 'returning users' on previous year.

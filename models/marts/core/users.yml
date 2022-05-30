@@ -26,7 +26,7 @@ models:
               values: "{{ get_subscription_values() }}"
 
       - name: sector_code
-        description: Sector code (see data/seed_new_sector_codes.csv and data/seed_old_sector_codes.csv).
+        description: Sector code (see data/seed_sector_codes.csv).
 
       - name: sector
         description: Sector (see data/seed_sector_codes.csv).
@@ -39,7 +39,7 @@ models:
           - not_null
 
       - name: role_code
-        description: Role code (see data/seed_new_role_codes.csv and data/seed_old_role_codes.csv).
+        description: Role code (see data/seed_sector_codes.csv).
 
       - name: role
         description: Role (see data/seed_role_codes.csv).

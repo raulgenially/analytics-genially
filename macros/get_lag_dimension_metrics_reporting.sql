@@ -1,6 +1,6 @@
-{% macro get_lag_dimension_metrics_reporting(metric, days, date_field) %}
+{% macro get_lag_dimension_metrics_reporting(metric, period, date_part) %}
 
-lag( {{ metric }}, {{ days }} ) over (
+lag( {{ metric }}, {{ period }} ) over (
             partition by
                 plan,
                 subscription,
@@ -8,7 +8,7 @@ lag( {{ metric }}, {{ days }} ) over (
                 country_name,
                 broad_sector,
                 broad_role
-            order by {{ date_field }} asc
+            order by {{ date_part }} asc
         )
 
 {% endmacro %}

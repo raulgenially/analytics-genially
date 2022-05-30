@@ -118,7 +118,7 @@ models:
         tests:
           - not_null
 
-      - name: is_active_editor
+      - name: is_active_editor_visit
         description: >
           Whether or not the user has accessed the editor on date_day.
           Source: Snowplow.

@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: user_creations
+    description: >
+      This model describes if a user has the possibility to interact with a particular genially for the first time.
+      This can be due to different reasons:
+      1 - The user has created a new genially following the /create flow.
+      2 - The user has received a copy of another genially.
+      3 - A collaboration has shared with the user for the first time.
+      This data is modeled in such a manner that there is only one record per user per day;
+      therefore, it tells you neither the reason nor how many times
+      the user has the possibility to interact with a new genially on a certain day.
+    columns:
+      - name: creation_id
+        description: Primary key of this model.
+          It is a surrogate key composed by user_id and date(creation_at).
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user id who has the possibility to interact with a genially for the first time.
+        tests:
+          - not_null
+
+      - name: creation_at
+        description: The date at which the user has the possibility to interact with a genially for the first time.
+        tests:
+          - not_null
