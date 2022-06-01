@@ -1,3 +1,15 @@
+{{
+    config(
+        materialized='table',
+        partition_by={
+            "field": "create_time",
+            "data_type": "timestamp",
+            "granularity": "day"
+            },
+        verbose=True
+    )
+}}
+
 with bq_logs as (
     select * from {{ ref('src_bq_logs') }}
 ),
