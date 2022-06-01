@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: src_bq_logs
+    description: BigQuery logs to audit usage.
+    columns:
+      - name: bq_logs_id
+        description: Primary key for src_bq_logs.
+        tests:
+          - unique
+          - not_null
+
+      - name: query
+        description: Query that has been launched.
+
+      - name: principal_email
+        description: Principal email of the account launching the query.
+        tests:
+          - not_null
+
+      - name: referenced_tables
+        description: Array with the tables that have been referenced in the query.
+        tests:
+          - not_null
+
+      - name: error_code
+        description: Error code when executing the query.
+
+      - name: total_slots_ms
+        description: Total BigQuery slots reserved per millisecond.
+
+      - name: total_processed_bytes
+        description: Total processed bytes.
+
+      - name: total_billed_bytes
+        description: Total billed bytes.
+
+      - name: start_time
+        description: Time when the query starts.
+        tests:
+          - not_null
+
+      - name: end_time
+        description: Time when the query ends.
+        tests:
+          - not_null
+
+      - name: create_time
+        description: Time when the query was launched.
+        tests:
+          - not_null
