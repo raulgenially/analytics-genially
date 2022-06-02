@@ -1,6 +1,5 @@
 {{
     config(
-        materialized='table',
         partition_by={
             "field": "create_time",
             "data_type": "timestamp",

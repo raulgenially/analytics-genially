@@ -10,24 +10,30 @@
 {% endset %}
 {% set months = 12 %}
 
-
-with bq_logs as (
+with base_bq_logs as (
     select * from {{ source('bq_logs', 'cloudaudit_googleapis_com_data_access') }}
 ),
 
--- Here column repeated_bq_logs_id is used to remove duplicated rows
--- Distinct cannot be used when there are array columns (i.e. referenced_tables)
+-- Here we remove rows when insertId column is duplicated
+bq_logs as (
+    {{ unique_records_by_column('base_bq_logs', 'insertId') }}
+),
+
 int_bq_logs as (
     select
         insertId as bq_logs_id,
-        row_number() over (partition by insertId) as repeated_bq_logs_id,
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobConfiguration.query.query as query,
         protopayload_auditlog.authenticationInfo.principalEmail as principal_email,
-        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.referencedTables as referenced_tables,
+        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.referencedTables
+            as referenced_tables,
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatus.error.code as error_code,
+
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalSlotMs as total_slots_ms,
-        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalProcessedBytes as total_processed_bytes,
-        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalBilledBytes as total_billed_bytes,
+        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalProcessedBytes
+            as total_processed_bytes,
+        protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalBilledBytes
+            as total_billed_bytes,
+
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.startTime as start_time,
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.endTime as end_time,
         protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.createTime as create_time
@@ -59,7 +65,6 @@ final as (
         create_time
 
     from int_bq_logs
-    where repeated_bq_logs_id = 1
 )
 
 select * from final
