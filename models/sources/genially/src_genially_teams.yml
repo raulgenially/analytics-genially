@@ -73,6 +73,11 @@ models:
         tests:
           - not_null
 
+      - name: is_reusable_enabled
+        description: Indicates when the team has enabled the feature of mark geniallys as reusables.
+        tests:
+          - not_null
+
       - name: created_at
         description: The date the team was created.
         tests:

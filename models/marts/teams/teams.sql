@@ -59,6 +59,7 @@ final as (
         coalesce(creations_teams.n_active_creations, 0) as n_active_creations,
 
         teams.is_disabled,
+        teams.is_reusable_enabled,
         (teams.logo is not null) as has_logo_in_team_tab,
         (teams.banner is not null) as has_cover_picture_in_team_tab,
         (teams.branding_custom_watermark is not null) as has_logo_in_team_brand_section,

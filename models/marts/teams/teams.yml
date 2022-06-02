@@ -35,6 +35,9 @@ models:
         description: Indicates whether the team has been disabled.
           It is a logical way to cut off the access to the team.
 
+      - name: is_reusable_enabled
+        description: Indicates when the team has enabled the feature of mark geniallys as reusables.
+
       - name: has_logo_in_team_tab
         description: Whether the team has configured the logo in the team tab.
 

@@ -36,6 +36,7 @@ final as (
 
         ifnull(teams.isconfigured, false) as is_configured,
         if(datedisabled is not null, true, false) as is_disabled,
+        ifnull(teams.geniallyscanbereusable, false) as is_reusable_enabled,
 
         teams.creationtime as created_at,
         datedisabled as disabled_at -- TODO check how this field propagates in downstream models.
