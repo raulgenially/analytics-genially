@@ -86,9 +86,6 @@ models:
       +materialized: table
       +tags:
         - mart
-      bq_logs:
-        +target_project: data-genially
-        +target_dataset: bq_logs
     metrics:
       +materialized: table
       +tags:
