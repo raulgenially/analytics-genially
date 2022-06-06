@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: src_bq_logs
+    description: BigQuery logs to audit usage.
+    columns:
+      - name: bq_logs_id
+        description: Primary key for src_bq_logs.
+        tests:
+          - unique
+          - not_null
+
+      - name: query
+        description: Query that has been launched.
+
+      - name: query_source
+        description: Source where the query comes from.
+        tests:
+          - not_null
+          - accepted_values:
+              values: "{{ get_query_source_values() }}"
+
+      - name: principal_email
+        description: Principal email of the account launching the query.
+        tests:
+          - not_null
+
+      - name: referenced_tables
+        description: Array with the tables that have been referenced in the query.
+        tests:
+          - not_null
+
+      - name: error_code
+        description: Error code when executing the query.
+
+      - name: total_slots_ms
+        description: Total BigQuery slots reserved per millisecond.
+
+      - name: avg_slots
+        description: Average BigQuery slots reserved by the query.
+
+      - name: total_processed_bytes
+        description: Total processed bytes.
+
+      - name: total_billed_bytes
+        description: Total billed bytes.
+
+      - name: total_billed_billed_gigabytes
+        description: Total billed gigabytes.
+
+      - name: estimated_cost_usd
+        description: Estimated cost of the query in US dollars.
+
+      - name: is_cached
+        description: Wether the query is chached.
+        tests:
+          - not_null
+
+      - name: is_audit_dashboard_query
+        description: Wether the query is from the audit dashboard.
+        tests:
+          - not_null
+
+      - name: is_error
+        description: Wether the query execution fails.
+        tests:
+          - not_null
+
+      - name: start_time
+        description: Time when the query starts.
+        tests:
+          - not_null
+
+      - name: end_time
+        description: Time when the query ends.
+        tests:
+          - not_null
+
+      - name: runtime_secs
+        description: Runtime seconds during the execution of the query.
+        tests:
+          - not_null
+
+      - name: created_at
+        description: Time when the query was launched.
+        tests:
+          - not_null

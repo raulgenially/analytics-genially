@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: bq_logs
+    description: BigQuery logs to audit usage.
+    columns:
+      - name: bq_logs_id
+        description: Primary key for bq_logs.
+        tests:
+          - unique
+          - not_null
+
+      - name: query
+        description: Query that has been launched.
+
+      - name: query_source
+        description: Source where the query comes from.
+
+      - name: principal_email
+        description: Principal email of the account launching the query.
+
+      - name: referenced_tables
+        description: Array with the tables that have been referenced in the query.
+
+      - name: avg_slots
+        description: Average BigQuery slots reserved by the query.
+
+      - name: total_processed_bytes
+        description: Total processed bytes.
+
+      - name: total_billed_gigabytes
+        description: Total billed gigabytes.
+
+      - name: estimated_cost_usd
+        description: Estimated cost of the query in US dollars.
+
+      - name: is_cached
+        description: Wether the query is chached.
+
+      - name: is_audit_dashboard_query
+        description: Wether the query is from the audit dashboard.
+
+      - name: is_error
+        description: Wether the query execution fails.
+
+      - name: runtime_secs
+        description: Runtime seconds during the execution of the query.
+
+      - name: created_at
+        description: Time when the query was launched.

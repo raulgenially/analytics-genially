@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: bq_logs
+    description: BigQuery logs to audit and monitor usage.
+    database: data-genially
+    tables:
+      - name: cloudaudit_googleapis_com_data_access
+        columns:
+          - name: insertId
+            description: Primary key for cloudaudit_googleapis_com_data_access.
+            tests:
+              # This test cannot be applied because there are duplicated rows
+              # that we then remove in src_bq_logs
+              # - unique
+              - not_null
