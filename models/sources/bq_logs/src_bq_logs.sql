@@ -11,7 +11,6 @@
 {% set months = 12 %}
 {% set price_per_tb = 5 %}
 
-
 with raw_bq_logs as (
     select * from {{ source('bq_logs', 'cloudaudit_googleapis_com_data_access') }}
 ),
@@ -49,7 +48,6 @@ base_bq_logs as (
             date(protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.startTime),
             month
         ) <= {{ months }}
-
 ),
 
 int_bq_logs as (
