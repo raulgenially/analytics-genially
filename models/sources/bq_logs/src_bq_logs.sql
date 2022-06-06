@@ -95,7 +95,7 @@ int_bq_logs as (
         start_time,
         end_time,
         timestamp_diff(end_time, start_time, second) as runtime_secs,
-        create_time
+        create_time as created_at
 
     from base_bq_logs
 ),
@@ -124,7 +124,7 @@ final as (
         start_time,
         end_time,
         runtime_secs,
-        create_time
+        created_at
 
     from int_bq_logs
 )

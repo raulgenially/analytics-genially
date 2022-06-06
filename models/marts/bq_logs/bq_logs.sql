@@ -1,7 +1,7 @@
 {{
     config(
         partition_by={
-            "field": "create_time",
+            "field": "created_at",
             "data_type": "timestamp",
             "granularity": "day"
             }
@@ -27,7 +27,7 @@ final as (
         is_audit_dashboard_query,
         is_error,
         runtime_secs,
-        create_time
+        created_at
 
     from bq_logs
 )

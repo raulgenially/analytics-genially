@@ -46,5 +46,5 @@ models:
       - name: runtime_secs
         description: Runtime seconds during the execution of the query.
 
-      - name: create_time
+      - name: created_at
         description: Time when the query was launched.

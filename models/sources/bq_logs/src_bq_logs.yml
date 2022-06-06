@@ -81,7 +81,7 @@ models:
         tests:
           - not_null
 
-      - name: create_time
+      - name: created_at
         description: Time when the query was launched.
         tests:
           - not_null
